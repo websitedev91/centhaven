@@ -1,4 +1,6 @@
 import type { ComponentType } from 'react';
+import HourlyRateCalculator from '@/tools/hourly-rate-calculator/Calculator';
+import HourlyRateContent from '@/tools/hourly-rate-calculator/content.mdx';
 
 /**
  * Maps a tool slug to its UI modules. Server-side only (used by the tool page).
@@ -9,4 +11,6 @@ export interface ToolModules {
   Content: ComponentType;
 }
 
-export const toolModules: Record<string, ToolModules> = {};
+export const toolModules: Record<string, ToolModules> = {
+  'hourly-rate-calculator': { Calculator: HourlyRateCalculator, Content: HourlyRateContent },
+};

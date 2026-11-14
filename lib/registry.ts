@@ -6,6 +6,7 @@
  * - Never set `live` unless Puru asks. Going live = status 'live' + publishDate.
  */
 import type { RegistryRow, ToolEntry, ToolMeta, ToolStatus } from './tool-types';
+import { meta as hourlyRate } from '@/tools/hourly-rate-calculator/meta';
 
 type Publishing = Pick<ToolEntry, 'status' | 'lastUpdated' | 'publishDate' | 'reviewedBy'>;
 
@@ -14,7 +15,7 @@ export function row(meta: ToolMeta, p: Publishing): RegistryRow {
 }
 
 export const registry: readonly RegistryRow[] = [
-  // row(exampleMeta, { status: 'draft', lastUpdated: '2026-11-14' }),
+  row(hourlyRate, { status: 'draft', lastUpdated: '2026-11-14' }),
 ];
 
 export function allTools(): readonly RegistryRow[] {

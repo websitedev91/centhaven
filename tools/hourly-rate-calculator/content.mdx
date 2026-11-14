@@ -1,0 +1,59 @@
+## What this calculator does
+
+This calculator works out the **minimum hourly rate** you need to charge as a freelancer to reach the take-home income you want.
+
+It adds your tax and business expenses on top of that income. Then it spreads the total over the hours you can actually bill, not every hour you work.
+
+## How it works
+
+You need enough revenue to cover three things: your take-home pay, the tax on it, and your business costs. You can only earn that money in billable hours.
+
+First, it grosses up your take-home income for tax and adds your expenses. Next, it counts your billable hours: working weeks × hours per week × the share of time you can bill. Finally, it divides one by the other.
+
+```text
+grossNeeded    = targetIncome ÷ (1 − taxRate) + expenses
+billableHours  = (52 − weeksOff) × hoursPerWeek × billable%
+hourlyRate     = grossNeeded ÷ billableHours
+dayRate        = hourlyRate × (hoursPerWeek ÷ 5)
+monthlyRevenue = grossNeeded ÷ 12
+```
+
+## Worked examples
+
+### 1. A US web designer
+
+Maya wants to take home $60,000 a year. Her software, laptop and insurance cost $6,000 a year. She sets aside 25% for tax, takes 6 weeks off and works 40 hours a week. About 75% of that time is billable.
+
+- Gross revenue needed: $60,000 ÷ 0.75 + $6,000 = **$86,000.00** a year (**$7,166.67** a month)
+- Billable hours: 46 weeks × 40 × 75% = **1,380** hours
+- Minimum hourly rate: $86,000 ÷ 1,380 = **$62.32**
+- Day rate (8 hours): **$498.55**
+
+### 2. An Indian software developer
+
+Arjun wants ₹12,00,000 a year after tax. His expenses are ₹1,20,000 a year and he estimates a 10% tax rate. He takes 4 weeks off and works 40 hours a week, but only 60% of that is billable because of client calls and sales work.
+
+- Gross revenue needed: **₹14,53,333.33** a year (**₹1,21,111.11** a month)
+- Billable hours: 48 × 40 × 60% = **1,152** hours
+- Minimum hourly rate: **₹1,261.57**
+- Day rate (8 hours): **₹10,092.59**
+
+### 3. A part-time freelancer in the UK
+
+Sam freelances 30 hours a week and wants £50,000 a year. Sam's partner covers the business costs, so expenses are £0. To keep it simple, Sam leaves tax at 0%, takes 2 weeks off and bills every hour worked.
+
+- Gross revenue needed: **£50,000.00** a year (**£4,166.67** a month)
+- Billable hours: 50 × 30 × 100% = **1,500** hours
+- Minimum hourly rate: **£33.33**
+- Day rate (6 hours): **£200.00**
+
+Sam's real rate should be higher, because nobody bills 100% of their time and tax is rarely zero. Change those two inputs above and watch the rate climb.
+
+## Tips and common mistakes
+
+- **Don't forget unpaid time.** Admin, invoicing, sales calls and learning all take hours you can't bill. Most freelancers bill 60–80% of their working time.
+- **Add a buffer for slow months.** Work rarely arrives evenly. Many freelancers add 10–20% on top of the minimum rate so a quiet month doesn't hurt.
+- **Count all your expenses.** Software, equipment, internet, insurance, accounting fees, platform fees and training all belong in the expenses box.
+- **Use a realistic tax rate.** Include income tax and any self-employment or social security contributions. If you're not sure, ask an accountant.
+- **Review your rate every year.** Your costs rise and your skills grow. Check your numbers at least once a year.
+- **This is your floor, not your price.** The result is the least you can charge to hit your goal. Your market value may be much higher.
