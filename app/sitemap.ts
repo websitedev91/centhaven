@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { liveCategories, liveTools, liveToolsInCategory, toolPath } from '@/lib/registry';
 import { absoluteUrl } from '@/lib/seo';
+import { staticPages } from '@/config/site';
 
 export const dynamic = 'force-static';
 
@@ -19,6 +20,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }
   for (const t of tools) {
     entries.push({ url: absoluteUrl(toolPath(t)), lastModified: t.lastUpdated });
+  }
+  for (const p of staticPages.filter((x) => x.built)) {
+    entries.push({ url: absoluteUrl(p.href), lastModified: p.updated });
   }
   return entries;
 }

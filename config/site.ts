@@ -4,26 +4,31 @@ export const site = {
   url: 'https://centhaven.com',
   tagline: 'Smart tools to earn, save and grow.',
   author: 'Purushothaman',
-  /** TODO(Puru): set the public contact email before launch. */
-  contactEmail: '',
+  contactEmail: 'info@centhaven.com',
   gaMeasurementId: process.env.NEXT_PUBLIC_GA_ID ?? '',
   disclaimer: 'For estimates only. Not financial, tax or legal advice. Check with a qualified professional.',
   affiliateDisclosure: "We may earn a commission if you sign up. It doesn't change our results.",
 } as const;
 
 /**
- * Static pages (PRD §11). Header/footer link only to pages marked `built: true`, so we never
- * link to a 404. Flip each to true when its page is added (Day 2).
+ * Static pages (PRD §11). Header/footer/sitemap include only pages marked `built: true`, so we
+ * never link to a 404. `updated` is shown on the page and used as sitemap lastmod.
  */
 export const staticPages = [
-  { href: '/about', label: 'About', built: false, header: true },
-  { href: '/methodology', label: 'Methodology', built: false, header: true },
-  { href: '/disclaimer', label: 'Disclaimer', built: false, header: false },
-  { href: '/privacy', label: 'Privacy', built: false, header: false },
-  { href: '/terms', label: 'Terms', built: false, header: false },
-  { href: '/affiliate-disclosure', label: 'Affiliate disclosure', built: false, header: false },
-  { href: '/contact', label: 'Contact', built: false, header: false },
+  { href: '/about', label: 'About', built: true, header: true, updated: '2026-11-14' },
+  { href: '/methodology', label: 'Methodology', built: true, header: true, updated: '2026-11-14' },
+  { href: '/contact', label: 'Contact', built: true, header: true, updated: '2026-11-14' },
+  { href: '/disclaimer', label: 'Disclaimer', built: true, header: false, updated: '2026-11-14' },
+  { href: '/privacy', label: 'Privacy', built: true, header: false, updated: '2026-11-14' },
+  { href: '/terms', label: 'Terms', built: true, header: false, updated: '2026-11-14' },
+  { href: '/affiliate-disclosure', label: 'Affiliate disclosure', built: true, header: false, updated: '2026-11-14' },
 ] as const;
+
+export type StaticPageHref = (typeof staticPages)[number]['href'];
+
+export function getStaticPage(href: StaticPageHref) {
+  return staticPages.find((p) => p.href === href)!;
+}
 
 export interface CategoryInfo {
   slug: string;
