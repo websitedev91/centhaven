@@ -1,5 +1,9 @@
 import type { NextConfig } from 'next';
 import createMDX from '@next/mdx';
+import { validateAllRates } from './lib/rates-fs';
+
+// PRD §7: the build fails if any /rates file is invalid or missing from sources.md.
+validateAllRates();
 
 const nextConfig: NextConfig = {
   output: 'export',
