@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "postbuild": "node scripts/postbuild.mjs",
     "start": "node scripts/serve-out.mjs",
     "typecheck": "tsc --noEmit",
     "lint": "eslint . --max-warnings 0",

@@ -5,11 +5,14 @@ import { validateAllRates } from './lib/rates-fs';
 // PRD §7: the build fails if any /rates file is invalid or missing from sources.md.
 validateAllRates();
 
+const isDev = process.env.NODE_ENV === 'development';
+
 const nextConfig: NextConfig = {
   output: 'export',
   trailingSlash: false,
   images: { unoptimized: true },
-  pageExtensions: ['ts', 'tsx', 'md', 'mdx'],
+  // '.dev.tsx' pages (e.g. /dev/tools) exist only in next dev, never in the production export.
+  pageExtensions: isDev ? ['dev.tsx', 'ts', 'tsx', 'md', 'mdx'] : ['ts', 'tsx', 'md', 'mdx'],
   reactStrictMode: true,
   poweredByHeader: false,
 };
