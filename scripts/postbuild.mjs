@@ -2,8 +2,8 @@
 // 1. Removes the "__none__" placeholder pages emitted when no tool/category is live
 //    (see lib/static-params.ts).
 // 2. Fails the build if anything that must not ship is in /out.
-import { existsSync, readdirSync, readFileSync, rmSync, statSync } from 'node:fs';
-import { join, relative } from 'node:path';
+import { existsSync, readdirSync, readFileSync, renameSync, rmSync, statSync } from 'node:fs';
+import { dirname, join, relative } from 'node:path';
 
 const OUT = join(process.cwd(), 'out');
 const PLACEHOLDER = '__none__';
@@ -29,6 +29,23 @@ for (const p of walk(OUT).sort((a, b) => b.length - a.length)) {
   }
 }
 
+// Next 16 on Windows writes segment prefetch files with backslash paths, so
+// `__next.$d$category.__PAGE__.txt` lands as `__next.$d$category/__PAGE__.txt` and the
+// client router's prefetch 404s. Flatten any such directory into dotted file names
+// (a no-op on Linux/macOS builds, where Next already writes flat files).
+let flattened = 0;
+for (const p of walk(OUT).filter((x) => statSync(x).isDirectory()).sort((a, b) => a.length - b.length)) {
+  if (!existsSync(p)) continue;
+  const name = p.split(/[\\/]/).pop();
+  if (!name.startsWith('__next.')) continue;
+  for (const file of walk(p).filter((x) => statSync(x).isFile())) {
+    const rel = relative(p, file).split(/[\\/]/).join('.');
+    renameSync(file, join(dirname(p), `${name}.${rel}`));
+    flattened++;
+  }
+  rmSync(p, { recursive: true, force: true });
+}
+
 const problems = [];
 const files = walk(OUT);
 for (const p of files) {
@@ -45,4 +62,4 @@ if (problems.length) {
   console.error(`postbuild: FAILED\n  - ${problems.join('\n  - ')}`);
   process.exit(1);
 }
-console.log(`postbuild: ok (removed ${removed} placeholder file(s), ${files.length} files in out/)`);
+console.log(`postbuild: ok (removed ${removed} placeholder file(s), flattened ${flattened} segment file(s), ${files.length} files in out/)`);

@@ -11,6 +11,20 @@ export const site = {
   affiliateDisclosure: "We may earn a commission if you sign up. It doesn't change our results.",
 } as const;
 
+/**
+ * Static pages (PRD §11). Header/footer link only to pages marked `built: true`, so we never
+ * link to a 404. Flip each to true when its page is added (Day 2).
+ */
+export const staticPages = [
+  { href: '/about', label: 'About', built: false, header: true },
+  { href: '/methodology', label: 'Methodology', built: false, header: true },
+  { href: '/disclaimer', label: 'Disclaimer', built: false, header: false },
+  { href: '/privacy', label: 'Privacy', built: false, header: false },
+  { href: '/terms', label: 'Terms', built: false, header: false },
+  { href: '/affiliate-disclosure', label: 'Affiliate disclosure', built: false, header: false },
+  { href: '/contact', label: 'Contact', built: false, header: false },
+] as const;
+
 export interface CategoryInfo {
   slug: string;
   name: string;

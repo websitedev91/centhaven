@@ -171,7 +171,7 @@ export default function HourlyRateCalculator() {
           description={`Of every ${money(result.hourlyRate, c)} you bill, per hour:`}
           height={220}
           footer={
-              <ul className="flex flex-col gap-2 text-sm">
+              <ul className="flex max-w-md flex-col gap-2 text-sm">
                 {SLICES.map((sl) => (
                   <li key={sl.key} className="flex items-center justify-between gap-3">
                     <span className="flex items-center gap-2">
