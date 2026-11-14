@@ -1,5 +1,6 @@
 import { z } from 'zod';
-import { CURRENCIES } from '@/lib/format';
+import { CURRENCIES, type CurrencyCode } from '@/lib/format';
+import { currencyVariant, defaultsForCurrency, switchCurrency, type CurrencyPresets } from '@/lib/currency-defaults';
 import type { HourlyRateInput } from './calc';
 
 /**
@@ -29,7 +30,20 @@ export const hourlyRateSchema = z.object({
 export type HourlyRateState = z.infer<typeof hourlyRateSchema>;
 export type HourlyRateField = keyof HourlyRateState;
 
-export const hourlyRateDefaults: HourlyRateState = {
+/**
+ * Currency-dependent defaults. Untouched fields follow the currency when it changes;
+ * values the user typed are kept (see lib/currency-defaults.ts).
+ */
+export const hourlyRateCurrencyPresets: CurrencyPresets<HourlyRateState> = {
+  USD: { targetIncome: 60_000, expenses: 6_000, taxRate: 25 },
+  CAD: { targetIncome: 60_000, expenses: 6_000, taxRate: 25 },
+  AUD: { targetIncome: 60_000, expenses: 6_000, taxRate: 25 },
+  GBP: { targetIncome: 45_000, expenses: 4_500, taxRate: 25 },
+  EUR: { targetIncome: 45_000, expenses: 4_500, taxRate: 25 },
+  INR: { targetIncome: 1_200_000, expenses: 120_000, taxRate: 10 },
+};
+
+const baseDefaults: HourlyRateState = {
   currency: 'USD',
   targetIncome: 60_000,
   expenses: 6_000,
@@ -38,6 +52,15 @@ export const hourlyRateDefaults: HourlyRateState = {
   hoursPerWeek: 40,
   billablePct: 75,
 };
+
+/** Page-load defaults (USD). */
+export const hourlyRateDefaults: HourlyRateState = defaultsForCurrency(baseDefaults, hourlyRateCurrencyPresets, 'USD');
+
+export const hourlyRateVariant = currencyVariant(hourlyRateDefaults, hourlyRateCurrencyPresets);
+
+export function switchHourlyRateCurrency(state: HourlyRateState, next: CurrencyCode): HourlyRateState {
+  return switchCurrency(state, next, hourlyRateDefaults, hourlyRateCurrencyPresets);
+}
 
 /** Plan B for "Compare two plans" — only the time-related fields differ. */
 export const planBSchema = hourlyRateSchema.pick({ weeksOff: true, hoursPerWeek: true, billablePct: true });

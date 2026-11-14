@@ -20,6 +20,15 @@ One or two sentences in plain English.
 |---|---|---|---|---|
 | | | | | |
 
+### Currency defaults (only if the tool has a currency selector)
+| Currency | Field defaults that change with currency |
+|---|---|
+| USD / CAD / AUD | |
+| GBP / EUR | |
+| INR | |
+
+Untouched fields switch to these when the currency changes; values the user typed are kept.
+
 ## Outputs
 | Output | How it's shown |
 |---|---|

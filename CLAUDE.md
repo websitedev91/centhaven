@@ -19,6 +19,8 @@ No backend, no database, no login. Ask before adding any new dependency.
 `tools/<slug>/` → `calc.ts`, `calc.test.ts`, `schema.ts` (Zod inputs + defaults), `Calculator.tsx`, `content.mdx`, `meta.ts`.
 Register it in `lib/registry.ts`. Use the shared components in `/components`; don't rebuild layout per tool.
 
+**Currency inputs:** if a tool has a currency selector, define `CurrencyPresets` for every currency in its `schema.ts` (income/expense-style defaults that make sense in that currency) and use `switchCurrency` + `currencyVariant` from `lib/currency-defaults.ts`. Untouched fields follow the currency; typed values are kept. Add tests for the switch.
+
 ## Page order (from ToolLayout)
 Breadcrumbs → H1 + subtitle → calculator → result + breakdown → chart (if useful) → scenario compare (if useful) → share / print / embed → affiliate slot → content (what it does, formula, 2–3 examples, tips, FAQ 6–10) → related tools → sources → author box → last updated → disclaimer.
 

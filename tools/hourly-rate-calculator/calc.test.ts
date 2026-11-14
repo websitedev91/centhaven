@@ -3,7 +3,17 @@ import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { roundTo, formatMoney, formatNumber } from '@/lib/format';
 import { calcHourlyRate, NO_BILLABLE_HOURS, INVALID_TAX_RATE, type HourlyRateInput } from './calc';
-import { fieldErrors, hourlyRateDefaults, hourlyRateSchema, toCalcInput, planBSchema, planBDefaults } from './schema';
+import { parseQuery, toQuery } from '@/lib/url-state';
+import {
+  fieldErrors,
+  hourlyRateDefaults,
+  hourlyRateSchema,
+  hourlyRateVariant,
+  planBDefaults,
+  planBSchema,
+  switchHourlyRateCurrency,
+  toCalcInput,
+} from './schema';
 
 function ok(input: HourlyRateInput) {
   const r = calcHourlyRate(input);
@@ -82,6 +92,69 @@ describe('extra checks', () => {
     const worst = { ...hourlyRateDefaults, weeksOff: 26, hoursPerWeek: 1, billablePct: 10 };
     expect(hourlyRateSchema.safeParse(worst).success).toBe(true);
     expect(ok(toCalcInput(worst)).billableHours).toBeGreaterThan(0);
+  });
+});
+
+describe('currency-dependent defaults', () => {
+  const usd = hourlyRateDefaults;
+
+  it('page-load defaults are the USD preset', () => {
+    expect(usd).toMatchObject({ currency: 'USD', targetIncome: 60_000, expenses: 6_000, taxRate: 25 });
+  });
+
+  it.each([
+    ['CAD', 60_000, 6_000, 25],
+    ['AUD', 60_000, 6_000, 25],
+    ['GBP', 45_000, 4_500, 25],
+    ['EUR', 45_000, 4_500, 25],
+    ['INR', 1_200_000, 120_000, 10],
+  ] as const)('untouched values switch to %s defaults', (cur, income, expenses, tax) => {
+    const next = switchHourlyRateCurrency(usd, cur);
+    expect(next).toEqual({ ...usd, currency: cur, targetIncome: income, expenses, taxRate: tax });
+    expect(hourlyRateSchema.safeParse(next).success).toBe(true);
+  });
+
+  it('keeps values the user typed and switches the rest', () => {
+    const typed = { ...usd, targetIncome: 90_000 };
+    expect(switchHourlyRateCurrency(typed, 'INR')).toEqual({
+      ...usd,
+      currency: 'INR',
+      targetIncome: 90_000,
+      expenses: 120_000,
+      taxRate: 10,
+    });
+    const allTyped = { ...usd, targetIncome: 70_000, expenses: 5_000, taxRate: 30 };
+    expect(switchHourlyRateCurrency(allTyped, 'GBP')).toEqual({ ...allTyped, currency: 'GBP' });
+  });
+
+  it('never changes time inputs', () => {
+    const s = { ...usd, weeksOff: 10, hoursPerWeek: 30, billablePct: 60 };
+    expect(switchHourlyRateCurrency(s, 'INR')).toMatchObject({ weeksOff: 10, hoursPerWeek: 30, billablePct: 60 });
+  });
+
+  it('INR → GBP → USD round-trips to the original defaults', () => {
+    const back = switchHourlyRateCurrency(switchHourlyRateCurrency(switchHourlyRateCurrency(usd, 'INR'), 'GBP'), 'USD');
+    expect(back).toEqual(usd);
+  });
+
+  it('shared links use the linked currency defaults', () => {
+    expect(parseQuery('?currency=INR', hourlyRateSchema, usd, hourlyRateVariant)).toEqual(
+      switchHourlyRateCurrency(usd, 'INR'),
+    );
+    expect(parseQuery('?currency=GBP&targetIncome=50000', hourlyRateSchema, usd, hourlyRateVariant)).toMatchObject({
+      currency: 'GBP',
+      targetIncome: 50_000,
+      expenses: 4_500,
+    });
+  });
+
+  it('share links stay short: currency defaults are not written to the URL', () => {
+    const inr = switchHourlyRateCurrency(usd, 'INR');
+    expect(toQuery(inr, usd, hourlyRateVariant)).toBe('?currency=INR');
+    expect(toQuery({ ...inr, targetIncome: 900_000 }, usd, hourlyRateVariant)).toBe('?currency=INR&targetIncome=900000');
+    expect(toQuery(usd, usd, hourlyRateVariant)).toBe('');
+    const round = parseQuery(toQuery({ ...inr, expenses: 50_000 }, usd, hourlyRateVariant), hourlyRateSchema, usd, hourlyRateVariant);
+    expect(round).toEqual({ ...inr, expenses: 50_000 });
   });
 });
 

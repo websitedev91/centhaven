@@ -19,7 +19,9 @@ import {
   hourlyRateSchema,
   planBDefaults,
   planBSchema,
+  switchHourlyRateCurrency,
   toCalcInput,
+  hourlyRateVariant,
   type HourlyRateState,
 } from './schema';
 import { SLICES } from './slices';
@@ -34,16 +36,28 @@ function money(n: number, c: CurrencyCode) {
 }
 
 export default function HourlyRateCalculator() {
-  const [s, set, reset] = useUrlState(hourlyRateSchema, hourlyRateDefaults);
-  const [b, setB] = useUrlState(planBSchema, planBDefaults, 'b_');
+  const { state: s, setField: set, setAll, reset } = useUrlState(hourlyRateSchema, hourlyRateDefaults, {
+    variant: hourlyRateVariant,
+  });
+  const { state: b, setField: setB } = useUrlState(planBSchema, planBDefaults, { prefix: 'b_' });
   const tracked = useRef(false);
 
-  function update<K extends keyof HourlyRateState>(key: K, value: HourlyRateState[K]) {
-    set(key, value);
+  function markCalculated() {
     if (!tracked.current) {
       tracked.current = true;
       track('calculate', { tool: SLUG });
     }
+  }
+
+  function update<K extends keyof HourlyRateState>(key: K, value: HourlyRateState[K]) {
+    set(key, value);
+    markCalculated();
+  }
+
+  /** Untouched income/expenses/tax follow the currency; typed values are kept. */
+  function changeCurrency(next: CurrencyCode) {
+    setAll(switchHourlyRateCurrency(s, next));
+    markCalculated();
   }
 
   const errors = fieldErrors(hourlyRateSchema, s);
@@ -65,7 +79,7 @@ export default function HourlyRateCalculator() {
         >
           <div className="grid gap-5 sm:grid-cols-2">
             <div className="sm:col-span-2">
-              <CurrencySelect value={c} onChange={(v) => update('currency', v)} />
+              <CurrencySelect value={c} onChange={changeCurrency} />
             </div>
             <InputCurrency
               label="Target take-home income (per year)"

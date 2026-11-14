@@ -18,12 +18,14 @@ export interface InputNumberProps {
   suffix?: ReactNode;
   /** Show thousands separators when not focused. */
   grouping?: boolean;
+  /** Locale for grouping, e.g. 'en-IN' shows 12,00,000. */
+  locale?: string;
   id?: string;
 }
 
-function display(value: number, grouping: boolean): string {
+function display(value: number, grouping: boolean, locale: string): string {
   if (!Number.isFinite(value)) return '';
-  return grouping ? value.toLocaleString('en-US', { maximumFractionDigits: 2 }) : String(value);
+  return grouping ? value.toLocaleString(locale, { maximumFractionDigits: 2 }) : String(value);
 }
 
 /**
@@ -31,12 +33,12 @@ function display(value: number, grouping: boolean): string {
  * an empty box is allowed mid-edit) and reports parsed numbers upward.
  */
 export function InputNumber(props: InputNumberProps) {
-  const { label, value, onChange, help, error, prefix, suffix, grouping = false } = props;
+  const { label, value, onChange, help, error, prefix, suffix, grouping = false, locale = 'en-US' } = props;
   const autoId = useId();
   const id = props.id ?? autoId;
   const [draft, setDraft] = useState<string | null>(null);
   const [localError, setLocalError] = useState<string>();
-  const shown = draft ?? display(value, grouping);
+  const shown = draft ?? display(value, grouping, locale);
   const err = localError ?? error;
 
   function handle(text: string) {
