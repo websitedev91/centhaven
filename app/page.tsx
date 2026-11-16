@@ -37,7 +37,7 @@ export default function Home() {
   const hero = getLiveToolBySlug(HERO_TOOL);
   const live = new Set(liveCategories());
   const categoryRows = categories.filter((c) => live.has(c.slug));
-  const popular = liveTools().slice(0, 6);
+  const featured = liveTools().slice(0, 6);
   const methodology = staticPages.find((p) => p.href === '/methodology')?.built;
 
   return (
@@ -100,15 +100,15 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Most used calculators */}
-      {popular.length > 0 ? (
-        <section aria-labelledby="popular-heading" className="border-t border-line bg-surface">
+      {/* Featured calculators (rename to "Most used" once GA4 has real usage data) */}
+      {featured.length > 0 ? (
+        <section aria-labelledby="featured-heading" className="border-t border-line bg-surface">
           <div className="wrap pb-section pt-12">
-            <h2 id="popular-heading" className="type-h2">
-              Most used calculators
+            <h2 id="featured-heading" className="type-h2">
+              Featured calculators
             </h2>
             <ul className="mt-8 grid gap-x-8 border-t border-line sm:grid-cols-2 lg:grid-cols-3">
-              {popular.map((t) => (
+              {featured.map((t) => (
                 <li key={t.slug} className="border-b border-line">
                   <Link href={toolPath(t)} className="group flex items-center justify-between gap-4 py-5 text-ink no-underline">
                     <span className="font-[550] group-hover:text-haven">{t.title}</span>
