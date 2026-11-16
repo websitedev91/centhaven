@@ -21,7 +21,7 @@ export default function ContactPage() {
       <div className="mt-6">
         <ContactForm email={site.contactEmail} />
       </div>
-      <p className="mt-6 text-sm text-ink-muted">
+      <p className="type-small mt-6 text-ink-muted">
         We can&apos;t give personal financial, tax or legal advice. For that, please speak to a qualified professional.
       </p>
     </StaticPage>

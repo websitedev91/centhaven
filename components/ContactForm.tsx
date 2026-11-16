@@ -2,6 +2,7 @@
 
 import { useId, useState, type FormEvent } from 'react';
 import { FieldShell, describedBy, fieldClass } from './FieldShell';
+import { primaryButtonClass } from './actionButtonClass';
 
 const TOPICS = [
   'Report a mistake',
@@ -62,7 +63,7 @@ export function ContactForm({ email }: { email: string }) {
   const ids = { name: `${id}-name`, email: `${id}-email`, topic: `${id}-topic`, page: `${id}-page`, message: `${id}-message` };
 
   return (
-    <form noValidate onSubmit={submit} className="max-w-xl rounded-panel border border-line bg-surface p-5 shadow-sm sm:p-6" aria-label="Enquiry form">
+    <form noValidate onSubmit={submit} className="max-w-xl rounded-panel border border-line bg-surface p-5 sm:p-8" aria-label="Enquiry form">
       <div className="flex flex-col gap-5">
         <div className="grid gap-5 sm:grid-cols-2">
           <FieldShell id={ids.name} label="Your name" error={errors.name}>
@@ -111,7 +112,7 @@ export function ContactForm({ email }: { email: string }) {
           <textarea
             id={ids.message}
             rows={6}
-            className={fieldClass}
+            className={`${fieldClass} h-auto py-3 leading-7`}
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             aria-invalid={errors.message ? true : undefined}
@@ -121,16 +122,16 @@ export function ContactForm({ email }: { email: string }) {
         <div>
           <button
             type="submit"
-            className="rounded-field bg-haven px-5 py-2.5 font-semibold text-white hover:bg-haven-deep"
+            className={primaryButtonClass}
           >
-            Send enquiry
+            Open in my email app
           </button>
-          <p className="mt-2 text-xs text-ink-muted">
+          <p className="type-small mt-3 text-ink-muted">
             This opens your email app with your message ready to send to {email}. We don&apos;t store anything you type
             here.
           </p>
           {opened ? (
-            <p role="status" className="mt-3 text-sm font-semibold text-haven">
+            <p role="status" className="type-small mt-3 font-[550] text-haven">
               Your email app should now be open. If nothing happened, email us directly at{' '}
               <a href={`mailto:${email}`}>{email}</a>.
             </p>

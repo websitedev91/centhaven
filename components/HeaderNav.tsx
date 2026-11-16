@@ -114,7 +114,18 @@ const subscribeNoop = () => () => {};
 const isMac = () => /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
 
 /** ⌘K / Ctrl+K command palette over live tool titles and keywords (DESIGN.md §6). */
-export function SearchLauncher({ items, compact = false }: { items: SearchItem[]; compact?: boolean }) {
+export function SearchLauncher({
+  items,
+  compact = false,
+  shortcut = !compact,
+  label = 'Search',
+}: {
+  items: SearchItem[];
+  compact?: boolean;
+  /** Register the global ⌘K / Ctrl+K listener. Only one launcher per page should (the header's). */
+  shortcut?: boolean;
+  label?: string;
+}) {
   const dialog = useRef<HTMLDialogElement>(null);
   const input = useRef<HTMLInputElement>(null);
   const router = useRouter();
@@ -132,7 +143,7 @@ export function SearchLauncher({ items, compact = false }: { items: SearchItem[]
   }
 
   useEffect(() => {
-    if (compact) return; // one global shortcut listener (the desktop launcher)
+    if (!shortcut) return; // one global shortcut listener per page (the desktop header launcher)
     const onKey = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
@@ -142,7 +153,7 @@ export function SearchLauncher({ items, compact = false }: { items: SearchItem[]
     };
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
-  }, [compact]);
+  }, [shortcut]);
 
   function go(t: NavTool) {
     dialog.current?.close();
@@ -167,7 +178,7 @@ export function SearchLauncher({ items, compact = false }: { items: SearchItem[]
           className="inline-flex h-10 min-w-48 items-center gap-2 rounded-field border border-line bg-surface pl-3 pr-2 text-[15px] text-ink-muted hover:border-haven hover:text-ink"
         >
           <SearchIcon size={18} />
-          <span className="flex-1 text-left">Search</span>
+          <span className="flex-1 text-left">{label}</span>
           <kbd className="rounded-[4px] border border-line px-1.5 font-sans text-[12px] leading-5 text-ink-muted">
             {mac ? '⌘K' : 'Ctrl K'}
           </kbd>
