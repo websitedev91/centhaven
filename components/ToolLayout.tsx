@@ -7,7 +7,6 @@ import { RelatedTools } from './RelatedTools';
 import { ToolRail } from './ToolRail';
 import { Sources } from './Sources';
 import { AuthorBox } from './AuthorBox';
-import { LastUpdated } from './LastUpdated';
 import { Disclaimer } from './Disclaimer';
 import { JsonLd } from './JsonLd';
 import { breadcrumbJsonLd, faqJsonLd, webApplicationJsonLd, type Crumb } from '@/lib/seo';
@@ -18,7 +17,7 @@ import type { SourceLink } from '@/lib/rates';
 /**
  * Every tool page, same order (PRD §6 / CLAUDE.md):
  * Breadcrumbs → H1 + subtitle → calculator (result, chart, compare live inside it) →
- * share/print/embed → affiliate → content → FAQ → related → sources → author → last updated → disclaimer.
+ * share/print/embed → affiliate → content → FAQ → related → sources → how it is checked → disclaimer.
  */
 export function ToolLayout(props: {
   tool: RegistryRow;
@@ -79,7 +78,6 @@ export function ToolLayout(props: {
           <Sources sources={sources} />
           <div className="flex flex-col gap-4">
             <AuthorBox reviewedBy={tool.reviewedBy} />
-            <LastUpdated date={tool.lastUpdated} />
             <Disclaimer />
           </div>
         </div>

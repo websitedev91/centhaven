@@ -5,7 +5,6 @@ import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { FaqList } from '@/components/FaqList';
 import { ChevronRightIcon } from '@/components/icons';
 import { JsonLd } from '@/components/JsonLd';
-import { LastUpdated } from '@/components/LastUpdated';
 import { getCategory } from '@/config/site';
 import { hubContent } from '@/lib/hub-content';
 import { getHub } from '@/lib/hubs';
@@ -101,7 +100,6 @@ export default async function CategoryPage({ params }: { params: Promise<Params>
           <Guide />
         </div>
         <FaqList faqs={hub.faq} />
-        <LastUpdated date={hub.lastUpdated} />
       </div>
     </article>
   );

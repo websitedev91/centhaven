@@ -50,7 +50,7 @@ export default function MethodologyPage() {
         <li>All test cases pass</li>
         <li>Clear explanation, formula, worked examples and FAQ</li>
         <li>Fast to load and accessible to keyboard and screen-reader users</li>
-        <li>A clear disclaimer and a &ldquo;last updated&rdquo; date</li>
+        <li>A clear disclaimer</li>
       </ul>
 
       <h2>5. Update calendar</h2>
@@ -63,7 +63,7 @@ export default function MethodologyPage() {
         <li>Canada and Australia: before each new tax year</li>
         <li>Pure maths tools: no rates, so no update needed</li>
       </ul>
-      <p>When a number changes, we update the tool, re-run every test and change the &ldquo;last updated&rdquo; date.</p>
+      <p>When a number changes, we update the tool, re-run every test and publish the updated tool.</p>
 
       <h2>Our results are estimates</h2>
       <p>

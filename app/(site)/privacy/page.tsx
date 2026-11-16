@@ -30,7 +30,7 @@ export default function PrivacyPage() {
 
       <h2>Analytics</h2>
       <p>
-        We use Google Analytics 4 to understand how people use the site, for example which tools are popular and
+        We use Google Analytics 4, loaded through Google Tag Manager, to understand how people use the site, for example which tools are popular and
         whether a page loads well. Google Analytics uses cookies and collects information such as pages visited,
         approximate location (country or city), device and browser type, and how you arrived at the site. We use this
         information only in summary form. We don&apos;t use it to identify you.

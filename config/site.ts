@@ -3,9 +3,9 @@ export const site = {
   domain: 'centhaven.com',
   url: 'https://centhaven.com',
   tagline: 'Smart tools to earn, save and grow.',
-  author: 'Purushothaman',
   contactEmail: 'info@centhaven.com',
-  gaMeasurementId: process.env.NEXT_PUBLIC_GA_ID ?? '',
+  /** Google Tag Manager container (components/Analytics.tsx). GA4 and other tags are set up inside it. */
+  gtmId: 'GTM-KS3D4XJX',
   disclaimer: 'For estimates only. Not financial, tax or legal advice. Check with a qualified professional.',
   affiliateDisclosure: "We may earn a commission if you sign up. It doesn't change our results.",
 } as const;

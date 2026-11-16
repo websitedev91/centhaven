@@ -1,16 +1,22 @@
 import Script from 'next/script';
 import { site } from '@/config/site';
 
-/** Loads GA4 only when NEXT_PUBLIC_GA_ID is set at build time. */
+/**
+ * Google Tag Manager (container set in config/site.ts). GA4 and any other tags are configured
+ * inside the container. Loaded after the page is interactive so it doesn't block the calculator.
+ *
+ * Same as the snippet from Puru (dataLayer + gtag + gtm.js), plus the standard `gtm.start` push,
+ * which GTM needs to fire its "All Pages" / page-view triggers.
+ */
 export function Analytics() {
-  const id = site.gaMeasurementId;
-  if (!id || !/^G-[A-Z0-9]+$/.test(id)) return null;
+  const id = site.gtmId;
+  if (!/^GTM-[A-Z0-9]+$/.test(id)) return null;
   return (
     <>
-      <Script src={`https://www.googletagmanager.com/gtag/js?id=${id}`} strategy="lazyOnload" />
-      <Script id="ga4-init" strategy="lazyOnload">
-        {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}window.gtag=gtag;gtag('js',new Date());gtag('config','${id}',{anonymize_ip:true});`}
+      <Script id="gtm-init" strategy="afterInteractive">
+        {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}window.gtag=gtag;gtag('js',new Date());dataLayer.push({'gtm.start':new Date().getTime(),event:'gtm.js'});`}
       </Script>
+      <Script src={`https://www.googletagmanager.com/gtm.js?id=${id}`} strategy="afterInteractive" />
     </>
   );
 }

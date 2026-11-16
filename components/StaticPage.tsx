@@ -4,7 +4,6 @@ import { getStaticPage, site, type StaticPageHref } from '@/config/site';
 import { absoluteUrl, breadcrumbJsonLd, buildMetadata } from '@/lib/seo';
 import { Breadcrumbs } from './Breadcrumbs';
 import { JsonLd } from './JsonLd';
-import { LastUpdated } from './LastUpdated';
 
 export function staticPageMetadata(href: StaticPageHref, description: string): Metadata {
   const page = getStaticPage(href);
@@ -13,7 +12,7 @@ export function staticPageMetadata(href: StaticPageHref, description: string): M
 
 /**
  * Shared layout for About, Methodology, legal pages and Contact (DESIGN.md §9): a single 68ch
- * column, clear headings and a "Last updated" date. JSON-LD per SEO.md §4: AboutPage for About,
+ * column and clear headings. JSON-LD per SEO.md §4: AboutPage for About,
  * WebPage for the rest, plus BreadcrumbList.
  */
 export function StaticPage(props: { href: StaticPageHref; title?: string; intro?: string; children: ReactNode }) {
@@ -42,9 +41,6 @@ export function StaticPage(props: { href: StaticPageHref; title?: string; intro?
         {props.intro ? <p className="mt-3 text-[19px] leading-[30px] text-ink-muted">{props.intro}</p> : null}
       </header>
       <div className="prose-ch mt-10">{props.children}</div>
-      <div className="mt-12 measure border-t border-line pt-6">
-        <LastUpdated date={page.updated} />
-      </div>
     </article>
   );
 }

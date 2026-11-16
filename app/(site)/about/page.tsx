@@ -47,7 +47,7 @@ export default function AboutPage() {
 
       <h2>Who builds it</h2>
       <p>
-        CentHaven is built by {site.author}. Each calculator is tested against worked examples before it goes live, and
+        CentHaven is an independent project. Each calculator is tested against worked examples before it goes live, and
         tools that touch tax are reviewed by a qualified professional before we publish them.
       </p>
 

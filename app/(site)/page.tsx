@@ -31,7 +31,7 @@ const STEPS = [
   },
   {
     title: 'Updated on a published calendar',
-    body: 'Rates are re-checked on a fixed schedule and whenever the rules change. Every tool shows when it was last updated.',
+    body: 'Rates are re-checked on a fixed schedule and whenever the rules change, and every test is run again before an update goes out.',
   },
 ];
 
@@ -65,7 +65,6 @@ export default function Home() {
           name: site.name,
           url: absoluteUrl('/'),
           email: site.contactEmail,
-          founder: { '@type': 'Person', name: site.author },
         }}
       />
 

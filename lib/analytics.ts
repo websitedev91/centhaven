@@ -1,4 +1,8 @@
-/** GA4 event helpers — PRD §9. Safe to call when GA is not loaded (no-op). */
+/**
+ * Analytics events (PRD §9), sent to Google Tag Manager's dataLayer as `{ event, ...params }`.
+ * In GTM, use a Custom Event trigger with the event name (e.g. `calculate`) to forward them to GA4.
+ * Safe to call when GTM is not loaded (no-op).
+ */
 
 export type AnalyticsEvent =
   | 'calculate'
@@ -12,12 +16,12 @@ type Params = Record<string, string | number | boolean | undefined>;
 
 declare global {
   interface Window {
-    gtag?: (command: 'event' | 'config' | 'js', target: string | Date, params?: Params) => void;
+    gtag?: (...args: unknown[]) => void;
     dataLayer?: unknown[];
   }
 }
 
 export function track(event: AnalyticsEvent, params: Params = {}): void {
-  if (typeof window === 'undefined' || typeof window.gtag !== 'function') return;
-  window.gtag('event', event, params);
+  if (typeof window === 'undefined' || !Array.isArray(window.dataLayer)) return;
+  window.dataLayer.push({ event, ...params });
 }

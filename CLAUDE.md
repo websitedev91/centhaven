@@ -4,7 +4,7 @@ You are building **CentHaven.com**: free, global money & work calculators. Tagli
 Read `docs/PRD.md` before any large task. Tool specs live in `docs/specs/<slug>.md`.
 
 ## Stack
-Next.js App Router + TypeScript (strict) · static export (`output: 'export'`) · Tailwind · Recharts (lazy, client-only) · Zod · Vitest · GA4 · hosted on Hostinger.
+Next.js App Router + TypeScript (strict) · static export (`output: 'export'`) · Tailwind · Recharts (lazy, client-only) · Zod · Vitest · Google Tag Manager (GA4 inside it) · hosted on Hostinger.
 No backend, no database, no login. Ask before adding any new dependency.
 
 ## Golden rules
@@ -20,7 +20,7 @@ No backend, no database, no login. Ask before adding any new dependency.
 Register it in `lib/registry.ts`. Use the shared components in `/components`; don't rebuild layout per tool.
 
 ## Page order (from ToolLayout)
-Breadcrumbs → H1 + subtitle → calculator → result + breakdown → chart (if useful) → scenario compare (if useful) → share / print / embed → affiliate slot → content (what it does, formula, 2–3 examples, tips, FAQ 6–10) → related tools → sources → author box → last updated → disclaimer.
+Breadcrumbs → H1 + subtitle → calculator → result + breakdown → chart (if useful) → scenario compare (if useful) → share / print / embed → affiliate slot → content (what it does, formula, 2–3 examples, tips, FAQ 6–10) → related tools → sources → "how it is checked" note → disclaimer.
 
 ## SEO rules (read before writing any page)
 - `docs/SEO.md` = on-page rules, content template, schema. `docs/seo/keyword-map.md` = each page's primary/secondary keywords, title, meta, H1, FAQ questions, internal links.
@@ -32,7 +32,7 @@ Breadcrumbs → H1 + subtitle → calculator → result + breakdown → chart (i
 - No "Best …" titles. Titles, meta descriptions and H1s come **only** from `docs/seo/keyword-map.md`.
 - FAQ answers 50–80 words, no lists inside answers.
 - Disclaimer on every tool: "For estimates only. Not financial, tax or legal advice. Check with a qualified professional."
-- Author: "Built by Purushothaman". Reviewer shown only if `reviewedBy` is set.
+- No author name and no "Last updated" date on any page (Puru, 2026-11-16). Reviewer shown only if `reviewedBy` is set.
 
 ## Currency inputs
 - Every tool with money inputs uses the shared currency-defaults pattern: per-currency starting values live in the tool's `schema.ts`; switching currency swaps them only while the user hasn't edited the inputs.
@@ -44,7 +44,7 @@ Breadcrumbs → H1 + subtitle → calculator → result + breakdown → chart (i
 2. Rates from `/rates` + listed in `sources.md`
 3. All spec test cases pass
 4. Content + JSON-LD (WebApplication, BreadcrumbList, FAQPage) complete
-5. Disclaimer, Last updated, affiliate slot (renders nothing if no partner is enabled)
+5. Disclaimer, affiliate slot (renders nothing if no partner is enabled)
 6. No console errors; Lighthouse mobile ≥ 95 performance, 100 SEO
 7. Red-risk tools need `reviewedBy`
 

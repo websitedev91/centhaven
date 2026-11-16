@@ -63,7 +63,6 @@ export function webApplicationJsonLd(opts: { name: string; description: string; 
     isAccessibleForFree: true,
     dateModified: opts.dateModified,
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-    author: { '@type': 'Person', name: site.author },
     publisher: { '@type': 'Organization', name: site.name, url: site.url },
   };
 }
