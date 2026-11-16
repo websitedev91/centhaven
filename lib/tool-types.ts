@@ -3,26 +3,36 @@ import type { FaqItem } from './seo';
 export type ToolStatus = 'draft' | 'ready' | 'live';
 export type Risk = 'green' | 'yellow' | 'red';
 
-/** Static facts about a tool. Lives in tools/<slug>/meta.ts. */
+/**
+ * Static facts about a tool. Lives in tools/<slug>/meta.ts.
+ * The SEO fields (primaryKeyword … relatedTools) are copied EXACTLY from the tool's entry in
+ * docs/seo/keyword-map.md (SEO.md §1); lib/seo.test.ts fails if they drift.
+ */
 export interface ToolMeta {
   slug: string;
   category: string;
-  /** H1 / tool name, e.g. 'Freelance Hourly Rate Calculator'. */
+  /** Keyword map: one per page, never shared with another page. */
+  primaryKeyword: string;
+  secondaryKeywords: readonly string[];
+  /** Keyword map "Title": the <title> tag, ≤ 60 characters. */
   title: string;
+  /** Keyword map "Meta description": 140–160 characters. */
+  description: string;
+  /** Keyword map "H1": the tool name shown on the page, in menus and in search. */
+  h1: string;
   /** One line under the H1 saying what it calculates. */
   subtitle: string;
-  /** <title> tag, `{Tool name} – Free Calculator | CentHaven`. */
-  seoTitle: string;
-  /** 140–155 characters. */
-  description: string;
-  keyword: string;
-  longTail: readonly string[];
   risk: Risk;
-  related: readonly string[];
+  /** Keyword map "Internal links to", as tool slugs. Only live ones render. */
+  relatedTools: readonly string[];
   affiliateId?: string;
   /** Ids of /rates files used (empty for pure-maths tools). */
   rates: readonly string[];
-  faqs: readonly FaqItem[];
+  /**
+   * Keyword-map questions first (exact text, same order), then 2–3 more. Answers live here
+   * (not in content.mdx) so the visible FAQ and the FAQPage JSON-LD come from one source.
+   */
+  faq: readonly FaqItem[];
 }
 
 /** Registry row — PRD §5. */

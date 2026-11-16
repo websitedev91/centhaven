@@ -13,7 +13,7 @@ import { meta as hourlyRate } from '@/tools/hourly-rate-calculator/meta';
 type Publishing = Pick<ToolEntry, 'status' | 'lastUpdated' | 'publishDate' | 'reviewedBy'>;
 
 export function row(meta: ToolMeta, p: Publishing): RegistryRow {
-  return { slug: meta.slug, category: meta.category, title: meta.title, risk: meta.risk, ...p, meta };
+  return { slug: meta.slug, category: meta.category, title: meta.h1, risk: meta.risk, ...p, meta };
 }
 
 export const registry: readonly RegistryRow[] = [
@@ -59,7 +59,7 @@ export function liveCategories(): string[] {
 
 /** Related tools that are live (CLAUDE.md: links to live tools only), max 6. */
 export function liveRelated(tool: RegistryRow): RegistryRow[] {
-  return tool.meta.related
+  return tool.meta.relatedTools
     .map((slug) => getLiveToolBySlug(slug))
     .filter((t): t is RegistryRow => t !== undefined)
     .slice(0, 6);

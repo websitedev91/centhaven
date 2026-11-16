@@ -1,0 +1,8 @@
+# SEO changelog
+
+One line per change to a page's keywords, title, meta, H1 or content structure (CLAUDE.md SEO rules, SEO.md §6).
+Format: date · page · what changed · why.
+
+| Date | Page | What changed | Why |
+|---|---|---|---|
+| 2026-11-16 | /freelance/hourly-rate-calculator | Title, meta description, H1, primary/secondary keywords, FAQ questions and related tools copied from the keyword map. content.mdx rebuilt on the SEO.md §3 template (intro with primary keyword, how to use, how it's calculated, freelance rate vs salary, worked examples with "what this means" lines, tips). FAQ "How often should I raise my rates?" dropped. | First alignment with docs/seo/keyword-map.md. The raise-rates question belongs to /freelance/rate-increase-calculator, so it was removed here to avoid two pages competing for it. |

@@ -30,7 +30,7 @@ function resolve(params: Params) {
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
   const r = resolve(await params);
   if (!r) return { title: 'Not found', robots: { index: false } };
-  return buildMetadata({ title: r.tool.meta.seoTitle, description: r.tool.meta.description, path: toolPath(r.tool) });
+  return buildMetadata({ title: r.tool.meta.title, description: r.tool.meta.description, path: toolPath(r.tool) });
 }
 
 export default async function ToolPage({ params }: { params: Promise<Params> }) {

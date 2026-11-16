@@ -1,14 +1,23 @@
-## What this calculator does
+This freelance hourly rate calculator works out the **minimum hourly rate** you need to charge to reach the take-home income you want. It adds your tax and business expenses on top of that income, then spreads the total over the hours you can actually bill, not every hour you work.
 
-This calculator works out the **minimum hourly rate** you need to charge as a freelancer to reach the take-home income you want.
+Enter your own numbers above. The result updates as you type, and you can share or print it.
 
-It adds your tax and business expenses on top of that income. Then it spreads the total over the hours you can actually bill, not every hour you work.
+## How to use this hourly rate calculator for freelancers
 
-## How it works
+1. **Pick your currency.** Income, expenses and tax start from typical values for that currency. Anything you type is kept.
+2. **Enter your take-home goal.** This is the yearly income you want to keep after tax, the amount you would compare with a salary.
+3. **Add your business expenses.** Software, equipment, internet, insurance, accounting and platform fees for a whole year.
+4. **Set a rough tax rate.** Include income tax and any self-employment or social security contributions.
+5. **Enter weeks off and hours per week.** Count holidays, public holidays and sick days as weeks off.
+6. **Set your billable time.** This is the share of your working hours a client actually pays for.
 
-You need enough revenue to cover three things: your take-home pay, the tax on it, and your business costs. You can only earn that money in billable hours.
+Your minimum hourly rate appears on the right (or at the bottom on a phone), with your day rate and the revenue you need each year and month.
 
-First, it grosses up your take-home income for tax and adds your expenses. Next, it counts your billable hours: working weeks × hours per week × the share of time you can bill. Finally, it divides one by the other.
+## How your freelance hourly rate is calculated
+
+You need enough revenue to cover three things: your take-home pay, the tax on it, and your business costs. You can only earn that money in billable hours, so the calculator divides one by the other.
+
+First, it grosses up your take-home income for tax and adds your expenses. Next, it counts your billable hours: working weeks × hours per week × the share of time you can bill. Finally, it divides the revenue you need by those hours.
 
 ```text
 grossNeeded    = targetIncome ÷ (1 − taxRate) + expenses
@@ -17,6 +26,16 @@ hourlyRate     = grossNeeded ÷ billableHours
 dayRate        = hourlyRate × (hoursPerWeek ÷ 5)
 monthlyRevenue = grossNeeded ÷ 12
 ```
+
+The tax step matters. If you want to keep 60,000 and your tax rate is 25%, you need 80,000 before tax, not 75,000. Dividing by (1 − tax rate) gets this right.
+
+## Freelance rate vs salary: why your rate must be higher
+
+If you earned a salary before, it is tempting to divide it by 2,080 working hours and charge that. That number is far too low for a freelancer.
+
+An employer paid for your holidays, sick days, laptop, software and part of your taxes. You were also paid for meetings, training and quiet afternoons. As a freelancer you pay for all of that yourself, and you only earn in the hours a client is billed.
+
+That is why a freelance rate is often 1.5 to 2 times an old salary per hour. It is not greedy. It is the same income, spread over fewer paid hours and carrying more costs.
 
 ## Worked examples
 
@@ -29,6 +48,8 @@ Maya wants to take home $60,000 a year. Her software, laptop and insurance cost 
 - Minimum hourly rate: $86,000 ÷ 1,380 = **$62.32**
 - Day rate (8 hours): **$498.55**
 
+**What this means for Maya:** quoting $50 an hour because it "sounds fair" would bring in $69,000 a year, about $17,000 less than the revenue she needs.
+
 ### 2. An Indian software developer
 
 Arjun wants ₹12,00,000 a year after tax. His expenses are ₹1,20,000 a year and he estimates a 10% tax rate. He takes 4 weeks off and works 40 hours a week, but only 60% of that is billable because of client calls and sales work.
@@ -37,6 +58,8 @@ Arjun wants ₹12,00,000 a year after tax. His expenses are ₹1,20,000 a year a
 - Billable hours: 48 × 40 × 60% = **1,152** hours
 - Minimum hourly rate: **₹1,261.57**
 - Day rate (8 hours): **₹10,092.59**
+
+**What this means for Arjun:** raising his billable time from 60% to 70% would lower the rate he needs by about one seventh, so cutting unpaid admin is worth as much as a price rise.
 
 ### 3. A part-time freelancer in the UK
 
@@ -56,4 +79,4 @@ Sam's real rate should be higher, because nobody bills 100% of their time and ta
 - **Count all your expenses.** Software, equipment, internet, insurance, accounting fees, platform fees and training all belong in the expenses box.
 - **Use a realistic tax rate.** Include income tax and any self-employment or social security contributions. If you're not sure, ask an accountant.
 - **Review your rate every year.** Your costs rise and your skills grow. Check your numbers at least once a year.
-- **This is your floor, not your price.** The result is the least you can charge to hit your goal. Your market value may be much higher.
+- **This is your floor, not your price.** The result is the least you can charge to hit your goal. Your market value may be much higher, so use it as a freelance pricing calculator for your lowest acceptable quote, not your final one.

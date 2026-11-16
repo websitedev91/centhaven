@@ -46,7 +46,7 @@ export function ToolLayout(props: {
         })}
       />
       <JsonLd data={breadcrumbJsonLd(crumbs)} />
-      {tool.meta.faqs.length > 0 ? <JsonLd data={faqJsonLd(tool.meta.faqs)} /> : null}
+      {tool.meta.faq.length > 0 ? <JsonLd data={faqJsonLd(tool.meta.faq)} /> : null}
 
       <Breadcrumbs crumbs={crumbs} />
       <header className="mt-6">
@@ -62,7 +62,7 @@ export function ToolLayout(props: {
 
       <div className="mt-section flex flex-col gap-section">
         <div className="prose-ch">{content}</div>
-        <FaqList faqs={tool.meta.faqs} />
+        <FaqList faqs={tool.meta.faq} />
         <RelatedTools tools={related} />
         <Sources sources={sources} />
         <div className="flex flex-col gap-4">

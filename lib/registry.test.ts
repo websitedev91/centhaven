@@ -25,17 +25,15 @@ describe('registry integrity', () => {
       if (t.status === 'live' && t.risk === 'red') expect(t.reviewedBy, 'red tools need reviewedBy').toBeTruthy();
     });
 
-    it('meets SEO content rules', () => {
+    it('has no "Best …" title or H1 (title/meta rules from the keyword map: lib/seo.test.ts)', () => {
       expect(t.meta.title).not.toMatch(/^best\b/i);
-      expect(t.meta.seoTitle).toMatch(/ – Free (Calculator|Generator|Checker) \| CentHaven$/);
-      expect(t.meta.description.length).toBeGreaterThanOrEqual(140);
-      expect(t.meta.description.length).toBeLessThanOrEqual(155);
+      expect(t.meta.h1).not.toMatch(/^best\b/i);
     });
 
     it('has 6–10 FAQs answered in 50–80 words, no lists', () => {
-      expect(t.meta.faqs.length).toBeGreaterThanOrEqual(6);
-      expect(t.meta.faqs.length).toBeLessThanOrEqual(10);
-      for (const f of t.meta.faqs) {
+      expect(t.meta.faq.length).toBeGreaterThanOrEqual(6);
+      expect(t.meta.faq.length).toBeLessThanOrEqual(10);
+      for (const f of t.meta.faq) {
         const n = wordCount(f.a);
         expect(n, `"${f.q}" has ${n} words`).toBeGreaterThanOrEqual(50);
         expect(n, `"${f.q}" has ${n} words`).toBeLessThanOrEqual(80);
@@ -45,8 +43,8 @@ describe('registry integrity', () => {
 
     it('references existing affiliates and tools only', () => {
       if (t.meta.affiliateId) expect(affiliates.some((a) => a.id === t.meta.affiliateId)).toBe(true);
-      expect(t.meta.related.length).toBeLessThanOrEqual(6);
-      expect(t.meta.related).not.toContain(t.slug);
+      expect(t.meta.relatedTools.length).toBeLessThanOrEqual(6);
+      expect(t.meta.relatedTools).not.toContain(t.slug);
     });
   });
 });

@@ -44,7 +44,7 @@ export function searchIndex(): SearchItem[] {
       title: t.title,
       href: toolPath(t),
       category,
-      terms: [t.title, category, t.meta.keyword, ...t.meta.longTail].join(' ').toLowerCase(),
+      terms: [t.title, category, t.meta.primaryKeyword, ...t.meta.secondaryKeywords].join(' ').toLowerCase(),
     };
   });
 }

@@ -16,12 +16,6 @@ export function absoluteUrl(path: string): string {
   return `${site.url}${path.startsWith('/') ? path : `/${path}`}`;
 }
 
-/** `{Tool name} – Free Calculator | CentHaven` (CLAUDE.md content rules). */
-export function toolTitle(toolName: string, kind: 'Calculator' | 'Generator' | 'Checker' = 'Calculator'): string {
-  const stripped = toolName.replace(new RegExp(`\\s+${kind}$`, 'i'), '');
-  return `${stripped} – Free ${kind} | ${site.name}`;
-}
-
 export function buildMetadata(opts: {
   title: string;
   description: string;
