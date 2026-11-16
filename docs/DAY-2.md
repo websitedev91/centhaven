@@ -41,3 +41,23 @@ without asking; keep Lighthouse ≥95 and JS budgets from DESIGN.md §10;
 commit after each task. After task 5 (homepage), stop and send me
 screenshots at 1440px and 375px before continuing.
 ```
+
+## Day 2 results (2026-11-16)
+
+All tasks 0–11 done, one commit each ("step N (day 2): …"). `npm run check`: 267 tests + 11 rate checks pass.
+
+**Layout check (task 11):** every page (home, 3 hubs, 6 tools, 7 static pages, an embed, the 404) at 360, 768, 1280 and 1440px: no horizontal scroll, no console errors (76 page × width checks, preview build).
+
+**Initial JS on top of the Next.js + React runtime (~129 KB gz), per page type:**
+
+| Page type | JS (gz) | Budget |
+|---|---|---|
+| Homepage | 15.3 KB | 100 KB |
+| Tool pages | 36.7–38.7 KB | 120 KB |
+| Embeds | 35.6–37.7 KB | (none) |
+| Category hubs | 11.1 KB | (none) |
+| Static pages | 11.1 KB (Contact 13.1 KB) | (none) |
+
+`npm run size` reads the built HTML and can undercount tool pages by about 4 KB (lazy shared chunks).
+
+**Still for Puru:** Lighthouse on home, a hub, a tool and a static page (Day 3 task 1); the About page story (TODO in `app/(site)/about/page.tsx`); legal review of Privacy and Terms.
