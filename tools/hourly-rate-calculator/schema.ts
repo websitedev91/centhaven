@@ -1,13 +1,9 @@
 // zod/mini keeps the client bundle small (same validation, tree-shakable API).
 import * as z from 'zod/mini';
-import { CURRENCIES, type CurrencyCode } from '@/lib/format';
-import { currencyVariant, defaultsForCurrency, switchCurrency, type CurrencyPresets } from '@/lib/currency-defaults';
-import type { HourlyRateInput } from './calc';
+import { CURRENCIES } from '@/lib/format';
+import type { HourlyRateState } from './defaults';
 
-/**
- * UI/URL state. Percentages are stored as whole numbers (25 = 25%) because that is what
- * users see and share; `toCalcInput` converts them to fractions for calc.ts.
- */
+/** Validation for the UI/URL state (see defaults.ts for the state type, defaults and presets). */
 const num = () => z.number({ error: 'Enter a number' });
 
 export const hourlyRateSchema = z.object({
@@ -24,40 +20,21 @@ export const hourlyRateSchema = z.object({
   billablePct: num().check(z.minimum(10, 'Minimum is 10%'), z.maximum(100, 'Maximum is 100%')),
 });
 
-export type HourlyRateState = z.infer<typeof hourlyRateSchema>;
-export type HourlyRateField = keyof HourlyRateState;
+/** Compile-time check: the Zod schema and the Zod-free state type in defaults.ts must match. */
+type Same<A, B> = [A] extends [B] ? ([B] extends [A] ? true : never) : never;
+const stateMatchesSchema: Same<z.infer<typeof hourlyRateSchema>, HourlyRateState> = true;
+void stateMatchesSchema;
 
-/**
- * Currency-dependent defaults. Untouched fields follow the currency when it changes;
- * values the user typed are kept (see lib/currency-defaults.ts).
- */
-export const hourlyRateCurrencyPresets: CurrencyPresets<HourlyRateState> = {
-  USD: { targetIncome: 60_000, expenses: 6_000, taxRate: 25 },
-  CAD: { targetIncome: 60_000, expenses: 6_000, taxRate: 25 },
-  AUD: { targetIncome: 60_000, expenses: 6_000, taxRate: 25 },
-  GBP: { targetIncome: 45_000, expenses: 4_500, taxRate: 25 },
-  EUR: { targetIncome: 45_000, expenses: 4_500, taxRate: 25 },
-  INR: { targetIncome: 1_200_000, expenses: 120_000, taxRate: 10 },
-};
-
-const baseDefaults: HourlyRateState = {
-  currency: 'USD',
-  targetIncome: 60_000,
-  expenses: 6_000,
-  taxRate: 25,
-  weeksOff: 6,
-  hoursPerWeek: 40,
-  billablePct: 75,
-};
-
-/** Page-load defaults (USD). */
-export const hourlyRateDefaults: HourlyRateState = defaultsForCurrency(baseDefaults, hourlyRateCurrencyPresets, 'USD');
-
-export const hourlyRateVariant = currencyVariant(hourlyRateDefaults, hourlyRateCurrencyPresets);
-
-export function switchHourlyRateCurrency(state: HourlyRateState, next: CurrencyCode): HourlyRateState {
-  return switchCurrency(state, next, hourlyRateDefaults, hourlyRateCurrencyPresets);
-}
+// Currency presets + defaults live in defaults.ts (no Zod) so the homepage hero can reuse them.
+export {
+  hourlyRateCurrencyPresets,
+  hourlyRateDefaults,
+  hourlyRateVariant,
+  switchHourlyRateCurrency,
+  toCalcInput,
+  type HourlyRateField,
+  type HourlyRateState,
+} from './defaults';
 
 /** Plan B for "Compare two plans" — only the time-related fields differ. */
 export const planBSchema = z.pick(hourlyRateSchema, { weeksOff: true, hoursPerWeek: true, billablePct: true });
@@ -76,15 +53,4 @@ export function fieldErrors<T extends Record<string, unknown>>(schema: z.ZodMini
     if (key !== undefined && out[key] === undefined) out[key] = issue.message;
   }
   return out;
-}
-
-export function toCalcInput(s: Omit<HourlyRateState, 'currency'>): HourlyRateInput {
-  return {
-    targetIncome: s.targetIncome,
-    expenses: s.expenses,
-    taxRate: s.taxRate / 100,
-    weeksOff: s.weeksOff,
-    hoursPerWeek: s.hoursPerWeek,
-    billablePct: s.billablePct / 100,
-  };
 }
