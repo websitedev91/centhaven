@@ -1,14 +1,19 @@
 import Link from 'next/link';
 import { SearchLauncher } from '@/components/HeaderNav';
+import { SiteChrome } from '@/components/SiteChrome';
 import { navCategories, searchIndex } from '@/lib/nav';
 
 export const metadata = { title: 'Page not found | CentHaven', robots: { index: false } };
 
-/** 404 (DESIGN.md §9): a short centred message, search and links to the top categories. */
+/**
+ * 404 (DESIGN.md §9): a short centred message, search and links to the top categories.
+ * Rendered under the root layout only, so it adds the site chrome itself.
+ */
 export default function NotFound() {
   const categories = navCategories();
   const items = searchIndex();
   return (
+    <SiteChrome>
     <div className="wrap flex flex-col items-center py-section text-center">
       <p className="type-figure text-haven">404</p>
       <h1 className="type-h1 mt-3">Page not found</h1>
@@ -34,5 +39,6 @@ export default function NotFound() {
         </ul>
       </nav>
     </div>
+    </SiteChrome>
   );
 }

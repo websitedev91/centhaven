@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useEmbed } from './EmbedMode';
 
 /**
  * Renders its children only once scrolled near the viewport, inside a fixed-height box
@@ -18,6 +19,7 @@ export function ChartLazy(props: {
   const { title, height = 280, description, footer, children } = props;
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
+  const embed = useEmbed();
 
   useEffect(() => {
     const el = ref.current;
@@ -39,6 +41,7 @@ export function ChartLazy(props: {
     return () => io.disconnect();
   }, []);
 
+  if (embed) return null;
   return (
     <figure className="print-break-avoid rounded-panel border border-line bg-surface p-5 sm:p-8">
       <figcaption className="type-h3 text-ink">{title}</figcaption>

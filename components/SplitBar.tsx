@@ -1,4 +1,7 @@
+'use client';
+
 import { Num } from './Num';
+import { useEmbed } from './EmbedMode';
 
 export interface SplitPart {
   key: string;
@@ -22,10 +25,12 @@ export function SplitBar(props: {
   total?: number;
   marker?: { at: number; label: string };
 }) {
+  const embed = useEmbed();
   const { title, description, parts, marker } = props;
   const total = props.total ?? parts.reduce((n, p) => n + Math.max(p.value, 0), 0);
   const shown = parts.filter((p) => p.value > 0);
 
+  if (embed) return null;
   return (
     <figure className="print-break-avoid rounded-panel border border-line bg-surface p-5 sm:p-8">
       <figcaption className="type-h3 text-ink">{title}</figcaption>

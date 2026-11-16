@@ -4,6 +4,7 @@ import { useId, useState, type ReactNode } from 'react';
 import { track } from '@/lib/analytics';
 import { secondaryButtonClass } from './actionButtonClass';
 import { Num } from './Num';
+import { useEmbed } from './EmbedMode';
 
 export interface CompareRow {
   label: string;
@@ -28,6 +29,8 @@ export function ScenarioCompare(props: {
   const { title, buttonLabel = 'Show comparison', aName, bName, planA, planB, rows, toolSlug, error } = props;
   const [open, setOpen] = useState(false);
   const panelId = useId();
+  const embed = useEmbed();
+  if (embed) return null;
 
   return (
     <section className="print-break-avoid rounded-panel border border-line bg-surface p-5 sm:p-8">

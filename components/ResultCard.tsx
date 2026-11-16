@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { AnimatedNumber } from './AnimatedNumber';
 import { Num } from './Num';
+import { useEmbed } from './EmbedMode';
 
 export interface BreakdownRow {
   label: string;
@@ -41,6 +42,7 @@ export function ResultCard(props: ResultCardProps) {
   const toneClass = tone === 'positive' ? 'text-haven' : tone === 'negative' ? 'text-danger' : 'text-ink';
   const ref = useRef<HTMLElement>(null);
   const [offscreen, setOffscreen] = useState(false);
+  const embed = useEmbed();
 
   useEffect(() => {
     const el = ref.current;
@@ -89,7 +91,7 @@ export function ResultCard(props: ResultCardProps) {
           </>
         )}
       </section>
-      {!error && offscreen ? (
+      {!error && offscreen && !embed ? (
         <div
           className="no-print fixed inset-x-0 bottom-0 z-40 border-t border-line bg-surface lg:hidden"
           aria-hidden="true"

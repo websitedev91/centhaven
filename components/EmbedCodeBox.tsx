@@ -6,7 +6,8 @@ import { site } from '@/config/site';
 import { actionButtonClass, primaryButtonClass } from './actionButtonClass';
 import { CheckIcon, CodeIcon } from './icons';
 
-export function embedCode(slug: string, title: string, height = 720): string {
+/** Default height fits the calculator + result at typical blog widths (checked at 700px: ~1,130px). */
+export function embedCode(slug: string, title: string, height = 1200): string {
   return `<iframe src="${site.url}/embed/${slug}" title="${title} by ${site.name}" width="100%" height="${height}" style="border:0;max-width:100%" loading="lazy"></iframe>`;
 }
 
