@@ -62,7 +62,7 @@ export function ContactForm({ email }: { email: string }) {
   const ids = { name: `${id}-name`, email: `${id}-email`, topic: `${id}-topic`, page: `${id}-page`, message: `${id}-message` };
 
   return (
-    <form noValidate onSubmit={submit} className="max-w-xl rounded-card border border-line bg-bg p-5 shadow-sm sm:p-6" aria-label="Enquiry form">
+    <form noValidate onSubmit={submit} className="max-w-xl rounded-panel border border-line bg-surface p-5 shadow-sm sm:p-6" aria-label="Enquiry form">
       <div className="flex flex-col gap-5">
         <div className="grid gap-5 sm:grid-cols-2">
           <FieldShell id={ids.name} label="Your name" error={errors.name}>
@@ -121,16 +121,16 @@ export function ContactForm({ email }: { email: string }) {
         <div>
           <button
             type="submit"
-            className="rounded-field bg-primary px-5 py-2.5 font-semibold text-white hover:bg-primary-hover"
+            className="rounded-field bg-haven px-5 py-2.5 font-semibold text-white hover:bg-haven-deep"
           >
             Send enquiry
           </button>
-          <p className="mt-2 text-xs text-muted">
+          <p className="mt-2 text-xs text-ink-muted">
             This opens your email app with your message ready to send to {email}. We don&apos;t store anything you type
             here.
           </p>
           {opened ? (
-            <p role="status" className="mt-3 text-sm font-semibold text-success">
+            <p role="status" className="mt-3 text-sm font-semibold text-haven">
               Your email app should now be open. If nothing happened, email us directly at{' '}
               <a href={`mailto:${email}`}>{email}</a>.
             </p>

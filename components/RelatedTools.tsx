@@ -15,10 +15,10 @@ export function RelatedTools({ tools }: { tools: readonly RegistryRow[] }) {
           <li key={t.slug}>
             <Link
               href={toolPath(t)}
-              className="block h-full rounded-card border border-line p-4 no-underline hover:border-primary"
+              className="block h-full rounded-panel border border-line p-4 no-underline hover:border-haven"
             >
               <span className="font-semibold text-ink">{t.title}</span>
-              <span className="mt-1 block text-sm text-muted">{t.meta.subtitle}</span>
+              <span className="mt-1 block text-sm text-ink-muted">{t.meta.subtitle}</span>
             </Link>
           </li>
         ))}

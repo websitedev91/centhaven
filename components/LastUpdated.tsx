@@ -2,7 +2,7 @@ import { formatIsoDate } from '@/lib/dates';
 
 export function LastUpdated({ date }: { date: string }) {
   return (
-    <p className="text-sm text-muted">
+    <p className="text-sm text-ink-muted">
       Last updated: <time dateTime={date}>{formatIsoDate(date)}</time>
     </p>
   );

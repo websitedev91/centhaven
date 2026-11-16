@@ -9,17 +9,17 @@ import { toolModules } from '@/lib/tool-modules';
 export const metadata = { title: 'Dev: all tools', robots: { index: false, follow: false } };
 
 const badge: Record<string, string> = {
-  draft: 'bg-section text-muted border-line',
-  ready: 'bg-accent/15 text-ink border-accent',
-  live: 'bg-success/10 text-success border-success',
+  draft: 'bg-paper text-ink-muted border-line',
+  ready: 'bg-brass/15 text-ink border-brass',
+  live: 'bg-haven/10 text-haven border-haven',
 };
 
 export default function DevTools() {
   const tools = allTools();
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8">
+    <div className="wrap py-8">
       <h1 className="text-2xl">All tools ({tools.length})</h1>
-      <p className="mt-1 text-sm text-muted">Dev only. Not part of the production build.</p>
+      <p className="mt-1 text-sm text-ink-muted">Dev only. Not part of the production build.</p>
       <div className="mt-6 overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
@@ -38,7 +38,7 @@ export default function DevTools() {
               <tr key={t.slug} className="border-b border-line">
                 <td className="py-2 pr-4">
                   {t.status === 'live' ? <Link href={toolPath(t)}>{t.title}</Link> : t.title}
-                  <span className="block text-xs text-muted">{t.slug}</span>
+                  <span className="block text-xs text-ink-muted">{t.slug}</span>
                 </td>
                 <td className="py-2 pr-4">{t.category}</td>
                 <td className="py-2 pr-4">

@@ -28,7 +28,7 @@ export function ScenarioCompare(props: {
   const panelId = useId();
 
   return (
-    <section className="print-break-avoid rounded-card border border-line bg-section p-5 sm:p-6">
+    <section className="print-break-avoid rounded-panel border border-line bg-paper p-5 sm:p-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h2 className="text-lg font-bold text-ink">{title}</h2>
         <button
@@ -39,24 +39,24 @@ export function ScenarioCompare(props: {
             if (!open) track('scenario_compare', { tool: toolSlug });
             setOpen(!open);
           }}
-          className="no-print rounded-field border border-primary px-4 py-2 text-sm font-semibold text-primary hover:bg-primary hover:text-white"
+          className="no-print rounded-field border border-haven px-4 py-2 text-sm font-semibold text-haven hover:bg-haven hover:text-white"
         >
           {open ? 'Hide comparison' : buttonLabel}
         </button>
       </div>
       <div id={panelId} hidden={!open} className="mt-5">
         <div className="grid gap-5 sm:grid-cols-2">
-          <div className="rounded-card border border-line bg-bg p-4">
-            <h3 className="mb-3 text-sm font-bold uppercase tracking-wide text-muted">{aName}</h3>
+          <div className="rounded-panel border border-line bg-surface p-4">
+            <h3 className="mb-3 text-sm font-bold uppercase tracking-wide text-ink-muted">{aName}</h3>
             <div className="flex flex-col gap-4">{planA}</div>
           </div>
-          <div className="rounded-card border border-line bg-bg p-4">
-            <h3 className="mb-3 text-sm font-bold uppercase tracking-wide text-muted">{bName}</h3>
+          <div className="rounded-panel border border-line bg-surface p-4">
+            <h3 className="mb-3 text-sm font-bold uppercase tracking-wide text-ink-muted">{bName}</h3>
             <div className="flex flex-col gap-4">{planB}</div>
           </div>
         </div>
         {error ? (
-          <p role="alert" className="mt-4 text-sm font-semibold text-error">
+          <p role="alert" className="mt-4 text-sm font-semibold text-danger">
             {error}
           </p>
         ) : (
@@ -66,7 +66,7 @@ export function ScenarioCompare(props: {
                 {aName} compared with {bName}
               </caption>
               <thead>
-                <tr className="border-b border-line text-left text-muted">
+                <tr className="border-b border-line text-left text-ink-muted">
                   <th scope="col" className="py-2 pr-3 font-semibold">
                     &nbsp;
                   </th>
@@ -81,13 +81,13 @@ export function ScenarioCompare(props: {
               <tbody>
                 {rows.map((r) => (
                   <tr key={r.label} className="border-b border-line last:border-0">
-                    <th scope="row" className="py-2 pr-3 text-left font-normal text-muted">
+                    <th scope="row" className="py-2 pr-3 text-left font-normal text-ink-muted">
                       {r.label}
                     </th>
-                    <td className={`py-2 pr-3 text-right tabular-nums ${r.better === 'a' ? 'font-bold text-primary' : 'text-ink'}`}>
+                    <td className={`py-2 pr-3 text-right tabular-nums ${r.better === 'a' ? 'font-bold text-haven' : 'text-ink'}`}>
                       {r.a}
                     </td>
-                    <td className={`py-2 text-right tabular-nums ${r.better === 'b' ? 'font-bold text-primary' : 'text-ink'}`}>
+                    <td className={`py-2 text-right tabular-nums ${r.better === 'b' ? 'font-bold text-haven' : 'text-ink'}`}>
                       {r.b}
                     </td>
                   </tr>

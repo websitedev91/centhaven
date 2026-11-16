@@ -7,12 +7,12 @@ export function AffiliateSlot({ affiliateId, toolSlug }: { affiliateId?: string;
   const a = getEnabledAffiliate(affiliateId);
   if (!a) return null;
   return (
-    <aside aria-label="Partner offer" className="no-print rounded-card border border-line bg-section p-5">
-      <p className="text-xs font-semibold uppercase tracking-wide text-muted">Partner</p>
+    <aside aria-label="Partner offer" className="no-print rounded-panel border border-line bg-paper p-5">
+      <p className="text-xs font-semibold uppercase tracking-wide text-ink-muted">Partner</p>
       <p className="mt-1 font-semibold text-ink">{a.partner}</p>
-      <p className="mt-1 text-sm text-muted">{a.pitch}</p>
+      <p className="mt-1 text-sm text-ink-muted">{a.pitch}</p>
       <AffiliateLink href={a.url} affiliateId={a.id} toolSlug={toolSlug} partner={a.partner} />
-      <p className="mt-3 text-xs text-muted">{site.affiliateDisclosure}</p>
+      <p className="mt-3 text-xs text-ink-muted">{site.affiliateDisclosure}</p>
     </aside>
   );
 }

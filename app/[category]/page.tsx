@@ -47,17 +47,17 @@ export default async function CategoryPage({ params }: { params: Promise<Params>
     { name: category.name, path: `/${category.slug}` },
   ];
   return (
-    <div className="mx-auto max-w-6xl px-4 py-6">
+    <div className="wrap py-6">
       <JsonLd data={breadcrumbJsonLd(crumbs)} />
       <Breadcrumbs crumbs={crumbs} />
       <h1 className="mt-4 text-3xl sm:text-4xl">{category.name} calculators</h1>
-      <p className="mt-2 max-w-[65ch] text-lg text-muted">{category.description}</p>
+      <p className="mt-2 measure text-lg text-ink-muted">{category.description}</p>
       <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {tools.map((t) => (
           <li key={t.slug}>
-            <Link href={toolPath(t)} className="block h-full rounded-card border border-line p-5 no-underline hover:border-primary">
+            <Link href={toolPath(t)} className="block h-full rounded-panel border border-line p-5 no-underline hover:border-haven">
               <span className="text-lg font-semibold text-ink">{t.title}</span>
-              <span className="mt-1 block text-sm text-muted">{t.meta.subtitle}</span>
+              <span className="mt-1 block text-sm text-ink-muted">{t.meta.subtitle}</span>
             </Link>
           </li>
         ))}

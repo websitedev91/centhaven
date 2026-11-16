@@ -9,7 +9,7 @@ export function Sources({ sources, pureMathsNote }: { sources: readonly SourceLi
         Sources
       </h2>
       {sources.length === 0 ? (
-        <p className="mt-3 max-w-[70ch] text-muted">
+        <p className="mt-3 measure text-ink-muted">
           {pureMathsNote ??
             'This calculator uses only the numbers you enter. It does not rely on any external fees, tax rates or limits.'}
         </p>
@@ -20,7 +20,7 @@ export function Sources({ sources, pureMathsNote }: { sources: readonly SourceLi
               <a href={s.url} rel="noopener" target="_blank">
                 {new URL(s.url).hostname}
               </a>{' '}
-              <span className="text-muted">
+              <span className="text-ink-muted">
                 — effective {formatIsoDate(s.effectiveFrom)}, verified {formatIsoDate(s.verifiedOn)}
               </span>
             </li>

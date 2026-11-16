@@ -36,7 +36,7 @@ export function ToolLayout(props: {
   ];
 
   return (
-    <article className="mx-auto max-w-6xl px-4 pb-24 pt-6 lg:pb-12">
+    <article className="wrap pb-24 pt-6 lg:pb-12">
       <JsonLd
         data={webApplicationJsonLd({
           name: tool.title,
@@ -51,7 +51,7 @@ export function ToolLayout(props: {
       <Breadcrumbs crumbs={crumbs} />
       <header className="mt-4">
         <h1 className="text-3xl sm:text-4xl">{tool.title}</h1>
-        <p className="mt-2 max-w-[65ch] text-lg text-muted">{tool.meta.subtitle}</p>
+        <p className="mt-2 measure text-lg text-ink-muted">{tool.meta.subtitle}</p>
       </header>
 
       <div className="mt-6 flex flex-col gap-6">

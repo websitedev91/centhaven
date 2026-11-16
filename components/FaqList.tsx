@@ -4,20 +4,20 @@ import type { FaqItem } from '@/lib/seo';
 export function FaqList({ faqs, heading = 'Frequently asked questions' }: { faqs: readonly FaqItem[]; heading?: string }) {
   if (faqs.length === 0) return null;
   return (
-    <section aria-labelledby="faq-heading" className="max-w-[70ch]">
+    <section aria-labelledby="faq-heading" className="measure">
       <h2 id="faq-heading" className="text-2xl">
         {heading}
       </h2>
-      <div className="mt-4 divide-y divide-line rounded-card border border-line">
+      <div className="mt-4 divide-y divide-line rounded-panel border border-line">
         {faqs.map((f) => (
           <details key={f.q} className="group p-4 [&_summary::-webkit-details-marker]:hidden">
             <summary className="flex cursor-pointer list-none items-start justify-between gap-4 font-semibold text-ink">
               <h3 className="text-base">{f.q}</h3>
-              <span aria-hidden="true" className="mt-0.5 text-primary transition-transform group-open:rotate-45">
+              <span aria-hidden="true" className="mt-0.5 text-haven transition-transform group-open:rotate-45">
                 +
               </span>
             </summary>
-            <p className="mt-3 text-muted">{f.a}</p>
+            <p className="mt-3 text-ink-muted">{f.a}</p>
           </details>
         ))}
       </div>

@@ -73,7 +73,7 @@ export default function HourlyRateCalculator() {
     <div className="flex flex-col gap-6">
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,26rem)] lg:items-start">
         <form
-          className="rounded-card border border-line bg-bg p-5 shadow-sm sm:p-6"
+          className="rounded-panel border border-line bg-surface p-5 shadow-sm sm:p-6"
           aria-label="Your numbers"
           onSubmit={(e) => e.preventDefault()}
         >
@@ -149,7 +149,7 @@ export default function HourlyRateCalculator() {
           <button
             type="button"
             onClick={reset}
-            className="no-print mt-5 text-sm font-semibold text-muted underline hover:text-ink"
+            className="no-print mt-5 text-sm font-semibold text-ink-muted underline hover:text-ink"
           >
             Reset to defaults
           </button>
@@ -194,7 +194,7 @@ export default function HourlyRateCalculator() {
                     </span>
                     <span className="tabular-nums">
                       <strong>{money(result.perHour[sl.key], c)}</strong>{' '}
-                      <span className="text-muted">({formatPercent(result.perHour[sl.key] / result.hourlyRate)})</span>
+                      <span className="text-ink-muted">({formatPercent(result.perHour[sl.key] / result.hourlyRate)})</span>
                     </span>
                   </li>
                 ))}
@@ -213,13 +213,13 @@ export default function HourlyRateCalculator() {
         error={!result.ok || !resultB.ok ? FIX_FIELDS : undefined}
         planA={
           <dl className="grid grid-cols-2 gap-y-2 text-sm">
-            <dt className="text-muted">Weeks off</dt>
+            <dt className="text-ink-muted">Weeks off</dt>
             <dd className="text-right font-semibold">{s.weeksOff}</dd>
-            <dt className="text-muted">Hours per week</dt>
+            <dt className="text-ink-muted">Hours per week</dt>
             <dd className="text-right font-semibold">{s.hoursPerWeek}</dd>
-            <dt className="text-muted">Billable time</dt>
+            <dt className="text-ink-muted">Billable time</dt>
             <dd className="text-right font-semibold">{s.billablePct}%</dd>
-            <dd className="col-span-2 text-xs text-muted">Change these in the calculator above.</dd>
+            <dd className="col-span-2 text-xs text-ink-muted">Change these in the calculator above.</dd>
           </dl>
         }
         planB={

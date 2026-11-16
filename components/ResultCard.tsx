@@ -40,25 +40,25 @@ export function ResultCard(props: ResultCardProps) {
         ref={ref}
         aria-live="polite"
         aria-label="Result"
-        className="print-break-avoid rounded-card border border-line bg-bg p-5 shadow-sm sm:p-6"
+        className="print-break-avoid rounded-panel border border-line bg-surface p-5 shadow-sm sm:p-6"
       >
         {error ? (
-          <div role="alert" className="rounded-field border border-error/40 bg-error/5 p-4 text-sm font-semibold text-error">
+          <div role="alert" className="rounded-field border border-danger/40 bg-danger/5 p-4 text-sm font-semibold text-danger">
             {error}
           </div>
         ) : (
           <>
-            <p className="text-sm font-semibold text-muted">{label}</p>
+            <p className="text-sm font-semibold text-ink-muted">{label}</p>
             <p className="mt-1 flex flex-wrap items-baseline gap-x-2">
-              <span className="border-b-4 border-accent text-4xl font-bold tabular-nums text-primary sm:text-5xl">
+              <span className="border-b-4 border-brass text-4xl font-bold tabular-nums text-haven sm:text-5xl">
                 {value}
               </span>
-              <span className="text-sm text-muted">{unit}</span>
+              <span className="text-sm text-ink-muted">{unit}</span>
             </p>
             <dl className="mt-5 divide-y divide-line border-t border-line text-sm">
               {rows.map((r) => (
                 <div key={r.label} className="flex items-baseline justify-between gap-4 py-2.5">
-                  <dt className="text-muted">
+                  <dt className="text-ink-muted">
                     {r.label}
                     {r.note ? <span className="block text-xs">{r.note}</span> : null}
                   </dt>
@@ -66,20 +66,20 @@ export function ResultCard(props: ResultCardProps) {
                 </div>
               ))}
             </dl>
-            {footnote ? <div className="mt-3 text-xs text-muted">{footnote}</div> : null}
+            {footnote ? <div className="mt-3 text-xs text-ink-muted">{footnote}</div> : null}
           </>
         )}
       </section>
       {!error && offscreen ? (
         <div
-          className="no-print fixed inset-x-0 bottom-0 z-40 border-t border-line bg-bg/95 px-4 py-2.5 shadow-[0_-4px_12px_rgba(15,23,42,0.08)] backdrop-blur lg:hidden"
+          className="no-print fixed inset-x-0 bottom-0 z-40 border-t border-line bg-surface/95 px-4 py-2.5 shadow-[0_-4px_12px_rgba(15,23,42,0.08)] backdrop-blur lg:hidden"
           aria-hidden="true"
         >
           <p className="flex items-baseline justify-between gap-3 text-sm">
-            <span className="text-muted">{label}</span>
+            <span className="text-ink-muted">{label}</span>
             <span>
-              <span className="text-lg font-bold tabular-nums text-primary">{value}</span>{' '}
-              <span className="text-xs text-muted">{unit}</span>
+              <span className="text-lg font-bold tabular-nums text-haven">{value}</span>{' '}
+              <span className="text-xs text-ink-muted">{unit}</span>
             </span>
           </p>
         </div>

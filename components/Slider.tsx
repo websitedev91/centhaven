@@ -29,7 +29,7 @@ export function Slider(props: SliderProps) {
       help={help}
       error={error}
       trailing={
-        <output htmlFor={id} className="text-sm font-semibold tabular-nums text-primary">
+        <output htmlFor={id} className="text-sm font-semibold tabular-nums text-haven">
           {format(value)}
         </output>
       }
@@ -45,12 +45,12 @@ export function Slider(props: SliderProps) {
         aria-describedby={describedBy(id, help, error)}
         aria-invalid={error ? true : undefined}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="h-2 w-full cursor-pointer appearance-none rounded-full accent-primary"
+        className="h-2 w-full cursor-pointer appearance-none rounded-full accent-haven"
         style={{
-          background: `linear-gradient(to right, var(--color-primary) ${pct}%, var(--color-line) ${pct}%)`,
+          background: `linear-gradient(to right, var(--color-haven) ${pct}%, var(--color-line) ${pct}%)`,
         }}
       />
-      <div className="flex justify-between text-xs text-muted" aria-hidden="true">
+      <div className="flex justify-between text-xs text-ink-muted" aria-hidden="true">
         <span>{format(min)}</span>
         <span>{format(max)}</span>
       </div>

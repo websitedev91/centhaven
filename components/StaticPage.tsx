@@ -19,12 +19,12 @@ export function StaticPage(props: { href: StaticPageHref; title?: string; intro?
     { name: page.label, path: page.href },
   ];
   return (
-    <article className="mx-auto max-w-6xl px-4 pb-12 pt-6">
+    <article className="wrap pb-12 pt-6">
       <JsonLd data={breadcrumbJsonLd(crumbs)} />
       <Breadcrumbs crumbs={crumbs} />
       <header className="mt-4">
         <h1 className="text-3xl sm:text-4xl">{props.title ?? page.label}</h1>
-        {props.intro ? <p className="mt-2 max-w-[65ch] text-lg text-muted">{props.intro}</p> : null}
+        {props.intro ? <p className="mt-2 measure text-lg text-ink-muted">{props.intro}</p> : null}
       </header>
       <div className="prose-ch mt-8">{props.children}</div>
       <div className="mt-10">

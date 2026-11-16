@@ -1,104 +1,248 @@
 @import 'tailwindcss';
 
-/* Design tokens — PRD §10 */
+/* Design tokens: DESIGN.md §2–4 ("Ledger"). Dark mode is out of scope for v1 (§10). */
 @theme {
-  --color-primary: #0f766e;
-  --color-primary-hover: #115e59;
-  --color-accent: #f59e0b;
-  --color-bg: #ffffff;
-  --color-section: #f8fafc;
-  --color-ink: #0f172a;
-  --color-muted: #475569;
-  --color-line: #e2e8f0;
-  --color-success: #16a34a;
-  --color-error: #dc2626;
+  /* Colour (§2) */
+  --color-paper: #f6f8f7;
+  --color-surface: #ffffff;
+  --color-ink: #12302b;
+  --color-ink-muted: #4f6661;
+  --color-line: #d7e2de;
+  --color-haven: #0f766e;
+  --color-haven-deep: #0b5952;
+  --color-mint: #e4f2ee;
+  --color-brass: #b8862b;
+  --color-danger: #b42318;
+  --color-footer-bg: #12302b;
+  --color-footer-muted: #a9c2bc;
 
-  --radius-card: 12px;
-  --radius-field: 8px;
+  /* Radius hierarchy (§4): inputs/buttons, panels, pills */
+  --radius-field: 6px;
+  --radius-panel: 12px;
+  --radius-pill: 999px;
 
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /* Type (§3): one family */
+  --font-sans: var(--font-schibsted), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* Spacing (§4): 4, 8, 12, 16, 24, 32, 48 come from the 4px base (1–12); these name the big steps */
+  --spacing-section: 72px;
+  --spacing-section-lg: 112px;
+
+  --container-page: 1200px;
+}
+
+/* Type scale (§3). Mobile first; desktop sizes from the md breakpoint. */
+@utility type-display {
+  font-size: 38px;
+  line-height: 42px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  @media (width >= 48rem) {
+    font-size: 56px;
+    line-height: 60px;
+  }
+}
+@utility type-h1 {
+  font-size: 30px;
+  line-height: 36px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  @media (width >= 48rem) {
+    font-size: 40px;
+    line-height: 46px;
+  }
+}
+@utility type-h2 {
+  font-size: 26px;
+  line-height: 32px;
+  font-weight: 650;
+}
+@utility type-h3 {
+  font-size: 19px;
+  line-height: 26px;
+  font-weight: 650;
+}
+@utility type-body {
+  font-size: 17px;
+  line-height: 28px;
+  font-weight: 400;
+}
+@utility type-small {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 450;
+}
+@utility type-result {
+  font-size: 48px;
+  line-height: 52px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  @media (width >= 48rem) {
+    font-size: 64px;
+    line-height: 64px;
+  }
+}
+@utility type-figure {
+  font-size: 17px;
+  line-height: 24px;
+  font-weight: 550;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Page container (§4): max 1200px, 16px side padding on mobile, 24px from sm. */
+@utility wrap {
+  width: 100%;
+  max-width: var(--container-page);
+  margin-inline: auto;
+  padding-inline: 16px;
+  @media (width >= 40rem) {
+    padding-inline: 24px;
+  }
+}
+
+/* Readable line length for body copy (§3). */
+@utility measure {
+  max-width: 68ch;
 }
 
 @layer base {
   html {
     color: var(--color-ink);
-    background: var(--color-bg);
+    background: var(--color-paper);
     -webkit-text-size-adjust: 100%;
   }
   body {
     font-family: var(--font-sans);
-    background: var(--color-bg);
-    line-height: 1.6;
+    background: var(--color-paper);
+    font-size: 17px;
+    line-height: 28px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   h1,
   h2,
   h3 {
-    font-weight: 700;
-    line-height: 1.25;
+    color: var(--color-ink);
+    text-wrap: balance;
+  }
+  /* All numbers line up (§3). */
+  input,
+  table,
+  output,
+  .tabular {
+    font-variant-numeric: tabular-nums;
   }
   a {
-    color: var(--color-primary);
+    color: var(--color-haven);
+    text-underline-offset: 3px;
   }
   a:hover {
-    color: var(--color-primary-hover);
+    color: var(--color-haven-deep);
   }
+  /* Focus: 2px haven ring + 2px offset, everywhere (§5, §10). */
   :focus-visible {
-    outline: 2px solid var(--color-primary);
+    outline: 2px solid var(--color-haven);
     outline-offset: 2px;
+  }
+  ::selection {
+    background: var(--color-mint);
+    color: var(--color-ink);
   }
 }
 
-/* Long-form content rendered from content.mdx */
+/* Long-form content rendered from content.mdx and static pages */
 @layer components {
   .prose-ch {
-    max-width: 70ch;
+    max-width: 68ch;
   }
   .prose-ch h2 {
-    font-size: 1.5rem;
-    margin: 2.5rem 0 0.75rem;
+    font-size: 26px;
+    line-height: 32px;
+    font-weight: 650;
+    margin: 56px 0 12px;
+  }
+  .prose-ch h2:first-child {
+    margin-top: 0;
   }
   .prose-ch h3 {
-    font-size: 1.15rem;
-    margin: 1.75rem 0 0.5rem;
+    font-size: 19px;
+    line-height: 26px;
+    font-weight: 650;
+    margin: 32px 0 8px;
   }
   .prose-ch p {
-    margin: 0 0 1rem;
+    margin: 0 0 16px;
   }
   .prose-ch ul {
     list-style: disc;
     padding-left: 1.25rem;
-    margin: 0 0 1rem;
+    margin: 0 0 16px;
   }
   .prose-ch ol {
     list-style: decimal;
     padding-left: 1.25rem;
-    margin: 0 0 1rem;
+    margin: 0 0 16px;
   }
   .prose-ch li {
-    margin: 0.25rem 0;
+    margin: 4px 0;
+  }
+  .prose-ch li::marker {
+    color: var(--color-ink-muted);
   }
   .prose-ch pre {
-    background: var(--color-section);
+    background: var(--color-surface);
     border: 1px solid var(--color-line);
     border-radius: var(--radius-field);
-    padding: 1rem;
+    padding: 16px;
     overflow-x: auto;
-    font-size: 0.875rem;
-    margin: 0 0 1rem;
+    font-size: 15px;
+    line-height: 24px;
+    margin: 0 0 16px;
   }
   .prose-ch code {
     font-size: 0.9em;
   }
   .prose-ch strong {
-    font-weight: 600;
+    font-weight: 650;
+  }
+  .prose-ch a {
+    text-decoration: underline;
+    text-decoration-color: var(--color-line);
+  }
+  .prose-ch a:hover {
+    text-decoration-color: currentColor;
+  }
+  .prose-ch table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 0 16px;
+  }
+  .prose-ch th,
+  .prose-ch td {
+    border-bottom: 1px solid var(--color-line);
+    padding: 8px 12px 8px 0;
+    text-align: left;
   }
 }
 
-/* Print / PDF — PRD §2 uses window.print() */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Print / PDF (window.print()) */
 @media print {
   .no-print {
     display: none !important;
   }
+  html,
   body {
     background: #fff;
   }

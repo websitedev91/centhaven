@@ -1,17 +1,17 @@
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
-import { Inter } from 'next/font/google';
+import { Schibsted_Grotesk } from 'next/font/google';
 import { SiteHeader } from '@/components/SiteHeader';
 import { SiteFooter } from '@/components/SiteFooter';
 import { Analytics } from '@/components/Analytics';
 import { site } from '@/config/site';
 import './globals.css';
 
-const inter = Inter({
+// DESIGN.md §3: one family, variable weight axis (400–900), latin only.
+const schibsted = Schibsted_Grotesk({
   subsets: ['latin'],
-  weight: ['400', '600', '700'],
   display: 'swap',
-  variable: '--font-inter',
+  variable: '--font-schibsted',
 });
 
 export const metadata: Metadata = {
@@ -25,16 +25,16 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#0F766E',
+  themeColor: '#FFFFFF',
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={schibsted.variable}>
       <body className="flex min-h-screen flex-col">
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-50 focus:rounded-field focus:bg-bg focus:px-3 focus:py-2"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-50 focus:rounded-field focus:bg-surface focus:px-3 focus:py-2"
         >
           Skip to content
         </a>

@@ -40,9 +40,9 @@ export function ChartLazy(props: {
   }, []);
 
   return (
-    <figure className="print-break-avoid rounded-card border border-line bg-bg p-5 sm:p-6">
+    <figure className="print-break-avoid rounded-panel border border-line bg-surface p-5 sm:p-6">
       <figcaption className="text-base font-bold text-ink">{title}</figcaption>
-      {description ? <p className="mt-1 text-sm text-muted">{description}</p> : null}
+      {description ? <p className="mt-1 text-sm text-ink-muted">{description}</p> : null}
       <div ref={ref} style={{ height }} className="mt-4" aria-hidden="true">
         {visible ? children : <ChartPlaceholder />}
       </div>
@@ -52,5 +52,5 @@ export function ChartLazy(props: {
 }
 
 export function ChartPlaceholder() {
-  return <div className="h-full w-full animate-pulse rounded-field bg-section" aria-hidden="true" />;
+  return <div className="h-full w-full animate-pulse rounded-field bg-paper" aria-hidden="true" />;
 }

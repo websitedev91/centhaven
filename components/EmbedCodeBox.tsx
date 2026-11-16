@@ -32,7 +32,7 @@ export function EmbedCodeBox({ toolSlug, title }: { toolSlug: string; title: str
           rows={3}
           value={code}
           onFocus={(e) => e.currentTarget.select()}
-          className="w-full rounded-field border border-line bg-section p-3 font-mono text-xs text-ink"
+          className="w-full rounded-field border border-line bg-paper p-3 font-mono text-xs text-ink"
         />
         <button
           type="button"

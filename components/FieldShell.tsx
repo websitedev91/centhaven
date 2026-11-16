@@ -20,12 +20,12 @@ export function FieldShell(props: {
       </div>
       {children}
       {help && !error ? (
-        <p id={`${id}-help`} className="text-xs text-muted">
+        <p id={`${id}-help`} className="text-xs text-ink-muted">
           {help}
         </p>
       ) : null}
       {error ? (
-        <p id={`${id}-error`} role="alert" className="text-xs font-semibold text-error">
+        <p id={`${id}-error`} role="alert" className="text-xs font-semibold text-danger">
           {error}
         </p>
       ) : null}
@@ -40,4 +40,4 @@ export function describedBy(id: string, help?: string, error?: string): string |
 }
 
 export const fieldClass =
-  'w-full rounded-field border border-line bg-bg px-3 py-2 text-base text-ink tabular-nums shadow-sm transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 aria-[invalid=true]:border-error';
+  'w-full rounded-field border border-line bg-surface px-3 py-2 text-base text-ink tabular-nums shadow-sm transition-colors focus:border-haven focus:outline-none focus:ring-2 focus:ring-haven/30 aria-[invalid=true]:border-danger';
