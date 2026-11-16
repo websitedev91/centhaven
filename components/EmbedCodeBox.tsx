@@ -3,13 +3,14 @@
 import { useId, useState } from 'react';
 import { track } from '@/lib/analytics';
 import { site } from '@/config/site';
-import { actionButtonClass } from './actionButtonClass';
+import { actionButtonClass, primaryButtonClass } from './actionButtonClass';
+import { CheckIcon, CodeIcon } from './icons';
 
 export function embedCode(slug: string, title: string, height = 720): string {
   return `<iframe src="${site.url}/embed/${slug}" title="${title} by ${site.name}" width="100%" height="${height}" style="border:0;max-width:100%" loading="lazy"></iframe>`;
 }
 
-/** "Get embed code" toggle with a read-only code box and copy button. */
+/** "Show embed code" toggle with a read-only code box and copy button. */
 export function EmbedCodeBox({ toolSlug, title }: { toolSlug: string; title: string }) {
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -19,11 +20,11 @@ export function EmbedCodeBox({ toolSlug, title }: { toolSlug: string; title: str
   return (
     <>
       <button type="button" aria-expanded={open} aria-controls={id} onClick={() => setOpen(!open)} className={actionButtonClass}>
-        <span aria-hidden="true">{'</>'}</span>
-        Get embed code
+        <CodeIcon />
+        {open ? 'Hide embed code' : 'Show embed code'}
       </button>
-      <div id={id} hidden={!open} className="basis-full">
-        <label htmlFor={`${id}-code`} className="mb-1.5 block text-sm font-semibold text-ink">
+      <div id={id} hidden={!open} className="basis-full rounded-panel border border-line bg-surface p-5">
+        <label htmlFor={`${id}-code`} className="type-small mb-2 block font-[550] text-ink">
           Paste this on your website
         </label>
         <textarea
@@ -32,11 +33,11 @@ export function EmbedCodeBox({ toolSlug, title }: { toolSlug: string; title: str
           rows={3}
           value={code}
           onFocus={(e) => e.currentTarget.select()}
-          className="w-full rounded-field border border-line bg-paper p-3 font-mono text-xs text-ink"
+          className="w-full rounded-field border border-line bg-paper p-3 font-mono text-[13px] leading-5 text-ink focus-visible:border-haven focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-haven"
         />
         <button
           type="button"
-          className={`${actionButtonClass} mt-2`}
+          className={`${primaryButtonClass} mt-3`}
           onClick={async () => {
             track('embed_copy', { tool: toolSlug });
             try {
@@ -48,7 +49,8 @@ export function EmbedCodeBox({ toolSlug, title }: { toolSlug: string; title: str
             }
           }}
         >
-          <span aria-live="polite">{copied ? 'Copied' : 'Copy code'}</span>
+          {copied ? <CheckIcon /> : null}
+          <span aria-live="polite">{copied ? 'Embed code copied' : 'Copy embed code'}</span>
         </button>
       </div>
     </>

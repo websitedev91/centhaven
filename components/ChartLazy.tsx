@@ -40,17 +40,19 @@ export function ChartLazy(props: {
   }, []);
 
   return (
-    <figure className="print-break-avoid rounded-panel border border-line bg-surface p-5 sm:p-6">
-      <figcaption className="text-base font-bold text-ink">{title}</figcaption>
-      {description ? <p className="mt-1 text-sm text-ink-muted">{description}</p> : null}
-      <div ref={ref} style={{ height }} className="mt-4" aria-hidden="true">
-        {visible ? children : <ChartPlaceholder />}
+    <figure className="print-break-avoid rounded-panel border border-line bg-surface p-5 sm:p-8">
+      <figcaption className="type-h3 text-ink">{title}</figcaption>
+      {description ? <p className="type-small mt-1 text-ink-muted">{description}</p> : null}
+      <div className={footer ? 'mt-6 md:grid md:grid-cols-[minmax(0,240px)_minmax(0,1fr)] md:items-center md:gap-12' : 'mt-6'}>
+        <div ref={ref} style={{ height }} aria-hidden="true">
+          {visible ? children : <ChartPlaceholder />}
+        </div>
+        {footer ? <div className="mt-6 md:mt-0">{footer}</div> : null}
       </div>
-      {footer ? <div className="mt-4">{footer}</div> : null}
     </figure>
   );
 }
 
 export function ChartPlaceholder() {
-  return <div className="h-full w-full animate-pulse rounded-field bg-paper" aria-hidden="true" />;
+  return <div className="h-full w-full rounded-field bg-paper" aria-hidden="true" />;
 }

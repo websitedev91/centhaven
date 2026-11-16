@@ -126,8 +126,7 @@
     color: var(--color-ink);
     text-wrap: balance;
   }
-  /* All numbers line up (§3). */
-  input,
+  /* All numbers line up (§3). Inputs keep normal figures: this font's tnum widens "," and ".". */
   table,
   output,
   .tabular {
@@ -223,6 +222,75 @@
     border-bottom: 1px solid var(--color-line);
     padding: 8px 12px 8px 0;
     text-align: left;
+  }
+}
+
+@layer components {
+  /* Slider (DESIGN.md §5). --pct is set inline by components/Slider.tsx. */
+  .range {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 20px;
+    cursor: pointer;
+    background:
+      linear-gradient(var(--color-haven), var(--color-haven)) 0 50% / var(--pct, 0%) 4px no-repeat,
+      linear-gradient(var(--color-line), var(--color-line)) 0 50% / 100% 4px no-repeat;
+    border-radius: 999px;
+  }
+  .range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 999px;
+    background: var(--color-surface);
+    border: 2px solid var(--color-haven);
+    transition: transform 120ms ease;
+  }
+  .range::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 999px;
+    background: var(--color-surface);
+    border: 2px solid var(--color-haven);
+  }
+  .range::-moz-range-track {
+    background: transparent;
+  }
+  .range:active::-webkit-slider-thumb {
+    transform: scale(1.1);
+  }
+  .range:focus-visible {
+    outline: 2px solid var(--color-haven);
+    outline-offset: 2px;
+  }
+  .range[aria-invalid='true'] {
+    background:
+      linear-gradient(var(--color-danger), var(--color-danger)) 0 50% / var(--pct, 0%) 4px no-repeat,
+      linear-gradient(var(--color-line), var(--color-line)) 0 50% / 100% 4px no-repeat;
+  }
+
+  /* Separators inside tabular numbers keep their natural width (components/Num.tsx). */
+  .num-sep {
+    font-variant-numeric: normal;
+  }
+
+  /* Result-change motion (DESIGN.md §5): changed characters slide/fade in over 200ms. */
+  .digit-in {
+    display: inline-block;
+    animation: digit-in 200ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+}
+
+@keyframes digit-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.18em);
+  }
+  to {
+    opacity: 1;
+    transform: none;
   }
 }
 

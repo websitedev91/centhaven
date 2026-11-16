@@ -36,7 +36,7 @@ export function ToolLayout(props: {
   ];
 
   return (
-    <article className="wrap pb-24 pt-6 lg:pb-12">
+    <article className="wrap pb-24 pt-6 lg:pb-section">
       <JsonLd
         data={webApplicationJsonLd({
           name: tool.title,
@@ -49,18 +49,18 @@ export function ToolLayout(props: {
       {tool.meta.faqs.length > 0 ? <JsonLd data={faqJsonLd(tool.meta.faqs)} /> : null}
 
       <Breadcrumbs crumbs={crumbs} />
-      <header className="mt-4">
-        <h1 className="text-3xl sm:text-4xl">{tool.title}</h1>
-        <p className="mt-2 measure text-lg text-ink-muted">{tool.meta.subtitle}</p>
+      <header className="mt-6">
+        <h1 className="type-h1 measure">{tool.title}</h1>
+        <p className="mt-3 measure text-[19px] leading-[30px] text-ink-muted">{tool.meta.subtitle}</p>
       </header>
 
-      <div className="mt-6 flex flex-col gap-6">
+      <div className="mt-8 flex flex-col gap-6">
         {calculator}
         <ToolActions toolSlug={tool.slug} title={tool.title} />
         <AffiliateSlot affiliateId={tool.meta.affiliateId} toolSlug={tool.slug} />
       </div>
 
-      <div className="mt-12 flex flex-col gap-12">
+      <div className="mt-section flex flex-col gap-section">
         <div className="prose-ch">{content}</div>
         <FaqList faqs={tool.meta.faqs} />
         <RelatedTools tools={related} />

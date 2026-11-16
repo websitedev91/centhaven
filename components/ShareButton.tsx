@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { track } from '@/lib/analytics';
 import { actionButtonClass } from './actionButtonClass';
+import { CheckIcon, LinkIcon } from './icons';
 
 /** Copies the current URL (calculator state lives in the query string). */
 export function ShareButton({ toolSlug, title }: { toolSlug: string; title: string }) {
@@ -27,9 +28,9 @@ export function ShareButton({ toolSlug, title }: { toolSlug: string; title: stri
 
   return (
     <button type="button" onClick={share} className={actionButtonClass}>
-      <span aria-hidden="true">🔗</span>
+      {status === 'copied' ? <CheckIcon className="text-haven" /> : <LinkIcon />}
       <span aria-live="polite">
-        {status === 'copied' ? 'Link copied' : status === 'failed' ? 'Copy failed' : 'Share link'}
+        {status === 'copied' ? 'Link copied' : status === 'failed' ? 'Copy failed' : 'Copy share link'}
       </span>
     </button>
   );

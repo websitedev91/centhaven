@@ -21,7 +21,18 @@ export default function HourSplitChart({ split, currency }: { split: HourSplit; 
           strokeWidth={2}
           isAnimationActive={false}
         />
-        <Tooltip formatter={(v) => formatMoney(Number(v), currency)} />
+        <Tooltip
+          formatter={(v) => formatMoney(Number(v), currency)}
+          contentStyle={{
+            border: '1px solid #D7E2DE',
+            borderRadius: 6,
+            boxShadow: 'none',
+            fontSize: 14,
+            color: '#12302B',
+            fontVariantNumeric: 'tabular-nums',
+          }}
+          itemStyle={{ color: '#12302B' }}
+        />
       </PieChart>
     </ResponsiveContainer>
   );

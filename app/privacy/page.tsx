@@ -18,7 +18,7 @@ export default function PrivacyPage() {
       <h2>Your calculator inputs</h2>
       <p>
         Our calculators run entirely in your browser. The numbers you enter are not sent to us or stored on our servers.
-        When you use &ldquo;Share link&rdquo;, your inputs are saved in the page address (URL), so anyone you send the
+        When you use &ldquo;Copy share link&rdquo;, your inputs are saved in the page address (URL), so anyone you send the
         link to can see them. Only share links you are happy for others to see.
       </p>
 

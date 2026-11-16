@@ -1,6 +1,7 @@
 'use client';
 
 import { track } from '@/lib/analytics';
+import { primaryButtonClass } from './actionButtonClass';
 
 export function AffiliateLink(props: { href: string; affiliateId: string; toolSlug: string; partner: string }) {
   return (
@@ -9,7 +10,7 @@ export function AffiliateLink(props: { href: string; affiliateId: string; toolSl
       rel="sponsored nofollow noopener"
       target="_blank"
       onClick={() => track('affiliate_click', { affiliate: props.affiliateId, tool: props.toolSlug })}
-      className="mt-3 inline-flex rounded-field bg-haven px-4 py-2 text-sm font-semibold text-white no-underline hover:bg-haven-deep hover:text-white"
+      className={`${primaryButtonClass} mt-4`}
     >
       Try {props.partner}
     </a>

@@ -26,7 +26,7 @@ export default function TermsPage() {
 
       <h2>Embedding our calculators</h2>
       <p>
-        You may embed our calculators on your website with the &ldquo;Get embed code&rdquo; button, free of charge. Please
+        You may embed our calculators on your website with the &ldquo;Show embed code&rdquo; button, free of charge. Please
         keep the &ldquo;Powered by {site.name}&rdquo; link visible, and don&apos;t change the calculator or suggest that we
         endorse your site. We may stop an embed from working at any time.
       </p>

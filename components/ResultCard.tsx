@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { AnimatedNumber } from './AnimatedNumber';
+import { Num } from './Num';
 
 export interface BreakdownRow {
   label: string;
@@ -12,7 +14,7 @@ export interface ResultCardProps {
   label: string;
   /** Pre-formatted main number (formatting happens in lib/format.ts). */
   value: string;
-  /** e.g. "per hour, USD" — every result shows currency and period. */
+  /** e.g. "per hour · USD": every result shows currency and period. */
   unit: string;
   rows: readonly BreakdownRow[];
   /** Shown instead of the result when inputs can't produce one. */
@@ -20,7 +22,18 @@ export interface ResultCardProps {
   footnote?: ReactNode;
 }
 
-/** Main result + breakdown. Shows a sticky summary bar on mobile when scrolled away. */
+/** Long values step down a size so they never overflow the 4-column panel. */
+function resultSize(value: string): string {
+  if (value.length > 12) return 'type-result !text-[34px] !leading-[40px] md:!text-[44px] md:!leading-[48px]';
+  if (value.length > 9) return 'type-result !text-[40px] !leading-[44px] md:!text-[52px] md:!leading-[56px]';
+  return 'type-result';
+}
+
+/**
+ * The result panel (DESIGN.md §5): mint, 12px radius, no shadow. Main number in the
+ * `result` style with a 3px brass underline; breakdown as a two-column figure table.
+ * On mobile a slim bar at the bottom keeps the main result visible once the panel scrolls away.
+ */
 export function ResultCard(props: ResultCardProps) {
   const { label, value, unit, rows, error, footnote } = props;
   const ref = useRef<HTMLElement>(null);
@@ -40,46 +53,51 @@ export function ResultCard(props: ResultCardProps) {
         ref={ref}
         aria-live="polite"
         aria-label="Result"
-        className="print-break-avoid rounded-panel border border-line bg-surface p-5 shadow-sm sm:p-6"
+        className="print-break-avoid rounded-panel bg-mint p-5 sm:p-6"
       >
         {error ? (
-          <div role="alert" className="rounded-field border border-danger/40 bg-danger/5 p-4 text-sm font-semibold text-danger">
+          <div role="alert" className="type-small rounded-field border border-danger/40 bg-surface p-4 font-[550] text-danger">
             {error}
           </div>
         ) : (
           <>
-            <p className="text-sm font-semibold text-ink-muted">{label}</p>
-            <p className="mt-1 flex flex-wrap items-baseline gap-x-2">
-              <span className="border-b-4 border-brass text-4xl font-bold tabular-nums text-haven sm:text-5xl">
-                {value}
-              </span>
-              <span className="text-sm text-ink-muted">{unit}</span>
+            <p className="type-small font-[550] text-ink-muted">{label}</p>
+            <p className="mt-3">
+              <AnimatedNumber
+                value={value}
+                className={`${resultSize(value)} inline-block border-b-[3px] border-brass pb-1.5 text-ink`}
+              />
             </p>
-            <dl className="mt-5 divide-y divide-line border-t border-line text-sm">
+            <p className="type-small mt-3 text-ink-muted">{unit}</p>
+            <dl className="mt-6 border-t border-line">
               {rows.map((r) => (
-                <div key={r.label} className="flex items-baseline justify-between gap-4 py-2.5">
-                  <dt className="text-ink-muted">
+                <div key={r.label} className="flex items-baseline justify-between gap-4 border-b border-line py-3 last:border-b-0">
+                  <dt className="type-small text-ink-muted">
                     {r.label}
-                    {r.note ? <span className="block text-xs">{r.note}</span> : null}
+                    {r.note ? <span className="block text-[13px] leading-[18px]">{r.note}</span> : null}
                   </dt>
-                  <dd className="text-right font-semibold tabular-nums text-ink">{r.value}</dd>
+                  <dd className="type-figure text-right text-ink">
+                    <Num>{r.value}</Num>
+                  </dd>
                 </div>
               ))}
             </dl>
-            {footnote ? <div className="mt-3 text-xs text-ink-muted">{footnote}</div> : null}
+            {footnote ? <div className="type-small mt-4 text-ink-muted">{footnote}</div> : null}
           </>
         )}
       </section>
       {!error && offscreen ? (
         <div
-          className="no-print fixed inset-x-0 bottom-0 z-40 border-t border-line bg-surface/95 px-4 py-2.5 shadow-[0_-4px_12px_rgba(15,23,42,0.08)] backdrop-blur lg:hidden"
+          className="no-print fixed inset-x-0 bottom-0 z-40 border-t border-line bg-surface lg:hidden"
           aria-hidden="true"
         >
-          <p className="flex items-baseline justify-between gap-3 text-sm">
-            <span className="text-ink-muted">{label}</span>
-            <span>
-              <span className="text-lg font-bold tabular-nums text-haven">{value}</span>{' '}
-              <span className="text-xs text-ink-muted">{unit}</span>
+          <p className="wrap flex h-14 items-center justify-between gap-3">
+            <span className="type-small text-ink-muted">{label}</span>
+            <span className="flex items-baseline gap-2">
+              <span className="border-b-2 border-brass text-[22px] font-bold leading-7 tabular-nums tracking-[-0.02em] text-ink">
+                <Num>{value}</Num>
+              </span>
+              <span className="type-small text-ink-muted">{unit}</span>
             </span>
           </p>
         </div>

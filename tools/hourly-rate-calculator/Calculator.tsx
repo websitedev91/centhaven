@@ -2,7 +2,10 @@
 
 import dynamic from 'next/dynamic';
 import { useRef } from 'react';
+import { CalculatorGrid, InputsPanel } from '@/components/CalculatorGrid';
 import { ChartLazy, ChartPlaceholder } from '@/components/ChartLazy';
+import { ResetIcon } from '@/components/icons';
+import { Num } from '@/components/Num';
 import { CurrencySelect } from '@/components/CurrencySelect';
 import { InputCurrency } from '@/components/InputCurrency';
 import { InputNumber } from '@/components/InputNumber';
@@ -71,13 +74,22 @@ export default function HourlyRateCalculator() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,26rem)] lg:items-start">
-        <form
-          className="rounded-panel border border-line bg-surface p-5 shadow-sm sm:p-6"
-          aria-label="Your numbers"
-          onSubmit={(e) => e.preventDefault()}
+      <CalculatorGrid
+        inputs={
+        <InputsPanel
+          label="Your numbers"
+          footer={
+            <button
+              type="button"
+              onClick={reset}
+              className="no-print type-small inline-flex items-center gap-1.5 font-[550] text-ink-muted hover:text-ink"
+            >
+              <ResetIcon size={16} />
+              Reset to defaults
+            </button>
+          }
         >
-          <div className="grid gap-5 sm:grid-cols-2">
+          <div className="grid gap-x-6 gap-y-7 sm:grid-cols-2">
             <div className="sm:col-span-2">
               <CurrencySelect value={c} onChange={changeCurrency} />
             </div>
@@ -110,6 +122,7 @@ export default function HourlyRateCalculator() {
                 min={0}
                 max={60}
                 format={(v) => `${v}%`}
+                unit="%"
                 error={errors.taxRate}
               />
             </div>
@@ -142,21 +155,15 @@ export default function HourlyRateCalculator() {
                 min={10}
                 max={100}
                 format={(v) => `${v}%`}
+                unit="%"
                 error={errors.billablePct}
               />
             </div>
           </div>
-          <button
-            type="button"
-            onClick={reset}
-            className="no-print mt-5 text-sm font-semibold text-ink-muted underline hover:text-ink"
-          >
-            Reset to defaults
-          </button>
-        </form>
-
-        <div className="lg:sticky lg:top-4">
-          {result.ok ? (
+        </InputsPanel>
+        }
+        result={
+          result.ok ? (
             <ResultCard
               label="Minimum hourly rate"
               value={money(result.hourlyRate, c)}
@@ -175,26 +182,30 @@ export default function HourlyRateCalculator() {
             />
           ) : (
             <ResultCard label="Minimum hourly rate" value="" unit="" rows={[]} error={result.error} />
-          )}
-        </div>
-      </div>
+          )
+        }
+      />
 
       {result.ok ? (
         <ChartLazy
           title="Where each hour's rate goes"
-          description={`Of every ${money(result.hourlyRate, c)} you bill, per hour:`}
+          description={`Of every ${money(result.hourlyRate, c)} you bill, this is where it goes.`}
           height={220}
           footer={
-              <ul className="flex max-w-md flex-col gap-2 text-sm">
+              <ul className="type-small flex max-w-md flex-col border-t border-line">
                 {SLICES.map((sl) => (
-                  <li key={sl.key} className="flex items-center justify-between gap-3">
+                  <li key={sl.key} className="flex items-center justify-between gap-3 border-b border-line py-2.5">
                     <span className="flex items-center gap-2">
-                      <span className="inline-block h-3 w-3 rounded-sm" style={{ background: sl.color }} aria-hidden="true" />
+                      <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ background: sl.color }} aria-hidden="true" />
                       {sl.label}
                     </span>
-                    <span className="tabular-nums">
-                      <strong>{money(result.perHour[sl.key], c)}</strong>{' '}
-                      <span className="text-ink-muted">({formatPercent(result.perHour[sl.key] / result.hourlyRate)})</span>
+                    <span className="tabular-nums text-ink-muted">
+                      <strong className="font-[550] text-ink">
+                        <Num>{money(result.perHour[sl.key], c)}</Num>
+                      </strong>{' '}
+                      <span>
+                        (<Num>{formatPercent(result.perHour[sl.key] / result.hourlyRate)}</Num>)
+                      </span>
                     </span>
                   </li>
                 ))}
@@ -212,14 +223,14 @@ export default function HourlyRateCalculator() {
         toolSlug={SLUG}
         error={!result.ok || !resultB.ok ? FIX_FIELDS : undefined}
         planA={
-          <dl className="grid grid-cols-2 gap-y-2 text-sm">
+          <dl className="type-small grid grid-cols-2 gap-y-2">
             <dt className="text-ink-muted">Weeks off</dt>
-            <dd className="text-right font-semibold">{s.weeksOff}</dd>
+            <dd className="text-right font-[550] tabular-nums">{s.weeksOff}</dd>
             <dt className="text-ink-muted">Hours per week</dt>
-            <dd className="text-right font-semibold">{s.hoursPerWeek}</dd>
+            <dd className="text-right font-[550] tabular-nums">{s.hoursPerWeek}</dd>
             <dt className="text-ink-muted">Billable time</dt>
-            <dd className="text-right font-semibold">{s.billablePct}%</dd>
-            <dd className="col-span-2 text-xs text-ink-muted">Change these in the calculator above.</dd>
+            <dd className="text-right font-[550] tabular-nums">{s.billablePct}%</dd>
+            <dd className="col-span-2 mt-2 text-ink-muted">Change these in the calculator above.</dd>
           </dl>
         }
         planB={
@@ -249,6 +260,7 @@ export default function HourlyRateCalculator() {
               min={10}
               max={100}
               format={(v) => `${v}%`}
+                unit="%"
               error={bErrors.billablePct}
             />
           </>

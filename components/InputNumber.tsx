@@ -61,7 +61,7 @@ export function InputNumber(props: InputNumberProps) {
     <FieldShell id={id} label={label} help={help} error={err}>
       <div className="relative flex items-center">
         {prefix ? (
-          <span className="pointer-events-none absolute left-3 text-ink-muted" aria-hidden="true">
+          <span className="pointer-events-none absolute left-3 text-[17px] text-ink-muted" aria-hidden="true">
             {prefix}
           </span>
         ) : null}
@@ -81,7 +81,7 @@ export function InputNumber(props: InputNumberProps) {
           }}
         />
         {suffix ? (
-          <span className="pointer-events-none absolute right-3 text-sm text-ink-muted" aria-hidden="true">
+          <span className="type-small pointer-events-none absolute right-3 text-ink-muted" aria-hidden="true">
             {suffix}
           </span>
         ) : null}

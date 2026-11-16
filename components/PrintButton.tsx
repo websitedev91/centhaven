@@ -2,6 +2,7 @@
 
 import { track } from '@/lib/analytics';
 import { actionButtonClass } from './actionButtonClass';
+import { PrintIcon } from './icons';
 
 export function PrintButton({ toolSlug }: { toolSlug: string }) {
   return (
@@ -13,8 +14,8 @@ export function PrintButton({ toolSlug }: { toolSlug: string }) {
         window.print();
       }}
     >
-      <span aria-hidden="true">🖨️</span>
-      Print / PDF
+      <PrintIcon />
+      Print or save as PDF
     </button>
   );
 }
