@@ -1,0 +1,85 @@
+# Build the static site and upload it to Hostinger (public_html) over FTPS.
+# Runs on every push to main, or by hand from the Actions tab. Setup: docs/DEPLOY.md.
+name: Deploy to Hostinger
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      # Build first: it generates next-env.d.ts and .next/types, which the typecheck needs.
+      # postbuild fails the job if a draft/preview page, placeholder or missing og:image slips in.
+      - name: Build
+        run: npm run build
+
+      - name: Check (types, lint, tests, rates)
+        run: npm run check
+
+      - name: Budgets and safety
+        run: |
+          npm run size
+          test -f out/.htaccess
+          test -f out/404.html
+          test ! -f out/PREVIEW-BUILD-DO-NOT-DEPLOY.txt
+
+      - name: Install lftp
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+
+      # Two passes: hashed /_next assets first (no delete), then everything with --delete, so a
+      # visitor never gets a page whose scripts are not uploaded yet. .well-known (SSL renewal)
+      # is never touched.
+      - name: Upload to Hostinger
+        env:
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_REMOTE_DIR: ${{ secrets.FTP_REMOTE_DIR }}
+        run: |
+          set -euo pipefail
+          REMOTE="${FTP_REMOTE_DIR:-public_html}"
+          # FTPS (TLS) is required. Hostinger's FTP certificate usually doesn't match the host
+          # name, so it isn't verified: the connection is encrypted but not pinned.
+          lftp -u "$FTP_USERNAME","$FTP_PASSWORD" "$FTP_HOST" <<EOF
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set ssl:verify-certificate false
+          set net:max-retries 3
+          set net:timeout 30
+          mirror --reverse --only-newer --parallel=4 out/_next "$REMOTE/_next"
+          mirror --reverse --delete --parallel=4 --exclude-glob .well-known --exclude-glob .well-known/ out/ "$REMOTE"
+          bye
+          EOF
+
+      - name: Smoke test the live site
+        run: |
+          set -e
+          for path in / /freelance /freelance/hourly-rate-calculator /about /sitemap.xml /og/home.png; do
+            code=$(curl -s -o /dev/null -w "%{http_code}" "https://centhaven.com$path")
+            echo "$path -> $code"
+            test "$code" = "200"
+          done
+          code=$(curl -s -o /dev/null -w "%{http_code}" "https://centhaven.com/this-page-does-not-exist")
+          echo "404 page -> $code"
+          test "$code" = "404"

@@ -22,12 +22,12 @@ export function row(meta: ToolMeta, p: Publishing): RegistryRow {
 }
 
 export const registry: readonly RegistryRow[] = [
-  row(hourlyRate, { status: 'draft', lastUpdated: '2026-11-14' }),
-  row(hourlyToSalary, { status: 'ready', lastUpdated: '2026-11-16' }),
-  row(dayRateToSalary, { status: 'ready', lastUpdated: '2026-11-16' }),
-  row(rateIncrease, { status: 'ready', lastUpdated: '2026-11-16' }),
-  row(utilizationRate, { status: 'ready', lastUpdated: '2026-11-16' }),
-  row(breakEven, { status: 'ready', lastUpdated: '2026-11-16' }),
+  row(hourlyRate, { status: 'live', publishDate: '2026-11-16', lastUpdated: '2026-11-16' }),
+  row(hourlyToSalary, { status: 'live', publishDate: '2026-11-16', lastUpdated: '2026-11-16' }),
+  row(dayRateToSalary, { status: 'live', publishDate: '2026-11-16', lastUpdated: '2026-11-16' }),
+  row(rateIncrease, { status: 'live', publishDate: '2026-11-16', lastUpdated: '2026-11-16' }),
+  row(utilizationRate, { status: 'live', publishDate: '2026-11-16', lastUpdated: '2026-11-16' }),
+  row(breakEven, { status: 'live', publishDate: '2026-11-16', lastUpdated: '2026-11-16' }),
 ];
 
 /** Local preview builds only (see next.config.ts `env` and scripts/postbuild.mjs). */
