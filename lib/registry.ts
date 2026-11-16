@@ -11,6 +11,7 @@ import type { RegistryRow, ToolEntry, ToolMeta, ToolStatus } from './tool-types'
 import { meta as hourlyRate } from '@/tools/hourly-rate-calculator/meta';
 import { meta as hourlyToSalary } from '@/tools/hourly-to-salary-calculator/meta';
 import { meta as dayRateToSalary } from '@/tools/day-rate-to-salary-calculator/meta';
+import { meta as rateIncrease } from '@/tools/rate-increase-calculator/meta';
 
 type Publishing = Pick<ToolEntry, 'status' | 'lastUpdated' | 'publishDate' | 'reviewedBy'>;
 
@@ -22,6 +23,7 @@ export const registry: readonly RegistryRow[] = [
   row(hourlyRate, { status: 'draft', lastUpdated: '2026-11-14' }),
   row(hourlyToSalary, { status: 'ready', lastUpdated: '2026-11-16' }),
   row(dayRateToSalary, { status: 'ready', lastUpdated: '2026-11-16' }),
+  row(rateIncrease, { status: 'ready', lastUpdated: '2026-11-16' }),
 ];
 
 /** Local preview builds only (see next.config.ts `env` and scripts/postbuild.mjs). */

@@ -15,6 +15,7 @@ const calculators: Record<string, ComponentType> = {
   'hourly-rate-calculator': dynamic(() => import('@/tools/hourly-rate-calculator/Calculator')),
   'hourly-to-salary-calculator': dynamic(() => import('@/tools/hourly-to-salary-calculator/Calculator')),
   'day-rate-to-salary-calculator': dynamic(() => import('@/tools/day-rate-to-salary-calculator/Calculator')),
+  'rate-increase-calculator': dynamic(() => import('@/tools/rate-increase-calculator/Calculator')),
 };
 
 export const calculatorSlugs = Object.keys(calculators);

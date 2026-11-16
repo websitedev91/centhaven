@@ -20,6 +20,8 @@ export interface ResultCardProps {
   /** Shown instead of the result when inputs can't produce one. */
   error?: string;
   footnote?: ReactNode;
+  /** Colours the main number for signed results: haven when good, danger when bad. */
+  tone?: 'positive' | 'negative';
 }
 
 /** Long values step down a size so they never overflow the 4-column panel. */
@@ -35,7 +37,8 @@ function resultSize(value: string): string {
  * On mobile a slim bar at the bottom keeps the main result visible once the panel scrolls away.
  */
 export function ResultCard(props: ResultCardProps) {
-  const { label, value, unit, rows, error, footnote } = props;
+  const { label, value, unit, rows, error, footnote, tone } = props;
+  const toneClass = tone === 'positive' ? 'text-haven' : tone === 'negative' ? 'text-danger' : 'text-ink';
   const ref = useRef<HTMLElement>(null);
   const [offscreen, setOffscreen] = useState(false);
 
@@ -65,7 +68,7 @@ export function ResultCard(props: ResultCardProps) {
             <p className="mt-3">
               <AnimatedNumber
                 value={value}
-                className={`${resultSize(value)} inline-block border-b-[3px] border-brass pb-1.5 text-ink`}
+                className={`${resultSize(value)} inline-block border-b-[3px] border-brass pb-1.5 ${toneClass}`}
               />
             </p>
             <p className="type-small mt-3 text-ink-muted">{unit}</p>

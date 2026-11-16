@@ -188,6 +188,8 @@
   }
   .prose-ch li::marker {
     color: var(--color-ink-muted);
+    /* Chrome's UA style gives markers tabular-nums, which widens "1." in this font. */
+    font-variant-numeric: normal;
   }
   .prose-ch pre {
     background: var(--color-surface);
