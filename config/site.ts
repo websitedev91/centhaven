@@ -45,7 +45,7 @@ export const categories: readonly CategoryInfo[] = [
   },
   {
     slug: 'fees',
-    name: 'Payment & Platform Fees',
+    name: 'Fees & Payments',
     description: 'See what PayPal, Wise, Upwork and other platforms really cost you.',
   },
   {

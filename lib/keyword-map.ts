@@ -5,8 +5,11 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 export interface KeywordMapEntry {
-  /** e.g. '/freelance/hourly-rate-calculator' */
+  /** e.g. '/freelance/hourly-rate-calculator', or '/freelance/' for a category hub */
   path: string;
+  /** Category hub pages only: the "(hub: …)" name and the "Display name" field. */
+  hub?: string;
+  displayName?: string;
   primaryKeyword: string;
   secondaryKeywords: string[];
   title: string;
@@ -48,7 +51,10 @@ export function parseKeywordMap(markdown: string): KeywordMap {
     .split(/^## (?=\/)/m)
     .slice(1)
     .map((block): KeywordMapEntry => {
-      const path = block.split('\n')[0]!.trim();
+      const heading = block.split('\n')[0]!.trim();
+      const path = heading.split(/\s+/)[0]!;
+      const hub = heading.match(/\(hub:\s*([^)]+)\)/)?.[1]?.trim();
+      const displayName = field(block, /\*\*Display name:\*\*\s*(.+)/);
       const title = block.match(/\*\*Title\*\*(?:\s*\((\d+) chars\))?:\s*(.+)/);
       const meta = block.match(/\*\*Meta description\*\*(?:\s*\((\d+) chars\))?:\s*(.+)/);
       const faqStart = block.indexOf('**FAQ questions');
@@ -63,6 +69,8 @@ export function parseKeywordMap(markdown: string): KeywordMap {
               .map((l) => l.replace(/^\s+-\s+/, '').trim());
       return {
         path,
+        ...(hub ? { hub } : {}),
+        ...(displayName ? { displayName } : {}),
         primaryKeyword: (field(block, /\*\*Primary keyword:\*\*\s*(.+)/) ?? '').replace(/\s*\([^)]*\/month\)\s*$/, ''),
         secondaryKeywords: list(field(block, /\*\*Secondary keywords:\*\*\s*(.+)/)),
         title: title?.[2]?.trim() ?? '',

@@ -6,7 +6,7 @@ import { liveTools } from './registry';
 const items: SearchItem[] = [
   { title: 'Freelance Hourly Rate Calculator', href: '/freelance/hourly-rate-calculator', category: 'Freelance', terms: 'freelance hourly rate calculator freelance how much to charge per hour' },
   { title: 'Day Rate Calculator', href: '/freelance/day-rate-calculator', category: 'Freelance', terms: 'day rate calculator freelance daily rate hourly' },
-  { title: 'PayPal Fee Calculator', href: '/fees/paypal-fee-calculator', category: 'Payment & Platform Fees', terms: 'paypal fee calculator payment & platform fees' },
+  { title: 'PayPal Fee Calculator', href: '/fees/paypal-fee-calculator', category: 'Fees & Payments', terms: 'paypal fee calculator fees & payments' },
 ];
 
 describe('searchTools', () => {

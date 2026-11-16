@@ -19,17 +19,25 @@ No backend, no database, no login. Ask before adding any new dependency.
 `tools/<slug>/` → `calc.ts`, `calc.test.ts`, `schema.ts` (Zod inputs + defaults), `Calculator.tsx`, `content.mdx`, `meta.ts`.
 Register it in `lib/registry.ts`. Use the shared components in `/components`; don't rebuild layout per tool.
 
-**Currency inputs:** if a tool has a currency selector, define `CurrencyPresets` for every currency in its `schema.ts` (income/expense-style defaults that make sense in that currency) and use `switchCurrency` + `currencyVariant` from `lib/currency-defaults.ts`. Untouched fields follow the currency; typed values are kept. Add tests for the switch.
-
 ## Page order (from ToolLayout)
 Breadcrumbs → H1 + subtitle → calculator → result + breakdown → chart (if useful) → scenario compare (if useful) → share / print / embed → affiliate slot → content (what it does, formula, 2–3 examples, tips, FAQ 6–10) → related tools → sources → author box → last updated → disclaimer.
 
+## SEO rules (read before writing any page)
+- `docs/SEO.md` = on-page rules, content template, schema. `docs/seo/keyword-map.md` = each page's primary/secondary keywords, title, meta, H1, FAQ questions, internal links.
+- Copy title, meta description, H1, keywords, FAQ questions and related tools **exactly** from the keyword map into `meta.ts`. If the map has no entry for a page, stop and ask.
+- To change a page's keywords: update the keyword map first, then `meta.ts` + `content.mdx`, then add a line to `docs/seo/changelog.md`.
+
 ## Content rules
 - Simple English, short paragraphs, real numbers in examples.
-- No "Best …" titles. Title format: `{Tool name} – Free Calculator | CentHaven`.
+- No "Best …" titles. Titles, meta descriptions and H1s come **only** from `docs/seo/keyword-map.md`.
 - FAQ answers 50–80 words, no lists inside answers.
 - Disclaimer on every tool: "For estimates only. Not financial, tax or legal advice. Check with a qualified professional."
 - Author: "Built by Purushothaman". Reviewer shown only if `reviewedBy` is set.
+
+## Currency inputs
+- Every tool with money inputs uses the shared currency-defaults pattern: per-currency starting values live in the tool's `schema.ts`; switching currency swaps them only while the user hasn't edited the inputs.
+- Standard currency list: USD, GBP, EUR, CAD, AUD, INR. INR values use Indian digit grouping (₹12,00,000).
+- **Currency inputs:** if a tool has a currency selector, define `CurrencyPresets` for every currency in its `schema.ts` (income/expense-style defaults that make sense in that currency) and use `switchCurrency` + `currencyVariant` from `lib/currency-defaults.ts`. Untouched fields follow the currency; typed values are kept. Add tests for the switch.
 
 ## Quality gates (before `ready`)
 1. Works at 375px and 1280px

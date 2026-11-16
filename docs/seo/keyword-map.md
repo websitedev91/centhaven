@@ -408,3 +408,54 @@
   - Where should I keep my emergency fund?
   - How fast should I build it?
 - **Internal links to:** /freelance/hourly-rate-calculator, /business/break-even-calculator, /salary/hourly-to-salary-calculator
+
+---
+
+# Category hub pages
+
+Hub pages target a broad keyword; tools target the long tail. Hubs go live together with their first live tool.
+
+## /freelance/ (hub: Freelance)
+
+- **Primary keyword:** freelance calculators
+- **Secondary keywords:** freelance rate calculator, freelance pricing tools
+- **Title** (49 chars): Freelance Calculators – Rates, Pricing and Quotes
+- **Meta description** (144 chars): Free calculators for freelancers: set your hourly or day rate, plan a rate increase, price projects and retainers, and see what you really earn.
+- **H1:** Freelance Calculators
+- **Display name:** Freelance
+
+## /fees/ (hub: Fees & Payments)
+
+- **Primary keyword:** payment fee calculators
+- **Secondary keywords:** paypal fee calculator, stripe fee calculator, upwork fee calculator
+- **Title** (54 chars): Payment Fee Calculators – PayPal, Stripe, Wise, Upwork
+- **Meta description** (151 chars): See what PayPal, Stripe, Wise, Payoneer, Upwork and Fiverr take from your payments, using each company's official fees, and keep more of what you earn.
+- **H1:** Payment and Platform Fee Calculators
+- **Display name:** Fees & Payments
+
+## /salary/ (hub: Salary & Pay)
+
+- **Primary keyword:** salary calculators
+- **Secondary keywords:** hourly to salary calculator, pay calculator
+- **Title** (54 chars): Salary & Pay Calculators – Hourly, Salary and Day Rate
+- **Meta description** (145 chars): Convert hourly wages, salaries and day rates, compare job offers and contractor pay. Simple, free salary and pay calculators with clear examples.
+- **H1:** Salary & Pay Calculators
+- **Display name:** Salary & Pay
+
+## /business/ (hub: Small Business)
+
+- **Primary keyword:** small business calculators
+- **Secondary keywords:** break even calculator, business finance calculators
+- **Title** (55 chars): Small Business Calculators – Break-Even and Utilization
+- **Meta description** (140 chars): Free calculators for small businesses and agencies: find your break-even point, track billable utilization and plan depreciation in minutes.
+- **H1:** Small Business Calculators
+- **Display name:** Small Business
+
+## /personal-finance/ (hub: Personal Finance)
+
+- **Primary keyword:** personal finance calculators
+- **Secondary keywords:** emergency fund calculator, savings calculator
+- **Title** (50 chars): Personal Finance Calculators – Save and Plan Ahead
+- **Meta description** (142 chars): Plan your emergency fund and savings goals with simple, free personal finance calculators, built for people with a steady or irregular income.
+- **H1:** Personal Finance Calculators
+- **Display name:** Personal Finance

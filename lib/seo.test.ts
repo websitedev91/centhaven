@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest';
 import { absoluteUrl, breadcrumbJsonLd, faqJsonLd, jsonLdString, webApplicationJsonLd, wordCount } from './seo';
 import { loadKeywordMap, parseKeywordMap } from './keyword-map';
 import { registry, toolPath } from './registry';
+import { categories } from '@/config/site';
 
 describe('seo helpers', () => {
   it('builds absolute urls', () => {
@@ -122,6 +123,31 @@ describe('keyword map integrity', () => {
     const metas = keywordMap.entries.map((e) => e.description);
     expect(new Set(titles).size).toBe(titles.length);
     expect(new Set(metas).size).toBe(metas.length);
+  });
+});
+
+describe('category hub entries', () => {
+  const hubs = keywordMap.entries.filter((e) => e.hub);
+
+  it('parses every hub with a display name', () => {
+    expect(hubs.map((h) => h.path)).toEqual(['/freelance/', '/fees/', '/salary/', '/business/', '/personal-finance/']);
+    for (const h of hubs) expect(h.displayName, h.path).toBe(h.hub);
+  });
+
+  it.each(hubs.map((h) => [h.path, h] as const))('%s keeps title ≤ 60, meta 140–160 and correct stated counts', (_p, h) => {
+    expect(h.title.length).toBeLessThanOrEqual(60);
+    expect(h.description.length).toBeGreaterThanOrEqual(140);
+    expect(h.description.length).toBeLessThanOrEqual(160);
+    expect(h.title.length).toBe(h.titleStatedLength);
+    expect(h.description.length).toBe(h.descriptionStatedLength);
+  });
+
+  it('every configured category has a hub entry, and uses its display name', () => {
+    for (const c of categories) {
+      const hub = hubs.find((h) => h.path === `/${c.slug}/`);
+      expect(hub, `keyword map has no hub entry for /${c.slug}/`).toBeDefined();
+      expect(c.name).toBe(hub?.displayName);
+    }
   });
 });
 
