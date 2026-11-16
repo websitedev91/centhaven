@@ -5,5 +5,12 @@
     "url": "",
     "pitch": "Send professional invoices and get paid faster.",
     "enabled": false
+  },
+  {
+    "id": "time-tracking-software",
+    "partner": "Time tracking software (partner to be chosen)",
+    "url": "",
+    "pitch": "Track billable hours automatically and see your utilization each week.",
+    "enabled": false
   }
 ]
