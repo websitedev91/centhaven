@@ -4,6 +4,7 @@ import { ToolActions } from './ToolActions';
 import { AffiliateSlot } from './AffiliateSlot';
 import { FaqList } from './FaqList';
 import { RelatedTools } from './RelatedTools';
+import { ToolRail } from './ToolRail';
 import { Sources } from './Sources';
 import { AuthorBox } from './AuthorBox';
 import { LastUpdated } from './LastUpdated';
@@ -26,8 +27,15 @@ export function ToolLayout(props: {
   content: ReactNode;
   related: readonly RegistryRow[];
   sources: readonly SourceLink[];
+  /** H2s of content.mdx for the "On this page" rail (lib/headings.ts). */
+  contentSections?: { id: string; text: string }[];
 }) {
-  const { tool, categoryName, calculator, content, related, sources } = props;
+  const { tool, categoryName, calculator, content, related, sources, contentSections = [] } = props;
+  const sections = [
+    ...contentSections,
+    ...(tool.meta.faq.length > 0 ? [{ id: 'faq', text: 'Frequently asked questions' }] : []),
+    { id: 'sources', text: 'Sources' },
+  ];
   const path = toolPath(tool);
   const crumbs: Crumb[] = [
     { name: 'Home', path: '/' },
@@ -60,15 +68,23 @@ export function ToolLayout(props: {
         <AffiliateSlot affiliateId={tool.meta.affiliateId} toolSlug={tool.slug} />
       </div>
 
-      <div className="mt-section flex flex-col gap-section">
-        <div className="prose-ch">{content}</div>
-        <FaqList faqs={tool.meta.faq} />
-        <RelatedTools tools={related} />
-        <Sources sources={sources} />
-        <div className="flex flex-col gap-4">
-          <AuthorBox reviewedBy={tool.reviewedBy} />
-          <LastUpdated date={tool.lastUpdated} />
-          <Disclaimer />
+      {/* Content column (68ch) + right rail on desktop (DESIGN.md §9). */}
+      <div className="mt-section lg:grid lg:grid-cols-12 lg:gap-8">
+        <div className="flex min-w-0 flex-col gap-section lg:col-span-8">
+          <div className="prose-ch">{content}</div>
+          <FaqList faqs={tool.meta.faq} />
+          <div className="lg:hidden">
+            <RelatedTools tools={related} />
+          </div>
+          <Sources sources={sources} />
+          <div className="flex flex-col gap-4">
+            <AuthorBox reviewedBy={tool.reviewedBy} />
+            <LastUpdated date={tool.lastUpdated} />
+            <Disclaimer />
+          </div>
+        </div>
+        <div className="hidden lg:col-span-3 lg:col-start-10 lg:block">
+          <ToolRail sections={sections} related={related} />
         </div>
       </div>
     </article>
