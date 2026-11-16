@@ -90,6 +90,33 @@ export function faqJsonLd(faqs: readonly FaqItem[]) {
   };
 }
 
+/** Category hub: CollectionPage with an ItemList of its live tools (SEO.md §4). */
+export function collectionPageJsonLd(opts: {
+  name: string;
+  description: string;
+  path: string;
+  items: readonly { name: string; path: string }[];
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: opts.name,
+    description: opts.description,
+    url: absoluteUrl(opts.path),
+    isPartOf: { '@type': 'WebSite', name: site.name, url: site.url },
+    mainEntity: {
+      '@type': 'ItemList',
+      numberOfItems: opts.items.length,
+      itemListElement: opts.items.map((item, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: item.name,
+        url: absoluteUrl(item.path),
+      })),
+    },
+  };
+}
+
 /** Serialise JSON-LD safely for a <script> tag (escapes `<` so content can't close the tag). */
 export function jsonLdString(data: unknown): string {
   return JSON.stringify(data).replace(/</g, '\\u003c');

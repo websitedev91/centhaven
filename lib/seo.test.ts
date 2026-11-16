@@ -1,10 +1,11 @@
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { absoluteUrl, breadcrumbJsonLd, faqJsonLd, jsonLdString, webApplicationJsonLd, wordCount } from './seo';
 import { loadKeywordMap, parseKeywordMap } from './keyword-map';
 import { registry, toolPath } from './registry';
 import { categories } from '@/config/site';
+import { getHub, hubs as hubMetas } from './hubs';
 
 describe('seo helpers', () => {
   it('builds absolute urls', () => {
@@ -140,6 +141,47 @@ describe('category hub entries', () => {
     expect(h.description.length).toBeLessThanOrEqual(160);
     expect(h.title.length).toBe(h.titleStatedLength);
     expect(h.description.length).toBe(h.descriptionStatedLength);
+  });
+
+  it('every category that has a tool has hub meta and a hub guide', () => {
+    for (const cat of new Set(registry.map((t) => t.category))) {
+      expect(getHub(cat), `hubs/${cat}/meta.ts missing (and register it in lib/hubs.ts)`).toBeDefined();
+      expect(existsSync(join(process.cwd(), 'hubs', cat, 'content.mdx')), `hubs/${cat}/content.mdx missing`).toBe(true);
+    }
+  });
+
+  describe.each(hubMetas.map((h) => [h.slug, h] as const))('hub %s', (slug, h) => {
+    const entry = keywordMap.entries.find((e) => e.path === `/${slug}/`);
+
+    it('copies title, description, H1 and keywords exactly from the keyword map', () => {
+      expect(entry, `no keyword map hub entry for /${slug}/`).toBeDefined();
+      expect(h.title).toBe(entry?.title);
+      expect(h.description).toBe(entry?.description);
+      expect(h.h1).toBe(entry?.h1);
+      expect(h.primaryKeyword).toBe(entry?.primaryKeyword);
+      expect([...h.secondaryKeywords]).toEqual(entry?.secondaryKeywords);
+    });
+
+    it('has a 2–3 sentence intro with the primary keyword', () => {
+      const sentences = h.intro.split(/(?<=[.!?])\s+/).filter(Boolean);
+      expect(sentences.length).toBeGreaterThanOrEqual(2);
+      expect(sentences.length).toBeLessThanOrEqual(3);
+      expect(norm(h.intro)).toContain(norm(h.primaryKeyword));
+    });
+
+    it('has a 300–500 word guide', () => {
+      const words = wordCount(prose(readFileSync(join(process.cwd(), 'hubs', slug, 'content.mdx'), 'utf8')));
+      expect(words).toBeGreaterThanOrEqual(300);
+      expect(words).toBeLessThanOrEqual(500);
+    });
+
+    it('answers FAQs in 50–80 words, no lists', () => {
+      for (const f of h.faq) {
+        const n = wordCount(f.a);
+        expect(n, `"${f.q}" has ${n} words`).toBeGreaterThanOrEqual(50);
+        expect(n, `"${f.q}" has ${n} words`).toBeLessThanOrEqual(80);
+      }
+    });
   });
 
   it('every configured category has a hub entry, and uses its display name', () => {
