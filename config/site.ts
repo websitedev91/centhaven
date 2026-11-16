@@ -13,15 +13,16 @@ export const site = {
 /**
  * Static pages (PRD §11). Header/footer/sitemap include only pages marked `built: true`, so we
  * never link to a 404. `updated` is shown on the page and used as sitemap lastmod.
+ * `group` places the link in the footer's Company or Legal column (DESIGN.md §7).
  */
 export const staticPages = [
-  { href: '/methodology', label: 'Methodology', built: true, header: true, updated: '2026-11-14' },
-  { href: '/about', label: 'About', built: true, header: true, updated: '2026-11-14' },
-  { href: '/contact', label: 'Contact', built: true, header: false, updated: '2026-11-14' },
-  { href: '/disclaimer', label: 'Disclaimer', built: true, header: false, updated: '2026-11-14' },
-  { href: '/privacy', label: 'Privacy', built: true, header: false, updated: '2026-11-14' },
-  { href: '/terms', label: 'Terms', built: true, header: false, updated: '2026-11-14' },
-  { href: '/affiliate-disclosure', label: 'Affiliate disclosure', built: true, header: false, updated: '2026-11-14' },
+  { href: '/methodology', label: 'Methodology', built: true, header: true, group: 'company', updated: '2026-11-14' },
+  { href: '/about', label: 'About', built: true, header: true, group: 'company', updated: '2026-11-14' },
+  { href: '/contact', label: 'Contact', built: true, header: false, group: 'company', updated: '2026-11-14' },
+  { href: '/disclaimer', label: 'Disclaimer', built: true, header: false, group: 'legal', updated: '2026-11-14' },
+  { href: '/privacy', label: 'Privacy', built: true, header: false, group: 'legal', updated: '2026-11-14' },
+  { href: '/terms', label: 'Terms', built: true, header: false, group: 'legal', updated: '2026-11-14' },
+  { href: '/affiliate-disclosure', label: 'Affiliate disclosure', built: true, header: false, group: 'legal', updated: '2026-11-14' },
 ] as const;
 
 export type StaticPageHref = (typeof staticPages)[number]['href'];
