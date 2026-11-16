@@ -1,51 +1,79 @@
-// Initial JS per page type, gzipped, measured ON TOP of the Next.js + React runtime
-// (DESIGN.md §10 budgets, method approved 2026-11-16). Run after `next build`.
+// Initial JS per built page, gzipped, measured ON TOP of the Next.js + React runtime
+// (DESIGN.md §10 budgets, method approved 2026-11-16). Run after a build (`npm run build`
+// or `npm run build:preview` to include draft tools).
+//
+// Counts every JS chunk a page's HTML references: its <script> tags plus the chunks named in
+// the inline RSC payload, which is how lazily loaded calculators are pulled in. The legacy
+// polyfill (nomodule, skipped by modern browsers) and the shared runtime are not counted.
+// Known gap: small shared chunks that a lazy calculator chunk loads at runtime are not named in
+// the HTML (≈4 KB on tool pages, checked in a real browser on 2026-11-16), so treat tool-page
+// numbers as slightly low and keep headroom against the budget.
 // Usage: node scripts/js-size.mjs  → prints a table, exits 1 if a budget is exceeded.
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
-import { runInNewContext } from 'node:vm';
 import { gzipSync } from 'node:zlib';
 
-const NEXT = join(process.cwd(), '.next');
+const ROOT = process.cwd();
+const OUT = join(ROOT, 'out');
+const NEXT = join(ROOT, '.next');
 const KB = 1024;
-/** Route (as in .next/server/app) → budget in KB, app code only. */
-const BUDGETS = { '/': 100, '/[category]/[tool]': 120 };
+const BUDGET = { home: 100, tool: 120 };
 
-const gz = (file) => gzipSync(readFileSync(join(NEXT, file))).length;
-const buildManifest = JSON.parse(readFileSync(join(NEXT, 'build-manifest.json'), 'utf8'));
-const framework = new Set(buildManifest.rootMainFiles);
-const frameworkSize = [...framework].reduce((n, f) => n + gz(f), 0);
+if (!existsSync(OUT)) {
+  console.error('js-size: out/ not found. Run a build first.');
+  process.exit(1);
+}
 
-function manifests(dir) {
+const manifest = JSON.parse(readFileSync(join(NEXT, 'build-manifest.json'), 'utf8'));
+const runtime = new Set(manifest.rootMainFiles.map((f) => f.replace(/^static\//, '')));
+const polyfill = new Set((manifest.polyfillFiles ?? []).map((f) => f.replace(/^static\//, '')));
+
+const sizes = new Map();
+function gz(chunk) {
+  if (!sizes.has(chunk)) {
+    const file = join(OUT, '_next', 'static', chunk);
+    sizes.set(chunk, existsSync(file) ? gzipSync(readFileSync(file)).length : 0);
+  }
+  return sizes.get(chunk);
+}
+const runtimeSize = [...runtime].reduce((n, c) => n + gz(c), 0);
+
+function htmlFiles(dir) {
   return readdirSync(dir).flatMap((name) => {
     const p = join(dir, name);
-    if (statSync(p).isDirectory()) return manifests(p);
-    return name === 'page_client-reference-manifest.js' ? [p] : [];
+    if (statSync(p).isDirectory()) return name === '_next' ? [] : htmlFiles(p);
+    return name.endsWith('.html') ? [p] : [];
   });
 }
 
+function pageType(route, html) {
+  if (route === '/') return 'home';
+  if (/^\/[^/]+\/[^/]+$/.test(route) && html.includes('"WebApplication"')) return 'tool';
+  if (html.includes('"CollectionPage"') || /^\/[^/]+$/.test(route) === false) return 'other';
+  return 'page';
+}
+
 const rows = [];
-for (const file of manifests(join(NEXT, 'server', 'app'))) {
-  const route = '/' + relative(join(NEXT, 'server', 'app'), file).replace(/\\/g, '/').replace(/\/?page_client-reference-manifest\.js$/, '');
-  if (route.startsWith('/_') || route.startsWith('/dev')) continue;
-  const ctx = { globalThis: {} };
-  ctx.self = ctx.globalThis;
-  runInNewContext(readFileSync(file, 'utf8'), ctx);
-  const m = Object.values(ctx.globalThis.__RSC_MANIFEST)[0];
-  const pageKey = Object.keys(m.entryJSFiles).find((k) => k.endsWith('/page'));
-  const layoutKey = Object.keys(m.entryJSFiles).find((k) => k.endsWith('app/layout'));
-  const chunks = new Set([...(m.entryJSFiles[layoutKey] ?? []), ...(m.entryJSFiles[pageKey] ?? [])].filter((c) => !framework.has(c)));
-  const size = [...chunks].reduce((n, c) => n + (existsSync(join(NEXT, c)) ? gz(c) : 0), 0);
-  rows.push({ route: route === '/' ? '/' : route, size, budget: BUDGETS[route === '/' ? '/' : route] });
+for (const file of htmlFiles(OUT)) {
+  const rel = relative(OUT, file).replace(/\\/g, '/').replace(/\.html$/, '');
+  const route = rel === 'index' ? '/' : `/${rel}`;
+  if (route === '/404' || route.startsWith('/_')) continue;
+  const html = readFileSync(file, 'utf8');
+  const chunks = new Set(
+    [...html.matchAll(/static\/(chunks\/[A-Za-z0-9_.~-]+\.js)/g)].map((m) => m[1]).filter((c) => !runtime.has(c) && !polyfill.has(c)),
+  );
+  const size = [...chunks].reduce((n, c) => n + gz(c), 0);
+  const type = pageType(route, html);
+  rows.push({ route, type, size, budget: BUDGET[type] });
 }
 
 rows.sort((a, b) => a.route.localeCompare(b.route));
-console.log(`js-size: Next.js + React runtime ${(frameworkSize / KB).toFixed(1)} KB gz (not counted)`);
+console.log(`js-size: Next.js + React runtime ${(runtimeSize / KB).toFixed(1)} KB gz (not counted)`);
 let failed = false;
 for (const r of rows) {
   const over = r.budget !== undefined && r.size > r.budget * KB;
   failed ||= over;
   const budget = r.budget === undefined ? '' : ` / ${r.budget} KB${over ? '  OVER BUDGET' : ''}`;
-  console.log(`  ${r.route.padEnd(28)} ${(r.size / KB).toFixed(1).padStart(6)} KB${budget}`);
+  console.log(`  ${r.route.padEnd(44)} ${(r.size / KB).toFixed(1).padStart(6)} KB${budget}`);
 }
 if (failed) process.exit(1);

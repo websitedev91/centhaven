@@ -48,6 +48,16 @@ export const categories: readonly CategoryInfo[] = [
     name: 'Payment & Platform Fees',
     description: 'See what PayPal, Wise, Upwork and other platforms really cost you.',
   },
+  {
+    slug: 'salary',
+    name: 'Salary & Pay',
+    description: 'Convert hourly pay to a salary, compare job offers and see what a pay change is worth.',
+  },
+  {
+    slug: 'business',
+    name: 'Small Business',
+    description: 'Break-even, utilisation and other numbers that keep a small business or freelance practice healthy.',
+  },
 ];
 
 export function getCategory(slug: string): CategoryInfo | undefined {

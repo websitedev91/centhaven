@@ -97,7 +97,8 @@ export function ResultCard(props: ResultCardProps) {
               <span className="border-b-2 border-brass text-[22px] font-bold leading-7 tabular-nums tracking-[-0.02em] text-ink">
                 <Num>{value}</Num>
               </span>
-              <span className="type-small text-ink-muted">{unit}</span>
+              {/* Period only ("per year"): the full unit is in the panel above. */}
+              <span className="type-small whitespace-nowrap text-ink-muted">{unit.split(' · ')[0]}</span>
             </span>
           </p>
         </div>

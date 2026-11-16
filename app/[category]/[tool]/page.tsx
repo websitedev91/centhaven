@@ -6,7 +6,8 @@ import { getLiveTool, liveRelated, liveTools, toolPath } from '@/lib/registry';
 import { getSourceLinks } from '@/lib/rates';
 import { buildMetadata } from '@/lib/seo';
 import { PLACEHOLDER, withPlaceholder } from '@/lib/static-params';
-import { toolModules } from '@/lib/tool-modules';
+import { toolContent } from '@/lib/tool-modules';
+import { ToolCalculator } from '@/components/ToolCalculator';
 
 export const dynamicParams = false;
 
@@ -22,9 +23,9 @@ export function generateStaticParams(): Params[] {
 function resolve(params: Params) {
   const tool = getLiveTool(params.category, params.tool);
   const category = getCategory(params.category);
-  const modules = tool ? toolModules[tool.slug] : undefined;
-  if (!tool || !category || !modules) return undefined;
-  return { tool, category, modules };
+  const Content = tool ? toolContent[tool.slug] : undefined;
+  if (!tool || !category || !Content) return undefined;
+  return { tool, category, Content };
 }
 
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
@@ -36,13 +37,12 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
 export default async function ToolPage({ params }: { params: Promise<Params> }) {
   const r = resolve(await params);
   if (!r) notFound();
-  const { tool, category, modules } = r;
-  const { Calculator, Content } = modules;
+  const { tool, category, Content } = r;
   return (
     <ToolLayout
       tool={tool}
       categoryName={category.name}
-      calculator={<Calculator />}
+      calculator={<ToolCalculator slug={tool.slug} />}
       content={<Content />}
       related={liveRelated(tool)}
       sources={getSourceLinks(tool.meta.rates)}

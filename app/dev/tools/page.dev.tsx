@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { allTools, toolPath } from '@/lib/registry';
-import { toolModules } from '@/lib/tool-modules';
+import { toolContent } from '@/lib/tool-modules';
+import { calculatorSlugs } from '@/components/ToolCalculator';
 
 /**
  * Dev-only review page. The `.dev.tsx` extension is only registered in `next dev`
@@ -47,7 +48,7 @@ export default function DevTools() {
                 <td className="py-2 pr-4">{t.risk}</td>
                 <td className="py-2 pr-4">{t.lastUpdated}</td>
                 <td className="py-2 pr-4">{t.reviewedBy ?? '—'}</td>
-                <td className="py-2">{toolModules[t.slug] ? 'yes' : 'no'}</td>
+                <td className="py-2">{toolContent[t.slug] && calculatorSlugs.includes(t.slug) ? 'yes' : 'no'}</td>
               </tr>
             ))}
           </tbody>

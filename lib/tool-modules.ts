@@ -1,16 +1,13 @@
 import type { ComponentType } from 'react';
-import HourlyRateCalculator from '@/tools/hourly-rate-calculator/Calculator';
 import HourlyRateContent from '@/tools/hourly-rate-calculator/content.mdx';
+import HourlyToSalaryContent from '@/tools/hourly-to-salary-calculator/content.mdx';
 
 /**
- * Maps a tool slug to its UI modules. Server-side only (used by the tool page).
- * Add one line per tool when it is created.
+ * Maps a tool slug to its long-form content (server-rendered MDX, no client JS).
+ * Add one line per tool when it is created, plus its calculator in components/ToolCalculator.tsx
+ * (kept there so each page only ships its own calculator's JS).
  */
-export interface ToolModules {
-  Calculator: ComponentType;
-  Content: ComponentType;
-}
-
-export const toolModules: Record<string, ToolModules> = {
-  'hourly-rate-calculator': { Calculator: HourlyRateCalculator, Content: HourlyRateContent },
+export const toolContent: Record<string, ComponentType> = {
+  'hourly-rate-calculator': HourlyRateContent,
+  'hourly-to-salary-calculator': HourlyToSalaryContent,
 };

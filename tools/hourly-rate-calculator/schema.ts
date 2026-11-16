@@ -41,16 +41,4 @@ export const planBSchema = z.pick(hourlyRateSchema, { weeksOff: true, hoursPerWe
 export type PlanBState = z.infer<typeof planBSchema>;
 export const planBDefaults: PlanBState = { weeksOff: 6, hoursPerWeek: 30, billablePct: 90 };
 
-export type FieldErrors<T> = Partial<Record<keyof T, string>>;
-
-/** First error message per field, for inline display. */
-export function fieldErrors<T extends Record<string, unknown>>(schema: z.ZodMiniType<T>, state: unknown): FieldErrors<T> {
-  const result = schema.safeParse(state);
-  if (result.success) return {};
-  const out: FieldErrors<T> = {};
-  for (const issue of result.error.issues) {
-    const key = issue.path[0] as keyof T | undefined;
-    if (key !== undefined && out[key] === undefined) out[key] = issue.message;
-  }
-  return out;
-}
+export { fieldErrors, type FieldErrors } from '@/lib/field-errors';

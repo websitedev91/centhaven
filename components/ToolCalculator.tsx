@@ -1,0 +1,24 @@
+'use client';
+
+import dynamic from 'next/dynamic';
+import type { ComponentType } from 'react';
+
+/**
+ * Picks a tool's calculator by slug. The dynamic imports live in a CLIENT module on purpose:
+ * that is where Next code-splits them, so each tool page downloads only its own calculator
+ * (a static or server-side import would put every calculator on every tool page).
+ * They still render on the server, so the default result is in the static HTML.
+ *
+ * Add one line per tool when it is created (and its Content in lib/tool-modules.ts).
+ */
+const calculators: Record<string, ComponentType> = {
+  'hourly-rate-calculator': dynamic(() => import('@/tools/hourly-rate-calculator/Calculator')),
+  'hourly-to-salary-calculator': dynamic(() => import('@/tools/hourly-to-salary-calculator/Calculator')),
+};
+
+export const calculatorSlugs = Object.keys(calculators);
+
+export function ToolCalculator({ slug }: { slug: string }) {
+  const Calculator = calculators[slug];
+  return Calculator ? <Calculator /> : null;
+}
