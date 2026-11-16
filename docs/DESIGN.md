@@ -170,7 +170,7 @@ The hero opens with the most characteristic thing on the site: **a live calculat
 
 **Tool page:** keep the PRD §6 order. Desktop layout: calculator (8 cols) + sticky result (4 cols). Below that, the content column (68ch) on the left and a **right rail** (sticky on desktop) with "On this page" links + related tools. That fills the empty right side.
 
-**Static pages (About, Methodology, legal):** single 68ch column, clear headings, a "Last updated" date. Methodology is a key trust page: give it the same care as the homepage.
+**Static pages (About, Methodology, legal):** single 68ch column, clear headings, no author name or "Last updated" date (site policy). Methodology is a key trust page: give it the same care as the homepage.
 
 **404:** a centred short message plus search and links to the top categories.
 

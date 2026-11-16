@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import { Schibsted_Grotesk } from 'next/font/google';
-import { Analytics } from '@/components/Analytics';
 import { site } from '@/config/site';
 import './globals.css';
 
@@ -26,13 +25,15 @@ export const viewport: Viewport = {
   themeColor: '#FFFFFF',
 };
 
-/** html, font and analytics only. Header/footer live in app/(site)/layout.tsx so embeds can omit them. */
+/**
+ * html and font only. Header, footer and Google Tag Manager live in SiteChrome (app/(site)/layout.tsx
+ * and the 404), so /embed/* pages load none of them.
+ */
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={schibsted.variable}>
       <body className="flex min-h-screen flex-col">
         {children}
-        <Analytics />
       </body>
     </html>
   );

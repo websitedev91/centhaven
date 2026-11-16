@@ -1,8 +1,12 @@
 import type { ReactNode } from 'react';
+import { Analytics } from './Analytics';
 import { SiteFooter } from './SiteFooter';
 import { SiteHeader } from './SiteHeader';
 
-/** Skip link + header + main + footer. Used by app/(site)/layout.tsx and the root 404 page. */
+/**
+ * Skip link + header + main + footer + Google Tag Manager. Used by app/(site)/layout.tsx and the
+ * root 404 page. Embeds (app/(embed)) don't use it, so they never load GTM.
+ */
 export function SiteChrome({ children }: { children: ReactNode }) {
   return (
     <>
@@ -17,6 +21,7 @@ export function SiteChrome({ children }: { children: ReactNode }) {
         {children}
       </main>
       <SiteFooter />
+      <Analytics />
     </>
   );
 }

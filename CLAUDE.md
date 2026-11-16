@@ -33,6 +33,8 @@ Breadcrumbs → H1 + subtitle → calculator → result + breakdown → chart (i
 - FAQ answers 50–80 words, no lists inside answers.
 - Disclaimer on every tool: "For estimates only. Not financial, tax or legal advice. Check with a qualified professional."
 - No author name and no "Last updated" date on any page (Puru, 2026-11-16). Reviewer shown only if `reviewedBy` is set.
+- **Exception:** tools that use `/rates/*.json` show "Rates checked on {verifiedOn date} · Source: {link}" for each rate in the Sources section (`components/Sources.tsx`). Pure-maths tools show no date.
+- Google Tag Manager loads on site pages only, never on `/embed/*`.
 
 ## Currency inputs
 - Every tool with money inputs uses the shared currency-defaults pattern: per-currency starting values live in the tool's `schema.ts`; switching currency swaps them only while the user hasn't edited the inputs.

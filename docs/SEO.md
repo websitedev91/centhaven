@@ -65,7 +65,7 @@ Target **900–1,500 words**: enough to be useful and clearly better than the th
 - Every number in an example must match what the calculator shows (a test already checks this).
 - Write for a real person with a real decision. Answer the question, then explain.
 - Add something big sites don't: a freelancer angle, a "what this means for you" line under examples, a clear next step to a related tool.
-- **Rates or fees** (PayPal, Stripe, Wise, Upwork, Fiverr, tax): quote only from `/rates/*.json`, show the source link and the "Last updated" date. Never write a fee from memory.
+- **Rates or fees** (PayPal, Stripe, Wise, Upwork, Fiverr, tax): quote only from `/rates/*.json`, show the source link and a visible "Rates checked on {date}" line in the Sources section. Never write a fee from memory.
 - No "Best…" titles. No AI filler ("In today's fast-paced world…"). No invented statistics.
 
 ---
@@ -92,8 +92,8 @@ Target **900–1,500 words**: enough to be useful and clearly better than the th
   "browserRequirements": "Requires JavaScript",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
   "dateModified": "<lastUpdated ISO>",
-  "publisher": { "@type": "Organization", "name": "CentHaven", "url": "https://centhaven.com" },
-  "author": { "@type": "Person", "name": "Purushothaman" }
+  "publisher": { "@type": "Organization", "name": "CentHaven", "url": "https://centhaven.com" }
+  // No personal author name (site policy). Reviewer name only for red-risk tools.
 }
 ```
 - **No fake `aggregateRating`** or reviews. Add ratings only if real user ratings exist.
