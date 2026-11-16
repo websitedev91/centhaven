@@ -4,6 +4,8 @@
  * - Only `live` tools get pages, sitemap entries and links.
  * - New tools start as `draft`; set `ready` when all quality gates pass.
  * - Never set `live` unless Puru asks. Going live = status 'live' + publishDate.
+ * - Local preview only: `npm run build:preview` (PREVIEW_DRAFTS=1) treats draft/ready tools as
+ *   live so they can be viewed. postbuild marks that output as not deployable and exits non-zero.
  */
 import type { RegistryRow, ToolEntry, ToolMeta, ToolStatus } from './tool-types';
 import { meta as hourlyRate } from '@/tools/hourly-rate-calculator/meta';
@@ -18,6 +20,14 @@ export const registry: readonly RegistryRow[] = [
   row(hourlyRate, { status: 'draft', lastUpdated: '2026-11-14' }),
 ];
 
+/** Local preview builds only (see next.config.ts `env` and scripts/postbuild.mjs). */
+export const PREVIEW_DRAFTS = process.env.PREVIEW_DRAFTS === '1';
+
+/** Whether a tool gets a page and links: `live`, or any tool in a preview build. */
+export function isPublished(t: Pick<ToolEntry, 'status'>): boolean {
+  return t.status === 'live' || PREVIEW_DRAFTS;
+}
+
 export function allTools(): readonly RegistryRow[] {
   return registry;
 }
@@ -27,15 +37,15 @@ export function toolsWithStatus(status: ToolStatus): RegistryRow[] {
 }
 
 export function liveTools(): RegistryRow[] {
-  return toolsWithStatus('live');
+  return registry.filter(isPublished);
 }
 
 export function getLiveTool(category: string, slug: string): RegistryRow | undefined {
-  return registry.find((t) => t.status === 'live' && t.category === category && t.slug === slug);
+  return registry.find((t) => isPublished(t) && t.category === category && t.slug === slug);
 }
 
 export function getLiveToolBySlug(slug: string): RegistryRow | undefined {
-  return registry.find((t) => t.status === 'live' && t.slug === slug);
+  return registry.find((t) => isPublished(t) && t.slug === slug);
 }
 
 export function liveToolsInCategory(category: string): RegistryRow[] {

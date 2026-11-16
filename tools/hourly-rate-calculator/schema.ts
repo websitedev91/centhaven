@@ -1,4 +1,5 @@
-import { z } from 'zod';
+// zod/mini keeps the client bundle small (same validation, tree-shakable API).
+import * as z from 'zod/mini';
 import { CURRENCIES, type CurrencyCode } from '@/lib/format';
 import { currencyVariant, defaultsForCurrency, switchCurrency, type CurrencyPresets } from '@/lib/currency-defaults';
 import type { HourlyRateInput } from './calc';
@@ -7,24 +8,20 @@ import type { HourlyRateInput } from './calc';
  * UI/URL state. Percentages are stored as whole numbers (25 = 25%) because that is what
  * users see and share; `toCalcInput` converts them to fractions for calc.ts.
  */
+const num = () => z.number({ error: 'Enter a number' });
+
 export const hourlyRateSchema = z.object({
   currency: z.enum(CURRENCIES),
-  targetIncome: z
-    .number({ error: 'Enter a number' })
-    .min(0, 'Income can’t be negative')
-    .max(100_000_000, 'Maximum is 100,000,000'),
-  expenses: z
-    .number({ error: 'Enter a number' })
-    .min(0, 'Expenses can’t be negative')
-    .max(100_000_000, 'Maximum is 100,000,000'),
-  taxRate: z.number({ error: 'Enter a number' }).min(0, 'Minimum is 0%').max(60, 'Maximum is 60%'),
-  weeksOff: z
-    .number({ error: 'Enter a number' })
-    .int('Use whole weeks')
-    .min(0, 'Minimum is 0 weeks')
-    .max(26, 'Maximum is 26 weeks off'),
-  hoursPerWeek: z.number({ error: 'Enter a number' }).min(1, 'Minimum is 1 hour').max(80, 'Maximum is 80 hours'),
-  billablePct: z.number({ error: 'Enter a number' }).min(10, 'Minimum is 10%').max(100, 'Maximum is 100%'),
+  targetIncome: num().check(z.minimum(0, 'Income can’t be negative'), z.maximum(100_000_000, 'Maximum is 100,000,000')),
+  expenses: num().check(z.minimum(0, 'Expenses can’t be negative'), z.maximum(100_000_000, 'Maximum is 100,000,000')),
+  taxRate: num().check(z.minimum(0, 'Minimum is 0%'), z.maximum(60, 'Maximum is 60%')),
+  weeksOff: num().check(
+    z.refine((v) => Number.isInteger(v), 'Use whole weeks'),
+    z.minimum(0, 'Minimum is 0 weeks'),
+    z.maximum(26, 'Maximum is 26 weeks off'),
+  ),
+  hoursPerWeek: num().check(z.minimum(1, 'Minimum is 1 hour'), z.maximum(80, 'Maximum is 80 hours')),
+  billablePct: num().check(z.minimum(10, 'Minimum is 10%'), z.maximum(100, 'Maximum is 100%')),
 });
 
 export type HourlyRateState = z.infer<typeof hourlyRateSchema>;
@@ -63,14 +60,14 @@ export function switchHourlyRateCurrency(state: HourlyRateState, next: CurrencyC
 }
 
 /** Plan B for "Compare two plans" — only the time-related fields differ. */
-export const planBSchema = hourlyRateSchema.pick({ weeksOff: true, hoursPerWeek: true, billablePct: true });
+export const planBSchema = z.pick(hourlyRateSchema, { weeksOff: true, hoursPerWeek: true, billablePct: true });
 export type PlanBState = z.infer<typeof planBSchema>;
 export const planBDefaults: PlanBState = { weeksOff: 6, hoursPerWeek: 30, billablePct: 90 };
 
 export type FieldErrors<T> = Partial<Record<keyof T, string>>;
 
 /** First error message per field, for inline display. */
-export function fieldErrors<T extends Record<string, unknown>>(schema: z.ZodType<T>, state: unknown): FieldErrors<T> {
+export function fieldErrors<T extends Record<string, unknown>>(schema: z.ZodMiniType<T>, state: unknown): FieldErrors<T> {
   const result = schema.safeParse(state);
   if (result.success) return {};
   const out: FieldErrors<T> = {};

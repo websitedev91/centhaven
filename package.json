@@ -6,13 +6,15 @@
     "dev": "next dev",
     "build": "next build",
     "postbuild": "node scripts/postbuild.mjs",
+    "build:preview": "node scripts/build-preview.mjs",
     "start": "node scripts/serve-out.mjs",
     "typecheck": "tsc --noEmit",
     "lint": "eslint . --max-warnings 0",
     "test": "vitest run",
     "test:watch": "vitest",
     "rates:check": "vitest run lib/rates.test.ts",
-    "check": "npm run typecheck && npm run lint && npm run test && npm run rates:check"
+    "check": "npm run typecheck && npm run lint && npm run test && npm run rates:check",
+    "size": "node scripts/js-size.mjs"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",

@@ -2,7 +2,7 @@
 // 1. Removes the "__none__" placeholder pages emitted when no tool/category is live
 //    (see lib/static-params.ts).
 // 2. Fails the build if anything that must not ship is in /out.
-import { existsSync, readdirSync, readFileSync, renameSync, rmSync, statSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync, renameSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative } from 'node:path';
 
 const OUT = join(process.cwd(), 'out');
@@ -58,8 +58,21 @@ if (!sitemap) problems.push('sitemap.xml missing');
 if (sitemap.includes(PLACEHOLDER)) problems.push('sitemap.xml contains the placeholder');
 if (!existsSync(join(OUT, 'robots.txt'))) problems.push('robots.txt missing');
 
+// Preview builds (PREVIEW_DRAFTS=1) publish draft tools. Leave out/ usable for local viewing,
+// but mark it and exit 2 so `npm run build` / any deploy step treats it as a failure.
+const PREVIEW_MARKER = join(OUT, 'PREVIEW-BUILD-DO-NOT-DEPLOY.txt');
+if (process.env.PREVIEW_DRAFTS === '1') {
+  writeFileSync(PREVIEW_MARKER, 'This out/ was built with PREVIEW_DRAFTS=1 and includes draft tools. Do not deploy.\n');
+} else if (existsSync(PREVIEW_MARKER)) {
+  problems.push('preview marker found in a normal build');
+}
+
 if (problems.length) {
   console.error(`postbuild: FAILED\n  - ${problems.join('\n  - ')}`);
   process.exit(1);
+}
+if (process.env.PREVIEW_DRAFTS === '1') {
+  console.error('postbuild: PREVIEW BUILD (draft tools included). out/ is for local viewing only, do not deploy.');
+  process.exit(2);
 }
 console.log(`postbuild: ok (removed ${removed} placeholder file(s), flattened ${flattened} segment file(s), ${files.length} files in out/)`);

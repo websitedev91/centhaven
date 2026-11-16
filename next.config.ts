@@ -15,6 +15,8 @@ const nextConfig: NextConfig = {
   pageExtensions: isDev ? ['dev.tsx', 'ts', 'tsx', 'md', 'mdx'] : ['ts', 'tsx', 'md', 'mdx'],
   reactStrictMode: true,
   poweredByHeader: false,
+  // Inlined on server and client. '1' only via `npm run build:preview` (never deployable).
+  env: { PREVIEW_DRAFTS: process.env.PREVIEW_DRAFTS === '1' ? '1' : '' },
 };
 
 const withMDX = createMDX({});

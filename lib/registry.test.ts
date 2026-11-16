@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { registry } from './registry';
+import { PREVIEW_DRAFTS, isPublished, liveTools, registry } from './registry';
 import { getCategory } from '@/config/site';
 import { wordCount } from './seo';
 import { affiliates } from './affiliates';
@@ -48,5 +48,15 @@ describe('registry integrity', () => {
       expect(t.meta.related.length).toBeLessThanOrEqual(6);
       expect(t.meta.related).not.toContain(t.slug);
     });
+  });
+});
+
+describe('preview flag', () => {
+  it('is off in normal runs, so only live tools are published', () => {
+    expect(PREVIEW_DRAFTS).toBe(false);
+    expect(liveTools().every((t) => t.status === 'live')).toBe(true);
+    expect(isPublished({ status: 'draft' })).toBe(false);
+    expect(isPublished({ status: 'ready' })).toBe(false);
+    expect(isPublished({ status: 'live' })).toBe(true);
   });
 });

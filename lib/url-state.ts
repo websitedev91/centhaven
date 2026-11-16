@@ -1,10 +1,14 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
-import type { z } from 'zod';
 
 type Primitive = string | number;
 type Shape = Record<string, Primitive>;
+
+/** Any Zod schema (classic or zod/mini): only safeParse is used, so no Zod import is needed here. */
+export interface StateSchema<T> {
+  safeParse(value: unknown): { success: true; data: T } | { success: false };
+}
 
 /**
  * Defaults that depend on one field's value — e.g. currency-specific income defaults.
@@ -22,7 +26,7 @@ export function resolveDefaults<T extends Shape>(state: T, base: T, variant?: De
   return variant ? variant.defaultsFor(state) : base;
 }
 
-function readField<T extends Shape>(params: URLSearchParams, key: string, into: T, schema: z.ZodType<T>): T {
+function readField<T extends Shape>(params: URLSearchParams, key: string, into: T, schema: StateSchema<T>): T {
   const raw = params.get(key);
   if (raw === null) return into;
   const value: Primitive = typeof into[key] === 'number' ? Number(raw) : raw;
@@ -39,7 +43,7 @@ function readField<T extends Shape>(params: URLSearchParams, key: string, into: 
  */
 export function parseQuery<T extends Shape>(
   search: string,
-  schema: z.ZodType<T>,
+  schema: StateSchema<T>,
   defaults: T,
   variant?: DefaultsVariant<T>,
 ): T {
@@ -80,7 +84,7 @@ export interface UrlStateOptions<T extends Shape> {
  * Server render uses defaults; the client reads the URL without a hydration mismatch.
  * URL writes are debounced (browsers throttle history.replaceState).
  */
-export function useUrlState<T extends Shape>(schema: z.ZodType<T>, defaults: T, options: UrlStateOptions<T> = {}) {
+export function useUrlState<T extends Shape>(schema: StateSchema<T>, defaults: T, options: UrlStateOptions<T> = {}) {
   const { prefix = '', variant } = options;
   const search = useSyncExternalStore(
     noopSubscribe,

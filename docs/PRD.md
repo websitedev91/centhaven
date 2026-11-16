@@ -219,6 +219,8 @@ Any number that can change (fees, tax rates, limits, thresholds) lives in `/rate
 
 ## 10. Design system (v1)
 
+> **Superseded by `docs/DESIGN.md` (Design System v2, "Ledger").** Kept for history only.
+
 | Token | Value |
 |---|---|
 | Primary | `#0F766E` (teal 700): trust, money |
