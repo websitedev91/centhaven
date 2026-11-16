@@ -13,6 +13,7 @@ import { meta as hourlyToSalary } from '@/tools/hourly-to-salary-calculator/meta
 import { meta as dayRateToSalary } from '@/tools/day-rate-to-salary-calculator/meta';
 import { meta as rateIncrease } from '@/tools/rate-increase-calculator/meta';
 import { meta as utilizationRate } from '@/tools/utilization-rate-calculator/meta';
+import { meta as breakEven } from '@/tools/break-even-calculator/meta';
 
 type Publishing = Pick<ToolEntry, 'status' | 'lastUpdated' | 'publishDate' | 'reviewedBy'>;
 
@@ -26,6 +27,7 @@ export const registry: readonly RegistryRow[] = [
   row(dayRateToSalary, { status: 'ready', lastUpdated: '2026-11-16' }),
   row(rateIncrease, { status: 'ready', lastUpdated: '2026-11-16' }),
   row(utilizationRate, { status: 'ready', lastUpdated: '2026-11-16' }),
+  row(breakEven, { status: 'ready', lastUpdated: '2026-11-16' }),
 ];
 
 /** Local preview builds only (see next.config.ts `env` and scripts/postbuild.mjs). */

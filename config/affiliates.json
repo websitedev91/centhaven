@@ -12,5 +12,12 @@
     "url": "",
     "pitch": "Track billable hours automatically and see your utilization each week.",
     "enabled": false
+  },
+  {
+    "id": "accounting-software",
+    "partner": "Accounting software (partner to be chosen)",
+    "url": "",
+    "pitch": "Track your fixed and variable costs and see your profit each month.",
+    "enabled": false
   }
 ]

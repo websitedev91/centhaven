@@ -56,7 +56,7 @@ export const categories: readonly CategoryInfo[] = [
   {
     slug: 'business',
     name: 'Small Business',
-    description: 'Break-even, utilisation and other numbers that keep a small business or freelance practice healthy.',
+    description: 'Break-even, utilization and other numbers that keep a small business or freelance practice healthy.',
   },
 ];
 

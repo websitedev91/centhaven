@@ -369,7 +369,7 @@
 - **Primary keyword:** break even calculator (1K–10K/month)
 - **Secondary keywords:** break even point calculator, how many sales to break even, break even revenue calculator, freelance break even calculator
 - **Title** (51 chars): Break-Even Calculator – Sales Needed to Cover Costs
-- **Meta description** (139 chars): Find your break-even point in units and revenue from fixed costs, price and variable costs. Add a profit target and see the sales you need.
+- **Meta description** (150 chars): Find your break-even point in units and revenue from fixed costs, price and variable costs. Add a profit target and see the sales you need each month.
 - **H1:** Break-Even Calculator
 - **FAQ questions (People Also Ask style):**
   - What is a break-even point?
