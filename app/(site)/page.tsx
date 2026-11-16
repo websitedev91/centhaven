@@ -5,7 +5,14 @@ import { primaryButtonClass, secondaryButtonClass } from '@/components/actionBut
 import { JsonLd } from '@/components/JsonLd';
 import { categories, site, staticPages } from '@/config/site';
 import { liveCategories, liveTools, liveToolsInCategory, getLiveToolBySlug, toolPath } from '@/lib/registry';
-import { absoluteUrl } from '@/lib/seo';
+import { absoluteUrl, buildMetadata } from '@/lib/seo';
+
+// Same title and description as the root layout default, plus canonical URL and the home share image.
+export const metadata = buildMetadata({
+  title: `${site.name} – ${site.tagline}`,
+  description: 'Free money and work calculators for freelancers and remote workers. Smart tools to earn, save and grow.',
+  path: '/',
+});
 
 const HERO_TOOL = 'hourly-rate-calculator';
 
@@ -49,6 +56,16 @@ export default function Home() {
           name: site.name,
           url: absoluteUrl('/'),
           description: site.tagline,
+        }}
+      />
+      <JsonLd
+        data={{
+          '@context': 'https://schema.org',
+          '@type': 'Organization',
+          name: site.name,
+          url: absoluteUrl('/'),
+          email: site.contactEmail,
+          founder: { '@type': 'Person', name: site.author },
         }}
       />
 

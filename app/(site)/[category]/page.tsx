@@ -11,6 +11,7 @@ import { hubContent } from '@/lib/hub-content';
 import { getHub } from '@/lib/hubs';
 import { liveCategories, liveToolsInCategory, toolPath } from '@/lib/registry';
 import { breadcrumbJsonLd, buildMetadata, collectionPageJsonLd, faqJsonLd } from '@/lib/seo';
+import { ogHubPath } from '@/lib/og-paths';
 import { PLACEHOLDER, withPlaceholder } from '@/lib/static-params';
 
 export const dynamicParams = false;
@@ -37,7 +38,7 @@ function resolve(slug: string) {
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
   const r = resolve((await params).category);
   if (!r) return { title: 'Not found', robots: { index: false } };
-  return buildMetadata({ title: r.hub.title, description: r.hub.description, path: `/${r.category.slug}` });
+  return buildMetadata({ title: r.hub.title, description: r.hub.description, path: `/${r.category.slug}`, ogImage: ogHubPath(r.category.slug) });
 }
 
 /**

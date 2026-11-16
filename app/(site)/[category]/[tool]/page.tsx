@@ -5,6 +5,7 @@ import { getCategory } from '@/config/site';
 import { getLiveTool, liveRelated, liveTools, toolPath } from '@/lib/registry';
 import { getSourceLinks } from '@/lib/rates';
 import { buildMetadata } from '@/lib/seo';
+import { ogToolPath } from '@/lib/og-paths';
 import { PLACEHOLDER, withPlaceholder } from '@/lib/static-params';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -34,7 +35,7 @@ function resolve(params: Params) {
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
   const r = resolve(await params);
   if (!r) return { title: 'Not found', robots: { index: false } };
-  return buildMetadata({ title: r.tool.meta.title, description: r.tool.meta.description, path: toolPath(r.tool) });
+  return buildMetadata({ title: r.tool.meta.title, description: r.tool.meta.description, path: toolPath(r.tool), ogImage: ogToolPath(r.tool.slug) });
 }
 
 export default async function ToolPage({ params }: { params: Promise<Params> }) {

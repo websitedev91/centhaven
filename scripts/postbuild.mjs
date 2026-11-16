@@ -58,6 +58,14 @@ if (!sitemap) problems.push('sitemap.xml missing');
 if (sitemap.includes(PLACEHOLDER)) problems.push('sitemap.xml contains the placeholder');
 if (!existsSync(join(OUT, 'robots.txt'))) problems.push('robots.txt missing');
 
+// Every page's share image must exist as a file (og:image → /og/*.png).
+for (const p of files.filter((x) => x.endsWith('.html'))) {
+  const html = readFileSync(p, 'utf8');
+  for (const m of html.matchAll(/<meta property="og:image" content="https:\/\/[^/"]+(\/[^"?]*)/g)) {
+    if (!existsSync(join(OUT, m[1]))) problems.push(`og:image missing: ${m[1]} (from ${relative(OUT, p).replace(/\\/g, '/')})`);
+  }
+}
+
 // Preview builds (PREVIEW_DRAFTS=1) publish draft tools. Leave out/ usable for local viewing,
 // but mark it and exit 2 so `npm run build` / any deploy step treats it as a failure.
 const PREVIEW_MARKER = join(OUT, 'PREVIEW-BUILD-DO-NOT-DEPLOY.txt');

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { site } from '@/config/site';
+import { OG_HOME } from './og-paths';
 
 export interface FaqItem {
   q: string;
@@ -21,10 +22,12 @@ export function buildMetadata(opts: {
   description: string;
   path: string;
   noindex?: boolean;
+  /** Site-relative share image; defaults to the homepage image (lib/og-paths.ts). */
   ogImage?: string;
 }): Metadata {
   const url = absoluteUrl(opts.path);
-  const images = opts.ogImage ? [{ url: opts.ogImage, width: 1200, height: 630 }] : undefined;
+  const image = absoluteUrl(opts.ogImage ?? OG_HOME);
+  const images = [{ url: image, width: 1200, height: 630, alt: opts.title }];
   return {
     title: opts.title,
     description: opts.description,
@@ -42,7 +45,7 @@ export function buildMetadata(opts: {
       card: 'summary_large_image',
       title: opts.title,
       description: opts.description,
-      images: opts.ogImage ? [opts.ogImage] : undefined,
+      images: [image],
     },
   };
 }
