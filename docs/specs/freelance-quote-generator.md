@@ -85,11 +85,11 @@ validUntil = issueDate + validDays (calendar days)
 ## Test cases (must match exactly)
 | # | Inputs | Expected output | Checked against |
 |---|---|---|---|
-| 1 | USD · Design 10 × 75 · Development 20 × 75 · Hosting setup 1 × 120 · contingency 10% · discount 5% · tax 0 · issue 2026-11-18 · valid 30 | lines 750.00 / 1,500.00 / 120.00 · subtotal 2,370.00 · contingency 237.00 · discount 130.35 · tax hidden · **total 2,476.65** · valid until **18 Dec 2026** | Manual |
+| 1 | USD · Design 10 × 75 · Development 20 × 75 · Hosting setup 1 × 120 · contingency 10% · discount 5% · tax 0 · issue 2026-11-18 · valid 30 | lines 750.00 / 1,500.00 / 120.00 · subtotal 2,370.00 · contingency 237.00 · discount 130.35 · tax hidden · **total 2,476.65** · valid until **18 December 2026** | Manual |
 | 2 | INR · Logo design 1 × 15,000 · Brand guide 1 × 8,000 · Revisions 3 × 1,500 · tax "Tax" 10% | subtotal 27,500.00 · tax 2,750.00 · **total 30,250.00** (₹30,250.00) | Manual |
 | 3 | GBP · 1.5 × 33.33 · 2 × 19.99 · discount 10% · tax 20% | lines 50.00 (49.995 rounds up) / 39.98 · subtotal 89.98 · discount 9.00 · taxable 80.98 · tax 16.20 · **total 97.18** | Manual |
 | 4 | All rows qty 0, or one empty row | total 0.00, no crash, no NaN | — |
-| 5 | Issue 2026-01-31, valid 30 | valid until **2 Mar 2026** | Manual |
+| 5 | Issue 2026-01-31, valid 30 | valid until **2 March 2026** | Manual |
 | 6 | `nextDocNumber`: the examples in shared rule 3 | exactly as listed | Manual |
 | 7 | Switch USD → INR with the example row unedited | rate 75 → 1,500. An edited rate is kept | Manual |
 

@@ -21,6 +21,7 @@ import { meta as emergencyFund } from '@/tools/emergency-fund-calculator/meta';
 import { meta as jobOfferComparison } from '@/tools/job-offer-comparison-calculator/meta';
 import { meta as websiteDesignCost } from '@/tools/website-design-cost-calculator/meta';
 import { meta as freelanceQuote } from '@/tools/freelance-quote-generator/meta';
+import { meta as freelanceInvoice } from '@/tools/freelance-invoice-generator/meta';
 
 type Publishing = Pick<ToolEntry, 'status' | 'lastUpdated' | 'publishDate' | 'reviewedBy'>;
 
@@ -42,6 +43,7 @@ export const registry: readonly RegistryRow[] = [
   row(jobOfferComparison, { status: 'ready', lastUpdated: '2026-11-18' }),
   row(websiteDesignCost, { status: 'ready', lastUpdated: '2026-11-18' }),
   row(freelanceQuote, { status: 'ready', lastUpdated: '2026-11-18' }),
+  row(freelanceInvoice, { status: 'ready', lastUpdated: '2026-11-18' }),
 ];
 
 /** Local preview builds only (see next.config.ts `env` and scripts/postbuild.mjs). */

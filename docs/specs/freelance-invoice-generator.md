@@ -72,9 +72,9 @@ dueDate  = issueDate + termDays
 ## Test cases (must match exactly)
 | # | Inputs | Expected output | Checked against |
 |---|---|---|---|
-| 1 | USD · Website build 1 × 2,400 · Extra pages 3 × 150 · no discount, no tax · paid 1,000 · issue 2026-11-18 · Net 14 | subtotal 2,850.00 · **total 2,850.00** · paid 1,000.00 · **balance 1,850.00** · due **2 Dec 2026** | Manual |
+| 1 | USD · Website build 1 × 2,400 · Extra pages 3 × 150 · no discount, no tax · paid 1,000 · issue 2026-11-18 · Net 14 | subtotal 2,850.00 · **total 2,850.00** · paid 1,000.00 · **balance 1,850.00** · due **2 December 2026** | Manual |
 | 2 | GBP · Consulting 12.5 × 80 · Travel 1 × 45.60 · tax "Tax" 20% · paid 0 · Due on receipt | subtotal 1,045.60 · tax 209.12 · **total 1,254.72** · balance 1,254.72 · due = issue date | Manual |
-| 3 | INR · 2 × 25,000 · discount 10% · tax 5% · paid 47,250 · issue 2026-12-15 · Net 30 | discount 5,000.00 · taxable 45,000.00 · tax 2,250.00 · **total 47,250.00** · **balance 0.00 → "Paid in full"** · due **14 Jan 2027** | Manual |
+| 3 | INR · 2 × 25,000 · discount 10% · tax 5% · paid 47,250 · issue 2026-12-15 · Net 30 | discount 5,000.00 · taxable 45,000.00 · tax 2,250.00 · **total 47,250.00** · **balance 0.00 → "Paid in full"** · due **14 January 2027** | Manual |
 | 4 | Paid 3,000 on a 2,850.00 total | Inline error, no negative balance | — |
 | 5 | `nextDocNumber('INV-0001')` / `('INV-0099')` | `INV-0002` / `INV-0100` | Manual |
 | 6 | Logo file of 600 KB, or a non-image | Friendly error, no logo stored | — |
