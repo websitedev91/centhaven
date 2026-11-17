@@ -3,7 +3,7 @@ import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { formatMoney, formatNumber, formatPercent, roundTo, type CurrencyCode } from '@/lib/format';
 import { parseQuery, toQuery } from '@/lib/url-state';
-import { breakEven, breakEvenLines, ceilSales, PRICE_NOT_ABOVE_COST, type BreakEvenError, type BreakEvenInput, type BreakEvenResult } from './calc';
+import { breakEven, breakEvenLines, ceilSales, marginOfSafety, PRICE_NOT_ABOVE_COST, priceSensitivity, type BreakEvenError, type BreakEvenInput, type BreakEvenResult } from './calc';
 import {
   breakEvenDefaults,
   breakEvenSchema,
@@ -92,7 +92,7 @@ describe('currency-dependent defaults', () => {
   const usd = breakEvenDefaults;
 
   it('page-load defaults are the spec defaults (USD, units)', () => {
-    expect(usd).toEqual({ sells: 'units', currency: 'USD', fixedCosts: 10_000, price: 50, variableCost: 30, targetProfit: 0 });
+    expect(usd).toEqual({ sells: 'units', currency: 'USD', fixedCosts: 10_000, price: 50, variableCost: 30, targetProfit: 0, currentSales: 0 });
   });
 
   it('INR uses the spec presets; typed values are kept', () => {
@@ -128,5 +128,49 @@ describe('content.mdx worked examples match the calculator', () => {
     if (r.breakEvenUnits % 1 > 1e-9) texts.push(`**${formatNumber(r.breakEvenUnits, 2)}**`);
     if (input.targetProfit > 0) texts.push(`**${formatNumber(ceilSales(r.targetUnits))}**`);
     for (const text of texts) expect(mdx, `content.mdx should contain "${text}"`).toContain(text);
+  });
+});
+
+describe('review C10: margin of safety and price sensitivity', () => {
+  it('margin of safety: case 1 (break-even 500) at 600 → 16.67%, at 400 → −25.00% (hand-checked)', () => {
+    const be = ok(breakEven({ fixedCosts: 10_000, price: 50, variableCost: 30, targetProfit: 0 })).breakEvenUnits;
+    const above = marginOfSafety(600, be)!;
+    expect(roundTo(above.ratio * 100, 2)).toBe(16.67);
+    expect(r2(above.units)).toBe(100);
+    const below = marginOfSafety(400, be)!;
+    expect(roundTo(below.ratio * 100, 2)).toBe(-25);
+    expect(r2(below.units)).toBe(-100);
+  });
+
+  it('margin of safety uses the exact break-even: case 2 (50.42) at 60 → 15.97%, 9.58 above', () => {
+    const be = ok(breakEven({ fixedCosts: 3_000, price: 99, variableCost: 39.5, targetProfit: 0 })).breakEvenUnits;
+    const m = marginOfSafety(60, be)!;
+    expect(roundTo(m.ratio * 100, 2)).toBe(15.97);
+    expect(r2(m.units)).toBe(9.58);
+  });
+
+  it('no current sales → no margin of safety', () => {
+    expect(marginOfSafety(0, 500)).toBeNull();
+  });
+
+  it('price sensitivity −20…+20% for case 1: 1,000 · 667 · 500 · 400 · 334 (hand-checked)', () => {
+    const rows = priceSensitivity({ fixedCosts: 10_000, price: 50, variableCost: 30, targetProfit: 0 });
+    expect(rows.map((r) => [r2(r.price), r.breakEvenUnits === null ? null : ceilSales(r.breakEvenUnits)])).toEqual([
+      [40, 1_000],
+      [45, 667],
+      [50, 500],
+      [55, 400],
+      [60, 334],
+    ]);
+  });
+
+  it('price sensitivity marks prices at or below variable cost as never breaking even', () => {
+    const rows = priceSensitivity({ fixedCosts: 1_000, price: 35, variableCost: 30, targetProfit: 0 });
+    expect(rows.map((r) => (r.breakEvenUnits === null ? null : ceilSales(r.breakEvenUnits)))).toEqual([null, 667, 200, 118, 84]);
+  });
+
+  it('current sales default to 0, stay out of share links and are validated', () => {
+    expect(toQuery(breakEvenDefaults, breakEvenDefaults, breakEvenVariant)).toBe('');
+    expect(fieldErrors(breakEvenSchema, { ...breakEvenDefaults, currentSales: -1 })).toEqual({ currentSales: 'Sales can’t be negative' });
   });
 });

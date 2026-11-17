@@ -14,7 +14,9 @@ import { Slider } from '@/components/Slider';
 import { track } from '@/lib/analytics';
 import { formatMoney, formatNumber, formatPercent, type CurrencyCode } from '@/lib/format';
 import { useUrlState } from '@/lib/url-state';
-import { breakEven, breakEvenLines, ceilSales, type BreakEvenError, type BreakEvenResult } from './calc';
+import { breakEven, breakEvenLines, ceilSales, marginOfSafety, priceSensitivity, type BreakEvenError, type BreakEvenResult } from './calc';
+import { InputNumber } from '@/components/InputNumber';
+import { Num } from '@/components/Num';
 import {
   breakEvenDefaults,
   breakEvenSchema,
@@ -66,6 +68,7 @@ export default function BreakEvenCalculator() {
     result.ok && Object.keys(bErrors).length === 0 ? breakEven({ ...toCalcInput(s), price: priceB }) : { ok: false, error: FIX_FIELDS };
 
   const label = 'Break-even sales';
+  const safety = result.ok ? marginOfSafety(s.currentSales, result.breakEvenUnits) : null;
   const units = result.ok ? ceilSales(result.breakEvenUnits) : 0;
   const chartMax = result.ok ? Math.max(10, Math.ceil(result.breakEvenUnits * 2)) : 0;
 
@@ -133,6 +136,16 @@ export default function BreakEvenCalculator() {
                   error={errors.targetProfit}
                 />
               </div>
+              <div className="sm:col-span-2">
+                <InputNumber
+                  label={`Current sales per month (optional)`}
+                  help="For your margin of safety: how far above break-even you are today."
+                  value={s.currentSales}
+                  onChange={(v) => update('currentSales', v)}
+                  suffix={noun.many}
+                  error={errors.currentSales}
+                />
+              </div>
             </div>
           </InputsPanel>
         }
@@ -151,6 +164,18 @@ export default function BreakEvenCalculator() {
                 },
                 ...(s.targetProfit > 0
                   ? [{ label: `Sales for ${money(s.targetProfit)} profit`, value: count(ceilSales(result.targetUnits)) }]
+                  : []),
+                ...(safety
+                  ? [
+                      {
+                        label: 'Margin of safety',
+                        note:
+                          safety.units >= 0
+                            ? `${formatNumber(safety.units, 2)} ${noun.many} above break-even`
+                            : `${formatNumber(-safety.units, 2)} ${noun.many} below break-even`,
+                        value: formatPercent(safety.ratio, 2),
+                      },
+                    ]
                   : []),
               ]}
               footnote={`Exact break-even: ${formatNumber(result.breakEvenUnits, 2)} ${noun.many}. Rounded up, because part of a sale doesn't count.`}
@@ -174,6 +199,37 @@ export default function BreakEvenCalculator() {
             noun={noun.many}
           />
         </ChartLazy>
+      ) : null}
+
+      {result.ok ? (
+        <section aria-labelledby="price-sensitivity-heading" className="print-break-avoid min-w-0 rounded-panel border border-line bg-surface p-5 sm:p-8">
+          <h2 id="price-sensitivity-heading" className="type-h3 text-ink">
+            If you change your price
+          </h2>
+          <p className="type-small mt-1 text-ink-muted">Break-even sales a month at your price and 10% or 20% either side, with the same costs.</p>
+          <table className="type-small mt-6 w-full max-w-lg">
+            <thead>
+              <tr className="border-b border-line text-left text-ink-muted">
+                <th scope="col" className="py-2 pr-3 font-[550]">Price change</th>
+                <th scope="col" className="py-2 pr-3 text-right font-[550]">Price</th>
+                <th scope="col" className="py-2 text-right font-[550]">Break-even</th>
+              </tr>
+            </thead>
+            <tbody>
+              {priceSensitivity(toCalcInput(s)).map((row) => (
+                <tr key={row.change} className={`border-b border-line last:border-0 ${row.change === 0 ? 'font-[550]' : ''}`}>
+                  <th scope="row" className="py-3 pr-3 text-left font-normal text-ink-muted">
+                    {row.change === 0 ? 'Your price' : `${row.change > 0 ? '+' : '−'}${Math.abs(Math.round(row.change * 100))}%`}
+                  </th>
+                  <td className="type-figure py-3 pr-3 text-right text-ink"><Num>{money(row.price)}</Num></td>
+                  <td className="type-figure py-3 text-right text-ink">
+                    {row.breakEvenUnits === null ? 'Never (price ≤ cost)' : count(ceilSales(row.breakEvenUnits))}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </section>
       ) : null}
 
       <ScenarioCompare

@@ -53,5 +53,9 @@ export const meta: ToolMeta = {
       q: 'Break-even in units or in revenue?',
       a: 'Both describe the same point. Break-even in units tells you how many sales you need, which is useful for planning work or stock. Break-even revenue tells you how much money must come in, which is easier to compare with your accounts or bank statements. Revenue is simply the break-even units multiplied by the price, so use whichever helps you plan.',
     },
+    {
+      q: 'What is a margin of safety?',
+      a: 'It is how far your sales could fall before you stop covering your costs, shown as a share of your current sales. If you break even at 500 sales and sell 600 today, your margin of safety is about 17%. A bigger margin gives you more room for a bad month. A negative margin means you are below break-even and losing money each month.',
+    },
   ],
 };

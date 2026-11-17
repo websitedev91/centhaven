@@ -64,3 +64,23 @@ export function breakEvenLines(input: BreakEvenInput, maxUnits: number, points =
     return { units, revenue: units * input.price, totalCost: input.fixedCosts + units * input.variableCost };
   });
 }
+
+/**
+ * Margin of safety (review C10): how far current sales are above break-even, as a share of
+ * current sales. Negative when below break-even. null when current sales aren't given (0).
+ */
+export function marginOfSafety(currentSales: number, breakEvenUnits: number): { ratio: number; units: number } | null {
+  if (!(currentSales > 0)) return null;
+  return { ratio: (currentSales - breakEvenUnits) / currentSales, units: currentSales - breakEvenUnits };
+}
+
+export const PRICE_STEPS = [-0.2, -0.1, 0, 0.1, 0.2] as const;
+
+/** Break-even sales at the current price and ±10% / ±20% (null = price no longer above variable cost). */
+export function priceSensitivity(input: BreakEvenInput): { change: number; price: number; breakEvenUnits: number | null }[] {
+  return PRICE_STEPS.map((change) => {
+    const price = input.price * (1 + change);
+    const r = breakEven({ ...input, price });
+    return { change, price, breakEvenUnits: r.ok ? r.breakEvenUnits : null };
+  });
+}

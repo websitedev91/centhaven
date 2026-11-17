@@ -22,6 +22,7 @@ How many sales (units, projects or clients) you need each month to cover your fi
 | Price per unit | currency | 50 | 0.01 – 1,000,000,000 | |
 | Variable cost per unit | currency | 30 | 0 – 1,000,000,000 | Materials, fees, contractor cost per unit |
 | Target profit per month (optional) | currency | 0 | 0 – 1,000,000,000 | |
+| Current sales per month (optional, added 2026-11-17, review C10) | number | 0 | 0 – 1,000,000,000 | 0 = not given |
 
 ## Outputs
 | Output | How it's shown |
@@ -31,6 +32,8 @@ How many sales (units, projects or clients) you need each month to cover your fi
 | Break-even revenue | Breakdown |
 | Contribution margin per unit + margin % | Breakdown |
 | Sales for target profit (rounded up) | Breakdown (if target > 0) |
+| Margin of safety % (and units above/below break-even) | Breakdown (if current sales > 0) |
+| Price sensitivity: break-even sales at −20%, −10%, now, +10%, +20% price | Table; "Never" when price ≤ variable cost |
 
 ## Formula
 ```
@@ -39,6 +42,8 @@ marginRatio       = contribution / price
 breakEvenUnits    = fixedCosts / contribution          (display ceil())
 breakEvenRevenue  = fixedCosts / marginRatio
 targetUnits       = (fixedCosts + targetProfit) / contribution   (display ceil())
+marginOfSafety    = (currentSales − breakEvenUnits) / currentSales   (exact break-even; only if currentSales > 0)
+sensitivity       = breakEvenUnits at price × (1 + change), change ∈ {−20%, −10%, 0, +10%, +20%}
 ```
 Guard: price ≤ variableCost → error "Price must be higher than variable cost to ever break even".
 
@@ -50,6 +55,10 @@ None.
 |---|---|---|---|
 | 1 | fixed 10,000 · price 50 · variable 30 · target profit 5,000 | contribution **20.00** · margin **40.00%** · break-even **500** units · revenue **25,000.00** · target **750** units | Manual |
 | 2 | fixed 3,000 · price 99 · variable 39.50 · profit 0 | contribution 59.50 · margin 60.10% · exact 50.42 → **51 units** · revenue **4,991.60** | Manual |
+| 4 | case 1 with current sales 600 / 400 | margin of safety **16.67%** (100 above) / **−25.00%** (100 below) | Manual |
+| 5 | case 2 with current sales 60 | margin of safety 15.97% (9.58 above, exact break-even 50.42) | Manual |
+| 6 | price sensitivity, case 1 | 40 → 1,000 · 45 → 667 · 50 → 500 · 55 → 400 · 60 → 334 | Manual |
+| 7 | price sensitivity, fixed 1,000 · price 35 · variable 30 | −20%: never · 667 · 200 · 118 · 84 | Manual |
 | 3 | price 30 · variable 30 | Error message, no crash | — |
 
 ## Extras

@@ -18,6 +18,8 @@ export const breakEvenSchema = z.object({
   price: money(0.01, 'Minimum is 0.01'),
   variableCost: money(0, 'Variable cost can’t be negative'),
   targetProfit: money(0, 'Target profit can’t be negative'),
+  /** Optional current sales per month for the margin of safety (0 = not given). Review C10. */
+  currentSales: money(0, 'Sales can’t be negative'),
 });
 
 export type BreakEvenState = z.infer<typeof breakEvenSchema>;
@@ -36,7 +38,7 @@ export const breakEvenCurrencyPresets: CurrencyPresets<BreakEvenState> = {
   INR: { fixedCosts: 100_000, price: 5_000, variableCost: 2_000 },
 };
 
-const base: BreakEvenState = { sells: 'units', currency: 'USD', fixedCosts: 10_000, price: 50, variableCost: 30, targetProfit: 0 };
+const base: BreakEvenState = { sells: 'units', currency: 'USD', fixedCosts: 10_000, price: 50, variableCost: 30, targetProfit: 0, currentSales: 0 };
 
 export const breakEvenDefaults = defaultsForCurrency(base, breakEvenCurrencyPresets, 'USD');
 export const breakEvenVariant = currencyVariant(breakEvenDefaults, breakEvenCurrencyPresets);
