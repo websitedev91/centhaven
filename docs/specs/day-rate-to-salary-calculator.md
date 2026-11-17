@@ -21,8 +21,10 @@ Two ways: (1) what a contractor's **day rate** adds up to over a year, and rough
 | Day rate | currency | 500 | 0 – 100,000 | |
 | Salary | currency | 60,000 | 0 – 100,000,000 | Reverse mode |
 | Working days in the year | number | 260 | 200 – 270 | 52 weeks × 5 days |
-| Holidays (days) | number | 25 | 0 – 60 | Unpaid for a contractor |
-| Public holidays (days) | number | 8 | 0 – 20 | |
+| Holidays (days) | number | 25 | 0 – 60 | Helper: "Example values — change them to match your country and contract." |
+| Public holidays (days) | number | 8 | 0 – 20 | Helper: "Example values — change them to match your country and contract." |
+
+> 2026-11-17 (Puru): 25 holidays + 8 public holidays stay the default for **every** currency. They are example inputs, not legal values, so there is no /rates file for them. Content says: "Holiday and public-holiday rules differ by country (and sometimes by state), so use your own numbers."
 | Sick days | number | 5 | 0 – 30 | |
 | Days between contracts | number | 10 | 0 – 120 | Helper: "Gaps when you're not billing" |
 | Benefits uplift | % slider | 20% | 0 – 50% | Helper: "Extra value an employee gets (pension, paid leave, insurance). Your own estimate." |

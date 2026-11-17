@@ -141,7 +141,7 @@ export default function DayRateToSalaryCalculator() {
                 value={s.holidays}
                 onChange={(v) => update('holidays', v)}
                 suffix="days"
-                help="Unpaid for a contractor."
+                help="Example values — change them to match your country and contract."
                 error={errors.holidays}
               />
               <InputNumber
@@ -149,6 +149,7 @@ export default function DayRateToSalaryCalculator() {
                 value={s.publicHolidays}
                 onChange={(v) => update('publicHolidays', v)}
                 suffix="days"
+                help="Example values — change them to match your country and contract."
                 error={errors.publicHolidays}
               />
               <InputNumber
