@@ -50,6 +50,7 @@ Untouched fields switch to these when the currency changes; values the user type
 | Annual revenue at this rate | Breakdown |
 | Profit margin per year | Breakdown |
 | Billable hours per year | Breakdown |
+| Rate card: hourly · half-day (hours/day ÷ 2) · day · week (5 days), added 2026-11-17 review #2 B6 | Small card inside the result panel |
 
 ## Formula
 Gross up the take-home income for tax, add overheads, spread it over billable hours, then add the margin.

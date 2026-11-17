@@ -6,6 +6,7 @@ import { CurrencySelect } from '@/components/CurrencySelect';
 import { InputCurrency } from '@/components/InputCurrency';
 import { InputNumber } from '@/components/InputNumber';
 import { ResetIcon } from '@/components/icons';
+import { Num } from '@/components/Num';
 import { ResultCard } from '@/components/ResultCard';
 import { ScenarioCompare } from '@/components/ScenarioCompare';
 import { Slider } from '@/components/Slider';
@@ -159,7 +160,29 @@ export default function ConsultingFeeCalculator() {
                 { label: 'Profit margin per year', value: money(result.marginPerYear) },
                 { label: 'Billable hours per year', value: formatNumber(result.billableHours, 1) },
               ]}
-              footnote="Revenue covers your take-home pay, tax and overheads, plus the margin."
+              footnote={
+                <>
+                  <div className="rounded-field border border-line bg-surface p-4">
+                    <p className="font-[550] text-ink">Rate card</p>
+                    <dl className="mt-3 grid grid-cols-2 gap-x-4 gap-y-3">
+                      {[
+                        ['Hourly', result.hourlyRate],
+                        [`Half-day (${formatNumber(s.hoursPerDay / 2, 1)} h)`, result.halfDayRate],
+                        [`Day (${formatNumber(s.hoursPerDay, 1)} h)`, result.dayRate],
+                        ['Week (5 days)', result.weekRate],
+                      ].map(([k, v]) => (
+                        <div key={k as string}>
+                          <dt className="text-ink-muted">{k}</dt>
+                          <dd className="type-figure text-ink">
+                            <Num>{money(v as number)}</Num>
+                          </dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                  <p className="mt-3">Revenue covers your take-home pay, tax and overheads, plus the margin.</p>
+                </>
+              }
             />
           ) : (
             <ResultCard label={label} value="" unit="" rows={[]} error={result.error} />
