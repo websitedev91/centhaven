@@ -12,7 +12,7 @@ export interface ConsultingInput {
   overheads: number;
   billableDays: number;
   hoursPerDay: number;
-  /** Profit margin on top of costs, as a fraction (0.15 = 15%). */
+  /** Profit margin as a share of the price, as a fraction (0.15 = 15% of every hour billed). Must be < 1. */
   margin: number;
   /** Estimated hours for the project fee. */
   projectHours: number;
@@ -20,6 +20,9 @@ export interface ConsultingInput {
 
 export interface ConsultingResult {
   ok: true;
+  /** Rate card: half-day = hours per day ÷ 2, week = 5 days. */
+  halfDayRate: number;
+  weekRate: number;
   grossNeeded: number;
   billableHours: number;
   /** Rate that only covers costs (no margin). */
@@ -40,17 +43,20 @@ export interface ConsultingError {
 
 export const NO_BILLABLE_DAYS = 'Add some billable days';
 export const INVALID_TAX_RATE = 'Tax rate must be below 100%';
+export const INVALID_MARGIN = 'Profit margin must be below 100%';
 
 export function consultingFee(input: ConsultingInput): ConsultingResult | ConsultingError {
   const { income, taxRate, overheads, billableDays, hoursPerDay, margin, projectHours } = input;
   if (!(taxRate < 1)) return { ok: false, error: INVALID_TAX_RATE };
+  if (!(margin < 1)) return { ok: false, error: INVALID_MARGIN };
   const billableHours = billableDays * hoursPerDay;
   if (!(billableHours > 0)) return { ok: false, error: NO_BILLABLE_DAYS };
 
   const grossIncome = income / (1 - taxRate);
   const grossNeeded = grossIncome + overheads;
   const costRate = grossNeeded / billableHours;
-  const hourlyRate = costRate * (1 + margin);
+  // True margin (review #2): the margin is a share of the price, so 15% margin = 15% of every hour billed.
+  const hourlyRate = costRate / (1 - margin);
   const annualRevenue = hourlyRate * billableHours;
 
   return {
@@ -60,6 +66,8 @@ export function consultingFee(input: ConsultingInput): ConsultingResult | Consul
     costRate,
     hourlyRate,
     dayRate: hourlyRate * hoursPerDay,
+    halfDayRate: (hourlyRate * hoursPerDay) / 2,
+    weekRate: hourlyRate * hoursPerDay * 5,
     projectFee: hourlyRate * projectHours,
     annualRevenue,
     marginPerYear: annualRevenue - grossNeeded,

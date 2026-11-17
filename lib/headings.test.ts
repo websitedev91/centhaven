@@ -32,3 +32,10 @@ describe('headings', () => {
     expect(ids).not.toContain('sources');
   });
 });
+
+describe('content.mdx has no markdown tables (they render as raw text without GFM)', () => {
+  it.each(registry.map((t) => [t.slug] as const))('%s', (slug) => {
+    const mdx = readFileSync(join(process.cwd(), 'tools', slug, 'content.mdx'), 'utf8').replace(/```[\s\S]*?```/g, '');
+    expect(mdx, 'use an HTML <table> instead of a markdown table').not.toMatch(/^\s*\|.*\|\s*$/m);
+  });
+});

@@ -29,7 +29,7 @@ How it differs from the Freelance Hourly Rate Calculator (so the two pages don't
 | Estimated tax rate | % slider | 25% | 0 – 60% | Helper: "Your rough total rate. Not tax advice." |
 | Billable days per year | number | 180 | 1 – 260 | Helper: "Days you actually bill clients, after holidays, sales and admin days." |
 | Hours per billable day | number | 6 | 1 – 12 | |
-| Profit margin | % slider | 15% | 0 – 100% | Helper: "On top of covering costs: a buffer for slow months and growth." |
+| Profit margin (true margin: share of the price) | % slider | 15% | 0 – 60% | Helper: "On top of covering costs: a buffer for slow months and growth." |
 | Project estimate | number | 40 | 1 – 10,000 | Hours, for the project fee |
 
 ### Currency defaults
@@ -57,7 +57,9 @@ Gross up the take-home income for tax, add overheads, spread it over billable ho
 grossNeeded   = income ÷ (1 − tax) + overheads
 billableHours = billableDays × hoursPerDay
 costRate      = grossNeeded ÷ billableHours
-hourlyRate    = costRate × (1 + margin)
+hourlyRate    = costRate ÷ (1 − margin)      (true margin, review #2 2026-11-17: 15% margin = 15% of the price)
+halfDayRate   = hourlyRate × hoursPerDay ÷ 2
+weekRate      = dayRate × 5
 dayRate       = hourlyRate × hoursPerDay
 projectFee    = hourlyRate × projectHours
 annualRevenue = hourlyRate × billableHours
@@ -73,9 +75,9 @@ Guard: billableHours ≤ 0 → error "Add some billable days".
 ## Test cases (must match exactly)
 | # | Inputs | Expected output | Checked against |
 |---|---|---|---|
-| 1 | income 120,000 · tax 25% · overheads 15,000 · 180 days · 6 h · margin 15% · project 40 h | gross 175,000.00 · hours 1,080 · **rate 186.34** · day 1,118.06 · project 7,453.70 · annual 201,250.00 · margin/yr 26,250.00 | Manual |
-| 2 | income 30,00,000 · tax 10% · overheads 3,00,000 · 200 days · 7 h · margin 10% · project 20 h | gross 36,33,333.33 · hours 1,400 · **rate 2,854.76** · day 19,983.33 · project 57,095.24 · annual 39,96,666.67 | Manual |
-| 3 | income 90,000 · tax 0% · overheads 10,000 · 200 days · 5 h · margin 0% · project 40 h | **rate 100.00** · day 500.00 · project 4,000.00 · annual 100,000.00 · margin/yr 0.00 | Manual |
+| 1 | income 120,000 · tax 25% · overheads 15,000 · 180 days · 6 h · margin 15% · project 40 h | gross 175,000.00 · hours 1,080 · cost rate 162.04 · **rate 190.63** · half-day 571.90 · day 1,143.79 · week 5,718.95 · project 7,625.27 · annual 205,882.35 · margin/yr 30,882.35 (15.00% of revenue) | Manual |
+| 2 | income 30,00,000 · tax 10% · overheads 3,00,000 · 200 days · 7 h · margin 10% · project 20 h | gross 36,33,333.33 · hours 1,400 · **rate 2,883.60** · half-day 10,092.59 · day 20,185.19 · week 1,00,925.93 · project 57,671.96 · annual 40,37,037.04 · margin/yr 4,03,703.70 | Manual |
+| 3 | income 90,000 · tax 0% · overheads 10,000 · 200 days · 5 h · margin 0% · project 40 h | **rate 100.00** · half-day 250.00 · day 500.00 · week 2,500.00 · project 4,000.00 · annual 100,000.00 · margin/yr 0.00 | Manual |
 | 4 | billable days 0 | Validation error, no crash | — |
 
 ## Extras

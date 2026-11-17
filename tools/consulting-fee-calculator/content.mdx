@@ -21,12 +21,12 @@ The calculator works from the bottom up. First it finds the revenue that only co
 grossNeeded   = income ÷ (1 − tax) + overheads
 billableHours = billable days × hours per day
 costRate      = grossNeeded ÷ billableHours
-hourlyRate    = costRate × (1 + margin)
+hourlyRate    = costRate ÷ (1 − margin)
 dayRate       = hourlyRate × hours per day
 projectFee    = hourlyRate × project hours
 ```
 
-The tax step matters: to keep 120,000 at a 25% tax rate you need 160,000 before tax, not 150,000. The margin then sits on top of everything else, so it's real profit rather than money you already owe.
+The tax step matters: to keep 120,000 at a 25% tax rate you need 160,000 before tax, not 150,000. The margin is a true margin: a 15% margin means 15% of every hour you bill is profit, after your pay, tax and overheads.
 
 ## How much to charge for consulting
 
@@ -48,11 +48,11 @@ Dana wants to take home $120,000 a year. Her overheads are $15,000 and she sets 
 
 - Revenue needed to cover costs: **$175,000.00**
 - Billable hours: **1,080**
-- Consulting rate: **$186.34** an hour
-- Day rate: **$1,118.06** · 40-hour project: **$7,453.70**
-- Yearly revenue at this rate: **$201,250.00**, of which **$26,250.00** is margin
+- Consulting rate: **$190.63** an hour
+- Day rate: **$1,143.79** · 40-hour project: **$7,625.27**
+- Yearly revenue at this rate: **$205,882.35**, of which **$30,882.35** is margin
 
-**What this means for Dana:** pricing a 40-hour project at $6,000 would leave her about $1,450 short of her own rate.
+**What this means for Dana:** pricing a 40-hour project at $6,000 would leave her about $1,625 short of her own rate.
 
 ### 2. An Indian IT consultant
 
@@ -60,9 +60,9 @@ Ravi wants ₹30,00,000 a year after tax, with ₹3,00,000 of overheads and a 10
 
 - Revenue needed to cover costs: **₹36,33,333.33**
 - Billable hours: **1,400**
-- Consulting rate: **₹2,854.76** an hour
-- Day rate: **₹19,983.33** · 20-hour project: **₹57,095.24**
-- Yearly revenue at this rate: **₹39,96,666.67**
+- Consulting rate: **₹2,883.60** an hour
+- Day rate: **₹20,185.19** · 20-hour project: **₹57,671.96**
+- Yearly revenue at this rate: **₹40,37,037.04**
 
 **What this means for Ravi:** a day rate of about ₹20,000 covers his goal with a buffer, so a client offering ₹15,000 a day is below his floor.
 

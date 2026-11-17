@@ -15,7 +15,7 @@ export const consultingSchema = z.object({
   taxRate: num().check(z.minimum(0, 'Minimum is 0%'), z.maximum(60, 'Maximum is 60%')),
   billableDays: num().check(z.minimum(1, 'Minimum is 1 day'), z.maximum(260, 'Maximum is 260 days')),
   hoursPerDay: num().check(z.minimum(1, 'Minimum is 1 hour'), z.maximum(12, 'Maximum is 12 hours')),
-  margin: num().check(z.minimum(0, 'Minimum is 0%'), z.maximum(100, 'Maximum is 100%')),
+  margin: num().check(z.minimum(0, 'Minimum is 0%'), z.maximum(60, 'Maximum is 60%')),
   projectHours: num().check(z.minimum(1, 'Minimum is 1 hour'), z.maximum(10_000, 'Maximum is 10,000 hours')),
 });
 

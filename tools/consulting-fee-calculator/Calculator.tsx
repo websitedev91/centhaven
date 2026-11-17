@@ -123,11 +123,11 @@ export default function ConsultingFeeCalculator() {
               <div className="sm:col-span-2">
                 <Slider
                   label="Profit margin"
-                  help="On top of covering costs: a buffer for slow months and growth."
+                  help="Share of the price kept as profit, after your pay, tax and overheads (max 60%)."
                   value={s.margin}
                   onChange={(v) => update('margin', v)}
                   min={0}
-                  max={100}
+                  max={60}
                   format={(v) => `${v}%`}
                   unit="%"
                   error={errors.margin}
@@ -211,7 +211,7 @@ export default function ConsultingFeeCalculator() {
               value={b.margin}
               onChange={(v) => setB('margin', v)}
               min={0}
-              max={100}
+              max={60}
               format={(v) => `${v}%`}
               unit="%"
               error={bErrors.margin}

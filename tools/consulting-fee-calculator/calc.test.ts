@@ -3,7 +3,7 @@ import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { formatMoney, formatNumber, roundTo, type CurrencyCode } from '@/lib/format';
 import { parseQuery, toQuery } from '@/lib/url-state';
-import { consultingFee, INVALID_TAX_RATE, NO_BILLABLE_DAYS, type ConsultingError, type ConsultingInput, type ConsultingResult } from './calc';
+import { consultingFee, INVALID_MARGIN, INVALID_TAX_RATE, NO_BILLABLE_DAYS, type ConsultingError, type ConsultingInput, type ConsultingResult } from './calc';
 import {
   consultingDefaults,
   consultingSchema,
@@ -31,21 +31,23 @@ describe('spec test cases', () => {
     const r = ok(consultingFee(CASES[0]!.input));
     expect(r2(r.grossNeeded)).toBe(175_000);
     expect(r.billableHours).toBe(1_080);
-    expect(r2(r.hourlyRate)).toBe(186.34);
-    expect(r2(r.dayRate)).toBe(1_118.06);
-    expect(r2(r.projectFee)).toBe(7_453.7);
-    expect(r2(r.annualRevenue)).toBe(201_250);
-    expect(r2(r.marginPerYear)).toBe(26_250);
+    expect(r2(r.costRate)).toBe(162.04);
+    expect(r2(r.hourlyRate)).toBe(190.63);
+    expect(r2(r.dayRate)).toBe(1_143.79);
+    expect(r2(r.projectFee)).toBe(7_625.27);
+    expect(r2(r.annualRevenue)).toBe(205_882.35);
+    expect(r2(r.marginPerYear)).toBe(30_882.35);
   });
 
   it('#2 INR: income 30,00,000 · tax 10% · overheads 3,00,000 · 200 days · 7 h · margin 10% · 20 h', () => {
     const r = ok(consultingFee(CASES[1]!.input));
     expect(r2(r.grossNeeded)).toBe(3_633_333.33);
     expect(r.billableHours).toBe(1_400);
-    expect(r2(r.hourlyRate)).toBe(2_854.76);
-    expect(r2(r.dayRate)).toBe(19_983.33);
-    expect(r2(r.projectFee)).toBe(57_095.24);
-    expect(r2(r.annualRevenue)).toBe(3_996_666.67);
+    expect(r2(r.hourlyRate)).toBe(2_883.6);
+    expect(r2(r.dayRate)).toBe(20_185.19);
+    expect(r2(r.projectFee)).toBe(57_671.96);
+    expect(r2(r.annualRevenue)).toBe(4_037_037.04);
+    expect(r2(r.marginPerYear)).toBe(403_703.7);
   });
 
   it('#3 GBP: income 90,000 · no tax · overheads 10,000 · 200 days · 5 h · no margin · 40 h', () => {
@@ -81,9 +83,9 @@ describe('other checks', () => {
       taxRate: 'Maximum is 60%',
       hoursPerDay: 'Maximum is 12 hours',
     });
-    expect(fieldErrors(planBSchema, { margin: 101, billableDays: 261 })).toEqual({
+    expect(fieldErrors(planBSchema, { margin: 61, billableDays: 261 })).toEqual({
       billableDays: 'Maximum is 260 days',
-      margin: 'Maximum is 100%',
+      margin: 'Maximum is 60%',
     });
   });
 
@@ -131,5 +133,30 @@ describe('content.mdx worked examples match the calculator', () => {
 
   it('cross-links to the freelance hourly rate calculator near the top', () => {
     expect(mdx.slice(0, 600)).toContain('<ToolLink slug="hourly-rate-calculator">');
+  });
+});
+
+describe('review #2: true margin and rate card', () => {
+  it('a 15% margin is exactly 15% of the price (rate = cost ÷ (1 − margin))', () => {
+    const r = ok(consultingFee(CASES[0]!.input));
+    expect(roundTo((r.perHour.margin / r.hourlyRate) * 100, 6)).toBe(15);
+    expect(roundTo((r.marginPerYear / r.annualRevenue) * 100, 6)).toBe(15);
+    expect(r2(r.perHour.margin)).toBe(28.59);
+  });
+
+  it('the split chart still adds up to the rate, and a 100% margin is rejected', () => {
+    const r = ok(consultingFee(CASES[1]!.input));
+    const { takeHome, tax, overheads, margin } = r.perHour;
+    expect(r2(takeHome + tax + overheads + margin)).toBe(r2(r.hourlyRate));
+    expect(consultingFee({ ...CASES[0]!.input, margin: 1 })).toEqual({ ok: false, error: INVALID_MARGIN });
+  });
+
+  it('rate card: hourly · half-day · day · week (hand-checked)', () => {
+    const a = ok(consultingFee(CASES[0]!.input));
+    expect([a.hourlyRate, a.halfDayRate, a.dayRate, a.weekRate].map(r2)).toEqual([190.63, 571.9, 1_143.79, 5_718.95]);
+    const b = ok(consultingFee(CASES[1]!.input));
+    expect([b.halfDayRate, b.weekRate].map(r2)).toEqual([10_092.59, 100_925.93]);
+    const c = ok(consultingFee(CASES[2]!.input));
+    expect([c.halfDayRate, c.dayRate, c.weekRate].map(r2)).toEqual([250, 500, 2_500]);
   });
 });

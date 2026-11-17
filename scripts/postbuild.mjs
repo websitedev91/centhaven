@@ -58,6 +58,12 @@ if (!sitemap) problems.push('sitemap.xml missing');
 if (sitemap.includes(PLACEHOLDER)) problems.push('sitemap.xml contains the placeholder');
 if (!existsSync(join(OUT, 'robots.txt'))) problems.push('robots.txt missing');
 
+// Markdown tables don't render in our MDX (no GFM plugin): a raw "|---" in a page means one
+// slipped through as text. Use an HTML <table> in content.mdx instead.
+for (const p of files.filter((x) => x.endsWith('.html'))) {
+  if (readFileSync(p, 'utf8').includes('|---')) problems.push(`raw markdown table text ("|---") in ${relative(OUT, p).replace(/\\/g, '/')}`);
+}
+
 // Every page's share image must exist as a file (og:image → /og/*.png).
 for (const p of files.filter((x) => x.endsWith('.html'))) {
   const html = readFileSync(p, 'utf8');

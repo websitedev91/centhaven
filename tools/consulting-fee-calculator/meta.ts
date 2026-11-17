@@ -42,7 +42,7 @@ export const meta: ToolMeta = {
     },
     {
       q: 'What profit margin should a consultant add?',
-      a: 'There is no fixed number. The margin is what is left after your pay, tax and overheads, and it funds slow months, training, new equipment and growth. Many consultants start with a modest margin and raise it as demand grows. Try a few values in the calculator and check whether the resulting rate is still realistic for your market.',
+      a: 'There is no fixed number. In this calculator the margin is a share of the price: a 15% margin means 15% of every hour you bill is left after your pay, tax and overheads. It funds slow months, training, new equipment and growth. Many consultants start modestly and raise it as demand grows. Try a few values and check the rate still fits your market.',
     },
     {
       q: 'How many billable days does a consultant have?',
