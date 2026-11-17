@@ -21,6 +21,12 @@ export default function PrivacyPage() {
         When you use &ldquo;Copy share link&rdquo;, your inputs are saved in the page address (URL), so anyone you send the
         link to can see them. Only share links you are happy for others to see.
       </p>
+      <p>
+        The quote and invoice generators save what you type, including any logo you add, in your browser&apos;s local
+        storage on this device, so your work is still there when you come back. It is never sent to us or anyone else.
+        We only record that a PDF was downloaded, not what it contains. You can delete it at any time with &apos;Clear
+        form&apos; or by clearing your browser&apos;s site data.
+      </p>
 
       <h2>No accounts</h2>
       <p>

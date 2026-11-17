@@ -1,6 +1,9 @@
 import type { SourceLink } from '@/lib/rates';
 import { formatIsoDate } from '@/lib/dates';
 
+/** Sources text for the quote and invoice generators (Puru, 2026-11-18). */
+export const DOCUMENT_SOURCES_NOTE = "This tool only uses what you type. It doesn't use any external rates or fees.";
+
 /**
  * Official sources for every rate the tool uses (from /rates metadata).
  * The one exception to "no dates on pages" (CLAUDE.md): tools that use /rates/*.json show

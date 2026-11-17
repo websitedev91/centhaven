@@ -25,7 +25,7 @@ export const staticPages = [
   { href: '/about', label: 'About', built: true, header: true, group: 'company', updated: '2026-11-18' },
   { href: '/contact', label: 'Contact', built: true, header: false, group: 'company', updated: '2026-11-14' },
   { href: '/disclaimer', label: 'Disclaimer', built: true, header: false, group: 'legal', updated: '2026-11-14' },
-  { href: '/privacy', label: 'Privacy', built: true, header: false, group: 'legal', updated: '2026-11-14' },
+  { href: '/privacy', label: 'Privacy', built: true, header: false, group: 'legal', updated: '2026-11-18' },
   { href: '/terms', label: 'Terms', built: true, header: false, group: 'legal', updated: '2026-11-14' },
   { href: '/affiliate-disclosure', label: 'Affiliate disclosure', built: true, header: false, group: 'legal', updated: '2026-11-14' },
 ] as const;

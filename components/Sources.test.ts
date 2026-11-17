@@ -2,7 +2,7 @@ import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
 import { formatIsoDate } from '@/lib/dates';
-import { Sources } from './Sources';
+import { DOCUMENT_SOURCES_NOTE, Sources } from './Sources';
 
 describe('Sources', () => {
   it('shows "Rates checked on {verifiedOn} · Source: {link}" for tools that use rates', () => {
@@ -20,5 +20,11 @@ describe('Sources', () => {
     const html = renderToStaticMarkup(createElement(Sources, { sources: [] }));
     expect(html).toContain('uses only the numbers you enter');
     expect(html).not.toMatch(/checked on|<time/i);
+  });
+
+  it('document generators use their own note (Puru, 2026-11-18)', () => {
+    const html = renderToStaticMarkup(createElement(Sources, { sources: [], pureMathsNote: DOCUMENT_SOURCES_NOTE }));
+    expect(DOCUMENT_SOURCES_NOTE).toBe("This tool only uses what you type. It doesn't use any external rates or fees.");
+    expect(html).toContain('This tool only uses what you type.');
   });
 });

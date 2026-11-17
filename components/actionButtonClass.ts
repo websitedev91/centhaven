@@ -11,6 +11,9 @@ export const primaryButtonClass = `${base} bg-haven text-white hover:bg-haven-de
 /** White with a line border. */
 export const secondaryButtonClass = `${base} border border-line bg-surface text-ink hover:border-haven hover:text-haven`;
 
+/** White with a danger border and text: confirms a destructive action (e.g. "Yes, clear"). */
+export const dangerButtonClass = `${base} border border-danger bg-surface text-danger hover:bg-danger hover:text-white`;
+
 /** Text-only link style: haven, underline on hover. */
 export const textButtonClass =
   'inline-flex items-center gap-1.5 text-[15px] font-[550] text-haven no-underline hover:text-haven-deep hover:underline';

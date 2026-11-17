@@ -5,7 +5,7 @@ import { AffiliateSlot } from './AffiliateSlot';
 import { FaqList } from './FaqList';
 import { RelatedTools } from './RelatedTools';
 import { ToolRail } from './ToolRail';
-import { Sources } from './Sources';
+import { DOCUMENT_SOURCES_NOTE, Sources } from './Sources';
 import { AuthorBox } from './AuthorBox';
 import { Disclaimer } from './Disclaimer';
 import { JsonLd } from './JsonLd';
@@ -75,7 +75,7 @@ export function ToolLayout(props: {
           <div className="lg:hidden">
             <RelatedTools tools={related} />
           </div>
-          <Sources sources={sources} />
+          <Sources sources={sources} pureMathsNote={tool.meta.document ? DOCUMENT_SOURCES_NOTE : undefined} />
           <div className="flex flex-col gap-4">
             <AuthorBox path={path} />
             <Disclaimer />
