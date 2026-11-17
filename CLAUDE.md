@@ -14,6 +14,7 @@ No backend, no database, no login. Ask before adding any new dependency.
    **Exception (Puru, 2026-11-18):** the quote and invoice generators (`lib/doc-calc.ts`) round each line, then contingency, discount and tax, to 2 decimals with the float-safe `roundTo` before summing, so a printed document adds up. No other tool does this.
 4. **Every tool has tests** in `calc.test.ts`, including every test case from its spec. Tests must pass.
 5. **Scope:** only tools that help people earn, save, spend or manage money. Flag anything else.
+   Scope rule: never build tools that depend on tax rules, government limits or legal thresholds. Allowed: pure maths on user input, and company-published fees (with /rates + quarterly checks).
 6. **Publishing is controlled by `lib/registry.ts`.** Only `status: 'live'` tools get pages, sitemap entries and links. New tools start as `draft`; set `ready` when all quality gates pass. Never set `live` unless asked.
 
 ## Every tool folder
