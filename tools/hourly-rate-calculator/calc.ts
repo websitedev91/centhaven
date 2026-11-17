@@ -14,6 +14,8 @@ export interface HourlyRateInput {
   hoursPerWeek: number;
   /** Share of hours that can be billed, as a fraction (0.75 = 75%). */
   billablePct: number;
+  /** Optional buffer for slow months on top of the minimum rate, as a fraction (0.1 = 10%). */
+  buffer?: number;
 }
 
 export interface HourlyRateResult {
@@ -22,6 +24,9 @@ export interface HourlyRateResult {
   billableHours: number;
   hourlyRate: number;
   dayRate: number;
+  /** Minimum rate × (1 + buffer). Equals hourlyRate when there is no buffer. */
+  bufferedRate: number;
+  bufferedDayRate: number;
   hoursPerDay: number;
   monthlyRevenue: number;
   /** Total tax per year implied by the target take-home income. */
@@ -42,7 +47,7 @@ export const WEEKS_PER_YEAR = 52;
 export const WORKDAYS_PER_WEEK = 5;
 
 export function calcHourlyRate(input: HourlyRateInput): HourlyRateResult | HourlyRateError {
-  const { targetIncome, expenses, taxRate, weeksOff, hoursPerWeek, billablePct } = input;
+  const { targetIncome, expenses, taxRate, weeksOff, hoursPerWeek, billablePct, buffer = 0 } = input;
 
   if (!(taxRate < 1)) return { ok: false, error: INVALID_TAX_RATE };
 
@@ -61,6 +66,8 @@ export function calcHourlyRate(input: HourlyRateInput): HourlyRateResult | Hourl
     billableHours,
     hourlyRate,
     dayRate: hourlyRate * hoursPerDay,
+    bufferedRate: hourlyRate * (1 + buffer),
+    bufferedDayRate: hourlyRate * (1 + buffer) * hoursPerDay,
     hoursPerDay,
     monthlyRevenue: grossNeeded / 12,
     taxPerYear,

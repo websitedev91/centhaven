@@ -2,6 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import { useRef } from 'react';
+import Link from 'next/link';
 import { CalculatorGrid, InputsPanel } from '@/components/CalculatorGrid';
 import { ChartLazy, ChartPlaceholder } from '@/components/ChartLazy';
 import { ResetIcon } from '@/components/icons';
@@ -27,6 +28,7 @@ import {
   hourlyRateVariant,
   type HourlyRateState,
 } from './schema';
+import { DAY_RATE_TOOL } from './links';
 import { SLICES } from './slices';
 
 const HourSplitChart = dynamic(() => import('./Chart'), { ssr: false, loading: () => <ChartPlaceholder shape="donut" /> });
@@ -159,6 +161,19 @@ export default function HourlyRateCalculator() {
                 error={errors.billablePct}
               />
             </div>
+            <div className="sm:col-span-2">
+              <Slider
+                label="Buffer for slow months"
+                help="Optional. Adds a margin on top of your minimum rate for quiet months and late payers."
+                value={s.buffer}
+                onChange={(v) => update('buffer', v)}
+                min={0}
+                max={50}
+                format={(v) => `${v}%`}
+                unit="%"
+                error={errors.buffer}
+              />
+            </div>
           </div>
         </InputsPanel>
         }
@@ -169,6 +184,15 @@ export default function HourlyRateCalculator() {
               value={money(result.hourlyRate, c)}
               unit={`per hour · ${c}`}
               rows={[
+                ...(s.buffer > 0
+                  ? [
+                      {
+                        label: `Rate with ${s.buffer}% buffer`,
+                        note: `Day rate ${money(result.bufferedDayRate, c)}`,
+                        value: money(result.bufferedRate, c),
+                      },
+                    ]
+                  : []),
                 {
                   label: 'Day rate',
                   note: `${formatNumber(result.hoursPerDay, 2)}-hour day`,
@@ -178,7 +202,20 @@ export default function HourlyRateCalculator() {
                 { label: 'Gross revenue needed per month', value: money(result.monthlyRevenue, c) },
                 { label: 'Billable hours per year', value: formatNumber(result.billableHours, 1) },
               ]}
-              footnote="Gross revenue covers your take-home pay, tax and expenses."
+              footnote={
+                <>
+                  <p>Gross revenue covers your take-home pay, tax and expenses.</p>
+                  <p className="mt-2">
+                    <span className="font-[550] text-ink">Salary equivalent:</span>{' '}
+                    {/* Pre-fills the live day rate tool with this day rate (its URL state reads currency, then dayRate). */}
+                    <Link
+                      href={`${DAY_RATE_TOOL.path}?currency=${c}&dayRate=${Math.round(result.bufferedDayRate * 100) / 100}`}
+                    >
+                      see what a {money(result.bufferedDayRate, c)} day rate is worth as a salary
+                    </Link>
+                  </p>
+                </>
+              }
             />
           ) : (
             <ResultCard label="Minimum hourly rate" value="" unit="" rows={[]} error={result.error} />

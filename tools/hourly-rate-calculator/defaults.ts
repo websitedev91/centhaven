@@ -18,6 +18,8 @@ export type HourlyRateState = {
   weeksOff: number;
   hoursPerWeek: number;
   billablePct: number;
+  /** Optional buffer for slow months, whole % (0–50). */
+  buffer: number;
 };
 
 export type HourlyRateField = keyof HourlyRateState;
@@ -43,6 +45,7 @@ const baseDefaults: HourlyRateState = {
   weeksOff: 6,
   hoursPerWeek: 40,
   billablePct: 75,
+  buffer: 0,
 };
 
 /** Page-load defaults (USD). */
@@ -62,5 +65,6 @@ export function toCalcInput(s: Omit<HourlyRateState, 'currency'>): HourlyRateInp
     weeksOff: s.weeksOff,
     hoursPerWeek: s.hoursPerWeek,
     billablePct: s.billablePct / 100,
+    buffer: s.buffer / 100,
   };
 }

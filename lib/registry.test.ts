@@ -58,3 +58,13 @@ describe('preview flag', () => {
     expect(isPublished({ status: 'live' })).toBe(true);
   });
 });
+
+describe('hard-coded links from calculator UIs', () => {
+  it('the hourly rate tool links to a live day rate tool at the right path', async () => {
+    const { DAY_RATE_TOOL } = await import('@/tools/hourly-rate-calculator/links');
+    const { getLiveToolBySlug, toolPath } = await import('./registry');
+    const tool = getLiveToolBySlug(DAY_RATE_TOOL.slug);
+    expect(tool, 'day rate tool must be live while the hourly rate tool links to it').toBeDefined();
+    expect(toolPath(tool!)).toBe(DAY_RATE_TOOL.path);
+  });
+});

@@ -23,6 +23,7 @@ The minimum hourly rate a freelancer must charge to reach their target take-home
 | Weeks off per year | number/slider | 6 | 0 – 26 | Holidays, sick days, public holidays |
 | Working hours per week | number/slider | 40 | 1 – 80 | |
 | Billable time | % slider | 75% | 10 – 100% | Share of hours you can actually bill (rest = admin, sales) |
+| Buffer for slow months (added 2026-11-17, review C6) | % slider | 0% | 0 – 50% | Optional margin on top of the minimum rate |
 
 ## Outputs
 | Output | How it's shown |
@@ -32,6 +33,8 @@ The minimum hourly rate a freelancer must charge to reach their target take-home
 | Gross revenue needed per year | Breakdown row |
 | Gross revenue needed per month | Breakdown row |
 | Billable hours per year | Breakdown row |
+| Rate with buffer (+ its day rate) | Breakdown row, only when buffer > 0 |
+| Salary equivalent | Line under the result linking to the day rate to salary tool, pre-filled with the day rate (with buffer) and currency |
 
 ## Formula
 You need enough revenue to cover your take-home pay, your tax and your expenses, earned only in the hours you can actually bill.
@@ -42,6 +45,8 @@ billableHours  = (52 − weeksOff) × hoursPerWeek × billablePct
 hourlyRate     = grossNeeded / billableHours
 dayRate        = hourlyRate × (hoursPerWeek / 5)
 monthlyRevenue = grossNeeded / 12
+bufferedRate   = hourlyRate × (1 + buffer)
+bufferedDay    = bufferedRate × (hoursPerWeek / 5)
 ```
 Edge cases: the schema caps weeks off at 26 and tax at 60%, so normal input can't reach zero billable hours. `calc.ts` still keeps a guard: if billableHours = 0, return the error "Add some billable hours" instead of dividing by zero.
 
@@ -57,6 +62,8 @@ Edge cases: the schema caps weeks off at 26 and tax at 60%, so normal input can'
 | 2 | income 1,200,000 · expenses 120,000 · tax 10% · weeks off 4 · 40 h/wk · billable 60% | gross 1,453,333.33 · billable hours 1,152 · **hourly 1,261.57** · day 10,092.59 · monthly 121,111.11 | Manual calculation |
 | 3 | income 50,000 · expenses 0 · tax 0% · weeks off 2 · 30 h/wk · billable 100% | gross 50,000.00 · billable hours 1,500 · **hourly 33.33** · day 200.00 · monthly 4,166.67 | Manual calculation |
 | 4a | weeks off 27 (above the schema max of 26) | Schema validation error shown inline, no crash | — |
+| 5 | case 1 + buffer 10% | **rate with buffer 68.55** · day 548.41 (86,000 ÷ 1,380 × 1.1) | Manual calculation |
+| 6 | case 1 + buffer 25% | rate with buffer 77.90 | Manual calculation |
 | 4b | `calc()` called directly with billableHours = 0 | Returns the guard error "Add some billable hours", no divide-by-zero | Unit test on calc.ts |
 
 ## Extras

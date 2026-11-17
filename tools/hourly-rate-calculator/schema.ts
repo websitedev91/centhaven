@@ -18,6 +18,7 @@ export const hourlyRateSchema = z.object({
   ),
   hoursPerWeek: num().check(z.minimum(1, 'Minimum is 1 hour'), z.maximum(80, 'Maximum is 80 hours')),
   billablePct: num().check(z.minimum(10, 'Minimum is 10%'), z.maximum(100, 'Maximum is 100%')),
+  buffer: num().check(z.minimum(0, 'Minimum is 0%'), z.maximum(50, 'Maximum is 50%')),
 });
 
 /** Compile-time check: the Zod schema and the Zod-free state type in defaults.ts must match. */

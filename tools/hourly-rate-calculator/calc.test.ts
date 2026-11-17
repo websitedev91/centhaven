@@ -178,3 +178,32 @@ describe('content.mdx worked examples match the calculator', () => {
     }
   });
 });
+
+describe('buffer for slow months (review C6)', () => {
+  const base = { targetIncome: 60_000, expenses: 6_000, taxRate: 0.25, weeksOff: 6, hoursPerWeek: 40, billablePct: 0.75 };
+
+  it('10% buffer: 62.32 → 68.55 an hour, day rate 548.41 (hand-checked: 86,000 ÷ 1,380 × 1.1)', () => {
+    const r = ok({ ...base, buffer: 0.1 });
+    expect(r2(r.hourlyRate)).toBe(62.32);
+    expect(r2(r.bufferedRate)).toBe(68.55);
+    expect(r2(r.bufferedDayRate)).toBe(548.41);
+  });
+
+  it('25% buffer: 77.90 an hour', () => {
+    expect(r2(ok({ ...base, buffer: 0.25 }).bufferedRate)).toBe(77.9);
+  });
+
+  it('no buffer (default) leaves the rate unchanged', () => {
+    const r = ok(base);
+    expect(r.bufferedRate).toBe(r.hourlyRate);
+    expect(r.bufferedDayRate).toBe(r.dayRate);
+  });
+
+  it('defaults to 0, stays out of share links, and is validated 0–50%', () => {
+    expect(hourlyRateDefaults.buffer).toBe(0);
+    expect(toQuery(hourlyRateDefaults, hourlyRateDefaults, hourlyRateVariant)).toBe('');
+    expect(toQuery({ ...hourlyRateDefaults, buffer: 10 }, hourlyRateDefaults, hourlyRateVariant)).toBe('?buffer=10');
+    expect(fieldErrors(hourlyRateSchema, { ...hourlyRateDefaults, buffer: 51 })).toEqual({ buffer: 'Maximum is 50%' });
+    expect(toCalcInput({ ...hourlyRateDefaults, buffer: 10 }).buffer).toBe(0.1);
+  });
+});
