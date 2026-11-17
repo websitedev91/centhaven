@@ -23,6 +23,8 @@ export interface RateIncreaseResult {
   newRevenue: number;
   /** newRevenue − currentRevenue (negative = you earn less). */
   change: number;
+  /** change × 12 */
+  yearlyChange: number;
   /** The share of work you can lose and still earn the same as today. */
   breakEvenLoss: number;
 }
@@ -49,6 +51,7 @@ export function rateIncrease(input: RateIncreaseInput): RateIncreaseResult | Rat
     hoursFreed: hours - newHours,
     newRevenue,
     change: newRevenue - currentRevenue,
+    yearlyChange: (newRevenue - currentRevenue) * 12,
     breakEvenLoss: increase / (1 + increase),
   };
 }
@@ -62,5 +65,15 @@ export function incomeCurve(input: Omit<RateIncreaseInput, 'loss'>, maxLoss = 0.
   return Array.from({ length: steps + 1 }, (_, i) => {
     const loss = i / 100;
     return { loss, income: input.rate * (1 + input.increase) * input.hours * (1 - loss) };
+  });
+}
+
+export const QUICK_INCREASES = [0.1, 0.2, 0.3] as const;
+
+/** Quick comparison at the user's expected loss of work: +10%, +20% and +30%. */
+export function quickComparison(input: Omit<RateIncreaseInput, 'increase'>): { increase: number; result: RateIncreaseResult }[] {
+  return QUICK_INCREASES.flatMap((increase) => {
+    const result = rateIncrease({ ...input, increase });
+    return result.ok ? [{ increase, result }] : [];
   });
 }

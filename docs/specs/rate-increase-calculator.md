@@ -29,6 +29,9 @@ What happens to your monthly income if you raise your rate and lose some work, a
 | New rate | Breakdown |
 | Monthly income now / after | Breakdown |
 | Hours after the change (and hours freed up) | Breakdown |
+| Change per year (monthly × 12), added 2026-11-17, review C8 | Breakdown |
+| Quick comparison: +10%, +20%, +30% at the user's loss % (new rate, change per month, break-even loss) | Table below the chart |
+| Client notice: fills in current rate, new rate and an effective date the user picks; copy button | Box below the table |
 | **Break-even work loss**: you can lose up to X% and still earn the same | Highlight line |
 
 ## Formula
@@ -39,6 +42,7 @@ newHours     = hours × (1 − loss)
 newRev       = newRate × newHours
 change       = newRev − currentRev
 breakEvenLoss = increase / (1 + increase)
+yearlyChange  = change × 12
 ```
 
 ## Rates used
@@ -47,6 +51,8 @@ None.
 ## Test cases
 | # | Inputs | Expected | Checked against |
 |---|---|---|---|
+| 4 | yearly change for cases 1–3 | +4,800.00 · −93,600.00 · +14,400.00 | Manual |
+| 5 | quick comparison at 50 · 100 h · lose 10% | +10%: 55.00 · −50.00 · 9.09% · +20%: 60.00 · +400.00 · 16.67% · +30%: 65.00 · +850.00 · 23.08% | Manual |
 | 1 | rate 50 · 100 h · +20% · lose 10% | new rate **60.00** · now 5,000.00 · after 5,400.00 · hours 90 · **change +400.00** · break-even loss **16.67%** | Manual |
 | 2 | rate 1,000 · 120 h · +10% · lose 15% | new rate 1,100.00 · now 120,000.00 · after 112,200.00 · hours 102 · **change −7,800.00** · break-even 9.09% | Manual |
 | 3 | rate 80 · 60 h · +25% · lose 0% | new rate 100.00 · now 4,800.00 · after 6,000.00 · **change +1,200.00** · break-even 20.00% | Manual |

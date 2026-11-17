@@ -14,7 +14,9 @@ import { Slider } from '@/components/Slider';
 import { track } from '@/lib/analytics';
 import { formatMoney, formatNumber, formatPercent, type CurrencyCode } from '@/lib/format';
 import { useUrlState } from '@/lib/url-state';
-import { incomeCurve, rateIncrease, type RateIncreaseError, type RateIncreaseResult } from './calc';
+import { incomeCurve, quickComparison, rateIncrease, type RateIncreaseError, type RateIncreaseResult } from './calc';
+import { ClientNotice } from './ClientNotice';
+import { Num } from '@/components/Num';
 import {
   fieldErrors,
   planBDefaults,
@@ -140,6 +142,7 @@ export default function RateIncreaseCalculator() {
                 { label: 'New rate', value: money(result.newRate) },
                 { label: 'Monthly income now', value: money(result.currentRevenue) },
                 { label: 'Monthly income after', value: money(result.newRevenue) },
+                { label: 'Change per year', note: 'Monthly change × 12', value: signed(result.yearlyChange) },
                 {
                   label: 'Hours after the change',
                   note: result.hoursFreed > 0 ? `${hrs(result.hoursFreed)} hours freed up` : undefined,
@@ -175,6 +178,41 @@ export default function RateIncreaseCalculator() {
           />
         </ChartLazy>
       ) : null}
+
+      {result.ok ? (
+        <section aria-labelledby="quick-compare-heading" className="print-break-avoid min-w-0 rounded-panel border border-line bg-surface p-5 sm:p-8">
+          <h2 id="quick-compare-heading" className="type-h3 text-ink">
+            10%, 20% or 30%?
+          </h2>
+          <p className="type-small mt-1 text-ink-muted">
+            The same three increases, if you lose {s.loss}% of your work.
+          </p>
+          <div className="mt-6 overflow-x-auto">
+            <table className="type-small w-full">
+              <thead>
+                <tr className="border-b border-line text-left text-ink-muted">
+                  <th scope="col" className="py-2 pr-3 font-[550]">Increase</th>
+                  <th scope="col" className="py-2 pr-3 text-right font-[550]">New rate</th>
+                  <th scope="col" className="py-2 pr-3 text-right font-[550]">Change per month</th>
+                  <th scope="col" className="hidden py-2 text-right font-[550] sm:table-cell">Break-even loss</th>
+                </tr>
+              </thead>
+              <tbody>
+                {quickComparison({ rate: s.rate, hours: s.hours, loss: s.loss / 100 }).map(({ increase, result: q }) => (
+                  <tr key={increase} className="border-b border-line last:border-0">
+                    <th scope="row" className="py-3 pr-3 text-left font-normal text-ink-muted">+{Math.round(increase * 100)}%</th>
+                    <td className="type-figure py-3 pr-3 text-right text-ink"><Num>{money(q.newRate)}</Num></td>
+                    <td className={`type-figure py-3 pr-3 text-right ${q.change < 0 ? 'text-danger' : 'text-ink'}`}><Num>{signed(q.change)}</Num></td>
+                    <td className="type-figure hidden py-3 text-right text-ink sm:table-cell"><Num>{pct2(q.breakEvenLoss)}</Num></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      ) : null}
+
+      {result.ok ? <ClientNotice oldRate={money(s.rate)} newRate={money(result.newRate)} toolSlug={SLUG} /> : null}
 
       <ScenarioCompare
         title="Compare two plans"

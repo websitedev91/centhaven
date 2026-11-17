@@ -3,7 +3,8 @@ import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { formatMoney, formatNumber, formatPercent, roundTo, type CurrencyCode } from '@/lib/format';
 import { parseQuery, toQuery } from '@/lib/url-state';
-import { incomeCurve, NEED_RATE_AND_HOURS, rateIncrease, type RateIncreaseError, type RateIncreaseInput, type RateIncreaseResult } from './calc';
+import { clientNotice, DATE_PLACEHOLDER } from './notice';
+import { incomeCurve, NEED_RATE_AND_HOURS, quickComparison, rateIncrease, type RateIncreaseError, type RateIncreaseInput, type RateIncreaseResult } from './calc';
 import {
   fieldErrors,
   planBSchema,
@@ -129,5 +130,34 @@ describe('content.mdx worked examples match the calculator', () => {
       expect(mdx, `content.mdx should contain "${text}"`).toContain(text);
     }
     if (input.loss > 0) expect(mdx).toContain(`**${formatNumber(r.newHours)}**`);
+  });
+});
+
+describe('review C8: yearly change, quick comparison and client notice', () => {
+  it('yearly change = monthly change × 12 for the three spec cases', () => {
+    expect(CASES.map(({ input }) => r2(ok(rateIncrease(input)).yearlyChange))).toEqual([4_800, -93_600, 14_400]);
+  });
+
+  it('10/20/30% at 50/h · 100 h · lose 10% (hand-checked)', () => {
+    const rows = quickComparison({ rate: 50, hours: 100, loss: 0.1 }).map(({ increase, result }) => [
+      increase,
+      r2(result.newRate),
+      r2(result.newRevenue),
+      r2(result.change),
+      roundTo(result.breakEvenLoss * 100, 2),
+    ]);
+    expect(rows).toEqual([
+      [0.1, 55, 4_950, -50, 9.09],
+      [0.2, 60, 5_400, 400, 16.67],
+      [0.3, 65, 5_850, 850, 23.08],
+    ]);
+  });
+
+  it('client notice fills in both rates and the date, with a placeholder until a date is picked', () => {
+    const withDate = clientNotice({ oldRate: '$50.00', newRate: '$60.00', effectiveDate: '1 January 2027' });
+    expect(withDate).toContain('my hourly rate will change from $50.00 to $60.00, starting 1 January 2027.');
+    expect(withDate.startsWith('Hi [client name],')).toBe(true);
+    expect(withDate.trim().endsWith('[your name]')).toBe(true);
+    expect(clientNotice({ oldRate: '$50.00', newRate: '$60.00' })).toContain(`starting ${DATE_PLACEHOLDER}.`);
   });
 });
