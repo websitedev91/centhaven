@@ -26,6 +26,17 @@ const nextConfig: NextConfig = {
     // worker per CPU) can fail to spawn workers. Two is plenty for this site. Override with BUILD_CPUS.
     cpus: Number(process.env.BUILD_CPUS) || 2,
   },
+  // Tailwind v4 through its Turbopack loader instead of PostCSS (same as tools.sanishtech.com).
+  // With PostCSS in worker-thread mode on Hostinger, content files reached the CSS parser and the
+  // build failed on an apostrophe in hubs/business/content.mdx.
+  turbopack: {
+    rules: {
+      '*.css': {
+        loaders: ['@tailwindcss/turbopack'],
+        as: '*.css',
+      },
+    },
+  },
 };
 
 const withMDX = createMDX({});
