@@ -5,6 +5,7 @@ import DayRateToSalaryContent from '@/tools/day-rate-to-salary-calculator/conten
 import RateIncreaseContent from '@/tools/rate-increase-calculator/content.mdx';
 import UtilizationRateContent from '@/tools/utilization-rate-calculator/content.mdx';
 import BreakEvenContent from '@/tools/break-even-calculator/content.mdx';
+import ConsultingFeeContent from '@/tools/consulting-fee-calculator/content.mdx';
 
 /**
  * Maps a tool slug to its long-form content (server-rendered MDX, no client JS).
@@ -18,4 +19,5 @@ export const toolContent: Record<string, ComponentType> = {
   'rate-increase-calculator': RateIncreaseContent,
   'utilization-rate-calculator': UtilizationRateContent,
   'break-even-calculator': BreakEvenContent,
+  'consulting-fee-calculator': ConsultingFeeContent,
 };

@@ -1,0 +1,86 @@
+This consulting fee calculator works out the hourly, daily and project fee you need to cover your income goal, tax, overheads and the days you can't bill, plus a profit margin on top. Enter your own numbers above; the result updates as you type.
+
+**Freelancer?** If you plan in weeks off and a share of billable time rather than billable days, use the <ToolLink slug="hourly-rate-calculator">freelance hourly rate calculator</ToolLink> instead.
+
+## How to use this consulting rate calculator
+
+1. **Pick your currency.** Income, overheads and tax start from typical values for that currency; anything you type is kept.
+2. **Enter your take-home income goal** for the year, after tax.
+3. **Add your overheads:** software, insurance, travel, accounting, marketing and office costs for a full year.
+4. **Set a rough tax rate.** Include income tax and any self-employment or social contributions.
+5. **Enter your billable days and hours per billable day.** Billable days are what's left after holidays, sick days, sales and admin.
+6. **Choose a profit margin** and the hours for a typical project.
+
+The main result is your consulting rate per hour. Underneath you'll see the day rate, the project fee, the yearly revenue at that rate and how much of it is margin.
+
+## How the consulting fee is calculated
+
+The calculator works from the bottom up. First it finds the revenue that only covers your costs, then it adds your margin.
+
+```text
+grossNeeded   = income ÷ (1 − tax) + overheads
+billableHours = billable days × hours per day
+costRate      = grossNeeded ÷ billableHours
+hourlyRate    = costRate × (1 + margin)
+dayRate       = hourlyRate × hours per day
+projectFee    = hourlyRate × project hours
+```
+
+The tax step matters: to keep 120,000 at a 25% tax rate you need 160,000 before tax, not 150,000. The margin then sits on top of everything else, so it's real profit rather than money you already owe.
+
+## How much to charge for consulting
+
+Your calculated rate is a floor, not a price. It's the least you can charge and still hit your goal. The market sets the ceiling.
+
+Compare your floor with what clients in your field pay for similar expertise. If your floor is well below the market, you have room to charge more. If it's above, look for higher-value clients or a narrower specialism, or check whether your overheads and billable days are realistic.
+
+## Consultant hourly rate vs freelance rate
+
+The maths is similar, but consultants usually plan differently. They think in billable days, add a deliberate profit margin, and often sell fixed-price projects or retainers rather than hours. That's why this calculator asks for billable days and a margin, and prices a project for you.
+
+For ongoing advice paid monthly, turn your rate into a retainer with the <ToolLink slug="retainer-fee-calculator">retainer fee calculator</ToolLink>.
+
+## Worked examples
+
+### 1. A US management consultant
+
+Dana wants to take home $120,000 a year. Her overheads are $15,000 and she sets aside 25% for tax. She bills 180 days a year, 6 hours a day, and adds a 15% margin.
+
+- Revenue needed to cover costs: **$175,000.00**
+- Billable hours: **1,080**
+- Consulting rate: **$186.34** an hour
+- Day rate: **$1,118.06** · 40-hour project: **$7,453.70**
+- Yearly revenue at this rate: **$201,250.00**, of which **$26,250.00** is margin
+
+**What this means for Dana:** pricing a 40-hour project at $6,000 would leave her about $1,450 short of her own rate.
+
+### 2. An Indian IT consultant
+
+Ravi wants ₹30,00,000 a year after tax, with ₹3,00,000 of overheads and a 10% tax estimate. He bills 200 days a year, 7 hours a day, and adds a 10% margin.
+
+- Revenue needed to cover costs: **₹36,33,333.33**
+- Billable hours: **1,400**
+- Consulting rate: **₹2,854.76** an hour
+- Day rate: **₹19,983.33** · 20-hour project: **₹57,095.24**
+- Yearly revenue at this rate: **₹39,96,666.67**
+
+**What this means for Ravi:** a day rate of about ₹20,000 covers his goal with a buffer, so a client offering ₹15,000 a day is below his floor.
+
+### 3. A UK consultant pricing a 40-hour project
+
+Ellie wants £90,000 with £10,000 of overheads. To keep this example simple she leaves tax and margin at zero, and bills 200 days of 5 hours.
+
+- Consulting rate: **£100.00** an hour
+- Day rate: **£500.00**
+- 40-hour project: **£4,000.00**
+- Yearly revenue at this rate: **£100,000.00**
+
+Add a realistic tax rate and a margin above and watch the rate climb. Ellie's real floor is well above £100.
+
+## Tips and common mistakes
+
+- **Count billable days honestly.** Sales, proposals, admin and learning all take days you can't bill.
+- **Price projects, not hours.** Estimate the hours, multiply by your rate, then add a buffer for the unknowns.
+- **Keep a real margin.** It funds slow months, training and new equipment.
+- **Don't forget overheads.** Insurance, accounting and travel add up quickly.
+- **Review your rate every year.** Use the <ToolLink slug="rate-increase-calculator">rate increase calculator</ToolLink> to see what a higher rate does to your income.
