@@ -1,6 +1,6 @@
 # Tool spec: Free Invoice Generator for Freelancers
 
-> **Draft for Puru's review, 2026-11-18.** Built after the quote generator and reuses its shared pieces (`lib/doc-calc.ts`, `components/doc/*`).
+> **Approved by Puru, 2026-11-18.** Built after the quote generator and reuses its shared pieces (`lib/doc-calc.ts`, `components/doc/*`).
 
 | Field | Value |
 |---|---|

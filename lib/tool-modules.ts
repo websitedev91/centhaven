@@ -9,6 +9,7 @@ import ConsultingFeeContent from '@/tools/consulting-fee-calculator/content.mdx'
 import RetainerFeeContent from '@/tools/retainer-fee-calculator/content.mdx';
 import StraightLineDepreciationContent from '@/tools/straight-line-depreciation-calculator/content.mdx';
 import EmergencyFundContent from '@/tools/emergency-fund-calculator/content.mdx';
+import JobOfferComparisonContent from '@/tools/job-offer-comparison-calculator/content.mdx';
 
 /**
  * Maps a tool slug to its long-form content (server-rendered MDX, no client JS).
@@ -26,4 +27,5 @@ export const toolContent: Record<string, ComponentType> = {
   'retainer-fee-calculator': RetainerFeeContent,
   'straight-line-depreciation-calculator': StraightLineDepreciationContent,
   'emergency-fund-calculator': EmergencyFundContent,
+  'job-offer-comparison-calculator': JobOfferComparisonContent,
 };

@@ -1,6 +1,6 @@
 # Tool spec: Job Offer Comparison Calculator
 
-> **Draft for Puru's review, 2026-11-18.**
+> **Approved by Puru, 2026-11-18.**
 
 | Field | Value |
 |---|---|

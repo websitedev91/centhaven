@@ -18,6 +18,7 @@ import { meta as consultingFee } from '@/tools/consulting-fee-calculator/meta';
 import { meta as retainerFee } from '@/tools/retainer-fee-calculator/meta';
 import { meta as straightLineDepreciation } from '@/tools/straight-line-depreciation-calculator/meta';
 import { meta as emergencyFund } from '@/tools/emergency-fund-calculator/meta';
+import { meta as jobOfferComparison } from '@/tools/job-offer-comparison-calculator/meta';
 
 type Publishing = Pick<ToolEntry, 'status' | 'lastUpdated' | 'publishDate' | 'reviewedBy'>;
 
@@ -36,6 +37,7 @@ export const registry: readonly RegistryRow[] = [
   row(retainerFee, { status: 'live', publishDate: '2026-11-17', lastUpdated: '2026-11-17' }),
   row(straightLineDepreciation, { status: 'live', publishDate: '2026-11-17', lastUpdated: '2026-11-17' }),
   row(emergencyFund, { status: 'live', publishDate: '2026-11-17', lastUpdated: '2026-11-17' }),
+  row(jobOfferComparison, { status: 'ready', lastUpdated: '2026-11-18' }),
 ];
 
 /** Local preview builds only (see next.config.ts `env` and scripts/postbuild.mjs). */

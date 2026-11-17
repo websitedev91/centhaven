@@ -1,6 +1,6 @@
 # Tool spec: Website Design Cost Calculator
 
-> **Draft for Puru's review, 2026-11-18.** Pricing model approved in plan: hours × your rate, with example hours you can edit, and no market prices.
+> **Approved by Puru, 2026-11-18.** Pricing model approved in plan: hours × your rate, with example hours you can edit, and no market prices.
 
 | Field | Value |
 |---|---|

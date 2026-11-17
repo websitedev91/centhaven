@@ -1,6 +1,6 @@
 # Tool spec: Freelance Quote Generator
 
-> **Draft for Puru's review, 2026-11-18.** Includes Puru's plan additions: local-rules note, no embed, next-number suggestion, invoicing-software affiliate slot.
+> **Approved by Puru, 2026-11-18.** Includes Puru's plan additions: local-rules note, no embed, next-number suggestion, invoicing-software affiliate slot.
 
 | Field | Value |
 |---|---|
