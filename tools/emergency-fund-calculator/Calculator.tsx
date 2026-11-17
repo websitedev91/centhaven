@@ -15,7 +15,7 @@ import { SplitBar } from '@/components/SplitBar';
 import { track } from '@/lib/analytics';
 import { CATEGORICAL, MUTED_FILL } from '@/lib/chart-palette';
 import { formatMoney, formatPercent, type CurrencyCode } from '@/lib/format';
-import { monthYearAfter } from '@/lib/dates';
+import { lastPaymentMonth } from '@/lib/dates';
 import { useUrlState } from '@/lib/url-state';
 import {
   emergencyFund,
@@ -250,7 +250,7 @@ export default function EmergencyFundCalculator() {
                       {
                         label: 'Fully funded by',
                         note: `Saving ${money(s.monthlySaving)} a month from this month`,
-                        value: monthYearAfter(Math.floor(thisMonth / 12), thisMonth % 12, result.monthsToBuild),
+                        value: lastPaymentMonth(Math.floor(thisMonth / 12), thisMonth % 12, result.monthsToBuild),
                       },
                     ]
                   : []),

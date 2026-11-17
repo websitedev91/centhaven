@@ -20,3 +20,11 @@ export function monthYearAfter(year: number, month0: number, add: number): strin
   const total = year * 12 + month0 + add;
   return `${MONTHS[((total % 12) + 12) % 12]} ${Math.floor(total / 12)}`;
 }
+
+/**
+ * Month of the last of `payments` monthly payments when the first is made this month:
+ * 14 payments from November 2026 → "December 2027" (this month counts as payment 1).
+ */
+export function lastPaymentMonth(year: number, month0: number, payments: number): string {
+  return monthYearAfter(year, month0, Math.max(payments, 1) - 1);
+}

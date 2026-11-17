@@ -63,7 +63,7 @@ target     = expenses × months
 shortfall  = max(target − saved, 0)
 toBuild    = shortfall = 0 ? 0 : ceil(shortfall ÷ monthlySaving)   (none if monthlySaving = 0)
 progress   = saved ÷ target
-fundedBy   = this month + toBuild months (date math in lib/dates.ts monthYearAfter, not in calc.ts)
+fundedBy   = this month + (toBuild − 1) months: this month is payment 1 (date math in lib/dates.ts lastPaymentMonth, not in calc.ts)
 path[m]    = min(saved + monthlySaving × m, target), m = 0 … toBuild
 essentials = sum of the 7 helper fields (negatives count as 0)
 ```
@@ -80,8 +80,8 @@ essentials = sum of the 7 helper fields (negatives count as 0)
 | 2 | expenses 50,000 · self-employed · 2 dependants · saved 1,00,000 · saving 20,000 | months 8 · **target 4,00,000.00** · shortfall 3,00,000.00 · **15 months** · progress 25% | Manual |
 | 3 | expenses 2,000 · variable · 0 dependants · saved 15,000 · saving 300 | months 6 · **target 12,000.00** · shortfall 0.00 · covered · progress 125% | Manual |
 | 4 | shortfall > 0 with monthly saving 0 | Target shown; "Add a monthly saving amount to see how long it takes"; no crash | — |
-| 5 | case 1 (USD), today November 2026 | 14 months · **fully funded by January 2028** · path 2,000 → 2,500 → … → 9,000 | Manual |
-| 6 | case 2 (INR), today November 2026 | 15 months · **fully funded by February 2028** | Manual |
+| 5 | case 1 (USD), today November 2026 | 14 months · **fully funded by December 2027** (payment 1 = November 2026) · path 2,000 → 2,500 → … → 9,000 | Manual |
+| 6 | case 2 (INR), today November 2026 | 15 months · **fully funded by January 2028** | Manual |
 | 7 | essentials 1,200 + 400 + 150 + 100 + 200 + 300 + 150 | **expenses 2,500** | Manual |
 
 ## Extras

@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { formatMoney, formatPercent, roundTo, type CurrencyCode } from '@/lib/format';
-import { monthYearAfter } from '@/lib/dates';
+import { lastPaymentMonth } from '@/lib/dates';
 import { parseQuery, toQuery } from '@/lib/url-state';
 import { emergencyFund, MAX_PATH_POINTS, NO_MONTHS, savingsPath, suggestedMonths, sumEssentials, type EmergencyFundError, type EmergencyFundResult } from './calc';
 import {
@@ -149,7 +149,7 @@ describe('content.mdx', () => {
 });
 
 describe('review #2 B5: savings path, essentials and funded-by month (hand-checked)', () => {
-  it('USD case: 14 months from 2,000 to 9,000 at 500 a month; funded by January 2028 from November 2026', () => {
+  it('USD case: 14 months from 2,000 to 9,000 at 500 a month; 14 payments from November 2026 (this month = payment 1) → funded by December 2027', () => {
     const r = ok(emergencyFund(toCalcInput(CASES[0]!.state)));
     expect(r.monthsToBuild).toBe(14);
     const p = savingsPath(2_000, 500, r.target, r.monthsToBuild);
@@ -159,13 +159,13 @@ describe('review #2 B5: savings path, essentials and funded-by month (hand-check
       { month: 1, balance: 2_500 },
       { month: 14, balance: 9_000 },
     ]);
-    expect(monthYearAfter(2026, 10, r.monthsToBuild!)).toBe('January 2028');
+    expect(lastPaymentMonth(2026, 10, r.monthsToBuild!)).toBe('December 2027');
   });
 
-  it('INR case: 8 months × 50,000 = 4,00,000; 15 months at 20,000; funded by February 2028', () => {
+  it('INR case: 8 months × 50,000 = 4,00,000; 15 months at 20,000; funded by January 2028', () => {
     const r = ok(emergencyFund(toCalcInput(CASES[1]!.state)));
     expect([r.target, r.monthsToBuild]).toEqual([400_000, 15]);
-    expect(monthYearAfter(2026, 10, 15)).toBe('February 2028');
+    expect(lastPaymentMonth(2026, 10, r.monthsToBuild!)).toBe('January 2028');
   });
 
   it('the last month is capped at the target (0 → 400 → 800 → 1,000)', () => {
