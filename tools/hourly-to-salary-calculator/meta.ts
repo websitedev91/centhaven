@@ -45,7 +45,7 @@ export const meta: ToolMeta = {
     },
     {
       q: 'Does overtime count?',
-      a: 'No. The calculator uses your regular hours at your regular rate. Overtime is often paid at a higher rate, such as one and a half times your normal wage, and the rules differ by country and employer. If you work overtime most weeks, add those hours to your weekly hours for a rough figure, or work out the overtime pay separately from your contract.',
+      a: 'Only if you add it. By default the calculator uses your regular hours at your regular rate. Tick Include overtime to add extra hours each week at a higher pay rate, such as 1.5 for time and a half. Overtime rules and rates differ by country, employer and contract, so check yours. The result then shows your regular pay and overtime pay separately.',
     },
   ],
 };

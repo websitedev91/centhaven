@@ -23,12 +23,17 @@ Converts an hourly wage into yearly, monthly, bi-weekly, weekly and daily pay, a
 | Hours per week | number | 40 | 1 – 100 | |
 | Days per week | number | 5 | 1 – 7 | For the daily figure |
 | Paid weeks per year | number | 52 | 1 – 52 | Helper: "Use 52 if your holidays are paid. Lower it for unpaid time off." |
+| Include overtime (added 2026-11-17, review C7) | checkbox | off | | Hourly mode only |
+| Overtime hours per week | number | 5 | 0 – 60 | Shown when overtime is on |
+| Overtime pay rate | number | 1.5 | 1 – 3 | × the hourly wage |
 
 ## Outputs
 | Output | How it's shown |
 |---|---|
 | **Annual salary** (or **hourly wage** in reverse mode) | Main result |
-| Monthly, bi-weekly, weekly, daily pay | Breakdown table |
+| Monthly, bi-weekly, semi-monthly (÷ 24), weekly, daily pay | Breakdown table |
+| Regular pay and overtime pay per year | Breakdown rows, only when overtime is on |
+| Common hourly wages as a yearly salary | Static table: 15–50 in steps of 5 at 40 h × 52 weeks (2,080 h), in the selected currency |
 | Hours paid per year | Breakdown row |
 
 ## Formula
@@ -36,6 +41,8 @@ Converts an hourly wage into yearly, monthly, bi-weekly, weekly and daily pay, a
 annual   = hourly × hoursPerWeek × paidWeeks
 monthly  = annual / 12
 biweekly = annual / 26
+semimonthly = annual / 24
+overtime (hourly mode, optional): otWeekly = hourly × multiplier × otHours; annual += otWeekly × paidWeeks; weekly += otWeekly
 weekly   = hourly × hoursPerWeek
 daily    = hourly × hoursPerWeek / daysPerWeek
 reverse: hourly = annual / (hoursPerWeek × paidWeeks)
@@ -50,6 +57,10 @@ None.
 | 1 | hourly 25 · 40 h · 5 days · 52 weeks | annual **52,000.00** · monthly 4,333.33 · bi-weekly 2,000.00 · weekly 1,000.00 · daily 200.00 | Manual |
 | 2 | reverse: salary 75,000 · 40 h · 52 weeks | **hourly 36.06** | Manual |
 | 3 | hourly 20 · 37.5 h · 5 days · 50 weeks | annual **37,500.00** · monthly 3,125.00 · daily 150.00; reverse of 37,500 → 20.00 | Manual |
+| 5 | hourly 25 · 40 h · 5 days · 52 weeks · overtime 5 h × 1.5 | weekly 1,187.50 · overtime 9,750.00 · **annual 61,750.00** · monthly 5,145.83 · bi-weekly 2,375.00 · semi-monthly 2,572.92 · daily 237.50 | Manual |
+| 6 | hourly 20 · 37.5 h · 50 weeks · overtime 2 h × 2 | weekly 830.00 · overtime 4,000.00 · **annual 41,500.00** · semi-monthly 1,729.17 | Manual |
+| 7 | case 1 semi-monthly | 2,166.67 | Manual |
+| 8 | common wages table | 15 → 31,200 · 20 → 41,600 · 25 → 52,000 · … · 50 → 104,000 | Manual |
 | 4 | hours per week 0 | Validation error, no crash | — |
 
 ## Extras

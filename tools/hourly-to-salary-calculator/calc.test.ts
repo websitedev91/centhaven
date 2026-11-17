@@ -3,12 +3,13 @@ import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { formatMoney, formatNumber, roundTo, type CurrencyCode } from '@/lib/format';
 import { parseQuery, toQuery } from '@/lib/url-state';
-import { hourlyToSalary, NO_HOURS, quickTable, salaryToHourly, type PayError, type PayResult } from './calc';
+import { commonWagesTable, hourlyToSalary, NO_HOURS, quickTable, salaryToHourly, type PayError, type PayResult } from './calc';
 import {
   fieldErrors,
   hourlyToSalaryDefaults,
   hourlyToSalarySchema,
   hourlyToSalaryVariant,
+  overtimeOf,
   switchHourlyToSalaryCurrency,
 } from './schema';
 
@@ -26,6 +27,7 @@ describe('spec test cases', () => {
     expect(r2(r.biweekly)).toBe(2_000);
     expect(r2(r.weekly)).toBe(1_000);
     expect(r2(r.daily)).toBe(200);
+    expect(r2(r.semimonthly)).toBe(2_166.67);
     expect(r.hoursPerYear).toBe(2_080);
   });
 
@@ -88,7 +90,18 @@ describe('currency-dependent defaults', () => {
   const usd = hourlyToSalaryDefaults;
 
   it('page-load defaults are the spec defaults (USD)', () => {
-    expect(usd).toEqual({ mode: 'hourly', currency: 'USD', hourly: 25, salary: 75_000, hoursPerWeek: 40, daysPerWeek: 5, paidWeeks: 52 });
+    expect(usd).toEqual({
+      mode: 'hourly',
+      currency: 'USD',
+      hourly: 25,
+      salary: 75_000,
+      hoursPerWeek: 40,
+      daysPerWeek: 5,
+      paidWeeks: 52,
+      overtime: 0,
+      otHours: 5,
+      otMultiplier: 1.5,
+    });
   });
 
   it.each([
@@ -142,5 +155,61 @@ describe('content.mdx worked examples match the calculator', () => {
   it('salary → hourly example', () => {
     const r = ok(salaryToHourly({ annual: 75_000, hoursPerWeek: 40, daysPerWeek: 5, paidWeeks: 52 }));
     expect(mdx).toContain(formatMoney(r.hourly, 'USD'));
+  });
+});
+
+describe('review C7: semi-monthly, overtime and common wages', () => {
+  const p = { hoursPerWeek: 40, daysPerWeek: 5, paidWeeks: 52 };
+
+  it('semi-monthly is annual ÷ 24 (75,000 salary → 3,125.00)', () => {
+    expect(r2(ok(salaryToHourly({ annual: 75_000, ...p })).semimonthly)).toBe(3_125);
+  });
+
+  it('overtime: 25/h · 40 h + 5 h at 1.5× · 52 weeks (hand-checked)', () => {
+    const r = ok(hourlyToSalary({ hourly: 25, ...p, overtime: { hoursPerWeek: 5, multiplier: 1.5 } }));
+    expect(r2(r.weekly)).toBe(1_187.5);
+    expect(r2(r.baseAnnual)).toBe(52_000);
+    expect(r2(r.overtimeAnnual)).toBe(9_750);
+    expect(r2(r.annual)).toBe(61_750);
+    expect(r2(r.monthly)).toBe(5_145.83);
+    expect(r2(r.biweekly)).toBe(2_375);
+    expect(r2(r.semimonthly)).toBe(2_572.92);
+    expect(r2(r.daily)).toBe(237.5);
+    expect(r.overtimeHoursPerYear).toBe(260);
+    expect(r.hoursPerYear).toBe(2_080);
+  });
+
+  it('overtime: 20/h · 37.5 h + 2 h at 2× · 50 weeks (hand-checked)', () => {
+    const r = ok(hourlyToSalary({ hourly: 20, hoursPerWeek: 37.5, daysPerWeek: 5, paidWeeks: 50, overtime: { hoursPerWeek: 2, multiplier: 2 } }));
+    expect(r2(r.weekly)).toBe(830);
+    expect(r2(r.overtimeAnnual)).toBe(4_000);
+    expect(r2(r.annual)).toBe(41_500);
+    expect(r2(r.semimonthly)).toBe(1_729.17);
+  });
+
+  it('overtime is off by default and ignored in salary mode', () => {
+    expect(hourlyToSalaryDefaults.overtime).toBe(0);
+    expect(overtimeOf(hourlyToSalaryDefaults)).toBeUndefined();
+    expect(overtimeOf({ ...hourlyToSalaryDefaults, overtime: 1 })).toEqual({ hoursPerWeek: 5, multiplier: 1.5 });
+    expect(overtimeOf({ ...hourlyToSalaryDefaults, overtime: 1, mode: 'salary' })).toBeUndefined();
+    expect(toQuery(hourlyToSalaryDefaults, hourlyToSalaryDefaults, hourlyToSalaryVariant)).toBe('');
+    expect(fieldErrors(hourlyToSalarySchema, { ...hourlyToSalaryDefaults, overtime: 2, otMultiplier: 4 })).toEqual({
+      overtime: 'Use 0 or 1',
+      otMultiplier: 'Maximum is 3×',
+    });
+  });
+
+  it('common wages table: 15 to 50 in 5s at 2,080 hours', () => {
+    expect(commonWagesTable().map((r) => [r.hourly, r.annual])).toEqual([
+      [15, 31_200],
+      [20, 41_600],
+      [25, 52_000],
+      [30, 62_400],
+      [35, 72_800],
+      [40, 83_200],
+      [45, 93_600],
+      [50, 104_000],
+    ]);
+    expect(r2(commonWagesTable()[2]!.monthly)).toBe(4_333.33);
   });
 });

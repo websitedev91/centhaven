@@ -16,6 +16,10 @@ export const hourlyToSalarySchema = z.object({
   hoursPerWeek: num().check(z.minimum(1, 'Minimum is 1 hour'), z.maximum(100, 'Maximum is 100 hours')),
   daysPerWeek: num().check(z.minimum(1, 'Minimum is 1 day'), z.maximum(7, 'Maximum is 7 days')),
   paidWeeks: num().check(z.minimum(1, 'Minimum is 1 week'), z.maximum(52, 'Maximum is 52 weeks')),
+  /** Optional overtime, hourly mode only: 0 = off (default), 1 = on. */
+  overtime: num().check(z.refine<number>((v) => v === 0 || v === 1, 'Use 0 or 1')),
+  otHours: num().check(z.minimum(0, 'Minimum is 0 hours'), z.maximum(60, 'Maximum is 60 hours')),
+  otMultiplier: num().check(z.minimum(1, 'Minimum is 1×'), z.maximum(3, 'Maximum is 3×')),
 });
 
 export type HourlyToSalaryState = z.infer<typeof hourlyToSalarySchema>;
@@ -42,6 +46,9 @@ const base: HourlyToSalaryState = {
   hoursPerWeek: 40,
   daysPerWeek: 5,
   paidWeeks: 52,
+  overtime: 0,
+  otHours: 5,
+  otMultiplier: 1.5,
 };
 
 export const hourlyToSalaryDefaults = defaultsForCurrency(base, hourlyToSalaryCurrencyPresets, 'USD');
@@ -52,3 +59,8 @@ export function switchHourlyToSalaryCurrency(state: HourlyToSalaryState, next: C
 }
 
 export { fieldErrors } from '@/lib/field-errors';
+
+/** Calc overtime input from the UI state (undefined when overtime is off or in salary mode). */
+export function overtimeOf(s: HourlyToSalaryState): { hoursPerWeek: number; multiplier: number } | undefined {
+  return s.mode === 'hourly' && s.overtime === 1 ? { hoursPerWeek: s.otHours, multiplier: s.otMultiplier } : undefined;
+}

@@ -12,12 +12,13 @@ import { SegmentedControl } from '@/components/SegmentedControl';
 import { track } from '@/lib/analytics';
 import { formatMoney, formatNumber, type CurrencyCode } from '@/lib/format';
 import { useUrlState } from '@/lib/url-state';
-import { hourlyToSalary, quickTable, salaryToHourly } from './calc';
+import { commonWagesTable, hourlyToSalary, quickTable, salaryToHourly } from './calc';
 import {
   fieldErrors,
   hourlyToSalaryDefaults,
   hourlyToSalarySchema,
   hourlyToSalaryVariant,
+  overtimeOf,
   switchHourlyToSalaryCurrency,
   type HourlyToSalaryState,
   type Mode,
@@ -49,7 +50,7 @@ export default function HourlyToSalaryCalculator() {
     Object.keys(errors).length > 0
       ? ({ ok: false, error: FIX_FIELDS } as const)
       : hourlyMode
-        ? hourlyToSalary({ hourly: s.hourly, ...pattern })
+        ? hourlyToSalary({ hourly: s.hourly, ...pattern, overtime: overtimeOf(s) })
         : salaryToHourly({ annual: s.salary, ...pattern });
 
   const days = formatNumber(s.daysPerWeek, 2);
@@ -57,10 +58,21 @@ export default function HourlyToSalaryCalculator() {
     ? [
         ...(hourlyMode ? [] : [{ label: 'Annual salary', value: money(result.annual) }]),
         { label: 'Monthly', value: money(result.monthly) },
-        { label: 'Bi-weekly', note: '26 pay periods a year', value: money(result.biweekly) },
+        { label: 'Bi-weekly', note: 'Every two weeks: 26 pay periods', value: money(result.biweekly) },
+        { label: 'Semi-monthly', note: 'Twice a month: 24 pay periods', value: money(result.semimonthly) },
         { label: 'Weekly', value: money(result.weekly) },
         { label: 'Daily', note: `${days}-day week`, value: money(result.daily) },
         { label: 'Hours paid per year', value: formatNumber(result.hoursPerYear, 1) },
+        ...(result.overtimeAnnual > 0
+          ? [
+              { label: 'Regular pay per year', value: money(result.baseAnnual) },
+              {
+                label: 'Overtime pay per year',
+                note: `${formatNumber(result.overtimeHoursPerYear, 1)} hours at ${formatNumber(s.otMultiplier, 2)}×`,
+                value: money(result.overtimeAnnual),
+              },
+            ]
+          : []),
       ]
     : [];
 
@@ -141,6 +153,39 @@ export default function HourlyToSalaryCalculator() {
                   error={errors.paidWeeks}
                 />
               </div>
+              {hourlyMode ? (
+                <div className="flex flex-col gap-5 sm:col-span-2">
+                  <label className="inline-flex cursor-pointer items-center gap-3 self-start text-[15px] font-[550] text-ink">
+                    <input
+                      type="checkbox"
+                      checked={s.overtime === 1}
+                      onChange={(e) => update('overtime', e.target.checked ? 1 : 0)}
+                      className="h-5 w-5 accent-haven"
+                    />
+                    Include overtime
+                  </label>
+                  {s.overtime === 1 ? (
+                    <div className="grid gap-x-6 gap-y-7 sm:grid-cols-2">
+                      <InputNumber
+                        label="Overtime hours per week"
+                        help="Hours over your regular hours."
+                        value={s.otHours}
+                        onChange={(v) => update('otHours', v)}
+                        suffix="hours"
+                        error={errors.otHours}
+                      />
+                      <InputNumber
+                        label="Overtime pay rate"
+                        help="1.5 = time and a half. Check your contract."
+                        value={s.otMultiplier}
+                        onChange={(v) => update('otMultiplier', v)}
+                        suffix="× wage"
+                        error={errors.otMultiplier}
+                      />
+                    </div>
+                  ) : null}
+                </div>
+              ) : null}
             </div>
           </InputsPanel>
         }
@@ -149,7 +194,7 @@ export default function HourlyToSalaryCalculator() {
             <ResultCard
               label={hourlyMode ? 'Annual salary' : 'Hourly wage'}
               value={money(hourlyMode ? result.annual : result.hourly)}
-              unit={`${hourlyMode ? 'per year' : 'per hour'} · ${c} · before tax`}
+              unit={`${hourlyMode ? (result.overtimeAnnual > 0 ? 'per year incl. overtime' : 'per year') : 'per hour'} · ${c} · before tax`}
               rows={rows}
             />
           ) : (
@@ -192,6 +237,37 @@ export default function HourlyToSalaryCalculator() {
           </table>
         </section>
       ) : null}
+
+      <section aria-labelledby="common-wages-heading" className="print-break-avoid rounded-panel border border-line bg-surface p-5 sm:p-8">
+        <h2 id="common-wages-heading" className="type-h3 text-ink">
+          Common hourly wages as a yearly salary
+        </h2>
+        <p className="type-small mt-1 text-ink-muted">Full time: 40 hours a week for 52 paid weeks (2,080 hours), before tax.</p>
+        <table className="type-small mt-6 w-full max-w-md">
+          <thead>
+            <tr className="border-b border-line text-left text-ink-muted">
+              <th scope="col" className="py-2 pr-3 font-[550]">Hourly wage</th>
+              <th scope="col" className="py-2 pr-3 text-right font-[550]">Per year</th>
+              <th scope="col" className="py-2 text-right font-[550]">Per month</th>
+            </tr>
+          </thead>
+          <tbody>
+            {commonWagesTable().map((row) => (
+              <tr key={row.hourly} className="border-b border-line last:border-0">
+                <th scope="row" className="py-3 pr-3 text-left font-normal text-ink-muted">
+                  <Num>{formatMoney(row.hourly, c, 0)}</Num> an hour
+                </th>
+                <td className="type-figure py-3 pr-3 text-right text-ink">
+                  <Num>{formatMoney(row.annual, c, 0)}</Num>
+                </td>
+                <td className="type-figure py-3 text-right text-ink">
+                  <Num>{money(row.monthly)}</Num>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
     </div>
   );
 }
