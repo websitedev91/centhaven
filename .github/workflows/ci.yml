@@ -1,0 +1,28 @@
+# Safety net: build and test every push. Deploys are done by Hostinger's GitHub auto-deployment
+# (docs/DEPLOY.md); this workflow only reports whether main is healthy. No secrets needed.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      # Build first: it generates next-env.d.ts and .next/types, which the typecheck needs.
+      - run: npm run build
+      - run: npm run check
+      - run: npm run size
