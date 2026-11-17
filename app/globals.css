@@ -323,4 +323,35 @@
   .print-break-avoid {
     break-inside: avoid;
   }
+
+  /*
+   * Quote and invoice generators: when a .doc-sheet is on the page, print ONLY the document.
+   * Everything that neither is nor contains the sheet is removed (display: none, so no blank
+   * pages), and the sheet's ancestors lose their spacing so the document starts at the page margin.
+   * The browser picks A4 or Letter from the user's settings.
+   */
+  body:has(.doc-sheet) *:not(:has(.doc-sheet)):not(.doc-sheet):not(.doc-sheet *) {
+    display: none !important;
+  }
+  body:has(.doc-sheet) :has(.doc-sheet) {
+    display: block !important;
+    position: static !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    max-width: none !important;
+    background: none !important;
+    box-shadow: none !important;
+  }
+  .doc-sheet {
+    max-width: none !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+}
+
+@page {
+  margin: 16mm 14mm;
 }

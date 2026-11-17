@@ -11,7 +11,9 @@ export type AnalyticsEvent =
   | 'print_click'
   | 'embed_copy'
   | 'scenario_compare'
-  | 'download_csv';
+  | 'download_csv'
+  | 'download_pdf'
+  | 'new_document';
 
 type Params = Record<string, string | number | boolean | undefined>;
 

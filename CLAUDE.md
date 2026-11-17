@@ -11,6 +11,7 @@ No backend, no database, no login. Ask before adding any new dependency.
 1. **Never guess a finance number.** Fees, tax rates, limits and thresholds live in `/rates/*.json` with `source.url`, `source.quote`, `effectiveFrom` and `verifiedOn`. If you can't confirm a rate from an official source, STOP and ask.
 2. **When you add or change a rate:** show old value → new value, the official URL and the exact quoted line. Update `sources.md`. Wait for approval.
 3. **Formulas are pure functions** in `tools/<slug>/calc.ts`: no React, no dates, no fetch. Round money only at display time via `lib/format.ts`.
+   **Exception (Puru, 2026-11-18):** the quote and invoice generators (`lib/doc-calc.ts`) round each line, then contingency, discount and tax, to 2 decimals with the float-safe `roundTo` before summing, so a printed document adds up. No other tool does this.
 4. **Every tool has tests** in `calc.test.ts`, including every test case from its spec. Tests must pass.
 5. **Scope:** only tools that help people earn, save, spend or manage money. Flag anything else.
 6. **Publishing is controlled by `lib/registry.ts`.** Only `status: 'live'` tools get pages, sitemap entries and links. New tools start as `draft`; set `ready` when all quality gates pass. Never set `live` unless asked.

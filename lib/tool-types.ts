@@ -33,6 +33,12 @@ export interface ToolMeta {
    * (not in content.mdx) so the visible FAQ and the FAQPage JSON-LD come from one source.
    */
   faq: readonly FaqItem[];
+  /**
+   * Document generators (quote, invoice). Their fields hold personal data (names, addresses,
+   * bank details), so: no share link (GTM/GA4 records page URLs), no embed (no /embed page),
+   * and their own Download PDF button replaces the share/print/embed row.
+   */
+  document?: boolean;
 }
 
 /** Registry row — PRD §5. */

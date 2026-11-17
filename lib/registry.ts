@@ -20,6 +20,7 @@ import { meta as straightLineDepreciation } from '@/tools/straight-line-deprecia
 import { meta as emergencyFund } from '@/tools/emergency-fund-calculator/meta';
 import { meta as jobOfferComparison } from '@/tools/job-offer-comparison-calculator/meta';
 import { meta as websiteDesignCost } from '@/tools/website-design-cost-calculator/meta';
+import { meta as freelanceQuote } from '@/tools/freelance-quote-generator/meta';
 
 type Publishing = Pick<ToolEntry, 'status' | 'lastUpdated' | 'publishDate' | 'reviewedBy'>;
 
@@ -40,6 +41,7 @@ export const registry: readonly RegistryRow[] = [
   row(emergencyFund, { status: 'live', publishDate: '2026-11-17', lastUpdated: '2026-11-17' }),
   row(jobOfferComparison, { status: 'ready', lastUpdated: '2026-11-18' }),
   row(websiteDesignCost, { status: 'ready', lastUpdated: '2026-11-18' }),
+  row(freelanceQuote, { status: 'ready', lastUpdated: '2026-11-18' }),
 ];
 
 /** Local preview builds only (see next.config.ts `env` and scripts/postbuild.mjs). */
@@ -68,6 +70,15 @@ export function getLiveTool(category: string, slug: string): RegistryRow | undef
 
 export function getLiveToolBySlug(slug: string): RegistryRow | undefined {
   return registry.find((t) => isPublished(t) && t.slug === slug);
+}
+
+/** Live tools that get an /embed page (document generators never do: personal data). */
+export function embeddableTools(): RegistryRow[] {
+  return liveTools().filter((t) => !t.meta.document);
+}
+
+export function getEmbeddableTool(slug: string): RegistryRow | undefined {
+  return embeddableTools().find((t) => t.slug === slug);
 }
 
 export function liveToolsInCategory(category: string): RegistryRow[] {

@@ -7,6 +7,7 @@ import { CurrencySelect } from '@/components/CurrencySelect';
 import { InputCurrency } from '@/components/InputCurrency';
 import { InputNumber } from '@/components/InputNumber';
 import { ResetIcon } from '@/components/icons';
+import { Num } from '@/components/Num';
 import { ResultCard } from '@/components/ResultCard';
 import { SegmentedControl } from '@/components/SegmentedControl';
 import { Slider } from '@/components/Slider';
@@ -235,19 +236,19 @@ export default function WebsiteDesignCostCalculator() {
                     ...(r.bufferHours > 0 ? [{ label: `Buffer (${s.buffer}%)`, h: r.bufferHours }] : []),
                   ].map((row) => (
                     <tr key={row.label} className="border-b border-line">
-                      <th scope="row" className="py-3 pr-3 text-left font-normal text-ink-muted">
+                      <th scope="row" className="py-3 pr-3 text-left font-normal normal-nums text-ink-muted">
                         {row.label}
                       </th>
-                      <td className="py-3 pr-3 text-right tabular-nums">{hrs(row.h)}</td>
-                      <td className="py-3 text-right tabular-nums">{money(row.h * s.rate)}</td>
+                      <td className="py-3 pr-3 text-right tabular-nums"><Num>{hrs(row.h)}</Num></td>
+                      <td className="py-3 text-right tabular-nums"><Num>{money(row.h * s.rate)}</Num></td>
                     </tr>
                   ))}
                   <tr>
-                    <th scope="row" className="py-3 pr-3 text-left font-[550] text-ink">
+                    <th scope="row" className="py-3 pr-3 text-left font-[550] normal-nums text-ink">
                       Total
                     </th>
-                    <td className="py-3 pr-3 text-right font-[550] tabular-nums">{hrs(r.totalHours)}</td>
-                    <td className="py-3 text-right font-[550] tabular-nums">{money(r.price)}</td>
+                    <td className="py-3 pr-3 text-right font-[550] tabular-nums"><Num>{hrs(r.totalHours)}</Num></td>
+                    <td className="py-3 text-right font-[550] tabular-nums"><Num>{money(r.price)}</Num></td>
                   </tr>
                 </tbody>
               </table>

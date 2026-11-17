@@ -63,7 +63,7 @@ export function ToolLayout(props: {
 
       <div className="mt-8 flex flex-col gap-6">
         {calculator}
-        <ToolActions toolSlug={tool.slug} title={tool.title} />
+        {tool.meta.document ? null : <ToolActions toolSlug={tool.slug} title={tool.title} />}
         <AffiliateSlot affiliateId={tool.meta.affiliateId} toolSlug={tool.slug} />
       </div>
 

@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { EmbedProvider } from '@/components/EmbedMode';
 import { ToolCalculator } from '@/components/ToolCalculator';
 import { site } from '@/config/site';
-import { getLiveToolBySlug, liveTools, toolPath } from '@/lib/registry';
+import { embeddableTools, getEmbeddableTool, toolPath } from '@/lib/registry';
 import { absoluteUrl } from '@/lib/seo';
 import { PLACEHOLDER, withPlaceholder } from '@/lib/static-params';
 
@@ -11,16 +11,16 @@ export const dynamicParams = false;
 
 type Params = { slug: string };
 
-/** One embed per live tool (the embed code points here: components/EmbedCodeBox.tsx). */
+/** One embed per live tool except document generators (the embed code points here: components/EmbedCodeBox.tsx). */
 export function generateStaticParams(): Params[] {
   return withPlaceholder(
-    liveTools().map((t) => ({ slug: t.slug })),
+    embeddableTools().map((t) => ({ slug: t.slug })),
     { slug: PLACEHOLDER },
   );
 }
 
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
-  const tool = getLiveToolBySlug((await params).slug);
+  const tool = getEmbeddableTool((await params).slug);
   if (!tool) return { title: 'Not found', robots: { index: false } };
   return {
     title: `${tool.meta.h1} | ${site.name}`,
@@ -36,7 +36,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
  * small "Powered by CentHaven" link. No header or footer (this route group has no site chrome).
  */
 export default async function EmbedPage({ params }: { params: Promise<Params> }) {
-  const tool = getLiveToolBySlug((await params).slug);
+  const tool = getEmbeddableTool((await params).slug);
   if (!tool) notFound();
   return (
     <div className="min-h-screen bg-surface px-3 py-4 sm:px-4">

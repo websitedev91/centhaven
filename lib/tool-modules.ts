@@ -11,6 +11,7 @@ import StraightLineDepreciationContent from '@/tools/straight-line-depreciation-
 import EmergencyFundContent from '@/tools/emergency-fund-calculator/content.mdx';
 import JobOfferComparisonContent from '@/tools/job-offer-comparison-calculator/content.mdx';
 import WebsiteDesignCostContent from '@/tools/website-design-cost-calculator/content.mdx';
+import FreelanceQuoteContent from '@/tools/freelance-quote-generator/content.mdx';
 
 /**
  * Maps a tool slug to its long-form content (server-rendered MDX, no client JS).
@@ -30,4 +31,5 @@ export const toolContent: Record<string, ComponentType> = {
   'emergency-fund-calculator': EmergencyFundContent,
   'job-offer-comparison-calculator': JobOfferComparisonContent,
   'website-design-cost-calculator': WebsiteDesignCostContent,
+  'freelance-quote-generator': FreelanceQuoteContent,
 };

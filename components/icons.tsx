@@ -166,3 +166,34 @@ export const DownloadIcon = (p: IconProps) => (
     <path d="M10 3v9.5M6 8.5l4 4 4-4M3.5 13.5v2A1.5 1.5 0 0 0 5 17h10a1.5 1.5 0 0 0 1.5-1.5v-2" />
   </Icon>
 );
+
+export const PlusIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M10 4v12M4 10h12" />
+  </Icon>
+);
+
+export const TrashIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M3.5 5.5h13M8 5.5V4h4v1.5M5.5 5.5l.75 10.5h7.5l.75-10.5M8.5 8.5v5M11.5 8.5v5" />
+  </Icon>
+);
+
+export const ArrowUpIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M10 16V4M5 9l5-5 5 5" />
+  </Icon>
+);
+
+export const ArrowDownIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M10 4v12M5 11l5 5 5-5" />
+  </Icon>
+);
+
+export const FileIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M11.5 3H6a1.5 1.5 0 0 0-1.5 1.5v11A1.5 1.5 0 0 0 6 17h8a1.5 1.5 0 0 0 1.5-1.5V7z" />
+    <path d="M11.5 3v4h4" />
+  </Icon>
+);

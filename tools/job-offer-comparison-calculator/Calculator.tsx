@@ -6,6 +6,7 @@ import { CurrencySelect } from '@/components/CurrencySelect';
 import { InputCurrency } from '@/components/InputCurrency';
 import { InputNumber } from '@/components/InputNumber';
 import { ResetIcon } from '@/components/icons';
+import { Num } from '@/components/Num';
 import { ResultCard } from '@/components/ResultCard';
 import { track } from '@/lib/analytics';
 import { formatMoney, formatNumber, type CurrencyCode } from '@/lib/format';
@@ -215,11 +216,11 @@ function Breakdown(props: { a: OfferResult; b: OfferResult; money: (n: number) =
           <tbody>
             {rows.map((r) => (
               <tr key={r.label} className="border-b border-line last:border-0">
-                <th scope="row" className={`py-3 pr-3 text-left ${r.strong ? 'font-[550] text-ink' : 'font-normal text-ink-muted'}`}>
+                <th scope="row" className={`py-3 pr-3 text-left normal-nums ${r.strong ? 'font-[550] text-ink' : 'font-normal text-ink-muted'}`}>
                   {r.label}
                 </th>
-                <td className={`py-3 pr-3 text-right tabular-nums ${r.strong ? 'font-[550]' : ''}`}>{r.a}</td>
-                <td className={`py-3 text-right tabular-nums ${r.strong ? 'font-[550]' : ''}`}>{r.b}</td>
+                <td className={`py-3 pr-3 text-right tabular-nums ${r.strong ? 'font-[550]' : ''}`}><Num>{r.a}</Num></td>
+                <td className={`py-3 text-right tabular-nums ${r.strong ? 'font-[550]' : ''}`}><Num>{r.b}</Num></td>
               </tr>
             ))}
           </tbody>

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { formatIsoDate, lastPaymentMonth, monthYearAfter } from './dates';
+import { addDays, formatIsoDate, isoDate, lastPaymentMonth, monthYearAfter } from './dates';
 
 describe('formatIsoDate', () => {
   it('formats ISO dates without timezone shifts', () => {
@@ -28,5 +28,26 @@ describe('lastPaymentMonth (this month is payment 1)', () => {
     expect(lastPaymentMonth(2026, 10, 1)).toBe('November 2026');
     expect(lastPaymentMonth(2026, 10, 2)).toBe('December 2026');
     expect(lastPaymentMonth(2026, 10, 15)).toBe('January 2028');
+  });
+});
+
+describe('addDays (quote valid-until and invoice due dates)', () => {
+  it('adds calendar days across months, years and February (hand-checked)', () => {
+    expect(addDays('2026-11-18', 30)).toBe('2026-12-18');
+    expect(addDays('2026-11-18', 14)).toBe('2026-12-02');
+    expect(addDays('2026-12-15', 30)).toBe('2027-01-14');
+    expect(addDays('2026-01-31', 30)).toBe('2026-03-02');
+    expect(addDays('2028-02-28', 1)).toBe('2028-02-29');
+    expect(addDays('2026-11-18', 0)).toBe('2026-11-18');
+  });
+
+  it('returns bad input unchanged', () => {
+    expect(addDays('', 5)).toBe('');
+    expect(addDays('18/11/2026', 5)).toBe('18/11/2026');
+  });
+
+  it('isoDate uses the local calendar date', () => {
+    expect(isoDate(new Date(2026, 10, 18, 23, 59))).toBe('2026-11-18');
+    expect(isoDate(new Date(2027, 0, 5))).toBe('2027-01-05');
   });
 });

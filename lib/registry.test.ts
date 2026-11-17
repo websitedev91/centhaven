@@ -59,6 +59,14 @@ describe('preview flag', () => {
   });
 });
 
+describe('document generators (quote, invoice)', () => {
+  it('never get an embed page, even when live', async () => {
+    const { embeddableTools, liveTools } = await import('./registry');
+    expect(embeddableTools().every((t) => !t.meta.document)).toBe(true);
+    expect(embeddableTools().length).toBe(liveTools().filter((t) => !t.meta.document).length);
+  });
+});
+
 describe('hard-coded links from calculator UIs', () => {
   it('the hourly rate tool links to a live day rate tool at the right path', async () => {
     const { DAY_RATE_TOOL } = await import('@/tools/hourly-rate-calculator/links');
