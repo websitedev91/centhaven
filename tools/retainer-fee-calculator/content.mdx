@@ -1,23 +1,25 @@
-This retainer fee calculator prices a monthly retainer from your hourly rate, the hours you commit and any discount. It also shows what the retainer is really worth per hour if the client uses fewer hours than agreed, so you can quote with confidence.
+This retainer fee calculator prices a monthly retainer from your hourly rate, the hours you commit and any discount or premium. It also shows what the retainer is really worth per hour if the client uses fewer hours than agreed, so you can quote with confidence.
 
 ## How to use this monthly retainer pricing calculator
 
 1. **Pick your currency** and enter your **normal hourly rate**.
 2. **Enter the hours you'll commit each month.** This is time you keep free for the client.
-3. **Set a discount** if you offer one for guaranteed work. Zero is fine.
+3. **Set a discount or premium.** Slide left for a discount on guaranteed work, or right for a premium on priority access. Zero is fine.
 4. **Enter the agreement length** in months.
 5. **Estimate how many of those hours the client will actually use.** This drives the effective hourly rate.
+6. **Optional: add extra hours.** Enter an overage rate (leave it at 0 to use your hourly rate) and the extra hours you expect each month.
 
-The main result is the monthly fee. Underneath you'll see the same hours billed one by one, the discount you're giving, the total agreement value and your effective hourly rate.
+The main result is the monthly fee. Underneath you'll see the same hours billed one by one, the discount you're giving or premium you're adding, the total agreement value and your effective hourly rate. If you expect extra hours, you'll also see the monthly total including them.
 
 ## How the retainer fee is calculated
 
 ```text
 hourly billing = hourly rate × hours per month
-monthly fee    = hourly billing × (1 − discount)
-discount given = hourly billing × discount
+monthly fee     = hourly billing × (1 + adjustment)   (−10% discount = −0.10, +20% premium = +0.20)
 agreement value = monthly fee × months
-effective rate = monthly fee ÷ hours actually used
+effective rate  = monthly fee ÷ hours actually used
+extra hours     = overage rate × extra hours per month
+monthly total   = monthly fee + extra hours
 ```
 
 The effective rate is the number most quotes miss. If a client pays for 20 hours but uses 16, every hour you work earns more than your normal rate. If they use all 20, your effective rate is your discounted rate.
@@ -26,7 +28,7 @@ The effective rate is the number most quotes miss. If a client pays for 20 hours
 
 Start from the hourly rate you already charge. If you're not sure it's high enough, check it with the <ToolLink slug="hourly-rate-calculator">freelance hourly rate calculator</ToolLink> first: a retainer locks a rate in for months.
 
-Then decide what the guaranteed income is worth to you. A retainer saves you time on sales and invoicing and smooths out your income, so a small discount can be fair. But you're also holding time aside, which has value of its own. Some freelancers give no discount at all and offer faster response times instead.
+Then decide what the guaranteed income is worth to you. A retainer saves you time on sales and invoicing and smooths out your income, so a small discount can be fair. But you're also holding time aside, which has value of its own. Some freelancers give no discount at all and offer faster response times instead. If the client wants guaranteed same-day replies or on-call access, a premium of 10% to 25% is common: set the slider above zero. Agree an overage rate for hours beyond the retainer, so extra work never becomes free work.
 
 ## Retainer agreement pricing: what to put in writing
 

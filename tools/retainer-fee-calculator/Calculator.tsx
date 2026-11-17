@@ -27,6 +27,8 @@ import {
 
 const SLUG = 'retainer-fee-calculator';
 const FIX_FIELDS = 'Check the highlighted fields to see your retainer.';
+/** −10 → "−10%", 20 → "+20%", 0 → "0%". */
+const signedPercent = (v: number) => (v > 0 ? `+${v}%` : v < 0 ? `−${Math.abs(v)}%` : '0%');
 
 export default function RetainerFeeCalculator() {
   const { state: s, setField, setAll, reset } = useUrlState(retainerSchema, retainerDefaults, { variant: retainerVariant });
@@ -91,15 +93,15 @@ export default function RetainerFeeCalculator() {
               />
               <div className="sm:col-span-2">
                 <Slider
-                  label="Retainer discount"
-                  help="Many freelancers give a small discount for guaranteed monthly work. Your choice."
-                  value={s.discount}
-                  onChange={(v) => update('discount', v)}
-                  min={0}
+                  label="Discount (−) or premium (+)"
+                  help="A small discount rewards guaranteed monthly work; a premium suits priority or on-call access. Your choice."
+                  value={s.adjust}
+                  onChange={(v) => update('adjust', v)}
+                  min={-50}
                   max={50}
-                  format={(v) => `${v}%`}
+                  format={signedPercent}
                   unit="%"
-                  error={errors.discount}
+                  error={errors.adjust}
                 />
               </div>
               <div className="sm:col-span-2">
@@ -124,6 +126,22 @@ export default function RetainerFeeCalculator() {
                   error={errors.usage}
                 />
               </div>
+              <InputCurrency
+                label="Overage rate for extra hours"
+                help={s.overageRate > 0 ? 'Charged per hour beyond the retainer.' : `Leave at 0 to use your hourly rate (${money(s.rate)}).`}
+                currency={c}
+                value={s.overageRate}
+                onChange={(v) => update('overageRate', v)}
+                error={errors.overageRate}
+              />
+              <InputNumber
+                label="Expected extra hours per month"
+                help="Optional. Work beyond the hours in the retainer."
+                value={s.extraHours}
+                onChange={(v) => update('extraHours', v)}
+                suffix="hours"
+                error={errors.extraHours}
+              />
             </div>
           </InputsPanel>
         }
@@ -135,7 +153,11 @@ export default function RetainerFeeCalculator() {
               unit={`per month · ${c}`}
               rows={[
                 { label: 'Same hours billed hourly', value: money(result.hourlyBilling) },
-                { label: 'Discount given', note: 'Per month', value: money(result.discountGiven) },
+                {
+                  label: result.adjustmentAmount < 0 ? 'Discount given' : 'Premium added',
+                  note: 'Per month',
+                  value: money(Math.abs(result.adjustmentAmount)),
+                },
                 { label: 'Agreement value', note: `${formatNumber(s.months)} ${s.months === 1 ? 'month' : 'months'}`, value: money(result.contractValue) },
                 {
                   label: 'Effective hourly rate',
@@ -145,6 +167,21 @@ export default function RetainerFeeCalculator() {
                       : `At ${formatNumber(result.hoursUsed, 1)} hours used a month`,
                   value: effective(result),
                 },
+                ...(result.overagePerMonth > 0
+                  ? [
+                      {
+                        label: 'Extra hours',
+                        note: `${formatNumber(s.extraHours, 1)} h × ${money(result.overageRate)}`,
+                        value: money(result.overagePerMonth),
+                      },
+                      { label: 'Monthly total with extra hours', value: money(result.monthlyTotal) },
+                      {
+                        label: 'Agreement total with extra hours',
+                        note: `${formatNumber(s.months)} ${s.months === 1 ? 'month' : 'months'}`,
+                        value: money(result.contractTotal),
+                      },
+                    ]
+                  : []),
               ]}
             />
           ) : (
@@ -163,8 +200,8 @@ export default function RetainerFeeCalculator() {
           <dl className="type-small grid grid-cols-2 gap-y-2">
             <dt className="text-ink-muted">Hours per month</dt>
             <dd className="text-right font-[550] tabular-nums">{s.hours}</dd>
-            <dt className="text-ink-muted">Discount</dt>
-            <dd className="text-right font-[550] tabular-nums">{s.discount}%</dd>
+            <dt className="text-ink-muted">Discount / premium</dt>
+            <dd className="text-right font-[550] tabular-nums">{signedPercent(s.adjust)}</dd>
             <dd className="col-span-2 mt-2 text-ink-muted">Change these in the calculator above.</dd>
           </dl>
         }
@@ -178,14 +215,14 @@ export default function RetainerFeeCalculator() {
               error={bErrors.hours}
             />
             <Slider
-              label="Retainer discount"
-              value={b.discount}
-              onChange={(v) => setB('discount', v)}
-              min={0}
+              label="Discount (−) or premium (+)"
+              value={b.adjust}
+              onChange={(v) => setB('adjust', v)}
+              min={-50}
               max={50}
-              format={(v) => `${v}%`}
+              format={signedPercent}
               unit="%"
-              error={bErrors.discount}
+              error={bErrors.adjust}
             />
           </>
         }
@@ -195,6 +232,9 @@ export default function RetainerFeeCalculator() {
                 { label: 'Monthly fee', a: money(result.monthlyFee), b: money(resultB.monthlyFee) },
                 { label: 'Same hours billed hourly', a: money(result.hourlyBilling), b: money(resultB.hourlyBilling) },
                 { label: 'Agreement value', a: money(result.contractValue), b: money(resultB.contractValue) },
+                ...(result.overagePerMonth > 0
+                  ? [{ label: 'Monthly total with extra hours', a: money(result.monthlyTotal), b: money(resultB.monthlyTotal) }]
+                  : []),
                 { label: 'Effective hourly rate', a: effective(result), b: effective(resultB) },
               ]
             : []
