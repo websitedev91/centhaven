@@ -5,7 +5,7 @@ import { formatMoney, roundTo, type CurrencyCode } from '@/lib/format';
 import { getLiveToolBySlug, toolPath } from '@/lib/registry';
 import { parseQuery, toQuery } from '@/lib/url-state';
 import { websiteCost, type WebsiteCostInput } from './calc';
-import { HOURLY_RATE_TOOL } from './links';
+import { HOURLY_RATE_TOOL, QUOTE_TOOL } from './links';
 import {
   fieldErrors,
   switchWebsiteCostCurrency,
@@ -122,10 +122,10 @@ describe('schema', () => {
 });
 
 describe('links and content', () => {
-  it('the hourly rate link points at a live tool', () => {
-    const tool = getLiveToolBySlug(HOURLY_RATE_TOOL.slug);
-    expect(tool).toBeDefined();
-    expect(toolPath(tool!)).toBe(HOURLY_RATE_TOOL.path);
+  it.each([HOURLY_RATE_TOOL, QUOTE_TOOL])('the $slug link points at a live tool', (link) => {
+    const tool = getLiveToolBySlug(link.slug);
+    expect(tool, `${link.slug} must be live while the website cost tool links to it`).toBeDefined();
+    expect(toolPath(tool!)).toBe(link.path);
   });
 
   const mdx = readFileSync(join(__dirname, 'content.mdx'), 'utf8');

@@ -17,7 +17,7 @@ import { CATEGORICAL } from '@/lib/chart-palette';
 import { formatMoney, formatNumber, type CurrencyCode } from '@/lib/format';
 import { useUrlState } from '@/lib/url-state';
 import { FEATURES, websiteCost, type DesignLevel, type Feature } from './calc';
-import { HOURLY_RATE_TOOL } from './links';
+import { HOURLY_RATE_TOOL, QUOTE_TOOL } from './links';
 import {
   fieldErrors,
   hoursKey,
@@ -197,7 +197,14 @@ export default function WebsiteDesignCostCalculator() {
                     ]
                   : []),
               ]}
-              footnote="Hours × your own rate. The hours are examples you can change, not market prices."
+              footnote={
+                <>
+                  <p>Hours × your own rate. The hours are examples you can change, not market prices.</p>
+                  <p className="no-print mt-2">
+                    <Link href={QUOTE_TOOL.path}>Turn this into a quote</Link> with the freelance quote generator.
+                  </p>
+                </>
+              }
             />
           ) : (
             <ResultCard label={label} value="" unit="" rows={[]} error={FIX_FIELDS} />
