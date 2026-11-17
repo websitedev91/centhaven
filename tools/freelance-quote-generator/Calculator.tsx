@@ -1,11 +1,11 @@
 'use client';
 
 import { useRef } from 'react';
-import { CalculatorGrid, InputsPanel } from '@/components/CalculatorGrid';
+import { InputsPanel } from '@/components/CalculatorGrid';
 import { CurrencySelect } from '@/components/CurrencySelect';
 import { InputNumber } from '@/components/InputNumber';
-import { ResultCard } from '@/components/ResultCard';
 import { DocToolbar } from '@/components/doc/DocToolbar';
+import { DocWorkspace } from '@/components/doc/DocWorkspace';
 import { DocumentSheet, type SheetTotal } from '@/components/doc/DocumentSheet';
 import { LineItemsEditor } from '@/components/doc/LineItemsEditor';
 import { TextArea, TextField } from '@/components/doc/TextField';
@@ -69,9 +69,13 @@ export default function FreelanceQuoteGenerator() {
   ];
 
   return (
-    <div className="flex flex-col gap-6">
-      <CalculatorGrid
-        inputs={
+    <DocWorkspace
+      kind="quote"
+      total={money(t.total)}
+      totalLabel="Quote total"
+      detail={validUntil ? `${c} · valid until ${formatIsoDate(validUntil)}` : c}
+      error={valid ? undefined : 'Check the highlighted fields to finish your quote.'}
+      form={
           <InputsPanel label="Your quote">
             <div className="flex flex-col gap-7">
               <Section title="Quote details">
@@ -173,27 +177,10 @@ export default function FreelanceQuoteGenerator() {
               </Section>
             </div>
           </InputsPanel>
-        }
-        result={
-          valid ? (
-            <ResultCard
-              label="Quote total"
-              value={money(t.total)}
-              unit={validUntil ? `${c} · valid until ${formatIsoDate(validUntil)}` : c}
-              rows={totals
-                .filter((row) => !row.strong)
-                .map((row) => ({ label: row.label, value: row.minus ? `−${money(row.value)}` : money(row.value) }))}
-              footnote="Your quote is saved in this browser only."
-            />
-          ) : (
-            <ResultCard label="Quote total" value="" unit="" rows={[]} error="Check the highlighted fields to finish your quote." />
-          )
-        }
-      />
-
-      <DocToolbar toolSlug={SLUG} kind="quote" note={QUOTE_NOTE} onNew={() => replace(newQuote(s, today))} onClear={() => replace(null)} />
-
-      <section aria-label="Quote preview" className="min-w-0">
+      }
+      toolbar={<DocToolbar toolSlug={SLUG} kind="quote" note={QUOTE_NOTE} onNew={() => replace(newQuote(s, today))} onClear={() => replace(null)} />}
+      preview={
+        <section aria-label="Quote preview" className="min-w-0">
         <DocumentSheet
           kind="Quote"
           number={s.number}
@@ -210,7 +197,8 @@ export default function FreelanceQuoteGenerator() {
           totals={totals}
           blocks={[{ heading: 'Notes and terms', text: s.notes }]}
         />
-      </section>
-    </div>
+        </section>
+      }
+    />
   );
 }

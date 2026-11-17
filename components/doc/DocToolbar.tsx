@@ -24,7 +24,7 @@ export function DocToolbar(props: { toolSlug: string; kind: 'quote' | 'invoice';
     opened.current = confirming;
   }, [confirming]);
   return (
-    <div className="no-print flex flex-col gap-4 rounded-panel border border-line bg-surface p-5 sm:p-6">
+    <div className="no-print flex flex-col gap-3">
       <div className="flex flex-wrap items-center gap-3">
         <button
           type="button"
@@ -72,10 +72,10 @@ export function DocToolbar(props: { toolSlug: string; kind: 'quote' | 'invoice';
           </button>
         )}
       </div>
-      <p className="type-small text-ink-muted">
-        In the print window, choose <span className="font-[550] text-ink">Save as PDF</span>. Your {kind} is saved in this browser only; nothing is uploaded.
+      <p className="text-[13px] leading-5 text-ink-muted">
+        In the print window, choose <span className="font-[550] text-ink">Save as PDF</span>. Saved in this browser only; nothing is uploaded.
       </p>
-      <p className="type-small rounded-field border border-line bg-paper px-4 py-3 text-ink">{note}</p>
+      <p className="text-[13px] leading-5 text-ink">{note}</p>
     </div>
   );
 }

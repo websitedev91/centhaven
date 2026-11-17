@@ -38,8 +38,9 @@ export function LineItemsEditor(props: {
         {items.map((it, i) => {
           const name = it.desc.trim() || `Item ${i + 1}`;
           return (
-            <li key={it.id} className="rounded-field border border-line bg-paper p-4">
-              <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_7.5rem_9.5rem]">
+            <li key={it.id} className="@container rounded-field border border-line bg-paper p-4">
+              <div className="grid grid-cols-2 gap-4 @lg:grid-cols-[minmax(0,1fr)_7.5rem_9.5rem]">
+                <div className="col-span-2 @lg:col-span-1">
                 <TextField
                   label={`Item ${i + 1}: description`}
                   value={it.desc}
@@ -47,6 +48,7 @@ export function LineItemsEditor(props: {
                   maxLength={DOC_LIMITS.desc}
                   placeholder="What you'll deliver"
                 />
+                </div>
                 <InputNumber label="Qty / hours" value={it.qty} onChange={(qty) => set(i, { qty })} error={errors[`${it.id}.qty`]} />
                 <InputCurrency label="Rate" currency={currency} value={it.rate} onChange={(rate) => set(i, { rate })} error={errors[`${it.id}.rate`]} />
               </div>

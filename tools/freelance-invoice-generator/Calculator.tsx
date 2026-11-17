@@ -1,14 +1,14 @@
 'use client';
 
 import { useRef, useState, type ReactNode } from 'react';
-import { CalculatorGrid, InputsPanel } from '@/components/CalculatorGrid';
+import { InputsPanel } from '@/components/CalculatorGrid';
 import { CurrencySelect } from '@/components/CurrencySelect';
 import { InputCurrency } from '@/components/InputCurrency';
 import { InputNumber } from '@/components/InputNumber';
-import { ResultCard } from '@/components/ResultCard';
 import { SelectField } from '@/components/SelectField';
 import { secondaryButtonClass, textButtonClass } from '@/components/actionButtonClass';
 import { DocToolbar } from '@/components/doc/DocToolbar';
+import { DocWorkspace } from '@/components/doc/DocWorkspace';
 import { DocumentSheet, type SheetTotal } from '@/components/doc/DocumentSheet';
 import { LineItemsEditor } from '@/components/doc/LineItemsEditor';
 import { TextArea, TextField } from '@/components/doc/TextField';
@@ -104,9 +104,13 @@ export default function FreelanceInvoiceGenerator() {
   ];
 
   return (
-    <div className="flex flex-col gap-6">
-      <CalculatorGrid
-        inputs={
+    <DocWorkspace
+      kind="invoice"
+      total={paidInFull ? 'Paid in full' : money(t.balance)}
+      totalLabel="Balance due"
+      detail={paidInFull ? `Paid in full · total ${money(t.total)}` : dueDate ? `${c} · due ${formatIsoDate(dueDate)}` : c}
+      error={valid ? undefined : 'Check the highlighted fields to finish your invoice.'}
+      form={
           <InputsPanel label="Your invoice">
             <div className="flex flex-col gap-7">
               <Section title="Invoice details">
@@ -225,27 +229,10 @@ export default function FreelanceInvoiceGenerator() {
               </Section>
             </div>
           </InputsPanel>
-        }
-        result={
-          valid ? (
-            <ResultCard
-              label="Balance due"
-              value={paidInFull ? 'Paid in full' : money(t.balance)}
-              unit={dueDate ? `${c} · due ${formatIsoDate(dueDate)}` : c}
-              rows={totals
-                .filter((row) => row.label !== 'Balance due')
-                .map((row) => ({ label: row.label, value: row.minus ? `−${money(row.value)}` : money(row.value) }))}
-              footnote="Your invoice is saved in this browser only."
-            />
-          ) : (
-            <ResultCard label="Balance due" value="" unit="" rows={[]} error="Check the highlighted fields to finish your invoice." />
-          )
-        }
-      />
-
-      <DocToolbar toolSlug={SLUG} kind="invoice" note={INVOICE_NOTE} onNew={() => replace(newInvoice(s, today))} onClear={() => replace(null)} />
-
-      <section aria-label="Invoice preview" className="min-w-0">
+      }
+      toolbar={<DocToolbar toolSlug={SLUG} kind="invoice" note={INVOICE_NOTE} onNew={() => replace(newInvoice(s, today))} onClear={() => replace(null)} />}
+      preview={
+        <section aria-label="Invoice preview" className="min-w-0">
         <DocumentSheet
           kind="Invoice"
           number={s.number}
@@ -267,7 +254,8 @@ export default function FreelanceInvoiceGenerator() {
             { heading: 'Notes', text: s.notes },
           ]}
         />
-      </section>
-    </div>
+        </section>
+      }
+    />
   );
 }
