@@ -14,9 +14,11 @@ export function ChartLazy(props: {
   description?: string;
   /** Rendered immediately below the chart (e.g. an accessible HTML legend with values). */
   footer?: ReactNode;
+  /** Skeleton shape shown until the chart loads. */
+  placeholder?: 'lines' | 'donut';
   children: ReactNode;
 }) {
-  const { title, height = 280, description, footer, children } = props;
+  const { title, height = 280, description, footer, placeholder = 'lines', children } = props;
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
   const embed = useEmbed();
@@ -48,7 +50,7 @@ export function ChartLazy(props: {
       {description ? <p className="type-small mt-1 text-ink-muted">{description}</p> : null}
       <div className={footer ? 'mt-6 md:grid md:grid-cols-[minmax(0,240px)_minmax(0,1fr)] md:items-center md:gap-12' : 'mt-6'}>
         <div ref={ref} style={{ height }} aria-hidden="true">
-          {visible ? children : <ChartPlaceholder />}
+          {visible ? children : <ChartPlaceholder shape={placeholder} />}
         </div>
         {footer ? <div className="mt-6 md:mt-0">{footer}</div> : null}
       </div>
@@ -56,6 +58,35 @@ export function ChartLazy(props: {
   );
 }
 
-export function ChartPlaceholder() {
-  return <div className="h-full w-full rounded-field bg-paper" aria-hidden="true" />;
+/**
+ * Light skeleton shown while a chart loads: same box as the chart (no layout shift), faint
+ * gridlines and a pale outline of the chart's shape. Static (no shimmer), per DESIGN.md motion rules.
+ */
+export function ChartPlaceholder({ shape = 'lines' }: { shape?: 'lines' | 'donut' }) {
+  return (
+    <div className="relative h-full w-full" aria-hidden="true">
+      {shape === 'donut' ? (
+        <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+          <circle cx="50" cy="50" r="34" fill="none" stroke="var(--color-mint)" strokeWidth="14" />
+        </svg>
+      ) : (
+        <>
+          <div className="absolute inset-x-0 top-[8%] bottom-[10%] flex flex-col justify-between">
+            {[0, 1, 2, 3, 4].map((i) => (
+              <div key={i} className="h-px w-full bg-line/60" />
+            ))}
+          </div>
+          <svg className="absolute inset-x-0 top-[8%] bottom-[10%] h-[82%] w-full" viewBox="0 0 100 40" preserveAspectRatio="none">
+            <polyline
+              points="0,30 20,26 40,22 60,16 80,12 100,8"
+              fill="none"
+              stroke="var(--color-mint)"
+              strokeWidth="2.5"
+              vectorEffect="non-scaling-stroke"
+            />
+          </svg>
+        </>
+      )}
+    </div>
+  );
 }

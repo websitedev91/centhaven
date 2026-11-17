@@ -18,11 +18,16 @@ ErrorDocument 404 /404.html
   # 2. /index.html → /
   RewriteRule ^index\.html$ / [R=301,L]
 
-  # 3. Clean URLs: /about and /about/ → about.html; /freelance → freelance.html even though a
-  #    freelance/ folder also exists. Internal rewrite, no redirect, so no slash loops; every page's
-  #    canonical tag names the no-slash URL.
+  # 3. Trailing slash → canonical URL: /about/ → /about (301), only when about.html exists.
+  #    The homepage stays "/". Safe from loops because DirectorySlash Off is honoured here
+  #    (checked live 2026-11-17: /about answers 200 without being redirected to /about/).
   RewriteCond %{DOCUMENT_ROOT}/$1.html -f
-  RewriteRule ^(.+?)/?$ $1.html [L]
+  RewriteRule ^(.+)/$ /$1 [R=301,L]
+
+  # 4. Clean URLs: /about → about.html; /freelance → freelance.html even though a freelance/
+  #    folder (Next.js data files) also exists.
+  RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+  RewriteRule ^(.+)$ $1.html [L]
 </IfModule>
 
 # Types the export uses (RSC payloads are .txt; share images are .png).

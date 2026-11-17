@@ -29,7 +29,7 @@ import {
 } from './schema';
 import { SLICES } from './slices';
 
-const HourSplitChart = dynamic(() => import('./Chart'), { ssr: false, loading: () => <ChartPlaceholder /> });
+const HourSplitChart = dynamic(() => import('./Chart'), { ssr: false, loading: () => <ChartPlaceholder shape="donut" /> });
 
 const SLUG = 'hourly-rate-calculator';
 const FIX_FIELDS = 'Check the highlighted fields to see your rate.';
@@ -191,6 +191,7 @@ export default function HourlyRateCalculator() {
           title="Where each hour's rate goes"
           description={`Of every ${money(result.hourlyRate, c)} you bill, this is where it goes.`}
           height={220}
+          placeholder="donut"
           footer={
               <ul className="type-small flex max-w-md flex-col border-t border-line">
                 {SLICES.map((sl) => (

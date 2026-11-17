@@ -141,7 +141,7 @@ export default function BreakEvenCalculator() {
             <ResultCard
               label={label}
               value={formatNumber(units)}
-              unit={`${units === 1 ? noun.one : noun.many} a month · ${c}`}
+              unit={`${units === 1 ? noun.one : noun.many} a month`}
               rows={[
                 { label: 'Break-even revenue', note: 'Per month', value: money(result.breakEvenRevenue) },
                 {
