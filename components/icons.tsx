@@ -100,3 +100,63 @@ export const PlusMinusIcon = (p: IconProps) => (
     <path d="M10 4v12" className="origin-center transition-transform duration-200 group-open:rotate-90" />
   </Icon>
 );
+
+/* Category and trust icons (homepage). Same 20px grid and 1.75 stroke as the rest. */
+export const BriefcaseIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <rect x="2.5" y="6" width="15" height="10.5" rx="2" />
+    <path d="M7 6V4.5A1.5 1.5 0 0 1 8.5 3h3A1.5 1.5 0 0 1 13 4.5V6M2.5 10.5h15" />
+  </Icon>
+);
+
+export const WalletIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M15.5 6.5V5a1.5 1.5 0 0 0-1.5-1.5H4.5A2 2 0 0 0 2.5 5.5v9a2 2 0 0 0 2 2h11a1.5 1.5 0 0 0 1.5-1.5V8A1.5 1.5 0 0 0 15.5 6.5H4.5" />
+    <circle cx="13.5" cy="11.5" r="1" />
+  </Icon>
+);
+
+export const BarChartIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M3 16.5h14M5.5 13.5v-3M10 13.5V6M14.5 13.5v-6" />
+  </Icon>
+);
+
+export const ShieldIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M10 2.5 4 5v4.5c0 3.8 2.5 6.6 6 8 3.5-1.4 6-4.2 6-8V5l-6-2.5Z" />
+  </Icon>
+);
+
+export const CheckCircleIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <circle cx="10" cy="10" r="7.5" />
+    <path d="m6.8 10.2 2.2 2.2 4.2-4.6" />
+  </Icon>
+);
+
+export const BookIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M3 4.5A1.5 1.5 0 0 1 4.5 3H9v13.5H4.5A1.5 1.5 0 0 1 3 15V4.5ZM17 4.5A1.5 1.5 0 0 0 15.5 3H11v13.5h4.5A1.5 1.5 0 0 0 17 15V4.5Z" />
+  </Icon>
+);
+
+export const FlaskIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M8 2.5h4M8.5 2.5v5L4 15.2A1.5 1.5 0 0 0 5.3 17.5h9.4a1.5 1.5 0 0 0 1.3-2.3L11.5 7.5v-5M6 12.5h8" />
+  </Icon>
+);
+
+export const CalendarIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <rect x="3" y="4" width="14" height="13" rx="2" />
+    <path d="M3 8h14M7 2.5v3M13 2.5v3" />
+  </Icon>
+);
+
+export const UserCheckIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <circle cx="8" cy="6.5" r="3" />
+    <path d="M2.5 17c0-3 2.5-5 5.5-5s4 1 4.8 2M12.5 15l1.8 1.8 3.2-3.6" />
+  </Icon>
+);

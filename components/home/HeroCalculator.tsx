@@ -3,6 +3,8 @@
 import Link from 'next/link';
 import { useId, useState } from 'react';
 import { AnimatedNumber } from '@/components/AnimatedNumber';
+import { primaryButtonClass } from '@/components/actionButtonClass';
+import { Num } from '@/components/Num';
 import { InputCurrency } from '@/components/InputCurrency';
 import { InputNumber } from '@/components/InputNumber';
 import { CURRENCIES, formatMoney, type CurrencyCode } from '@/lib/format';
@@ -39,6 +41,13 @@ export function HeroCalculator({ toolHref }: { toolHref?: string }) {
         : undefined;
   const result = incomeError || hoursError ? null : calcHourlyRate(toCalcInput(s));
   const rate = result && result.ok ? formatMoney(result.hourlyRate, s.currency) : null;
+  const figures =
+    result && result.ok
+      ? [
+          { label: 'Day rate', value: formatMoney(result.dayRate, s.currency) },
+          { label: 'Revenue needed a month', value: formatMoney(result.monthlyRevenue, s.currency) },
+        ]
+      : [];
 
   return (
     <section aria-labelledby="hero-calc-heading" className="rounded-panel border border-line bg-surface">
@@ -87,6 +96,16 @@ export function HeroCalculator({ toolHref }: { toolHref?: string }) {
               <AnimatedNumber value={rate} className="type-result inline-block border-b-[3px] border-brass pb-1.5 text-ink" />
               <span className="type-small text-ink-muted">per hour · {s.currency}</span>
             </p>
+            <dl className="mt-5 grid grid-cols-2 gap-4 border-t border-line pt-4">
+              {figures.map((f) => (
+                <div key={f.label}>
+                  <dt className="type-small text-ink-muted">{f.label}</dt>
+                  <dd className="type-figure mt-0.5 text-ink">
+                    <Num>{f.value}</Num>
+                  </dd>
+                </div>
+              ))}
+            </dl>
             <p className="type-small mt-4 text-ink-muted">
               Assumes {s.taxRate}% tax, typical expenses, {s.weeksOff} weeks off and {s.billablePct}% billable time.
             </p>
@@ -99,9 +118,9 @@ export function HeroCalculator({ toolHref }: { toolHref?: string }) {
         {toolHref ? (
           <Link
             href={`${toolHref}${toQuery(s, hourlyRateDefaults, hourlyRateVariant)}`}
-            className="mt-5 inline-flex items-center gap-1.5 text-[15px] font-[550] text-haven no-underline hover:text-haven-deep hover:underline"
+            className={`${primaryButtonClass} mt-5 w-full sm:w-auto`}
           >
-            Open full calculator
+            Open the full calculator
           </Link>
         ) : null}
       </div>
