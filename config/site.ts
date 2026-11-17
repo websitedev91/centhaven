@@ -58,6 +58,11 @@ export const categories: readonly CategoryInfo[] = [
     name: 'Small Business',
     description: 'Break-even, utilization and other numbers that keep a small business or freelance practice healthy.',
   },
+  {
+    slug: 'personal-finance',
+    name: 'Personal Finance',
+    description: 'Plan an emergency fund and savings goals, for steady or irregular income.',
+  },
 ];
 
 export function getCategory(slug: string): CategoryInfo | undefined {
