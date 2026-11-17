@@ -353,7 +353,7 @@
 
 - **Primary keyword:** utilization rate calculator (100–1K/month)
 - **Secondary keywords:** billable utilization calculator, billable hours calculator, how to calculate utilization rate
-- **Title** (52 chars): Utilization Rate Calculator – Billable Hours Tracker
+- **Title** (52 chars): Utilization Rate Calculator – Billable Utilization %
 - **Meta description** (141 chars): Calculate your billable utilization rate, compare it with a target and see the revenue gap. Simple for freelancers, consultants and agencies.
 - **H1:** Utilization Rate Calculator
 - **FAQ questions (People Also Ask style):**

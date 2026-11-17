@@ -9,7 +9,7 @@ export const meta: ToolMeta = {
   category: 'business',
   primaryKeyword: 'utilization rate calculator',
   secondaryKeywords: ['billable utilization calculator', 'billable hours calculator', 'how to calculate utilization rate'],
-  title: 'Utilization Rate Calculator – Billable Hours Tracker',
+  title: 'Utilization Rate Calculator – Billable Utilization %',
   description:
     'Calculate your billable utilization rate, compare it with a target and see the revenue gap. Simple for freelancers, consultants and agencies.',
   h1: 'Utilization Rate Calculator',
