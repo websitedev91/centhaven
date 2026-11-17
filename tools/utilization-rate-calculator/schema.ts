@@ -16,6 +16,8 @@ export const utilizationSchema = z.object({
   currency: z.enum(CURRENCIES),
   billable: hours(0),
   available: hours(1),
+  /** Optional leave/holiday hours to exclude (review C9). */
+  leave: hours(0),
   target: num().check(z.minimum(10, 'Minimum is 10%'), z.maximum(100, 'Maximum is 100%')),
   rate: num().check(z.minimum(0, 'Rate can’t be negative'), z.maximum(1_000_000, 'Maximum is 1,000,000')),
 });
@@ -35,7 +37,7 @@ export const utilizationCurrencyPresets: CurrencyPresets<UtilizationState> = {
   INR: { rate: 1_500 },
 };
 
-const base: UtilizationState = { period: 'week', currency: 'USD', billable: 28, available: 40, target: 75, rate: 100 };
+const base: UtilizationState = { period: 'week', currency: 'USD', billable: 28, available: 40, leave: 0, target: 75, rate: 100 };
 
 export const utilizationDefaults = defaultsForCurrency(base, utilizationCurrencyPresets, 'USD');
 export const utilizationVariant = currencyVariant(utilizationDefaults, utilizationCurrencyPresets);
@@ -45,7 +47,7 @@ export function switchUtilizationCurrency(state: UtilizationState, next: Currenc
 }
 
 export function toCalcInput(s: UtilizationState): UtilizationInput {
-  return { billable: s.billable, available: s.available, target: s.target / 100, rate: s.rate };
+  return { billable: s.billable, available: s.available, leave: s.leave, target: s.target / 100, rate: s.rate };
 }
 
 export { fieldErrors } from '@/lib/field-errors';

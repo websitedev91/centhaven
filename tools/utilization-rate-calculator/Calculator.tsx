@@ -100,6 +100,16 @@ export default function UtilizationRateCalculator() {
                 error={errors.available}
               />
               <div className="sm:col-span-2">
+                <InputNumber
+                  label="Leave/holiday hours to exclude"
+                  help="Optional. Holidays, sick leave or public holidays in this period. Leaves your net capacity."
+                  value={s.leave}
+                  onChange={(v) => update('leave', v)}
+                  suffix="hours"
+                  error={errors.leave}
+                />
+              </div>
+              <div className="sm:col-span-2">
                 <Slider
                   label="Target utilization"
                   value={s.target}
@@ -133,6 +143,15 @@ export default function UtilizationRateCalculator() {
               unit={`${period} · target ${s.target}%`}
               tone={result.gapHours <= 0 ? 'positive' : undefined}
               rows={[
+                ...(result.netAvailable < result.grossAvailable
+                  ? [
+                      {
+                        label: 'Net available hours',
+                        note: `${formatNumber(result.grossAvailable, 1)} available − ${formatNumber(result.grossAvailable - result.netAvailable, 1)} leave`,
+                        value: formatNumber(result.netAvailable, 1),
+                      },
+                    ]
+                  : []),
                 { label: 'Billable hours at target', value: formatNumber(result.targetHours, 1) },
                 result.gapHours > 0
                   ? { label: 'Below target by', value: hrs(result.gapHours) }
@@ -150,8 +169,8 @@ export default function UtilizationRateCalculator() {
       {result.ok ? (
         <SplitBar
           title="Billable and non-billable hours"
-          description={`${hrs(s.available)} available ${period}. The line marks your ${s.target}% target.`}
-          total={s.available}
+          description={`${hrs(result.netAvailable)} available ${period}${result.netAvailable < result.grossAvailable ? " after leave" : ""}. The line marks your ${s.target}% target.`}
+          total={result.netAvailable}
           marker={{ at: result.targetHours, label: `Target ${s.target}%` }}
           parts={[
             { key: 'billable', label: 'Billable', value: s.billable, display: hrs(s.billable), color: CATEGORICAL[0] },

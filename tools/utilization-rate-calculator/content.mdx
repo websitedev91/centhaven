@@ -4,7 +4,7 @@ This utilization rate calculator shows what share of your available hours you ac
 
 1. **Choose a period:** a week, a month or a year. It only changes the labels, so use the same period for every number.
 2. **Enter your billable hours.** These are hours a client pays for.
-3. **Enter your available hours.** This is all the time you, or the team, could work in that period.
+3. **Enter your available hours.** This is all the time you, or the team, could work in that period. If some of it is leave, enter those hours under **Leave/holiday hours to exclude**.
 4. **Set your target.** Many agencies aim for somewhere around 70–80%, but that's a common range, not a rule.
 5. **Add your hourly rate** if you want to see what the gap is worth. Leave it at zero to skip the revenue gap.
 
@@ -15,7 +15,8 @@ The result shows your utilization rate. The bar underneath splits your hours int
 Utilization is billable hours divided by available hours. The calculator then compares that with your target:
 
 ```text
-utilization   = billable hours ÷ available hours
+net available = available hours − leave hours
+utilization   = billable hours ÷ net available
 target hours  = target × available hours
 gap           = target hours − billable hours   (negative = above target)
 revenue gap   = gap × hourly rate               (0 if at or above target)
@@ -23,6 +24,12 @@ non-billable  = available hours − billable hours
 ```
 
 So 28 billable hours out of 40 is 70%. With a 75% target you'd want 30 billable hours, which leaves a gap of 2 hours.
+
+## Gross vs net capacity
+
+**Gross capacity** is every hour you could work in the period, such as 40 hours in a normal week. **Net capacity** is what is left after leave: holidays, sick days and public holidays. Measure utilization against net capacity, otherwise a holiday week looks like a quiet week.
+
+For example, 28 billable hours in a 40-hour week is 70%. If 8 of those 40 hours were a public holiday, net capacity is 32 hours and the same 28 billable hours are 87.5%, comfortably above a 75% target.
 
 ## Billable hours vs non-billable hours
 
