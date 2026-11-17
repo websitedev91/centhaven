@@ -3,6 +3,9 @@ export const site = {
   domain: 'centhaven.com',
   url: 'https://centhaven.com',
   tagline: 'Smart tools to earn, save and grow.',
+  /** Homepage meta description: copied exactly from docs/seo/keyword-map.md → / (homepage). Also the site-wide default. */
+  homeDescription:
+    'Free money calculators for freelancers and anyone managing money. Work out your hourly rate, salary, retainer, break-even point or emergency fund. No sign-up.',
   contactEmail: 'info@centhaven.com',
   /** Google Tag Manager container (components/Analytics.tsx). GA4 and other tags are set up inside it. */
   gtmId: 'GTM-KS3D4XJX',

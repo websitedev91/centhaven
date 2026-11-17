@@ -24,7 +24,7 @@ import { absoluteUrl, buildMetadata } from '@/lib/seo';
 // Same title and description as the root layout default, plus canonical URL and the home share image.
 export const metadata = buildMetadata({
   title: `${site.name} – ${site.tagline}`,
-  description: 'Free money and work calculators for freelancers and remote workers. Smart tools to earn, save and grow.',
+  description: site.homeDescription,
   path: '/',
 });
 

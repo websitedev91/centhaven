@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 import { absoluteUrl, breadcrumbJsonLd, faqJsonLd, jsonLdString, webApplicationJsonLd, wordCount } from './seo';
 import { loadKeywordMap, parseKeywordMap } from './keyword-map';
 import { registry, toolPath } from './registry';
-import { categories } from '@/config/site';
+import { categories, site } from '@/config/site';
 import { getHub, hubs as hubMetas } from './hubs';
 
 describe('seo helpers', () => {
@@ -251,5 +251,24 @@ describe.each(registry.map((t) => [t.slug, t] as const))('SEO for %s', (slug, t)
     const words = wordCount(prose(readContent(slug))) + t.meta.faq.reduce((n, f) => n + wordCount(`${f.q} ${f.a}`), 0);
     expect(words).toBeGreaterThanOrEqual(900);
     expect(words).toBeLessThanOrEqual(1500);
+  });
+});
+
+describe('homepage meta matches the keyword map', () => {
+  const md = readFileSync(join(process.cwd(), 'docs', 'seo', 'keyword-map.md'), 'utf8');
+  const section = md.split('## / (homepage)')[1]?.split(/\n#/)[0] ?? '';
+  const field = (name: string) => new RegExp(`\\*\\*${name}\\*\\*(?: \\((\\d+) chars\\))?: (.+)`).exec(section);
+
+  it('description is copied exactly, 140–160 chars, and keeps "free money calculators"', () => {
+    const m = field('Meta description');
+    expect(m?.[2]?.trim()).toBe(site.homeDescription);
+    expect(Number(m?.[1])).toBe(site.homeDescription.length);
+    expect(site.homeDescription.length).toBeGreaterThanOrEqual(140);
+    expect(site.homeDescription.length).toBeLessThanOrEqual(160);
+    expect(site.homeDescription.toLowerCase()).toContain('free money calculators');
+  });
+
+  it('title matches', () => {
+    expect(field('Title')?.[2]?.trim()).toBe(`${site.name} – ${site.tagline}`);
   });
 });

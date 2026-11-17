@@ -411,6 +411,15 @@
 
 ---
 
+# Homepage
+
+## / (homepage)
+
+- **Primary keyword:** free money calculators
+- **Title** (47 chars): CentHaven – Smart tools to earn, save and grow.
+- **Meta description** (158 chars): Free money calculators for freelancers and anyone managing money. Work out your hourly rate, salary, retainer, break-even point or emergency fund. No sign-up.
+- **H1:** Know your numbers before you decide.
+
 # Category hub pages
 
 Hub pages target a broad keyword; tools target the long tail. Hubs go live together with their first live tool.

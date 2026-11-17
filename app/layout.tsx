@@ -14,8 +14,7 @@ const schibsted = Schibsted_Grotesk({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: { default: `${site.name} – ${site.tagline}`, template: '%s' },
-  description:
-    'Free money and work calculators for freelancers and remote workers. Smart tools to earn, save and grow.',
+  description: site.homeDescription,
   icons: { icon: '/favicon.svg' },
 };
 
