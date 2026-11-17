@@ -32,10 +32,10 @@ export const registry: readonly RegistryRow[] = [
   row(rateIncrease, { status: 'live', publishDate: '2026-11-16', lastUpdated: '2026-11-16' }),
   row(utilizationRate, { status: 'live', publishDate: '2026-11-16', lastUpdated: '2026-11-16' }),
   row(breakEven, { status: 'live', publishDate: '2026-11-16', lastUpdated: '2026-11-16' }),
-  row(consultingFee, { status: 'ready', lastUpdated: '2026-11-17' }),
-  row(retainerFee, { status: 'ready', lastUpdated: '2026-11-17' }),
-  row(straightLineDepreciation, { status: 'ready', lastUpdated: '2026-11-17' }),
-  row(emergencyFund, { status: 'ready', lastUpdated: '2026-11-17' }),
+  row(consultingFee, { status: 'live', publishDate: '2026-11-17', lastUpdated: '2026-11-17' }),
+  row(retainerFee, { status: 'live', publishDate: '2026-11-17', lastUpdated: '2026-11-17' }),
+  row(straightLineDepreciation, { status: 'live', publishDate: '2026-11-17', lastUpdated: '2026-11-17' }),
+  row(emergencyFund, { status: 'live', publishDate: '2026-11-17', lastUpdated: '2026-11-17' }),
 ];
 
 /** Local preview builds only (see next.config.ts `env` and scripts/postbuild.mjs). */
