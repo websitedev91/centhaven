@@ -1,35 +1,34 @@
 # Deploying CentHaven to Hostinger (Cloud Startup)
 
-Same setup as tools.sanishtech.com: a **Node.js web app with GitHub auto-deployment**.
-On every push to `main`, Hostinger pulls the repo, runs `npm run build` (static export into `out/`
-plus the postbuild safety checks) and then `npm start`, which serves `out/` with
-`scripts/serve-out.mjs` (no dependencies). Only `live` tools are built.
+Hostinger **GitHub auto-deployment** (same GitHub account as tools.sanishtech.com). On every push to
+`main`, Hostinger pulls the repo, runs `npm run build` (static export into `out/` plus the postbuild
+safety checks) and **serves `out/` directly with its own web server** (LiteSpeed behind Hostinger's
+CDN). Only `live` tools are built.
 
-## Hostinger settings
+## Hostinger settings (working, 2026-11-17)
 | Setting | Value |
 |---|---|
 | Repository / branch | `websitedev91/centhaven` · `main` |
-| Framework | Next.js (or "Other" if Next.js forces `next start`) |
+| Framework | **Other** (not Next.js: the Next.js preset wraps our config and stops the static export) |
+| Output directory | **out** |
 | Node version | 22.x |
 | Root directory | `./` |
-| Install command | `npm ci` (or `npm install`) |
 | Build command | `npm run build` |
-| Start command | `npm start` |
+| Start command | `npm start` (unused while Hostinger serves `out/` statically) |
 | Environment variables | none needed |
 | Auto-deployment | on |
 
-`next start` does **not** work with this project (static export). The start command must be `npm start`.
+## Clean URLs: `public/.htaccess`
+Copied into `out/` on every build. Every page has both `about.html` and an `about/` folder (Next.js
+data files), so without these rules the server redirects `/about` → `/about/` and returns 403.
+The rules: serve `/about` and `/about/` from `about.html`, force `https://centhaven.com` (no www),
+send missing pages to `/404.html`, and set cache headers.
 
-## What the server does (`scripts/serve-out.mjs`)
-- Clean URLs: `/about` → `about.html`, `/freelance` → `freelance.html`; `/about/` and `/index.html` redirect (301) to the clean URL.
-- `www.centhaven.com` → `https://centhaven.com` (301). HTTPS is forced by Hostinger in front of it.
-- Real 404 page with status 404; never serves dotfiles; GET/HEAD only.
-- Cache: hashed JS/CSS/fonts 1 year, images 7 days, pages and data always revalidated; gzip for text.
+`scripts/serve-out.mjs` does the same for local checks (`npm start` → http://localhost:4173).
 
 ## Checks after each deploy
-1. https://centhaven.com, a hub, a tool, an embed (`/embed/break-even-calculator`) and a missing page (404).
-2. http:// and www. both end at https://centhaven.com.
-3. GitHub → Actions: the **CI** workflow (build + tests) is green.
+Every page answers 200 at its clean URL, a missing page answers 404, and http:// and www. end at
+https://centhaven.com. GitHub → Actions: the **CI** workflow (build + tests) is green.
 
 ## After the first deploy
 1. PageSpeed Insights (mobile) on home, a hub, a tool and a static page: targets in DESIGN.md §10.
