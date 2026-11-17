@@ -20,6 +20,7 @@ const calculators: Record<string, ComponentType> = {
   'break-even-calculator': dynamic(() => import('@/tools/break-even-calculator/Calculator')),
   'consulting-fee-calculator': dynamic(() => import('@/tools/consulting-fee-calculator/Calculator')),
   'retainer-fee-calculator': dynamic(() => import('@/tools/retainer-fee-calculator/Calculator')),
+  'straight-line-depreciation-calculator': dynamic(() => import('@/tools/straight-line-depreciation-calculator/Calculator')),
 };
 
 export const calculatorSlugs = Object.keys(calculators);

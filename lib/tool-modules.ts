@@ -7,6 +7,7 @@ import UtilizationRateContent from '@/tools/utilization-rate-calculator/content.
 import BreakEvenContent from '@/tools/break-even-calculator/content.mdx';
 import ConsultingFeeContent from '@/tools/consulting-fee-calculator/content.mdx';
 import RetainerFeeContent from '@/tools/retainer-fee-calculator/content.mdx';
+import StraightLineDepreciationContent from '@/tools/straight-line-depreciation-calculator/content.mdx';
 
 /**
  * Maps a tool slug to its long-form content (server-rendered MDX, no client JS).
@@ -22,4 +23,5 @@ export const toolContent: Record<string, ComponentType> = {
   'break-even-calculator': BreakEvenContent,
   'consulting-fee-calculator': ConsultingFeeContent,
   'retainer-fee-calculator': RetainerFeeContent,
+  'straight-line-depreciation-calculator': StraightLineDepreciationContent,
 };
