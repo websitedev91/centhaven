@@ -53,7 +53,7 @@ Only the hourly rate changes with currency. Hours are the same in every currency
 | Output | How it's shown |
 |---|---|
 | **Project price** (with buffer) | Main result |
-| Quote range | "From {price without buffer} to {price with buffer}" |
+| Quote range | "Without the buffer: {price without buffer}" (low end of the range; hidden when the buffer is 0) |
 | Total hours | Breakdown |
 | Hours and price per section | Breakdown table: Setup · Design and build · Copywriting · each enabled feature · Buffer. Plus a `SplitBar` of hours by section |
 | Maintenance fee | "{fee} per month · {fee × 12} per year" (hidden when 0) |
