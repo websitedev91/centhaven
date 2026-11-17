@@ -3,7 +3,7 @@ import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { formatMoney, formatPercent, roundTo, type CurrencyCode } from '@/lib/format';
 import { parseQuery, toQuery } from '@/lib/url-state';
-import { NO_LIFE, SALVAGE_ABOVE_COST, straightLine, type DepreciationError, type DepreciationInput, type DepreciationResult } from './calc';
+import { monthlySchedule, NO_LIFE, SALVAGE_ABOVE_COST, straightLine, type MonthRow, type DepreciationError, type DepreciationInput, type DepreciationResult } from './calc';
 import {
   depreciationDefaults,
   depreciationSchema,
@@ -130,5 +130,44 @@ describe('content.mdx', () => {
   it('says "accounting method, not tax depreciation" near the top (Puru)', () => {
     const top = mdx.slice(0, 700);
     expect(top).toContain('Accounting method, not tax depreciation');
+  });
+});
+
+describe('review #2 B4: monthly schedule (hand-checked)', () => {
+  const months = (input: DepreciationInput): MonthRow[] => {
+    const m = monthlySchedule(input);
+    if (!Array.isArray(m)) throw new Error(m.error);
+    return m;
+  };
+
+  it('#1: 36 months of 33.33; book value 1,466.67 after month 1, 1,100 after month 12, 300 at the end', () => {
+    const m = months(CASES[0]!.input);
+    expect(m).toHaveLength(36);
+    expect(r2(m[0]!.depreciation)).toBe(33.33);
+    expect([m[0]!, m[11]!, m[35]!].map((x) => r2(x.bookValue))).toEqual([1_466.67, 1_100, 300]);
+    expect([m[11]!.year, m[12]!.year, m[35]!.year]).toEqual([1, 2, 3]);
+  });
+
+  it('#2 (6 months in year 1): 60 months of 750; months 1–6 are year 1, 55–60 are year 6', () => {
+    const m = months(CASES[1]!.input);
+    expect(m).toHaveLength(60);
+    expect(r2(m[0]!.depreciation)).toBe(750);
+    expect([m[5]!.year, m[6]!.year, m[53]!.year, m[54]!.year, m[59]!.year]).toEqual([1, 2, 5, 6, 6]);
+    expect([m[5]!, m[59]!].map((x) => r2(x.bookValue))).toEqual([45_500, 5_000]);
+  });
+
+  it.each(CASES.map((c) => [c.currency, c.input] as const))('%s: months add up to each yearly row', (_c, input) => {
+    const yearly = ok(straightLine(input)).schedule;
+    const m = months(input);
+    for (const y of yearly) {
+      const sum = m.filter((x) => x.year === y.year).reduce((a, x) => a + x.depreciation, 0);
+      expect(r2(sum)).toBe(r2(y.depreciation));
+      expect(r2(m.filter((x) => x.year === y.year).at(-1)!.bookValue)).toBe(r2(y.bookValue));
+    }
+    expect(m.at(-1)!.bookValue).toBe(input.salvage);
+  });
+
+  it('passes errors through', () => {
+    expect(monthlySchedule({ ...CASES[0]!.input, salvage: 2_000 })).toEqual({ ok: false, error: SALVAGE_ABOVE_COST });
   });
 });

@@ -39,11 +39,14 @@ How much an asset loses in value each year with straight-line depreciation, and 
 | Depreciation rate (% of depreciable amount per year) | Breakdown |
 | Depreciable amount (cost − salvage) | Breakdown |
 | Schedule: year · depreciation · accumulated · book value at year end | Table under the result |
+| Yearly / Monthly toggle (review #2 B4, 2026-11-17): monthly rows = annual ÷ 12, first year has `firstYearMonths` months, last month takes the remainder; months of a year sum to that year's row | Toggle above the table; monthly table scrolls (max 600 rows) |
+| "Download schedule (CSV)": the current view, plain numbers rounded to 2 decimals, header with currency code | Button above the table; GTM event `download_csv` |
 
 ## Formula
 ```
 annual  = (cost − salvage) ÷ lifeYears
 monthly = annual ÷ 12
+month m of the monthly schedule: depreciation = monthly (last month = depreciable − accumulated)
 rate    = 1 ÷ lifeYears
 If first-year months m = 12: years 1…life each depreciate `annual`.
 If m < 12: year 1 = annual × m ÷ 12; years 2…life = annual; year life+1 = annual × (12 − m) ÷ 12.

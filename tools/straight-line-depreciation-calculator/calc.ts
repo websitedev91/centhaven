@@ -62,3 +62,36 @@ export function straightLine(input: DepreciationInput): DepreciationResult | Dep
 
   return { ok: true, depreciable, annual, monthly: annual / 12, rate: 1 / lifeYears, schedule };
 }
+
+export interface MonthRow {
+  /** Month since the asset was first used, 1-based. */
+  month: number;
+  /** Which year of the yearly schedule this month belongs to. */
+  year: number;
+  depreciation: number;
+  accumulated: number;
+  bookValue: number;
+}
+
+/**
+ * Month-by-month schedule (review #2 B4). Each month is annual ÷ 12; the first year has
+ * `firstYearMonths` months, and the last month takes exactly what is left. Summing the months
+ * of a year gives that year's row in the yearly schedule.
+ */
+export function monthlySchedule(input: DepreciationInput): MonthRow[] | DepreciationError {
+  const r = straightLine(input);
+  if (!r.ok) return r;
+  const { cost, salvage, lifeYears, firstYearMonths } = input;
+  const partial = firstYearMonths < 12;
+  const total = lifeYears * 12;
+  const rows: MonthRow[] = [];
+  let accumulated = 0;
+  for (let month = 1; month <= total; month++) {
+    const year = partial ? (month <= firstYearMonths ? 1 : 2 + Math.floor((month - firstYearMonths - 1) / 12)) : 1 + Math.floor((month - 1) / 12);
+    const last = month === total;
+    const depreciation = last ? r.depreciable - accumulated : r.monthly;
+    accumulated = last ? r.depreciable : accumulated + depreciation;
+    rows.push({ month, year, depreciation, accumulated, bookValue: last ? salvage : cost - accumulated });
+  }
+  return rows;
+}

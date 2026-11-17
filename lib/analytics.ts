@@ -10,7 +10,8 @@ export type AnalyticsEvent =
   | 'share_click'
   | 'print_click'
   | 'embed_copy'
-  | 'scenario_compare';
+  | 'scenario_compare'
+  | 'download_csv';
 
 type Params = Record<string, string | number | boolean | undefined>;
 

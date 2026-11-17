@@ -1,18 +1,21 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { CalculatorGrid, InputsPanel } from '@/components/CalculatorGrid';
 import { CurrencySelect } from '@/components/CurrencySelect';
 import { InputCurrency } from '@/components/InputCurrency';
 import { InputNumber } from '@/components/InputNumber';
-import { ResetIcon } from '@/components/icons';
+import { secondaryButtonClass } from '@/components/actionButtonClass';
+import { DownloadIcon, ResetIcon } from '@/components/icons';
 import { Num } from '@/components/Num';
 import { ResultCard } from '@/components/ResultCard';
+import { SegmentedControl } from '@/components/SegmentedControl';
 import { track } from '@/lib/analytics';
 import { CATEGORICAL } from '@/lib/chart-palette';
 import { formatMoney, formatPercent, type CurrencyCode } from '@/lib/format';
+import { downloadCsv, toCsv } from '@/lib/csv';
 import { useUrlState } from '@/lib/url-state';
-import { straightLine, type DepreciationError, type DepreciationResult } from './calc';
+import { monthlySchedule, straightLine, type DepreciationError, type DepreciationResult } from './calc';
 import {
   depreciationDefaults,
   depreciationSchema,
@@ -25,6 +28,8 @@ import {
 
 const SLUG = 'straight-line-depreciation-calculator';
 const FIX_FIELDS = 'Check the highlighted fields to see the schedule.';
+
+type View = 'year' | 'month';
 
 export default function StraightLineDepreciationCalculator() {
   const { state: s, setField, setAll, reset } = useUrlState(depreciationSchema, depreciationDefaults, { variant: depreciationVariant });
@@ -44,6 +49,31 @@ export default function StraightLineDepreciationCalculator() {
   const result: DepreciationResult | DepreciationError =
     Object.keys(errors).length > 0 ? { ok: false, error: FIX_FIELDS } : straightLine(toCalcInput(s));
   const label = 'Depreciation per year';
+
+  const [view, setView] = useState<View>('year');
+  const months = result.ok && view === 'month' ? monthlySchedule(toCalcInput(s)) : [];
+  const rows = !result.ok
+    ? []
+    : view === 'year' || !Array.isArray(months)
+      ? result.schedule.map((r) => ({ key: r.year, label: String(r.year), ...r }))
+      : months.map((m) => ({ key: m.month, label: `${m.month} (year ${m.year})`, ...m }));
+
+  function downloadSchedule() {
+    const all = monthlySchedule(toCalcInput(s));
+    if (!result.ok || !Array.isArray(all)) return;
+    const csv =
+      view === 'year'
+        ? toCsv(
+            ['Year', `Depreciation (${c})`, `Accumulated (${c})`, `Book value (${c})`],
+            result.schedule.map((r) => [r.year, r.depreciation, r.accumulated, r.bookValue]),
+          )
+        : toCsv(
+            ['Month', 'Year', `Depreciation (${c})`, `Accumulated (${c})`, `Book value (${c})`],
+            all.map((m) => [m.month, m.year, m.depreciation, m.accumulated, m.bookValue]),
+          );
+    downloadCsv(`depreciation-schedule-${view === 'year' ? 'yearly' : 'monthly'}.csv`, csv);
+    track('download_csv', { tool: SLUG, view });
+  }
 
   return (
     <div className="flex flex-col gap-6">
@@ -122,18 +152,37 @@ export default function StraightLineDepreciationCalculator() {
 
       {result.ok ? (
         <section aria-labelledby="schedule-heading" className="print-break-avoid min-w-0 rounded-panel border border-line bg-surface p-5 sm:p-8">
-          <h2 id="schedule-heading" className="type-h3 text-ink">
-            Depreciation schedule
-          </h2>
-          <p className="type-small mt-1 text-ink-muted">
-            Book value at the end of each year. The bar shows how much of the cost is left.
-          </p>
-          <div className="mt-6 overflow-x-auto">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <h2 id="schedule-heading" className="type-h3 text-ink">
+                Depreciation schedule
+              </h2>
+              <p className="type-small mt-1 text-ink-muted">
+                Book value at the end of each {view === 'year' ? 'year' : 'month'}. The bar shows how much of the cost is left.
+              </p>
+            </div>
+            <div className="no-print flex flex-wrap items-end gap-3">
+              <SegmentedControl<View>
+                label="Show"
+                value={view}
+                onChange={setView}
+                options={[
+                  { value: 'year', label: 'Yearly' },
+                  { value: 'month', label: 'Monthly' },
+                ]}
+              />
+              <button type="button" onClick={downloadSchedule} className={`${secondaryButtonClass} h-12`}>
+                <DownloadIcon size={18} />
+                Download schedule (CSV)
+              </button>
+            </div>
+          </div>
+          <div className={`mt-6 overflow-x-auto ${view === 'month' ? 'max-h-[480px] overflow-y-auto' : ''}`}>
             <table className="type-small w-full">
-              <thead>
+              <thead className={view === 'month' ? 'sticky top-0 bg-surface' : undefined}>
                 <tr className="border-b border-line text-left text-ink-muted">
                   <th scope="col" className="py-2 pr-3 font-[550]">
-                    Year
+                    {view === 'year' ? 'Year' : 'Month'}
                   </th>
                   <th scope="col" className="py-2 pr-3 text-right font-[550]">
                     Depreciation
@@ -150,10 +199,10 @@ export default function StraightLineDepreciationCalculator() {
                 </tr>
               </thead>
               <tbody>
-                {result.schedule.map((row) => (
-                  <tr key={row.year} className="border-b border-line last:border-0">
+                {rows.map((row) => (
+                  <tr key={row.key} className="border-b border-line last:border-0">
                     <th scope="row" className="py-3 pr-3 text-left font-normal text-ink-muted">
-                      {row.year}
+                      {row.label}
                     </th>
                     <td className="type-figure py-3 pr-3 text-right text-ink">
                       <Num>{money(row.depreciation)}</Num>

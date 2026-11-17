@@ -160,3 +160,9 @@ export const UserCheckIcon = (p: IconProps) => (
     <path d="M2.5 17c0-3 2.5-5 5.5-5s4 1 4.8 2M12.5 15l1.8 1.8 3.2-3.6" />
   </Icon>
 );
+
+export const DownloadIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M10 3v9.5M6 8.5l4 4 4-4M3.5 13.5v2A1.5 1.5 0 0 0 5 17h10a1.5 1.5 0 0 0 1.5-1.5v-2" />
+  </Icon>
+);
