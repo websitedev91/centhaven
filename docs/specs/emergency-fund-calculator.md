@@ -51,7 +51,10 @@ Capped at 12 months. The "Months to cover" field shows this suggestion until the
 | Months covered (and why: income type + dependants) | Breakdown |
 | Still to save | Breakdown (0 when complete, with "You're covered" note) |
 | Months to build it at your saving rate | Breakdown ("Add a monthly saving amount" if 0) |
+| Fully funded by {Month YYYY} (review #2 B5, 2026-11-17) | Breakdown: this month (browser date) + months to build; hidden when covered or no monthly saving |
 | Progress | Breakdown, % of target saved |
+| Savings growth line chart (review #2 B5) | Under the split bar: balance each month (capped at target, ≤ 60 sampled points), dashed target line; hidden when nothing to build |
+| "Help me add up my essentials" (review #2 B5) | Optional collapsible panel under expenses: rent or mortgage, food, utilities, insurance, transport, loan payments, other; total fills the expenses field (not in the share link) |
 
 ## Formula
 ```
@@ -60,6 +63,9 @@ target     = expenses × months
 shortfall  = max(target − saved, 0)
 toBuild    = shortfall = 0 ? 0 : ceil(shortfall ÷ monthlySaving)   (none if monthlySaving = 0)
 progress   = saved ÷ target
+fundedBy   = this month + toBuild months (date math in lib/dates.ts monthYearAfter, not in calc.ts)
+path[m]    = min(saved + monthlySaving × m, target), m = 0 … toBuild
+essentials = sum of the 7 helper fields (negatives count as 0)
 ```
 
 ## Rates used
@@ -74,6 +80,9 @@ progress   = saved ÷ target
 | 2 | expenses 50,000 · self-employed · 2 dependants · saved 1,00,000 · saving 20,000 | months 8 · **target 4,00,000.00** · shortfall 3,00,000.00 · **15 months** · progress 25% | Manual |
 | 3 | expenses 2,000 · variable · 0 dependants · saved 15,000 · saving 300 | months 6 · **target 12,000.00** · shortfall 0.00 · covered · progress 125% | Manual |
 | 4 | shortfall > 0 with monthly saving 0 | Target shown; "Add a monthly saving amount to see how long it takes"; no crash | — |
+| 5 | case 1 (USD), today November 2026 | 14 months · **fully funded by January 2028** · path 2,000 → 2,500 → … → 9,000 | Manual |
+| 6 | case 2 (INR), today November 2026 | 15 months · **fully funded by February 2028** | Manual |
+| 7 | essentials 1,200 + 400 + 150 + 100 + 200 + 300 + 150 | **expenses 2,500** | Manual |
 
 ## Extras
 - Chart: one progress bar (saved vs still to save), shared SplitBar.

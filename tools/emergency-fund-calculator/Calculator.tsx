@@ -1,19 +1,33 @@
 'use client';
 
-import { useRef } from 'react';
+import dynamic from 'next/dynamic';
+import { useRef, useState, useSyncExternalStore } from 'react';
+import { ChartLazy, ChartPlaceholder } from '@/components/ChartLazy';
 import { CalculatorGrid, InputsPanel } from '@/components/CalculatorGrid';
 import { CurrencySelect } from '@/components/CurrencySelect';
 import { InputCurrency } from '@/components/InputCurrency';
 import { InputNumber } from '@/components/InputNumber';
-import { ResetIcon } from '@/components/icons';
+import { ChevronDownIcon, ResetIcon } from '@/components/icons';
+import { Num } from '@/components/Num';
 import { ResultCard } from '@/components/ResultCard';
 import { SelectField } from '@/components/SelectField';
 import { SplitBar } from '@/components/SplitBar';
 import { track } from '@/lib/analytics';
 import { CATEGORICAL, MUTED_FILL } from '@/lib/chart-palette';
 import { formatMoney, formatPercent, type CurrencyCode } from '@/lib/format';
+import { monthYearAfter } from '@/lib/dates';
 import { useUrlState } from '@/lib/url-state';
-import { emergencyFund, suggestedMonths, type EmergencyFundError, type EmergencyFundResult, type IncomeType } from './calc';
+import {
+  emergencyFund,
+  ESSENTIALS,
+  savingsPath,
+  suggestedMonths,
+  sumEssentials,
+  type EmergencyFundError,
+  type EmergencyFundResult,
+  type Essential,
+  type IncomeType,
+} from './calc';
 import {
   effectiveMonths,
   emergencyDefaults,
@@ -33,6 +47,34 @@ const INCOME_LABEL: Record<IncomeType, string> = {
   'self-employed': 'Freelance or self-employed',
 };
 const monthsText = (n: number) => `${n} ${n === 1 ? 'month' : 'months'}`;
+
+const ESSENTIAL_LABEL: Record<Essential, string> = {
+  housing: 'Rent or mortgage',
+  food: 'Food and groceries',
+  utilities: 'Utilities and phone',
+  insurance: 'Insurance',
+  transport: 'Transport',
+  loans: 'Loan and card payments',
+  other: 'Other essentials',
+};
+
+const SavingsGrowthChart = dynamic(() => import('./Chart'), { ssr: false, loading: () => <ChartPlaceholder /> });
+
+/**
+ * This month as year × 12 + month (0-based), read in the browser only. The page is built ahead
+ * of time, so the server snapshot is null and the "Fully funded by" row appears after hydration.
+ */
+const noSubscribe = () => () => {};
+function useThisMonth(): number | null {
+  return useSyncExternalStore(
+    noSubscribe,
+    () => {
+      const d = new Date();
+      return d.getFullYear() * 12 + d.getMonth();
+    },
+    () => null,
+  );
+}
 
 export default function EmergencyFundCalculator() {
   const { state: s, setField, setAll, reset } = useUrlState(emergencySchema, emergencyDefaults, { variant: emergencyVariant });
@@ -60,6 +102,19 @@ export default function EmergencyFundCalculator() {
     : 'Your own choice';
   const label = 'Emergency fund target';
 
+  // "Help me add up my essentials": kept on this page only (not in the share link).
+  const [essentials, setEssentials] = useState<Partial<Record<Essential, number>>>({});
+  const essentialsTotal = sumEssentials(essentials);
+  function setEssential(k: Essential, v: number) {
+    const next = { ...essentials, [k]: v };
+    setEssentials(next);
+    const total = sumEssentials(next);
+    if (total > 0) update('expenses', total);
+  }
+
+  const thisMonth = useThisMonth();
+  const path = result.ok ? savingsPath(s.saved, s.monthlySaving, result.target, result.monthsToBuild) : [];
+
   return (
     <div className="flex flex-col gap-6">
       <CalculatorGrid
@@ -81,7 +136,7 @@ export default function EmergencyFundCalculator() {
               <div className="sm:col-span-2">
                 <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchEmergencyCurrency(s, next))} />
               </div>
-              <div className="sm:col-span-2">
+              <div className="flex flex-col gap-3 sm:col-span-2">
                 <InputCurrency
                   label="Monthly essential expenses"
                   help="Rent, food, bills, insurance, loan payments. Leave out things you'd cut in an emergency."
@@ -90,6 +145,32 @@ export default function EmergencyFundCalculator() {
                   onChange={(v) => update('expenses', v)}
                   error={errors.expenses}
                 />
+                <details className="no-print group rounded-field border border-line bg-paper">
+                  <summary className="type-small flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 font-[550] text-haven [&::-webkit-details-marker]:hidden">
+                    Help me add up my essentials
+                    <ChevronDownIcon size={16} className="shrink-0 transition-transform group-open:rotate-180" />
+                  </summary>
+                  <div className="border-t border-line px-4 pt-5 pb-4">
+                    <div className="grid gap-x-4 gap-y-5 sm:grid-cols-2">
+                      {ESSENTIALS.map((k) => (
+                        <InputCurrency
+                          key={k}
+                          label={ESSENTIAL_LABEL[k]}
+                          currency={c}
+                          value={essentials[k] ?? 0}
+                          onChange={(v) => setEssential(k, v)}
+                        />
+                      ))}
+                    </div>
+                    <p className="type-small mt-4 text-ink-muted" aria-live="polite">
+                      Total{' '}
+                      <span className="font-[650] text-ink">
+                        <Num>{money(essentialsTotal)}</Num>
+                      </span>
+                      {essentialsTotal > 0 ? ' a month, used as your essential expenses above.' : '. Fill in what applies; it fills the field above.'}
+                    </p>
+                  </div>
+                </details>
               </div>
               <SelectField<IncomeType>
                 label="Income type"
@@ -164,6 +245,15 @@ export default function EmergencyFundCalculator() {
                   value:
                     result.monthsToBuild === null ? '—' : result.monthsToBuild === 0 ? 'Done' : monthsText(result.monthsToBuild),
                 },
+                ...(result.monthsToBuild !== null && result.monthsToBuild > 0 && thisMonth !== null
+                  ? [
+                      {
+                        label: 'Fully funded by',
+                        note: `Saving ${money(s.monthlySaving)} a month from this month`,
+                        value: monthYearAfter(Math.floor(thisMonth / 12), thisMonth % 12, result.monthsToBuild),
+                      },
+                    ]
+                  : []),
                 { label: 'Progress', value: result.progress === null ? '—' : formatPercent(result.progress, 2) },
               ]}
               footnote="Suggested months are a common rule of thumb, not a rule, and not financial advice."
@@ -190,6 +280,15 @@ export default function EmergencyFundCalculator() {
             { key: 'left', label: 'Still to save', value: result.shortfall, display: money(result.shortfall), color: MUTED_FILL },
           ]}
         />
+      ) : null}
+
+      {result.ok && path.length > 1 ? (
+        <ChartLazy
+          title="Your savings growing to the target"
+          description={`Saving ${money(s.monthlySaving)} a month takes you from ${money(s.saved)} to ${money(result.target)} in ${monthsText(result.monthsToBuild ?? 0)}.`}
+        >
+          <SavingsGrowthChart path={path} target={result.target} currency={c} />
+        </ChartLazy>
       ) : null}
     </div>
   );

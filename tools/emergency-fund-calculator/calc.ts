@@ -61,3 +61,35 @@ export function emergencyFund(input: EmergencyFundInput): EmergencyFundResult | 
     progress: target > 0 ? saved / target : null,
   };
 }
+
+/** "Help me add up my essentials" (review #2 B5): the monthly costs it asks for, in order. */
+export const ESSENTIALS = ['housing', 'food', 'utilities', 'insurance', 'transport', 'loans', 'other'] as const;
+export type Essential = (typeof ESSENTIALS)[number];
+
+export function sumEssentials(values: Partial<Record<Essential, number>>): number {
+  return ESSENTIALS.reduce((sum, k) => sum + Math.max(0, values[k] ?? 0), 0);
+}
+
+export interface PathPoint {
+  /** Months from now. */
+  month: number;
+  balance: number;
+}
+
+/** Most points the growth chart needs; longer paths are sampled evenly (the last month is always kept). */
+export const MAX_PATH_POINTS = 60;
+
+/**
+ * Savings balance month by month until the target is reached (review #2 B5), capped at the target.
+ * Empty when there is nothing to build (already covered, or no monthly saving).
+ */
+export function savingsPath(saved: number, monthlySaving: number, target: number, monthsToBuild: number | null): PathPoint[] {
+  if (monthsToBuild === null || monthsToBuild <= 0) return [];
+  const step = Math.max(1, Math.ceil(monthsToBuild / MAX_PATH_POINTS));
+  const points: PathPoint[] = [];
+  for (let month = 0; month < monthsToBuild; month += step) {
+    points.push({ month, balance: Math.min(saved + monthlySaving * month, target) });
+  }
+  points.push({ month: monthsToBuild, balance: target });
+  return points;
+}

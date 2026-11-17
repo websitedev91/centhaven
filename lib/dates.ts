@@ -11,3 +11,12 @@ export function formatIsoDate(iso: string): string {
   const month = MONTHS[Number(mo) - 1];
   return month ? `${Number(d)} ${month} ${y}` : iso;
 }
+
+/**
+ * Month name and year `add` months after a given month: (2026, 10, 14) → "January 2028".
+ * `month0` is 0-based (January = 0), like Date#getMonth. Pure: the caller supplies "today".
+ */
+export function monthYearAfter(year: number, month0: number, add: number): string {
+  const total = year * 12 + month0 + add;
+  return `${MONTHS[((total % 12) + 12) % 12]} ${Math.floor(total / 12)}`;
+}

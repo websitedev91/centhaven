@@ -2,8 +2,9 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { formatMoney, formatPercent, roundTo, type CurrencyCode } from '@/lib/format';
+import { monthYearAfter } from '@/lib/dates';
 import { parseQuery, toQuery } from '@/lib/url-state';
-import { emergencyFund, NO_MONTHS, suggestedMonths, type EmergencyFundError, type EmergencyFundResult } from './calc';
+import { emergencyFund, MAX_PATH_POINTS, NO_MONTHS, savingsPath, suggestedMonths, sumEssentials, type EmergencyFundError, type EmergencyFundResult } from './calc';
 import {
   effectiveMonths,
   emergencyDefaults,
@@ -144,5 +145,46 @@ describe('content.mdx', () => {
 
   it('the $700/month aside in example 1 is right', () => {
     expect(ok(emergencyFund({ expenses: 3_000, months: 3, saved: 2_000, monthlySaving: 700 })).monthsToBuild).toBe(10);
+  });
+});
+
+describe('review #2 B5: savings path, essentials and funded-by month (hand-checked)', () => {
+  it('USD case: 14 months from 2,000 to 9,000 at 500 a month; funded by January 2028 from November 2026', () => {
+    const r = ok(emergencyFund(toCalcInput(CASES[0]!.state)));
+    expect(r.monthsToBuild).toBe(14);
+    const p = savingsPath(2_000, 500, r.target, r.monthsToBuild);
+    expect(p).toHaveLength(15);
+    expect([p[0], p[1], p[14]]).toEqual([
+      { month: 0, balance: 2_000 },
+      { month: 1, balance: 2_500 },
+      { month: 14, balance: 9_000 },
+    ]);
+    expect(monthYearAfter(2026, 10, r.monthsToBuild!)).toBe('January 2028');
+  });
+
+  it('INR case: 8 months × 50,000 = 4,00,000; 15 months at 20,000; funded by February 2028', () => {
+    const r = ok(emergencyFund(toCalcInput(CASES[1]!.state)));
+    expect([r.target, r.monthsToBuild]).toEqual([400_000, 15]);
+    expect(monthYearAfter(2026, 10, 15)).toBe('February 2028');
+  });
+
+  it('the last month is capped at the target (0 → 400 → 800 → 1,000)', () => {
+    expect(savingsPath(0, 400, 1_000, 3).map((x) => x.balance)).toEqual([0, 400, 800, 1_000]);
+  });
+
+  it('nothing to chart when covered or with no monthly saving', () => {
+    expect(savingsPath(10_000, 500, 9_000, 0)).toEqual([]);
+    expect(savingsPath(0, 0, 9_000, null)).toEqual([]);
+  });
+
+  it('long paths are sampled to at most ~60 points and still end on the target', () => {
+    const p = savingsPath(0, 1, 1_000, 1_000);
+    expect(p.length).toBeLessThanOrEqual(MAX_PATH_POINTS + 1);
+    expect(p.at(-1)).toEqual({ month: 1_000, balance: 1_000 });
+  });
+
+  it('essentials add up: 1,200 + 400 + 150 + 100 + 200 + 300 + 150 = 2,500 (blanks and negatives count as 0)', () => {
+    expect(sumEssentials({ housing: 1_200, food: 400, utilities: 150, insurance: 100, transport: 200, loans: 300, other: 150 })).toBe(2_500);
+    expect(sumEssentials({ housing: 900, food: -5 })).toBe(900);
   });
 });
