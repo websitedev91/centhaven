@@ -15,6 +15,7 @@ import { meta as rateIncrease } from '@/tools/rate-increase-calculator/meta';
 import { meta as utilizationRate } from '@/tools/utilization-rate-calculator/meta';
 import { meta as breakEven } from '@/tools/break-even-calculator/meta';
 import { meta as consultingFee } from '@/tools/consulting-fee-calculator/meta';
+import { meta as retainerFee } from '@/tools/retainer-fee-calculator/meta';
 
 type Publishing = Pick<ToolEntry, 'status' | 'lastUpdated' | 'publishDate' | 'reviewedBy'>;
 
@@ -30,6 +31,7 @@ export const registry: readonly RegistryRow[] = [
   row(utilizationRate, { status: 'live', publishDate: '2026-11-16', lastUpdated: '2026-11-16' }),
   row(breakEven, { status: 'live', publishDate: '2026-11-16', lastUpdated: '2026-11-16' }),
   row(consultingFee, { status: 'ready', lastUpdated: '2026-11-17' }),
+  row(retainerFee, { status: 'ready', lastUpdated: '2026-11-17' }),
 ];
 
 /** Local preview builds only (see next.config.ts `env` and scripts/postbuild.mjs). */
