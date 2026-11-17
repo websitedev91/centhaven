@@ -1,9 +1,10 @@
 import Link from 'next/link';
 import { StaticPage, staticPageMetadata } from '@/components/StaticPage';
+import { site } from '@/config/site';
 
 export const metadata = staticPageMetadata(
   '/methodology',
-  'How CentHaven builds and checks its calculators: official sources for every rate, tested formulas, expert review for tax tools and a fixed update calendar.',
+  'How CentHaven builds and checks its calculators: official fee pages with the date we checked them, tested formulas, worked examples and a fixed update calendar.',
 );
 
 export default function MethodologyPage() {
@@ -13,14 +14,15 @@ export default function MethodologyPage() {
       title="How we build our calculators"
       intro="Money tools must be right. Here is how we build, test and update every calculator on CentHaven."
     >
-      <h2>1. Official sources for every rate</h2>
+      <p className="font-[550] text-ink">{site.byline}.</p>
+
+      <h2>1. Official sources for every fee</h2>
       <p>
-        Any number that can change, such as a platform fee, a tax rate or a contribution limit, comes from an official
-        source: the tax authority, the government or the company that sets the fee. We never use numbers from blogs or
-        forums.
+        Any number that can change, such as a payment or platform fee, comes from the official fee page of the company
+        that sets it. We never use numbers from blogs or forums.
       </p>
       <p>
-        For each rate we save the official page link, the exact line we took the number from, the date it takes effect
+        For each fee we save the official page link, the exact line we took the number from, the date it takes effect
         and the date we last checked it. Each tool lists these sources at the bottom of its page. If we can&apos;t confirm
         a number from an official source, we don&apos;t publish the tool.
       </p>
@@ -32,14 +34,14 @@ export default function MethodologyPage() {
         exists, or against a careful manual calculation.
       </p>
       <p>
-        We round money only when we show it to you. That way small rounding errors don&apos;t add up inside the maths.
+        We round money only when we show it to you, so small rounding errors don&apos;t add up inside the maths. Quotes
+        and invoices are the one exception: each line is rounded to the cent, so the document adds up exactly.
       </p>
 
-      <h2>3. Expert review for tax tools</h2>
+      <h2>3. What we don&apos;t build</h2>
       <p>
-        We rate each tool by risk. Pure maths tools, like an hourly rate or compound interest calculator, are low risk.
-        Tools that depend on tax rules are high risk. A qualified professional reviews every high-risk tool before it
-        goes live, and we show the reviewer&apos;s name on the page.
+        We don&apos;t build tools that depend on tax rules, government limits or legal thresholds. Fee calculators use each
+        company&apos;s official fee page and show the date we last checked it.
       </p>
 
       <h2>4. Quality checks before publishing</h2>
@@ -57,10 +59,6 @@ export default function MethodologyPage() {
       <p>We re-check sources on a fixed schedule, and sooner when we hear about a change:</p>
       <ul>
         <li>Payment and platform fees (PayPal, Wise, Payoneer, Stripe, Upwork, Fiverr): every 3 months</li>
-        <li>India income tax and GST: February to March, after the Union Budget</li>
-        <li>US tax limits: every November</li>
-        <li>UK tax bands and National Insurance: March to April</li>
-        <li>Canada and Australia: before each new tax year</li>
         <li>Pure maths tools: no rates, so no update needed</li>
       </ul>
       <p>When a number changes, we update the tool, re-run every test and publish the updated tool.</p>
@@ -72,7 +70,8 @@ export default function MethodologyPage() {
         professional. Read our full <Link href="/disclaimer">disclaimer</Link>.
       </p>
       <p>
-        Found an error? Please <Link href="/contact">tell us</Link>. We fix confirmed mistakes quickly.
+        Found an error? Email <a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a> or use our{' '}
+        <Link href="/contact">contact page</Link>. We fix confirmed mistakes quickly.
       </p>
     </StaticPage>
   );

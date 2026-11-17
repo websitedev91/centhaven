@@ -41,6 +41,11 @@ export function SiteFooter() {
           <div className="col-span-2 md:col-span-1">
             <Logo inverted />
             <p className="mt-4 max-w-xs text-footer-muted">{site.tagline}</p>
+            <p className="mt-3 text-footer-muted">
+              <a href={`mailto:${site.contactEmail}`} className="text-footer-muted underline hover:text-white">
+                {site.contactEmail}
+              </a>
+            </p>
           </div>
           <Column title="Calculators" links={calculators} />
           <Column title="Company" links={company} />

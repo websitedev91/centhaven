@@ -1,16 +1,18 @@
 import Link from 'next/link';
-import { staticPages } from '@/config/site';
+import { reportMistakeHref, site, staticPages } from '@/config/site';
+import { absoluteUrl } from '@/lib/seo';
 
 /**
- * Short trust note at the end of a tool page: how tools are checked, plus the reviewer when a tool
- * has one (red-risk tools must). No personal author name (removed at Puru's request, 2026-11-16).
+ * Byline and trust note at the end of a tool page. Authorship is the brand only: no personal
+ * author or reviewer names anywhere (Puru, 2026-11-18). "Report a mistake" opens the visitor's
+ * email app addressed to the contact email, with the page URL in the subject.
  */
-export function AuthorBox({ reviewedBy }: { reviewedBy?: string }) {
+export function AuthorBox({ path }: { path: string }) {
   const methodology = staticPages.find((p) => p.href === '/methodology')?.built;
   return (
-    <section aria-label="How this calculator is checked" className="type-small border-t border-line pt-6">
-      {reviewedBy ? <p className="font-[550] text-ink">Reviewed by {reviewedBy}</p> : null}
-      <p className={reviewedBy ? 'mt-1 text-ink-muted' : 'text-ink-muted'}>
+    <section aria-label="Who builds this calculator" className="type-small border-t border-line pt-6">
+      <p className="font-[550] text-ink">{site.byline}</p>
+      <p className="mt-1 text-ink-muted">
         Every formula is tested against worked examples before it goes live.
         {methodology ? (
           <>
@@ -18,6 +20,10 @@ export function AuthorBox({ reviewedBy }: { reviewedBy?: string }) {
             <Link href="/methodology">How we build our calculators</Link>.
           </>
         ) : null}
+      </p>
+      <p className="mt-1 text-ink-muted">
+        Spotted an error? <a href={reportMistakeHref(absoluteUrl(path))}>Report a mistake</a> or email{' '}
+        <a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a>.
       </p>
     </section>
   );

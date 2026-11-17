@@ -77,7 +77,7 @@ export function ToolLayout(props: {
           </div>
           <Sources sources={sources} />
           <div className="flex flex-col gap-4">
-            <AuthorBox reviewedBy={tool.reviewedBy} />
+            <AuthorBox path={path} />
             <Disclaimer />
           </div>
         </div>

@@ -7,6 +7,8 @@ export const site = {
   homeDescription:
     'Free money calculators for freelancers and anyone managing money. Work out your hourly rate, salary, retainer, break-even point or emergency fund. No sign-up.',
   contactEmail: 'info@centhaven.com',
+  /** Brand-only authorship (Puru, 2026-11-18): no personal names anywhere. */
+  byline: 'Built and checked by the CentHaven team',
   /** Google Tag Manager container (components/Analytics.tsx). GA4 and other tags are set up inside it. */
   gtmId: 'GTM-KS3D4XJX',
   disclaimer: 'For estimates only. Not financial, tax or legal advice. Check with a qualified professional.',
@@ -19,14 +21,19 @@ export const site = {
  * `group` places the link in the footer's Company or Legal column (DESIGN.md §7).
  */
 export const staticPages = [
-  { href: '/methodology', label: 'Methodology', built: true, header: true, group: 'company', updated: '2026-11-14' },
-  { href: '/about', label: 'About', built: true, header: true, group: 'company', updated: '2026-11-14' },
+  { href: '/methodology', label: 'Methodology', built: true, header: true, group: 'company', updated: '2026-11-18' },
+  { href: '/about', label: 'About', built: true, header: true, group: 'company', updated: '2026-11-18' },
   { href: '/contact', label: 'Contact', built: true, header: false, group: 'company', updated: '2026-11-14' },
   { href: '/disclaimer', label: 'Disclaimer', built: true, header: false, group: 'legal', updated: '2026-11-14' },
   { href: '/privacy', label: 'Privacy', built: true, header: false, group: 'legal', updated: '2026-11-14' },
   { href: '/terms', label: 'Terms', built: true, header: false, group: 'legal', updated: '2026-11-14' },
   { href: '/affiliate-disclosure', label: 'Affiliate disclosure', built: true, header: false, group: 'legal', updated: '2026-11-14' },
 ] as const;
+
+/** "Report a mistake" mailto for a page: to the contact email, with the page URL in the subject. */
+export function reportMistakeHref(pageUrl: string): string {
+  return `mailto:${site.contactEmail}?subject=${encodeURIComponent(`Report a mistake: ${pageUrl}`)}`;
+}
 
 export type StaticPageHref = (typeof staticPages)[number]['href'];
 

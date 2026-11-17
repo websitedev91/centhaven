@@ -7,15 +7,14 @@ export const metadata = staticPageMetadata(
   'CentHaven builds free, sourced money and work calculators for freelancers and remote workers worldwide. Learn who builds them and why.',
 );
 
-// TODO(Puru): replace the generic "Who builds it" text with your own story.
 export default function AboutPage() {
   return (
     <StaticPage href="/about" title="About CentHaven" intro={site.tagline}>
       <h2>What CentHaven is</h2>
       <p>
         CentHaven is a free website of money and work calculators. We started with tools for freelancers and remote
-        workers in the US, UK, Canada, Australia and India, and we are adding tools for tax, personal finance, investing,
-        loans and small business.
+        workers in the US, UK, Canada, Australia and India, and we are adding tools for payment fees, personal finance and
+        small business.
       </p>
       <p>
         Every tool on the site has one job: to help you earn, save, spend or manage money a little better. If a tool
@@ -36,8 +35,8 @@ export default function AboutPage() {
           <strong>Clear maths.</strong> Every tool explains its formula in plain English, with worked examples.
         </li>
         <li>
-          <strong>Sourced numbers.</strong> Fees, tax rates and limits come from official sources, and we show you
-          where they come from.
+          <strong>Sourced numbers.</strong> Fee calculators use each company&apos;s official fee page, and we show you
+          where each fee comes from and when we last checked it.
         </li>
         <li>
           <strong>Useful extras.</strong> Compare scenarios, share a link to your result, print it or embed the tool on
@@ -47,14 +46,19 @@ export default function AboutPage() {
 
       <h2>Who builds it</h2>
       <p>
-        CentHaven is an independent project. Each calculator is tested against worked examples before it goes live, and
-        tools that touch tax are reviewed by a qualified professional before we publish them.
+        <strong>{site.byline}.</strong> CentHaven is an independent project. Each calculator is tested against worked
+        examples before it goes live.
+      </p>
+      <p>
+        We don&apos;t build tools that depend on tax rules, government limits or legal thresholds. Our calculators do
+        clear maths on the numbers you enter, and fee calculators use each company&apos;s official fee page.
       </p>
 
       <h2>How we stay accurate</h2>
       <p>
         Read our <Link href="/methodology">methodology</Link> to see how we build, test and update every calculator.
-        Spotted a mistake or want a new tool? <Link href="/contact">Get in touch</Link>.
+        Spotted a mistake or want a new tool? Email{' '}
+        <a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a> or use our <Link href="/contact">contact page</Link>.
       </p>
       <p>{site.disclaimer}</p>
     </StaticPage>

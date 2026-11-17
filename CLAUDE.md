@@ -34,7 +34,8 @@ Breadcrumbs → H1 + subtitle → calculator → result + breakdown → chart (i
 - No "Best …" titles. Titles, meta descriptions and H1s come **only** from `docs/seo/keyword-map.md`.
 - FAQ answers 50–80 words, no lists inside answers.
 - Disclaimer on every tool: "For estimates only. Not financial, tax or legal advice. Check with a qualified professional."
-- No author name and no "Last updated" date on any page (Puru, 2026-11-16). Reviewer shown only if `reviewedBy` is set.
+- No author name and no "Last updated" date on any page (Puru, 2026-11-16).
+- No personal author names. Authorship = CentHaven team.
 - **Exception:** tools that use `/rates/*.json` show "Rates checked on {verifiedOn date} · Source: {link}" for each rate in the Sources section (`components/Sources.tsx`). Pure-maths tools show no date.
 - Google Tag Manager loads on site pages only, never on `/embed/*`.
 
@@ -50,7 +51,7 @@ Breadcrumbs → H1 + subtitle → calculator → result + breakdown → chart (i
 4. Content + JSON-LD (WebApplication, BreadcrumbList, FAQPage) complete
 5. Disclaimer, affiliate slot (renders nothing if no partner is enabled)
 6. No console errors; Lighthouse mobile ≥ 95 performance, 100 SEO
-7. Red-risk tools need `reviewedBy`
+7. No red-risk tools (scope rule: nothing that depends on tax rules, government limits or legal thresholds)
 
 Run `npm run check` (types + lint + tests + rates validation) before saying a task is done.
 

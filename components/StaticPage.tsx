@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import { getStaticPage, site, type StaticPageHref } from '@/config/site';
-import { absoluteUrl, breadcrumbJsonLd, buildMetadata } from '@/lib/seo';
+import { absoluteUrl, breadcrumbJsonLd, buildMetadata, organizationRef } from '@/lib/seo';
 import { Breadcrumbs } from './Breadcrumbs';
 import { JsonLd } from './JsonLd';
 
@@ -32,6 +32,8 @@ export function StaticPage(props: { href: StaticPageHref; title?: string; intro?
           url: absoluteUrl(page.href),
           dateModified: page.updated,
           isPartOf: { '@type': 'WebSite', name: site.name, url: site.url },
+          author: organizationRef(),
+          publisher: organizationRef(),
         }}
       />
       <JsonLd data={breadcrumbJsonLd(crumbs)} />

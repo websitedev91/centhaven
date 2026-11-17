@@ -50,6 +50,11 @@ export function buildMetadata(opts: {
   };
 }
 
+/** Authorship is the brand only (Puru, 2026-11-18): author and publisher are never a Person. */
+export function organizationRef() {
+  return { '@type': 'Organization', name: site.name, url: site.url } as const;
+}
+
 export function webApplicationJsonLd(opts: { name: string; description: string; path: string; dateModified: string }) {
   return {
     '@context': 'https://schema.org',
@@ -63,7 +68,8 @@ export function webApplicationJsonLd(opts: { name: string; description: string; 
     isAccessibleForFree: true,
     dateModified: opts.dateModified,
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-    publisher: { '@type': 'Organization', name: site.name, url: site.url },
+    author: organizationRef(),
+    publisher: organizationRef(),
   };
 }
 
