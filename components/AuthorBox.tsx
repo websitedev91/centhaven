@@ -6,6 +6,7 @@ import { absoluteUrl } from '@/lib/seo';
  * Byline and trust note at the end of a tool page. Authorship is the brand only: no personal
  * author or reviewer names anywhere (Puru, 2026-11-18). "Report a mistake" opens the visitor's
  * email app addressed to the contact email, with the page URL in the subject.
+ * Links are underlined: they sit inside muted text, so colour alone isn't enough (Lighthouse link-in-text-block).
  */
 export function AuthorBox({ path }: { path: string }) {
   const methodology = staticPages.find((p) => p.href === '/methodology')?.built;
@@ -17,13 +18,13 @@ export function AuthorBox({ path }: { path: string }) {
         {methodology ? (
           <>
             {' '}
-            <Link href="/methodology">How we build our calculators</Link>.
+            <Link href="/methodology" className="underline">How we build our calculators</Link>.
           </>
         ) : null}
       </p>
       <p className="mt-1 text-ink-muted">
-        Spotted an error? <a href={reportMistakeHref(absoluteUrl(path))}>Report a mistake</a> or email{' '}
-        <a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a>.
+        Spotted an error? <a href={reportMistakeHref(absoluteUrl(path))} className="underline">Report a mistake</a> or email{' '}
+        <a href={`mailto:${site.contactEmail}`} className="underline">{site.contactEmail}</a>.
       </p>
     </section>
   );

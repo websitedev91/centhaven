@@ -54,7 +54,7 @@ export function SiteFooter() {
         <div className="type-small mt-16 flex flex-col gap-2 border-t border-white/15 pt-6 text-footer-muted">
           <p>For estimates only. Not financial, tax or legal advice.</p>
           <p>
-            © {year} {site.name} · Rates reviewed regularly
+            © {year} {site.name} · Results come from the numbers you enter
             {methodology ? (
               <>
                 , see{' '}
