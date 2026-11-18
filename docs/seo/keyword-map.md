@@ -20,11 +20,8 @@
 | /fees/paypal-fee-calculator-india | paypal fee calculator india | 100–1K |
 | /fees/paypal-fee-calculator-australia | paypal fee calculator australia | 100–1K |
 | /fees/paypal-fee-calculator-canada | paypal fee calculator canada | 100–1K |
-| /fees/stripe-fee-calculator | stripe fee calculator | 1K–10K |
 | /fees/wise-fee-calculator | wise fee calculator | 1K–10K |
 | /fees/upwork-fee-calculator | upwork fee calculator | 100–1K |
-| /fees/upwork-connects-calculator | upwork connects calculator | 100–1K |
-| /fees/fiverr-fee-calculator | fiverr fee calculator | 10–100 |
 | /fees/payoneer-vs-wise-fees | payoneer vs wise fees | 10–100 |
 | /salary/hourly-to-salary-calculator | hourly to salary calculator | 10K–100K |
 | /salary/job-offer-comparison-calculator | job offer comparison calculator | 10–100 |
@@ -214,21 +211,6 @@
   - Is Wise cheaper than PayPal in Canada?
 - **Internal links to:** /fees/wise-fee-calculator, /fees/stripe-fee-calculator, /fees/paypal-fee-calculator-uk
 
-## /fees/stripe-fee-calculator
-
-- **Primary keyword:** stripe fee calculator (1K–10K/month)
-- **Secondary keywords:** stripe fee calculator india, stripe international card fees, stripe processing fees
-- **Title** (56 chars): Stripe Fee Calculator – Card Fees by Country | CentHaven
-- **Meta description** (143 chars): Calculate Stripe processing fees by country, including international cards and currency conversion. See the fee and your payout for any amount.
-- **H1:** Stripe Fee Calculator
-- **FAQ questions (People Also Ask style):**
-  - How much does Stripe charge per transaction?
-  - Are Stripe fees different for international cards?
-  - Does Stripe charge for currency conversion?
-  - Stripe vs PayPal fees?
-  - How do I pass Stripe fees to customers?
-- **Internal links to:** /fees/paypal-fee-calculator-uk, /fees/wise-fee-calculator, /freelance/freelance-invoice-generator
-
 ## /fees/wise-fee-calculator
 
 - **Primary keyword:** wise fee calculator (1K–10K/month)
@@ -257,37 +239,7 @@
   - How do I set my Upwork rate after fees?
   - Are there other Upwork costs (Connects, withdrawal)?
   - Upwork vs Fiverr fees?
-- **Internal links to:** /fees/upwork-connects-calculator, /fees/fiverr-fee-calculator, /freelance/hourly-rate-calculator
-
-## /fees/upwork-connects-calculator
-
-- **Primary keyword:** upwork connects calculator (100–1K/month)
-- **Secondary keywords:** upwork connects cost, how many connects per proposal, is buying upwork connects worth it
-- **Title** (54 chars): Upwork Connects Calculator – Cost per Proposal and Job
-- **Meta description** (143 chars): Work out what Upwork Connects really cost you per proposal and per job won. See your cost of winning work and whether buying Connects pays off.
-- **H1:** Upwork Connects Calculator
-- **FAQ questions (People Also Ask style):**
-  - How much do Upwork Connects cost?
-  - How many Connects does a proposal need?
-  - Are Upwork Connects worth buying?
-  - How do I win more jobs with fewer Connects?
-  - Do Connects expire?
-- **Internal links to:** /fees/upwork-fee-calculator, /fees/fiverr-fee-calculator, /freelance/rate-increase-calculator
-
-## /fees/fiverr-fee-calculator
-
-- **Primary keyword:** fiverr fee calculator (10–100/month)
-- **Secondary keywords:** fiverr seller fee calculator, fiverr earnings after fees, how much does fiverr take
-- **Title** (48 chars): Fiverr Fee Calculator – Your Earnings After Fees
-- **Meta description** (144 chars): Calculate Fiverr's seller fee on any gig and see what you earn. Find the gig price you need to charge to reach the amount you want to take home.
-- **H1:** Fiverr Fee Calculator
-- **FAQ questions (People Also Ask style):**
-  - How much does Fiverr take from sellers?
-  - How do I calculate my Fiverr earnings?
-  - What gig price should I set after fees?
-  - Are there Fiverr withdrawal fees?
-  - Fiverr vs Upwork fees?
-- **Internal links to:** /fees/upwork-fee-calculator, /fees/payoneer-vs-wise-fees, /freelance/hourly-rate-calculator
+- **Internal links to:** /freelance/hourly-rate-calculator, /freelance/rate-increase-calculator, /freelance/freelance-invoice-generator
 
 ## /fees/payoneer-vs-wise-fees
 

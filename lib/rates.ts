@@ -7,23 +7,9 @@ import { parseRateFile, type RateFile } from './rates-schema';
  *
  * To add a rates file: create /rates/<id>.json, list it in sources.md, then add it below.
  */
-import upworkFees from '@/rates/upwork-fees.json';
-import upworkConnects from '@/rates/upwork-connects.json';
-import stripeUs from '@/rates/stripe-us.json';
-import stripeGb from '@/rates/stripe-gb.json';
-import stripeIe from '@/rates/stripe-ie.json';
-import stripeCa from '@/rates/stripe-ca.json';
-import stripeAu from '@/rates/stripe-au.json';
-import stripeIn from '@/rates/stripe-in.json';
+// import paypalFeesUs from '@/rates/paypal-fees-us.json';
 const registry: Record<string, unknown> = {
-  'upwork-fees': upworkFees,
-  'upwork-connects': upworkConnects,
-  'stripe-us': stripeUs,
-  'stripe-gb': stripeGb,
-  'stripe-ie': stripeIe,
-  'stripe-ca': stripeCa,
-  'stripe-au': stripeAu,
-  'stripe-in': stripeIn,
+  // 'paypal-fees-us': paypalFeesUs,
 };
 
 const parsed = new Map<string, RateFile>();

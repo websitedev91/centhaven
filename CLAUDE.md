@@ -14,7 +14,7 @@ No backend, no database, no login. Ask before adding any new dependency.
    **Exception (Puru, 2026-11-18):** the quote and invoice generators (`lib/doc-calc.ts`) round each line, then contingency, discount and tax, to 2 decimals with the float-safe `roundTo` before summing, so a printed document adds up. No other tool does this.
 4. **Every tool has tests** in `calc.test.ts`, including every test case from its spec. Tests must pass.
 5. **Scope:** only tools that help people earn, save, spend or manage money. Flag anything else.
-   Scope rule: never build tools that depend on tax rules, government limits or legal thresholds. Allowed: pure maths on user input, and company-published fees (with /rates + quarterly checks).
+   Scope rule (Puru, 2026-11-18): CentHaven builds ONLY pure-maths tools where every number comes from the user. No tool may depend on company fees, tax rates, government limits or legal rules.
 6. **Publishing is controlled by `lib/registry.ts`.** Only `status: 'live'` tools get pages, sitemap entries and links. New tools start as `draft`; set `ready` when all quality gates pass. Never set `live` unless asked.
 
 ## Every tool folder
@@ -51,7 +51,7 @@ Breadcrumbs → H1 + subtitle → calculator → result + breakdown → chart (i
 4. Content + JSON-LD (WebApplication, BreadcrumbList, FAQPage) complete
 5. Disclaimer, affiliate slot (renders nothing if no partner is enabled)
 6. No console errors; Lighthouse mobile ≥ 95 performance, 100 SEO
-7. No red-risk tools (scope rule: nothing that depends on tax rules, government limits or legal thresholds)
+7. No red-risk tools (scope rule: every number comes from the user; nothing that depends on company fees, tax rates, government limits or legal rules)
 
 Run `npm run check` (types + lint + tests + rates validation) before saying a task is done.
 

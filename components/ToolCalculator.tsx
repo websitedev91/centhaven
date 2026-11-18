@@ -26,6 +26,7 @@ const calculators: Record<string, ComponentType> = {
   'website-design-cost-calculator': dynamic(() => import('@/tools/website-design-cost-calculator/Calculator')),
   'freelance-quote-generator': dynamic(() => import('@/tools/freelance-quote-generator/Calculator')),
   'freelance-invoice-generator': dynamic(() => import('@/tools/freelance-invoice-generator/Calculator')),
+  'upwork-fee-calculator': dynamic(() => import('@/tools/upwork-fee-calculator/Calculator')),
 };
 
 export const calculatorSlugs = Object.keys(calculators);

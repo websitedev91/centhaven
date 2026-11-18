@@ -22,6 +22,7 @@ import { meta as jobOfferComparison } from '@/tools/job-offer-comparison-calcula
 import { meta as websiteDesignCost } from '@/tools/website-design-cost-calculator/meta';
 import { meta as freelanceQuote } from '@/tools/freelance-quote-generator/meta';
 import { meta as freelanceInvoice } from '@/tools/freelance-invoice-generator/meta';
+import { meta as upworkFee } from '@/tools/upwork-fee-calculator/meta';
 
 type Publishing = Pick<ToolEntry, 'status' | 'lastUpdated' | 'publishDate' | 'reviewedBy'>;
 
@@ -44,6 +45,7 @@ export const registry: readonly RegistryRow[] = [
   row(websiteDesignCost, { status: 'live', publishDate: '2026-11-18', lastUpdated: '2026-11-18' }),
   row(freelanceQuote, { status: 'live', publishDate: '2026-11-18', lastUpdated: '2026-11-18' }),
   row(freelanceInvoice, { status: 'live', publishDate: '2026-11-18', lastUpdated: '2026-11-18' }),
+  row(upworkFee, { status: 'draft', lastUpdated: '2026-11-18' }),
 ];
 
 /** Local preview builds only (see next.config.ts `env` and scripts/postbuild.mjs). */
