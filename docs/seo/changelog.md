@@ -5,6 +5,7 @@ Format: date · page · what changed · why.
 
 | Date | Page | What changed | Why |
 |---|---|---|---|
+| 2026-11-18 | /salary/pay-raise-calculator, /salary/commission-calculator, /personal-finance/savings-goal-calculator, /freelance/late-fee-calculator, /business/runway-calculator | New entries for batch 4 (pure maths): primary/secondary keywords, title, meta, H1, 5 FAQ questions, internal links. Volumes not checked yet. | Batch 4 requested by Puru; drafted by Claude for review. |
 | 2026-11-18 | /fees/paypal-fee-calculator-uk, /fees/paypal-fee-calculator-india, /fees/paypal-fee-calculator-australia, /fees/paypal-fee-calculator-canada, /fees/wise-fee-calculator, /fees/payoneer-vs-wise-fees | Dropped, needs external rates. Summary rows and sections removed. | Scope rule (Puru, 2026-11-18): pure maths only. |
 | 2026-11-18 | /fees/ (hub), /fees/upwork-fee-calculator → /freelance/upwork-fee-calculator | Fees & Payments hub deleted; Upwork Fee Calculator moved to the Freelance category (path changed; title, meta, H1, keywords, FAQ and links unchanged). | No Fees hub (Puru, 2026-11-18). The page was never live, so no redirect is needed. |
 | 2026-11-18 | /business/payment-processing-fee-calculator | New entry: primary "payment processing fee calculator", secondary keywords, title (54), meta (144), H1, 5 FAQ questions, internal links, content note. | New pure-maths tool, wording from Puru. |

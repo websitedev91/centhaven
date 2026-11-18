@@ -17,14 +17,19 @@
 | /freelance/freelance-invoice-generator | free invoice generator for freelancers | 10–100 |
 | /freelance/freelance-quote-generator | freelance quote generator | 10–100 |
 | /freelance/upwork-fee-calculator | upwork fee calculator | 100–1K |
+| /freelance/late-fee-calculator | late fee calculator | not checked |
 | /salary/hourly-to-salary-calculator | hourly to salary calculator | 10K–100K |
 | /salary/job-offer-comparison-calculator | job offer comparison calculator | 10–100 |
+| /salary/pay-raise-calculator | pay raise calculator | not checked |
+| /salary/commission-calculator | commission calculator | not checked |
 | /salary/1099-vs-w2-calculator | 1099 vs w2 calculator | 100–1K |
 | /business/utilization-rate-calculator | utilization rate calculator | 100–1K |
 | /business/break-even-calculator | break even calculator | 1K–10K |
 | /business/straight-line-depreciation-calculator | straight line depreciation calculator | 100–1K |
 | /business/payment-processing-fee-calculator | payment processing fee calculator | not checked |
+| /business/runway-calculator | runway calculator | not checked |
 | /personal-finance/emergency-fund-calculator | emergency fund calculator | 10K–100K |
+| /personal-finance/savings-goal-calculator | savings goal calculator | not checked |
 
 ## /freelance/hourly-rate-calculator
 
@@ -162,6 +167,22 @@
 - **Internal links to:** /freelance/hourly-rate-calculator, /freelance/rate-increase-calculator, /freelance/freelance-invoice-generator
 
 
+## /freelance/late-fee-calculator
+
+- **Primary keyword:** late fee calculator
+- **Secondary keywords:** invoice late fee calculator, late payment fee calculator, how to charge a late fee on an invoice
+- **Title** (47 chars): Late Fee Calculator – Invoice Late Payment Fees
+- **Meta description** (157 chars): Work out a late fee on an overdue invoice using the terms you agreed with your client: a flat fee, a one-off percentage or a monthly percentage by days late.
+- **H1:** Late Fee Calculator
+- **FAQ questions (People Also Ask style):**
+  - How do I calculate a late fee on an invoice?
+  - How much should I charge for late payment?
+  - Should I add a grace period?
+  - How do I tell a client about a late fee?
+  - Should I charge a flat fee or a percentage?
+- **Internal links to:** /freelance/freelance-invoice-generator, /freelance/freelance-quote-generator, /freelance/retainer-fee-calculator
+- **Content note:** Pure maths on the user's own terms. Never mention legal or statutory late-payment rates (Puru, 2026-11-18).
+
 ## /salary/hourly-to-salary-calculator
 
 - **Primary keyword:** hourly to salary calculator (10K–100K/month)
@@ -191,6 +212,36 @@
   - How much is a commute worth?
   - Should I take the higher salary?
 - **Internal links to:** /salary/hourly-to-salary-calculator, /salary/1099-vs-w2-calculator, /freelance/day-rate-to-salary-calculator
+
+## /salary/pay-raise-calculator
+
+- **Primary keyword:** pay raise calculator
+- **Secondary keywords:** salary increase calculator, raise percentage calculator, how much is a 5% raise, new salary after raise
+- **Title** (54 chars): Pay Raise Calculator – New Salary and Raise Percentage
+- **Meta description** (147 chars): Work out your new pay after a raise, or the raise percentage between your old and new pay. Works for hourly, monthly or yearly pay in any currency.
+- **H1:** Pay Raise Calculator
+- **FAQ questions (People Also Ask style):**
+  - How do I calculate a pay raise percentage?
+  - How much is a 5% raise?
+  - How does inflation affect my raise?
+  - Should I ask for a raise as a percentage or an amount?
+  - How do I work out a raise on an hourly wage?
+- **Internal links to:** /salary/hourly-to-salary-calculator, /salary/job-offer-comparison-calculator, /freelance/rate-increase-calculator
+
+## /salary/commission-calculator
+
+- **Primary keyword:** commission calculator
+- **Secondary keywords:** sales commission calculator, tiered commission calculator, commission rate calculator, how to calculate commission
+- **Title** (56 chars): Commission Calculator – Flat and Tiered Sales Commission
+- **Meta description** (155 chars): Calculate sales commission at a flat rate or with tiered rates you set. Add base pay to see your total earnings and the effective commission rate on sales.
+- **H1:** Commission Calculator
+- **FAQ questions (People Also Ask style):**
+  - How do I calculate commission?
+  - How does tiered commission work?
+  - What is an effective commission rate?
+  - How do base pay and commission work together?
+  - How can I compare two commission plans?
+- **Internal links to:** /salary/pay-raise-calculator, /salary/hourly-to-salary-calculator, /business/break-even-calculator
 
 ## /salary/1099-vs-w2-calculator
 
@@ -268,6 +319,21 @@
 - **Internal links to:** /freelance/upwork-fee-calculator, /freelance/freelance-invoice-generator, /freelance/hourly-rate-calculator
 - **Content note (Puru, 2026-11-18):** may say "works for PayPal, Stripe, Square or any provider", but must never state any company's rates.
 
+## /business/runway-calculator
+
+- **Primary keyword:** runway calculator
+- **Secondary keywords:** burn rate calculator, cash runway calculator, startup runway calculator, how long will my cash last
+- **Title** (53 chars): Runway Calculator – Burn Rate and Months of Cash Left
+- **Meta description** (152 chars): See how many months your cash will last at your current burn rate. Add monthly revenue for net burn, and find the spending cut that reaches your target.
+- **H1:** Runway Calculator
+- **FAQ questions (People Also Ask style):**
+  - How do I calculate runway?
+  - What is burn rate?
+  - What is the difference between gross and net burn?
+  - How can I extend my runway?
+  - What happens when revenue covers my costs?
+- **Internal links to:** /business/break-even-calculator, /personal-finance/emergency-fund-calculator, /business/utilization-rate-calculator
+
 ## /personal-finance/emergency-fund-calculator
 
 - **Primary keyword:** emergency fund calculator (10K–100K/month)
@@ -284,6 +350,22 @@
 - **Internal links to:** /freelance/hourly-rate-calculator, /business/break-even-calculator, /salary/hourly-to-salary-calculator
 
 ---
+
+## /personal-finance/savings-goal-calculator
+
+- **Primary keyword:** savings goal calculator
+- **Secondary keywords:** how much to save per month, monthly savings calculator, savings plan calculator
+- **Title** (53 chars): Savings Goal Calculator – How Much to Save Each Month
+- **Meta description** (150 chars): Find out how much to save each month to reach your savings goal by the date you choose. Add what you have already saved and an optional interest rate.
+- **H1:** Savings Goal Calculator
+- **FAQ questions (People Also Ask style):**
+  - How much should I save each month?
+  - How do I set a savings goal?
+  - Does interest make a big difference?
+  - Should I build an emergency fund first?
+  - What if I can't afford the monthly amount?
+- **Internal links to:** /personal-finance/emergency-fund-calculator, /salary/pay-raise-calculator, /salary/hourly-to-salary-calculator
+- **Content note:** Interest is optional and entered by the user; never suggest a rate.
 
 # Homepage
 
