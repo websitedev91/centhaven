@@ -174,7 +174,7 @@ export default function Home() {
                       </div>
                     </div>
                     <ul className="mt-5 border-t border-line">
-                      {g.tools.slice(0, 6).map((t) => (
+                      {g.tools.map((t) => (
                         <li key={t.slug} className="border-b border-line last:border-b-0">
                           <Link href={toolPath(t)} className="group flex items-center justify-between gap-4 py-3.5 text-ink no-underline">
                             <span className="min-w-0">
