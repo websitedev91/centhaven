@@ -64,10 +64,6 @@ describe('defaults and limits (pure maths, no rates)', () => {
     for (const fee of [0, 15, 50]) expect(fieldErrors(upworkFeeSchema, { ...upworkFeeDefaults, fee }).fee).toBeUndefined();
   });
 
-  it('uses no /rates file', () => {
-    expect(meta.rates).toEqual([]);
-  });
-
   it("doesn't state an Upwork fee range in the copy", () => {
     const copy = readFileSync(join(__dirname, 'content.mdx'), 'utf8') + JSON.stringify(meta);
     expect(copy).not.toMatch(/0% (to|and|–) 15%|0–15%/);

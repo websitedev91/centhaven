@@ -19,7 +19,6 @@ export const meta: ToolMeta = {
   subtitle: 'Enter the service fee % from your proposal to see the fee and what you take home, or work backwards to the price you need to quote.',
   risk: 'green',
   relatedTools: ['hourly-rate-calculator', 'rate-increase-calculator', 'freelance-invoice-generator'],
-  rates: [],
   // Keyword-map questions first (exact, same order), then 2 more from the spec.
   faq: [
     {

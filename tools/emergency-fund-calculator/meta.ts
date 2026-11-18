@@ -17,7 +17,6 @@ export const meta: ToolMeta = {
   // Yellow: pure maths, but the suggested months are a rule of thumb (approved by Puru, 2026-11-17).
   risk: 'yellow',
   relatedTools: ['hourly-rate-calculator', 'break-even-calculator', 'hourly-to-salary-calculator'],
-  rates: [],
   // Keyword-map questions first (exact, same order), then 2 more from the spec.
   faq: [
     {

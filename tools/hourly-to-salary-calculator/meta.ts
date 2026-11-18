@@ -16,7 +16,6 @@ export const meta: ToolMeta = {
   subtitle: 'Turn an hourly wage into yearly, monthly, bi-weekly, weekly and daily pay, or a salary into an hourly rate. Before tax.',
   risk: 'green',
   relatedTools: ['hourly-rate-calculator', 'day-rate-to-salary-calculator', 'job-offer-comparison-calculator'],
-  rates: [],
   // Keyword-map questions first (exact, same order), then 2 more from the spec.
   faq: [
     {

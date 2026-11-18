@@ -17,7 +17,6 @@ export const meta: ToolMeta = {
     'Estimate a website project from the pages, design level and features it needs, priced at your own hourly rate, with a buffer and optional monthly maintenance.',
   risk: 'green',
   relatedTools: ['freelance-quote-generator', 'hourly-rate-calculator', 'freelance-invoice-generator'],
-  rates: [],
   // Keyword-map questions first (exact, same order), then 2 more from the spec.
   faq: [
     {

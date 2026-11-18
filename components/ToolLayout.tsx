@@ -12,7 +12,6 @@ import { JsonLd } from './JsonLd';
 import { breadcrumbJsonLd, faqJsonLd, webApplicationJsonLd, type Crumb } from '@/lib/seo';
 import { toolPath } from '@/lib/registry';
 import type { RegistryRow } from '@/lib/tool-types';
-import type { SourceLink } from '@/lib/rates';
 
 /**
  * Every tool page, same order (PRD §6 / CLAUDE.md):
@@ -25,11 +24,10 @@ export function ToolLayout(props: {
   calculator: ReactNode;
   content: ReactNode;
   related: readonly RegistryRow[];
-  sources: readonly SourceLink[];
   /** H2s of content.mdx for the "On this page" rail (lib/headings.ts). */
   contentSections?: { id: string; text: string }[];
 }) {
-  const { tool, categoryName, calculator, content, related, sources, contentSections = [] } = props;
+  const { tool, categoryName, calculator, content, related, contentSections = [] } = props;
   const sections = [
     ...contentSections,
     ...(tool.meta.faq.length > 0 ? [{ id: 'faq', text: 'Frequently asked questions' }] : []),
@@ -75,7 +73,7 @@ export function ToolLayout(props: {
           <div className="lg:hidden">
             <RelatedTools tools={related} />
           </div>
-          <Sources sources={sources} pureMathsNote={tool.meta.document ? DOCUMENT_SOURCES_NOTE : undefined} />
+          <Sources note={tool.meta.document ? DOCUMENT_SOURCES_NOTE : undefined} />
           <div className="flex flex-col gap-4">
             <AuthorBox path={path} />
             <Disclaimer />

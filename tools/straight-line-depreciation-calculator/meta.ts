@@ -17,7 +17,6 @@ export const meta: ToolMeta = {
   risk: 'green',
   relatedTools: ['break-even-calculator', 'utilization-rate-calculator', 'freelance-invoice-generator'],
   affiliateId: 'accounting-software',
-  rates: [],
   // Keyword-map questions first (exact, same order), then 2 more from the spec.
   faq: [
     {

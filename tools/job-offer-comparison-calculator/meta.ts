@@ -17,7 +17,6 @@ export const meta: ToolMeta = {
     'Compare two job offers on salary, bonus, retirement contributions, benefits, leave and commute, and see which is worth more each year before tax.',
   risk: 'green',
   relatedTools: ['hourly-to-salary-calculator', '1099-vs-w2-calculator', 'day-rate-to-salary-calculator'],
-  rates: [],
   // Keyword-map questions first (exact, same order), then 1 more from the spec.
   faq: [
     {

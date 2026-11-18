@@ -8,8 +8,8 @@ Next.js App Router + TypeScript (strict) · static export (`output: 'export'`) �
 No backend, no database, no login. Ask before adding any new dependency.
 
 ## Golden rules
-1. **Never guess a finance number.** Fees, tax rates, limits and thresholds live in `/rates/*.json` with `source.url`, `source.quote`, `effectiveFrom` and `verifiedOn`. If you can't confirm a rate from an official source, STOP and ask.
-2. **When you add or change a rate:** show old value → new value, the official URL and the exact quoted line. Update `sources.md`. Wait for approval.
+1. **Never guess a finance number.** Tools never state a company fee, tax rate, limit or threshold. Every number comes from the user; starting values are labelled "example only". If a tool would need an outside number, STOP and ask.
+2. **No rates files.** The `/rates` loader, `sources.md` and the rates check were removed (Puru, 2026-11-18) because no tool uses external rates.
 3. **Formulas are pure functions** in `tools/<slug>/calc.ts`: no React, no dates, no fetch. Round money only at display time via `lib/format.ts`.
    **Exception (Puru, 2026-11-18):** the quote and invoice generators (`lib/doc-calc.ts`) round each line, then contingency, discount and tax, to 2 decimals with the float-safe `roundTo` before summing, so a printed document adds up. No other tool does this.
 4. **Every tool has tests** in `calc.test.ts`, including every test case from its spec. Tests must pass.
@@ -36,7 +36,7 @@ Breadcrumbs → H1 + subtitle → calculator → result + breakdown → chart (i
 - Disclaimer on every tool: "For estimates only. Not financial, tax or legal advice. Check with a qualified professional."
 - No author name and no "Last updated" date on any page (Puru, 2026-11-16).
 - No personal author names. Authorship = CentHaven team.
-- **Exception:** tools that use `/rates/*.json` show "Rates checked on {verifiedOn date} · Source: {link}" for each rate in the Sources section (`components/Sources.tsx`). Pure-maths tools show no date.
+- The Sources section (`components/Sources.tsx`) says the tool uses only the numbers you enter. No dates or source links.
 - Google Tag Manager loads on site pages only, never on `/embed/*`.
 
 ## Currency inputs
@@ -46,14 +46,14 @@ Breadcrumbs → H1 + subtitle → calculator → result + breakdown → chart (i
 
 ## Quality gates (before `ready`)
 1. Works at 375px and 1280px
-2. Rates from `/rates` + listed in `sources.md`
+2. Every number comes from the user (no outside rates); example defaults are labelled
 3. All spec test cases pass
 4. Content + JSON-LD (WebApplication, BreadcrumbList, FAQPage) complete
 5. Disclaimer, affiliate slot (renders nothing if no partner is enabled)
 6. No console errors; Lighthouse mobile ≥ 95 performance, 100 SEO
 7. No red-risk tools (scope rule: every number comes from the user; nothing that depends on company fees, tax rates, government limits or legal rules)
 
-Run `npm run check` (types + lint + tests + rates validation) before saying a task is done.
+Run `npm run check` (types + lint + tests) before saying a task is done.
 
 ## Affiliates
 From `config/affiliates.json` only. Links: `rel="sponsored nofollow noopener"`, `target="_blank"`, with a disclosure line. Partners stay `enabled: false` until Puru says he's approved.

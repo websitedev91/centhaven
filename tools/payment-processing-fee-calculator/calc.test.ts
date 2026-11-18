@@ -3,7 +3,6 @@ import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { formatMoney, formatPercent, roundTo, type CurrencyCode } from '@/lib/format';
 import { FEES_TOO_HIGH, processingFee, type ProcessingError, type ProcessingMode, type ProcessingResult } from './calc';
-import { meta } from './meta';
 import { fieldErrors, processingDefaults, processingSchema, switchProcessingCurrency, toCalcInput } from './schema';
 
 function ok(r: ProcessingResult | ProcessingError): ProcessingResult {
@@ -114,8 +113,7 @@ describe('round trip', () => {
 });
 
 describe('scope rule', () => {
-  it('uses no /rates file and names providers without stating their rates', () => {
-    expect(meta.rates).toEqual([]);
+  it('names providers without stating their rates', () => {
     const mdx = readFileSync(join(__dirname, 'content.mdx'), 'utf8');
     expect(mdx).toContain('PayPal, Stripe, Square or any provider');
     expect(mdx).not.toMatch(/(PayPal|Stripe|Square)[^.\n]{0,40}\d+(\.\d+)?%/);

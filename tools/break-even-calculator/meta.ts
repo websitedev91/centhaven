@@ -22,7 +22,6 @@ export const meta: ToolMeta = {
   risk: 'green',
   relatedTools: ['utilization-rate-calculator', 'hourly-rate-calculator', 'straight-line-depreciation-calculator'],
   affiliateId: 'accounting-software',
-  rates: [],
   // Keyword-map questions first (exact, same order), then 2 more from the spec.
   faq: [
     {

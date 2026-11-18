@@ -26,8 +26,6 @@ export interface ToolMeta {
   /** Keyword map "Internal links to", as tool slugs. Only live ones render. */
   relatedTools: readonly string[];
   affiliateId?: string;
-  /** Ids of /rates files used (empty for pure-maths tools). */
-  rates: readonly string[];
   /**
    * Keyword-map questions first (exact text, same order), then 2–3 more. Answers live here
    * (not in content.mdx) so the visible FAQ and the FAQPage JSON-LD come from one source.

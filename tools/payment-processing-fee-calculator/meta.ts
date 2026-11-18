@@ -24,7 +24,6 @@ export const meta: ToolMeta = {
   subtitle: 'Enter your provider’s percentage and fixed fee to see what a payment costs you, or the price to charge so you receive a set amount.',
   risk: 'green',
   relatedTools: ['upwork-fee-calculator', 'freelance-invoice-generator', 'hourly-rate-calculator'],
-  rates: [],
   // Keyword-map questions first (exact, same order), then 2 more from the spec.
   faq: [
     {

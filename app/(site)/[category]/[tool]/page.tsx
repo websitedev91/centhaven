@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation';
 import { ToolLayout } from '@/components/ToolLayout';
 import { getCategory } from '@/config/site';
 import { getLiveTool, liveRelated, liveTools, toolPath } from '@/lib/registry';
-import { getSourceLinks } from '@/lib/rates';
 import { buildMetadata } from '@/lib/seo';
 import { ogToolPath } from '@/lib/og-paths';
 import { PLACEHOLDER, withPlaceholder } from '@/lib/static-params';
@@ -49,7 +48,6 @@ export default async function ToolPage({ params }: { params: Promise<Params> }) 
       calculator={<ToolCalculator slug={tool.slug} />}
       content={<Content />}
       related={liveRelated(tool)}
-      sources={getSourceLinks(tool.meta.rates)}
       contentSections={mdxH2s(readFileSync(join(process.cwd(), 'tools', tool.slug, 'content.mdx'), 'utf8'))}
     />
   );

@@ -22,7 +22,6 @@ export const meta: ToolMeta = {
   risk: 'green',
   relatedTools: ['day-rate-to-salary-calculator', 'rate-increase-calculator', 'consulting-fee-calculator'],
   affiliateId: 'invoicing-software',
-  rates: [],
   // Keyword-map questions first (exact, same order), then 2 more.
   faq: [
     {

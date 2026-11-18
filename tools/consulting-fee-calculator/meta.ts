@@ -17,7 +17,6 @@ export const meta: ToolMeta = {
   risk: 'green',
   relatedTools: ['hourly-rate-calculator', 'day-rate-to-salary-calculator', 'retainer-fee-calculator'],
   affiliateId: 'invoicing-software',
-  rates: [],
   // Keyword-map questions first (exact, same order), then 2 more from the spec.
   faq: [
     {
