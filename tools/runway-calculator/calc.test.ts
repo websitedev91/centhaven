@@ -102,3 +102,9 @@ describe('content.mdx worked examples match the calculator', () => {
     [m(e.netBurn, 'INR'), mo(e.runway!)].forEach(has);
   });
 });
+
+describe('an empty number box (reported as NaN)', () => {
+  it('is a field error, so the result waits instead of using the last value', () => {
+    expect(fieldErrors(runwaySchema, { ...runwayDefaults, revenue: Number.NaN }).revenue).toBe('Enter a number');
+  });
+});

@@ -13,3 +13,10 @@ describe('AnimatedNumber accessibility', () => {
     expect(visible.replace(/<[^>]+>/g, '')).toBe('$62.32');
   });
 });
+
+describe('spaces in animated values', () => {
+  it('keep their width ("Not burning", not "Notburning")', () => {
+    const html = renderToStaticMarkup(createElement(AnimatedNumber, { value: 'Not burning' }));
+    expect(html).toContain(' ');
+  });
+});

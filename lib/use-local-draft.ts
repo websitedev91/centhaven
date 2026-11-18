@@ -48,6 +48,14 @@ function writeStorage(key: string, value: string | null): void {
   }
 }
 
+/**
+ * JSON for storage. A number box being edited can hold NaN (empty), which JSON writes as null
+ * and the schema would then reject, losing the whole draft on reload. Store it as 0 instead.
+ */
+export function serializeDraft(value: unknown): string {
+  return JSON.stringify(value, (_k, v) => (typeof v === 'number' && !Number.isFinite(v) ? 0 : v));
+}
+
 /** Parses a stored draft; anything unreadable or of the wrong shape is ignored. */
 export function parseDraft<T>(raw: string | null, schema: DraftSchema<T>): T | null {
   if (!raw) return null;
@@ -74,7 +82,7 @@ export function useLocalDraft<T>(key: string, schema: DraftSchema<T>, fresh: (to
   useEffect(() => {
     if (edits === null) return;
     clearTimeout(timer.current);
-    timer.current = setTimeout(() => writeStorage(key, JSON.stringify(edits)), 300);
+    timer.current = setTimeout(() => writeStorage(key, serializeDraft(edits)), 300);
     return () => clearTimeout(timer.current);
   }, [edits, key]);
 
@@ -84,7 +92,7 @@ export function useLocalDraft<T>(key: string, schema: DraftSchema<T>, fresh: (to
   const replace = useCallback(
     (next: T | null) => {
       clearTimeout(timer.current);
-      writeStorage(key, next === null ? null : JSON.stringify(next));
+      writeStorage(key, next === null ? null : serializeDraft(next));
       setEdits(next);
       notify();
     },

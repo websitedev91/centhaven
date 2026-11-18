@@ -26,3 +26,9 @@ describe('url state', () => {
     expect(parseQuery(toQuery(s, defaults), schema, defaults)).toEqual(s);
   });
 });
+
+describe('empty number boxes (NaN)', () => {
+  it('are never written to a shared link', () => {
+    expect(toQuery({ a: Number.NaN, b: 2 }, { a: 1, b: 1 })).toBe('?b=2');
+  });
+});

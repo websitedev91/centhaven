@@ -30,7 +30,9 @@ function display(value: number, grouping: boolean, locale: string): string {
 
 /**
  * Text input with numeric keyboard. Keeps what the user types while focused (so "1." or
- * an empty box is allowed mid-edit) and reports parsed numbers upward.
+ * an empty box is allowed mid-edit) and reports parsed numbers upward. An empty or invalid
+ * box reports NaN, so the tool's schema flags it and the result waits for a number instead
+ * of quietly using the last value typed.
  */
 export function InputNumber(props: InputNumberProps) {
   const { label, value, onChange, help, error, prefix, suffix, grouping = false, locale = 'en-US' } = props;
@@ -46,11 +48,13 @@ export function InputNumber(props: InputNumberProps) {
     const cleaned = text.replace(/[,\s]/g, '');
     if (cleaned === '' || cleaned === '-' || cleaned === '.') {
       setLocalError('Enter a number');
+      onChange(Number.NaN);
       return;
     }
     const n = Number(cleaned);
     if (!Number.isFinite(n)) {
       setLocalError('Enter a number');
+      onChange(Number.NaN);
       return;
     }
     setLocalError(undefined);

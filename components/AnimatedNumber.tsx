@@ -30,7 +30,8 @@ export function AnimatedNumber({ value, className }: { value: string; className?
           const cls = [changed ? 'digit-in' : '', sep ? 'num-sep' : ''].join(' ').trim() || undefined;
           return (
             <span key={`${fromEnd}-${ch}`} className={cls}>
-              {ch}
+              {/* A lone space in an animated (inline-block) span collapses: "Not burning" → "Notburning". */}
+              {ch === ' ' ? ' ' : ch}
             </span>
           );
         })}

@@ -72,6 +72,8 @@ export function toQuery<T extends Shape>(state: T, defaults: T, variant?: Defaul
   const ref = resolveDefaults(state, defaults, variant);
   const params = new URLSearchParams();
   for (const key of Object.keys(defaults)) {
+    // A box being edited can hold NaN (empty); never put that in a shared link.
+    if (typeof state[key] === 'number' && !Number.isFinite(state[key])) continue;
     const compareTo = variant && variantKeys(variant).includes(key) ? defaults[key] : ref[key];
     if (state[key] !== compareTo) params.set(key, String(state[key]));
   }
