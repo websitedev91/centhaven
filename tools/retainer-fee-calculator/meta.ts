@@ -46,7 +46,7 @@ export const meta: ToolMeta = {
     },
     {
       q: 'Should I charge the retainer up front?',
-      a: 'Most freelancers invoice retainers at the start of each month, before the work, because the fee pays for reserved time rather than completed tasks. Charging in advance also protects you if the client stops paying. Agree the payment date and what happens if a payment is late in the agreement, and keep the terms the same every month.',
+      a: 'Many freelancers invoice retainers at the start of each month, before the work, because the fee pays for reserved time rather than completed tasks. Charging in advance also protects you if the client stops paying. Agree the payment date and what happens if a payment is late in the agreement, and keep the terms the same every month.',
     },
   ],
 };

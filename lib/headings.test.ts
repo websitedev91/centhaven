@@ -39,3 +39,12 @@ describe('content.mdx has no markdown tables (they render as raw text without GF
     expect(mdx, 'use an HTML <table> instead of a markdown table').not.toMatch(/^\s*\|.*\|\s*$/m);
   });
 });
+
+describe('tool page headings', () => {
+  it('"Related tools" is an H2 only once (the rail uses a plain label)', () => {
+    const rail = readFileSync('components/ToolRail.tsx', 'utf8');
+    const related = readFileSync('components/RelatedTools.tsx', 'utf8');
+    expect(rail).not.toMatch(/<h[1-6][^>]*>\s*Related tools/);
+    expect(related).toMatch(/<h2[^>]*>\s*Related tools/);
+  });
+});

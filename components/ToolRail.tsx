@@ -30,9 +30,11 @@ export function ToolRail({ sections, related }: { sections: { id: string; text: 
       ) : null}
       {related.length > 0 ? (
         <nav aria-labelledby="rail-related-heading">
-          <h2 id="rail-related-heading" className="type-small font-[550] text-ink-muted">
+          {/* Not a heading: the main column's RelatedTools section owns the "Related tools" H2
+              (both are in the HTML, one hidden per breakpoint), so the page has it only once. */}
+          <p id="rail-related-heading" className="type-small font-[550] text-ink-muted">
             Related tools
-          </h2>
+          </p>
           <ul className="mt-3 border-t border-line">
             {related.map((t) => (
               <li key={t.slug} className="border-b border-line">

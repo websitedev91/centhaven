@@ -35,7 +35,7 @@ export const meta: ToolMeta = {
     },
     {
       q: 'What is billable time?',
-      a: 'Billable time is the share of your working hours that you can charge a client for. The rest goes on admin, invoicing, finding new work, emails and learning. Most freelancers bill between 60 and 80 percent of their time. If you assume 100 percent, your rate will be too low and you will fall short of your income goal, even when you feel busy every week.',
+      a: 'Billable time is the share of your working hours that you can charge a client for. The rest goes on admin, invoicing, finding new work, emails and learning. Track a few weeks to see your own share. If you assume 100 percent, your rate will be too low and you will fall short of your income goal, even when you feel busy every week.',
     },
     {
       q: 'Should I charge hourly or per project?',
