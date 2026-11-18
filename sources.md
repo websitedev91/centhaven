@@ -5,7 +5,8 @@ Every file in `/rates/` must be listed here. Claude Code updates this file whene
 | Rates file | What it covers | Official source URL | Effective from | Verified on | Check schedule |
 |---|---|---|---|---|---|
 | `rates/upwork-fees.json` | Upwork freelancer service fee range (0–15% per contract; the user enters their own %) | https://support.upwork.com/hc/en-us/articles/211062538-Learn-about-the-Freelancer-Service-Fee | 2026-11-18 | 2026-11-18 | Every 3 months |
-| `rates/upwork-connects.json` | Price of one Upwork Connect (USD) | https://support.upwork.com/hc/en-us/articles/211062898-About-Connects-costs-uses-balances-and-expiration | 2026-11-18 | 2026-11-18 | Every 3 months |
+| `rates/upwork-connects.json` | Price of one Upwork Connect (USD) + expiry (one year after issue) | https://support.upwork.com/hc/en-us/articles/211062898-About-Connects-costs-uses-balances-and-expiration | 2026-11-18 | 2026-11-18 | Every 3 months |
+| `rates/stripe-us.json` | Stripe US card fees, manual entry, international cards + currency conversion | https://stripe.com/pricing?country=US | 2026-11-18 | 2026-11-18 | Every 3 months |
 | `rates/stripe-gb.json` | Stripe UK card fees + currency conversion | https://stripe.com/gb/pricing | 2026-11-18 | 2026-11-18 | Every 3 months |
 | `rates/stripe-ie.json` | Stripe Ireland card fees + currency conversion (used for EUR) | https://stripe.com/ie/pricing | 2026-11-18 | 2026-11-18 | Every 3 months |
 | `rates/stripe-ca.json` | Stripe Canada card fees + currency conversion | https://stripe.com/ca/pricing | 2026-11-18 | 2026-11-18 | Every 3 months |

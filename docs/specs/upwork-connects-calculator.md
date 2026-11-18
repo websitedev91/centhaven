@@ -61,5 +61,5 @@ shareOfJob       = costPerJobWon ÷ jobValue       (only if jobValue > 0)
 
 ## Content notes
 - FAQ: the 5 keyword-map questions + "How do I work out my win rate?" + "Do I get Connects back if a job is cancelled?"
-- **"Do Connects expire?" needs the official quoted line.** Your note says 1 year after issue, but no quote has been given. Until it's quoted, the answer says "Check Upwork's Connects page for when yours expire."
+- "Do Connects expire?" uses `expiryQuote` from `upwork-connects.json`: "Every Connect expires one year after the date it was issued."
 - Tips: track your win rate monthly, apply early, skip jobs that already have many proposals, use the rate-increase tool once you win steadily.

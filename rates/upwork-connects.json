@@ -8,6 +8,8 @@
   },
   "data": {
     "currency": "USD",
-    "pricePerConnect": 0.15
+    "pricePerConnect": 0.15,
+    "expiryMonths": 12,
+    "expiryQuote": "Every Connect expires one year after the date it was issued."
   }
 }

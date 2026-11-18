@@ -1,6 +1,6 @@
 # Tool spec: Stripe Fee Calculator
 
-> **Draft — waiting for Puru's approval. The US rates need 3 more quoted lines.**
+> **Draft — waiting for Puru's approval.**
 
 | Field | Value |
 |---|---|
@@ -23,7 +23,7 @@ Stripe's standard online card fee for one payment in your Stripe account's count
 | Amount | currency | per country (below) | 0 – 10,000,000 |
 | Card type | select | first card in the rates file | Options come from the chosen country's `data.cards` |
 | Currency conversion needed | checkbox | off | Adds `conversionPercent` |
-| Card entered manually | checkbox | off | **US only** (+0.5%); hidden for other countries |
+| Card entered manually | checkbox | off | **US only** (`manualEntryPercent` 0.5); hidden for other countries |
 
 ### Currency presets (by country)
 | Country | Amount |
@@ -44,7 +44,7 @@ Display rounds to the nearest cent, so the reverse result can pay out 1 cent und
 ## Rates used
 | Rates file | Official source URL |
 |---|---|
-| `rates/stripe-us.json` (**pending**) | https://stripe.com/pricing?country=US |
+| `rates/stripe-us.json` | https://stripe.com/pricing?country=US |
 | `rates/stripe-gb.json` | https://stripe.com/gb/pricing |
 | `rates/stripe-ie.json` | https://stripe.com/ie/pricing |
 | `rates/stripe-ca.json` | https://stripe.com/ca/pricing |
@@ -62,7 +62,7 @@ The Sources section lists all six files, one line per country.
 | 4 | Australia · domestic · receive A$100 | **charge 101.98** · fee 1.98 | Manual (100.30 ÷ 0.9835 = 101.9827) |
 | 5 | India · domestic · ₹10,000 | **payout ₹9,800.00** · fee ₹200.00 | Manual (2%) |
 | 6 | Euro area · premium · €50 | **payout 48.35** · fee 1.65 | Manual (2.8% + €0.25) |
-| 7 | US · domestic · $100 (once the US rates are approved) | **payout 96.80** · fee 3.20 | Manual (2.9% + 30¢) |
+| 7 | US · domestic · $100 | **payout 96.80** · fee 3.20 | Manual (2.9% + 30¢) |
 | 8 | US · domestic · manual · conversion · $100 | **payout 95.30** · fee 4.70 | Manual (2.9 + 0.5 + 1 = 4.4% + 30¢) |
 | 9 | amount below the fixed fee (UK £0.10) | fee shown, negative payout shown with a warning, no crash | — |
 | 10 | switch UK → India with the amount untouched | amount becomes ₹10,000; a typed amount is kept | — |

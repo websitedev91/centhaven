@@ -1,0 +1,21 @@
+{
+  "id": "stripe-us",
+  "effectiveFrom": "2026-11-18",
+  "verifiedOn": "2026-11-18",
+  "source": {
+    "url": "https://stripe.com/pricing?country=US",
+    "quote": "2.9% + 30¢ per successful transaction for domestic cards"
+  },
+  "data": {
+    "country": "US",
+    "currency": "USD",
+    "cards": [
+      { "id": "domestic", "label": "Domestic cards", "percent": 2.9, "fixed": 0.3, "quote": "2.9% + 30¢ per successful transaction for domestic cards" },
+      { "id": "international", "label": "International cards", "percent": 2.9, "surchargePercent": 1.5, "fixed": 0.3, "quote": "+ 1.5% for international cards" }
+    ],
+    "manualEntryPercent": 0.5,
+    "manualEntryQuote": "+ 0.5% for manually entered cards",
+    "conversionPercent": 1,
+    "conversionQuote": "+ 1% if currency conversion is required"
+  }
+}
