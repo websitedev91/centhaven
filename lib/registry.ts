@@ -46,8 +46,8 @@ export const registry: readonly RegistryRow[] = [
   row(websiteDesignCost, { status: 'live', publishDate: '2026-11-18', lastUpdated: '2026-11-18' }),
   row(freelanceQuote, { status: 'live', publishDate: '2026-11-18', lastUpdated: '2026-11-18' }),
   row(freelanceInvoice, { status: 'live', publishDate: '2026-11-18', lastUpdated: '2026-11-18' }),
-  row(upworkFee, { status: 'draft', lastUpdated: '2026-11-18' }),
-  row(paymentProcessingFee, { status: 'draft', lastUpdated: '2026-11-18' }),
+  row(upworkFee, { status: 'live', publishDate: '2026-11-18', lastUpdated: '2026-11-18' }),
+  row(paymentProcessingFee, { status: 'live', publishDate: '2026-11-18', lastUpdated: '2026-11-18' }),
 ];
 
 /** Local preview builds only (see next.config.ts `env` and scripts/postbuild.mjs). */
