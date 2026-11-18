@@ -57,7 +57,7 @@ export default function LateFeeCalculator() {
               <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchLateFeeCurrency(s, next))} />
               <InputCurrency label="Invoice amount" currency={c} value={s.amount} onChange={(v) => update('amount', v)} error={errors.amount} />
               <InputNumber label="Days late" help="Days after the due date." value={s.days} onChange={(v) => update('days', v)} suffix="days" error={errors.days} />
-              <InputNumber
+              <InputNumber optional
                 label="Grace period (optional)"
                 help="Days after the due date before a fee applies. 0 = none."
                 value={s.grace}

@@ -126,7 +126,7 @@ export default function RetainerFeeCalculator() {
                   error={errors.usage}
                 />
               </div>
-              <InputCurrency
+              <InputCurrency optional
                 label="Overage rate for extra hours"
                 help={s.overageRate > 0 ? 'Charged per hour beyond the retainer.' : `Leave at 0 to use your hourly rate (${money(s.rate)}).`}
                 currency={c}
@@ -134,7 +134,7 @@ export default function RetainerFeeCalculator() {
                 onChange={(v) => update('overageRate', v)}
                 error={errors.overageRate}
               />
-              <InputNumber
+              <InputNumber optional
                 label="Expected extra hours per month"
                 help="Optional. Work beyond the hours in the retainer."
                 value={s.extraHours}

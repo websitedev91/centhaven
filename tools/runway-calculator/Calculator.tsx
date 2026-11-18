@@ -95,7 +95,7 @@ export default function RunwayCalculator() {
                 onChange={(v) => update('costs', v)}
                 error={errors.costs}
               />
-              <InputCurrency
+              <InputCurrency optional
                 label="Monthly revenue (optional)"
                 help="Leave at 0 to see runway on costs alone."
                 currency={c}
@@ -104,7 +104,7 @@ export default function RunwayCalculator() {
                 error={errors.revenue}
               />
               <div className="sm:col-span-2">
-                <InputNumber
+                <InputNumber optional
                   label="Target runway (optional)"
                   help="The months of runway you want. 0 = off."
                   value={s.target}

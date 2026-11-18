@@ -16,6 +16,8 @@ export interface SliderProps {
   unit?: string;
   help?: string;
   error?: string;
+  /** Optional field: an empty box means 0 and is valid. Required sliders report NaN when emptied. */
+  optional?: boolean;
 }
 
 /**
@@ -24,16 +26,22 @@ export interface SliderProps {
  * Keyboard on the slider: arrows, PageUp/Down, Home/End.
  */
 export function Slider(props: SliderProps) {
-  const { label, value, onChange, min, max, step = 1, format = String, unit, help, error } = props;
+  const { label, value, onChange, min, max, step = 1, format = String, unit, help, error, optional = false } = props;
   const id = useId();
   const [draft, setDraft] = useState<string | null>(null);
   const safe = Number.isFinite(value) ? Math.min(max, Math.max(min, value)) : min;
   const pct = ((safe - min) / (max - min)) * 100;
 
+  /** An emptied box reports 0 (optional) or NaN (required), so the result never uses a stale value. */
   function typed(text: string) {
     setDraft(text);
-    const n = Number(text.replace(/[,\s%]/g, ''));
-    if (text.trim() !== '' && Number.isFinite(n)) onChange(n);
+    const cleaned = text.replace(/[,\s%]/g, '');
+    if (cleaned === '') {
+      onChange(optional ? 0 : Number.NaN);
+      return;
+    }
+    const n = Number(cleaned);
+    onChange(Number.isFinite(n) ? n : Number.NaN);
   }
 
   return (
@@ -50,6 +58,7 @@ export function Slider(props: SliderProps) {
             autoComplete="off"
             aria-label={`${label}, exact value${unit ? ` in ${unit}` : ''}`}
             aria-invalid={error ? true : undefined}
+            data-optional={optional ? '' : undefined}
             value={draft ?? (Number.isFinite(value) ? String(value) : '')}
             onChange={(e) => typed(e.target.value)}
             onFocus={(e) => e.currentTarget.select()}

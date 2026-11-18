@@ -140,7 +140,7 @@ export default function CommissionCalculator() {
                   error={errors.rate}
                 />
               )}
-              <InputCurrency
+              <InputCurrency optional
                 label="Base pay (optional)"
                 help="For the same period. Leave at 0 to skip."
                 currency={c}

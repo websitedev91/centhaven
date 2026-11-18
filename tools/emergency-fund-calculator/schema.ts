@@ -52,7 +52,9 @@ export function switchEmergencyCurrency(state: EmergencyState, next: CurrencyCod
 }
 
 /** Months actually used: the user's own number, or the rule-of-thumb suggestion when 0. */
+/** 0 = use the suggestion. An empty box (NaN) stays NaN, so it isn't silently replaced by the suggestion. */
 export function effectiveMonths(s: Pick<EmergencyState, 'months' | 'incomeType' | 'dependants'>): number {
+  if (Number.isNaN(s.months)) return Number.NaN;
   return s.months > 0 ? s.months : suggestedMonths(s.incomeType, s.dependants);
 }
 

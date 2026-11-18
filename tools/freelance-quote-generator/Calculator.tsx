@@ -144,7 +144,7 @@ export default function FreelanceQuoteGenerator() {
 
               <Section title="Contingency, discount and tax">
                 <div className="grid gap-x-6 gap-y-5 sm:grid-cols-2">
-                  <InputNumber
+                  <InputNumber optional
                     label="Contingency (optional)"
                     help="Extra for unknowns. Many freelancers build this into the line items instead."
                     value={s.contingency}
@@ -152,9 +152,9 @@ export default function FreelanceQuoteGenerator() {
                     suffix="%"
                     error={errors.contingency}
                   />
-                  <InputNumber label="Discount (optional)" value={s.discount} onChange={(discount) => patch({ discount })} suffix="%" error={errors.discount} />
+                  <InputNumber optional label="Discount (optional)" value={s.discount} onChange={(discount) => patch({ discount })} suffix="%" error={errors.discount} />
                   <TextField label="Tax label" value={s.taxLabel} onChange={(taxLabel) => patch({ taxLabel })} maxLength={DOC_LIMITS.short} help="As your local rules name it." />
-                  <InputNumber
+                  <InputNumber optional
                     label="Tax rate"
                     help="0 = no tax line. Check the rate that applies to you."
                     value={s.taxRate}

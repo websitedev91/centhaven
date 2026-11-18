@@ -53,7 +53,10 @@ export function ScenarioCompare(props: {
         <div className="grid gap-5 sm:grid-cols-2">
           <div className="rounded-panel border border-line bg-paper p-4 sm:p-5">
             <h3 className="type-small mb-4 font-[550] text-ink">{aName}</h3>
-            <div className="flex flex-col gap-4">{planA}</div>
+            {/* Plan A repeats the inputs above; while one is empty or invalid, don't echo it (no "NaN"). */}
+            <div className="flex flex-col gap-4">
+              {error ? <p className="type-small text-ink-muted">Fix the highlighted fields above to see your plan.</p> : planA}
+            </div>
           </div>
           <div className="rounded-panel border border-line bg-paper p-4 sm:p-5">
             <h3 className="type-small mb-4 font-[550] text-ink">{bName}</h3>

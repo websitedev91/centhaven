@@ -188,3 +188,10 @@ describe('review #2 B5: savings path, essentials and funded-by month (hand-check
     expect(sumEssentials({ housing: 900, food: -5 })).toBe(900);
   });
 });
+
+describe('an empty "Months to cover" box', () => {
+  it('stays empty instead of quietly using the suggestion', async () => {
+    const { effectiveMonths } = await import('./schema');
+    expect(effectiveMonths({ months: Number.NaN, incomeType: 'steady', dependants: 0 } as never)).toBeNaN();
+  });
+});

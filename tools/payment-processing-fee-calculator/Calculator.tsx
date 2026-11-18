@@ -109,7 +109,7 @@ export default function PaymentProcessingFeeCalculator() {
                 suffix="%"
                 error={errors.percent}
               />
-              <InputCurrency
+              <InputCurrency optional
                 label="Fixed fee per payment"
                 help="Example only. Enter 0 if there's no fixed fee."
                 currency={c}
@@ -118,7 +118,7 @@ export default function PaymentProcessingFeeCalculator() {
                 error={errors.fixed}
               />
               <div className="sm:col-span-2">
-                <InputNumber
+                <InputNumber optional
                   label="Extra % (optional)"
                   help="For example an international-card or currency-conversion surcharge, if your provider charges one."
                   value={s.extra}

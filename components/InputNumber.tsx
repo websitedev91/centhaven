@@ -20,6 +20,8 @@ export interface InputNumberProps {
   grouping?: boolean;
   /** Locale for grouping, e.g. 'en-IN' shows 12,00,000. */
   locale?: string;
+  /** Optional field: an empty box means 0 ("off") and is valid. Required fields report NaN. */
+  optional?: boolean;
   id?: string;
 }
 
@@ -32,10 +34,10 @@ function display(value: number, grouping: boolean, locale: string): string {
  * Text input with numeric keyboard. Keeps what the user types while focused (so "1." or
  * an empty box is allowed mid-edit) and reports parsed numbers upward. An empty or invalid
  * box reports NaN, so the tool's schema flags it and the result waits for a number instead
- * of quietly using the last value typed.
+ * of quietly using the last value typed. An empty `optional` box reports 0 instead.
  */
 export function InputNumber(props: InputNumberProps) {
-  const { label, value, onChange, help, error, prefix, suffix, grouping = false, locale = 'en-US' } = props;
+  const { label, value, onChange, help, error, prefix, suffix, grouping = false, locale = 'en-US', optional = false } = props;
   const autoId = useId();
   const id = props.id ?? autoId;
   const [draft, setDraft] = useState<string | null>(null);
@@ -46,6 +48,11 @@ export function InputNumber(props: InputNumberProps) {
   function handle(text: string) {
     setDraft(text);
     const cleaned = text.replace(/[,\s]/g, '');
+    if (cleaned === '' && optional) {
+      setLocalError(undefined);
+      onChange(0);
+      return;
+    }
     if (cleaned === '' || cleaned === '-' || cleaned === '.') {
       setLocalError('Enter a number');
       onChange(Number.NaN);
@@ -78,6 +85,7 @@ export function InputNumber(props: InputNumberProps) {
           value={shown}
           aria-invalid={err ? true : undefined}
           aria-describedby={describedBy(id, help, err)}
+          data-optional={optional ? '' : undefined}
           onChange={(e) => handle(e.target.value)}
           onFocus={() => setDraft(Number.isFinite(value) ? String(value) : '')}
           onBlur={() => {

@@ -127,7 +127,7 @@ export default function BreakEvenCalculator() {
                 error={errors.variableCost}
               />
               <div className="sm:col-span-2">
-                <InputCurrency
+                <InputCurrency optional
                   label="Target profit per month (optional)"
                   help="Leave at 0 to see only the break-even point."
                   currency={c}
@@ -137,7 +137,7 @@ export default function BreakEvenCalculator() {
                 />
               </div>
               <div className="sm:col-span-2">
-                <InputNumber
+                <InputNumber optional
                   label={`Current sales per month (optional)`}
                   help="For your margin of safety: how far above break-even you are today."
                   value={s.currentSales}

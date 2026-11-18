@@ -162,7 +162,7 @@ export default function HourlyRateCalculator() {
               />
             </div>
             <div className="sm:col-span-2">
-              <Slider
+              <Slider optional
                 label="Buffer for slow months"
                 help="Optional. Adds a margin on top of your minimum rate for quiet months and late payers."
                 value={s.buffer}

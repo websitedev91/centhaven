@@ -55,7 +55,7 @@ export default function JobOfferComparisonCalculator() {
       <fieldset className="flex min-w-0 flex-col gap-6">
         <legend className="type-h3 mb-5 text-ink">{NAME[p]}</legend>
         <InputCurrency label="Base salary per year" currency={c} value={s[k('Salary')]} onChange={(v) => update(k('Salary'), v)} error={errors[k('Salary')]} />
-        <InputNumber
+        <InputNumber optional
           label="Target bonus"
           help="From the offer letter. Enter 0 if none."
           value={s[k('Bonus')]}
@@ -88,7 +88,7 @@ export default function JobOfferComparisonCalculator() {
           error={errors[k('Leave')]}
         />
         <InputNumber label="Working hours" value={s[k('Hours')]} onChange={(v) => update(k('Hours'), v)} suffix="hours a week" error={errors[k('Hours')]} />
-        <InputNumber
+        <InputNumber optional
           label="Office days"
           help="0 = fully remote."
           value={s[k('Office')]}
@@ -137,7 +137,7 @@ export default function JobOfferComparisonCalculator() {
                 {offerFields('b')}
               </div>
               <div className="border-t border-line pt-6">
-                <InputCurrency
+                <InputCurrency optional
                   label="Value of your commute time (optional)"
                   help="What an hour of your free time is worth to you, per hour. Leave at 0 to ignore."
                   currency={c}

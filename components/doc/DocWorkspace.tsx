@@ -62,7 +62,15 @@ export function DocWorkspace(props: {
             <div className="no-print overflow-hidden rounded-panel border border-line bg-surface">
               <section aria-live="polite" aria-label={totalLabel} className="bg-mint px-5 py-3">
                 {error ? (
-                  <p className="type-small font-[550] text-danger">{error}</p>
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="min-w-0">
+                      <p className="type-small font-[550] text-ink">{totalLabel}</p>
+                      <p role="alert" className="text-[13px] font-[550] leading-5 text-danger">
+                        {error}
+                      </p>
+                    </div>
+                    <p className="shrink-0 text-[26px] font-[700] leading-8 text-ink-muted">—</p>
+                  </div>
                 ) : (
                   <div className="flex items-center justify-between gap-4">
                     <div className="min-w-0">

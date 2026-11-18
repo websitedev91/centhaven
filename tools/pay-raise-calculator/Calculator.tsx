@@ -144,7 +144,7 @@ export default function PayRaiseCalculator() {
                   error={errors.hours}
                 />
               ) : null}
-              <InputNumber
+              <InputNumber optional
                 label="Inflation % (optional)"
                 help="Optional. Enter a figure you trust; leave at 0 to skip."
                 value={s.inflation}

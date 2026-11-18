@@ -61,9 +61,14 @@ export function ResultCard(props: ResultCardProps) {
         className="print-break-avoid rounded-panel bg-mint p-5 sm:p-6"
       >
         {error ? (
-          <div role="alert" className="type-small rounded-field border border-danger/40 bg-surface p-4 font-[550] text-danger">
-            {error}
-          </div>
+          <>
+            {/* Same layout as a result, with "—" in place of the value (Puru, 2026-11-18). */}
+            <p className="type-small font-[550] text-ink-muted">{label}</p>
+            <p className="type-result mt-3 inline-block border-b-[3px] border-line pb-1.5 text-ink-muted">—</p>
+            <p role="alert" className="type-small mt-4 font-[550] text-danger">
+              {error}
+            </p>
+          </>
         ) : (
           <>
             <p className="type-small font-[550] text-ink-muted">{label}</p>

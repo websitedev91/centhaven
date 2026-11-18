@@ -154,6 +154,7 @@ export default function EmergencyFundCalculator() {
                     <div className="grid gap-x-4 gap-y-5 sm:grid-cols-2">
                       {ESSENTIALS.map((k) => (
                         <InputCurrency
+                          optional
                           key={k}
                           label={ESSENTIAL_LABEL[k]}
                           currency={c}
@@ -189,7 +190,11 @@ export default function EmergencyFundCalculator() {
               <div className="flex flex-col gap-2 sm:col-span-2">
                 <InputNumber
                   label="Months to cover"
-                  help={`Suggested: ${monthsText(suggestion)}. A common rule of thumb, not a rule. Type your own if you prefer.`}
+                  help={
+                    Number.isFinite(suggestion)
+                      ? `Suggested: ${monthsText(suggestion)}. A common rule of thumb, not a rule. Type your own if you prefer.`
+                      : 'Enter your dependants to see a suggestion. Type your own if you prefer.'
+                  }
                   value={months}
                   onChange={(v) => update('months', v)}
                   suffix="months"
@@ -205,14 +210,14 @@ export default function EmergencyFundCalculator() {
                   </button>
                 ) : null}
               </div>
-              <InputCurrency
+              <InputCurrency optional
                 label="Saved so far"
                 currency={c}
                 value={s.saved}
                 onChange={(v) => update('saved', v)}
                 error={errors.saved}
               />
-              <InputCurrency
+              <InputCurrency optional
                 label="Monthly saving"
                 help="What you can put aside each month."
                 currency={c}

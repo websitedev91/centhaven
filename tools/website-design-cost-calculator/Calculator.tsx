@@ -167,7 +167,7 @@ export default function WebsiteDesignCostCalculator() {
                 />
               </div>
               <div className="sm:col-span-2">
-                <InputNumber
+                <InputNumber optional
                   label="Maintenance hours per month"
                   help="Optional. Updates, backups and small edits after launch. 0 = none."
                   value={s.maint}

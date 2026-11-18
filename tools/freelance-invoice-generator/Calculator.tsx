@@ -195,8 +195,8 @@ export default function FreelanceInvoiceGenerator() {
 
               <Section title="Discount, tax and payments">
                 <div className="grid gap-x-6 gap-y-5 sm:grid-cols-2">
-                  <InputNumber label="Discount (optional)" value={s.discount} onChange={(discount) => patch({ discount })} suffix="%" error={errors.discount} />
-                  <InputCurrency
+                  <InputNumber optional label="Discount (optional)" value={s.discount} onChange={(discount) => patch({ discount })} suffix="%" error={errors.discount} />
+                  <InputCurrency optional
                     label="Amount already paid"
                     help="A deposit or part payment. 0 if none."
                     currency={c}
@@ -205,7 +205,7 @@ export default function FreelanceInvoiceGenerator() {
                     error={errors.paid}
                   />
                   <TextField label="Tax label" value={s.taxLabel} onChange={(taxLabel) => patch({ taxLabel })} maxLength={DOC_LIMITS.short} help="As your local rules name it." />
-                  <InputNumber
+                  <InputNumber optional
                     label="Tax rate"
                     help="0 = no tax line. Check the rate that applies to you."
                     value={s.taxRate}

@@ -100,7 +100,7 @@ export default function UtilizationRateCalculator() {
                 error={errors.available}
               />
               <div className="sm:col-span-2">
-                <InputNumber
+                <InputNumber optional
                   label="Leave/holiday hours to exclude"
                   help="Optional. Holidays, sick leave or public holidays in this period. Leaves your net capacity."
                   value={s.leave}
@@ -123,7 +123,7 @@ export default function UtilizationRateCalculator() {
                 />
               </div>
               <div className="sm:col-span-2">
-                <InputCurrency
+                <InputCurrency optional
                   label="Hourly rate (optional)"
                   help="Used for the revenue gap. Leave at 0 to skip it."
                   currency={c}

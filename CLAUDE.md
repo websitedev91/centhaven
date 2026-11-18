@@ -52,6 +52,7 @@ Breadcrumbs → H1 + subtitle → calculator → result + breakdown → chart (i
 5. Disclaimer, affiliate slot (renders nothing if no partner is enabled)
 6. No console errors; Lighthouse mobile ≥ 95 performance, 100 SEO
 7. No red-risk tools (scope rule: every number comes from the user; nothing that depends on company fees, tax rates, government limits or legal rules)
+8. UI input tests (`tests/ui/calculators.test.tsx`, runs in `npm run check`, picks up every `tools/*/Calculator.tsx`): clear each input one by one → required = "Enter a number" + "—" in the result, optional (`optional` prop: empty = 0) = valid result; 0, negative and huge values never show NaN/Infinity; switching every mode and currency updates the result. Mark a number field `optional` only when 0 means "off" or "none".
 
 Run `npm run check` (types + lint + tests) before saying a task is done.
 

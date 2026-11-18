@@ -81,10 +81,10 @@ export default function SavingsGoalCalculator() {
             <div className="grid gap-x-6 gap-y-7 sm:grid-cols-2">
               <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchSavingsGoalCurrency(s, next))} />
               <InputCurrency label="Savings goal" help="Example value — use your own goal." currency={c} value={s.goal} onChange={(v) => update('goal', v)} error={errors.goal} />
-              <InputCurrency label="Already saved" help="Leave at 0 if you're starting from nothing." currency={c} value={s.saved} onChange={(v) => update('saved', v)} error={errors.saved} />
+              <InputCurrency optional label="Already saved" help="Leave at 0 if you're starting from nothing." currency={c} value={s.saved} onChange={(v) => update('saved', v)} error={errors.saved} />
               <InputNumber label="Months to reach it" value={s.months} onChange={(v) => update('months', v)} suffix="months" error={errors.months} />
               <div className="sm:col-span-2">
-                <InputNumber
+                <InputNumber optional
                   label="Interest % a year (optional)"
                   help="Optional. Use your account's rate, or leave at 0. Interest is added monthly."
                   value={s.rate}
@@ -141,7 +141,7 @@ export default function SavingsGoalCalculator() {
 
       <ScenarioCompare
         title="Compare two timelines"
-        aName={`${monthsText(s.months)} (your inputs)`}
+        aName="Your timeline"
         bName="Another timeline"
         toolSlug={SLUG}
         error={!result.ok || !resultB.ok ? FIX_FIELDS : undefined}
