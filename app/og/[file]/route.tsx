@@ -22,7 +22,7 @@ export function generateStaticParams(): Params[] {
 
 const HOME = {
   title: 'Know your numbers before you decide.',
-  subtitle: 'Free calculators for freelancers and anyone managing money. Every rate checked against official sources.',
+  subtitle: 'Free calculators for freelancers and anyone managing money. Every formula explained.',
 };
 
 export async function GET(_req: Request, { params }: { params: Promise<Params> }) {

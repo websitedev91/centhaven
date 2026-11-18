@@ -25,9 +25,9 @@ export default function DisclaimerPage() {
 
       <h2>Accuracy</h2>
       <p>
-        We work hard to keep our tools accurate. We take rates from official sources and test every formula (see our{' '}
-        <Link href="/methodology">methodology</Link>). But fees, tax rules and limits change, sometimes without notice,
-        and mistakes can happen. We make no promise that any result is complete, correct or up to date.
+        We work hard to keep our tools accurate. Every result is calculated from the numbers you enter, and we test every
+        formula (see our <Link href="/methodology">methodology</Link>). But your situation may differ from a general
+        tool, and mistakes can happen. We make no promise that any result is complete, correct or up to date.
       </p>
 
       <h2>Your responsibility</h2>

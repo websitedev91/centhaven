@@ -5,7 +5,7 @@ import { formatMoney, roundTo, type CurrencyCode } from '@/lib/format';
 import { getLiveToolBySlug, toolPath } from '@/lib/registry';
 import { parseQuery, toQuery } from '@/lib/url-state';
 import { websiteCost, type WebsiteCostInput } from './calc';
-import { HOURLY_RATE_TOOL, QUOTE_TOOL } from './links';
+import { HOURLY_RATE_TOOL, LEAD_MAILTO, QUOTE_TOOL } from './links';
 import {
   fieldErrors,
   switchWebsiteCostCurrency,
@@ -136,5 +136,12 @@ describe('links and content', () => {
       const text = `**${formatMoney(n, currency)}**`;
       expect(mdx, `content.mdx should contain "${text}"`).toContain(text);
     }
+  });
+});
+
+describe('lead box', () => {
+  it('mails info@centhaven.com with a fixed subject and none of the user\'s numbers', () => {
+    expect(LEAD_MAILTO).toBe('mailto:info@centhaven.com?subject=Website%20quote%20request');
+    expect(decodeURIComponent(LEAD_MAILTO)).not.toMatch(/body=|\d/);
   });
 });

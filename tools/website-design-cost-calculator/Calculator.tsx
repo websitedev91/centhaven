@@ -18,6 +18,7 @@ import { formatMoney, formatNumber, type CurrencyCode } from '@/lib/format';
 import { useUrlState } from '@/lib/url-state';
 import { FEATURES, websiteCost, type DesignLevel, type Feature } from './calc';
 import { HOURLY_RATE_TOOL, QUOTE_TOOL } from './links';
+import { LeadBox } from './LeadBox';
 import {
   fieldErrors,
   hoursKey,
@@ -211,6 +212,8 @@ export default function WebsiteDesignCostCalculator() {
           )
         }
       />
+
+      {r ? <LeadBox /> : null}
 
       {r ? (
         <>

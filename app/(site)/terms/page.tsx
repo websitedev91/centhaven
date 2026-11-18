@@ -57,7 +57,7 @@ export default function TermsPage() {
 
       <h2>Other websites</h2>
       <p>
-        We link to other websites, including official sources and partners. We aren&apos;t responsible for their content.
+        We link to other websites, including partners. We aren&apos;t responsible for their content.
         See our <Link href="/affiliate-disclosure">affiliate disclosure</Link> and{' '}
         <Link href="/privacy">privacy policy</Link>.
       </p>

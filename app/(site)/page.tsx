@@ -47,7 +47,7 @@ const CATEGORY_ICON: Record<string, ComponentType<{ size?: number; className?: s
 
 /** Kept consistent with the Methodology page. */
 const CHECKS = [
-  { Icon: BookIcon, title: 'Official sources', body: 'Fees, tax rates and limits come from the page that sets them, with the link and date saved.' },
+  { Icon: BookIcon, title: 'Your numbers, clear maths', body: 'Every result comes from what you enter, using the formula shown on the page.' },
   { Icon: FlaskIcon, title: 'Tested formulas', body: 'Every formula must match at least three worked examples before it goes live.' },
   { Icon: UserCheckIcon, title: 'Expert review for tax tools', body: 'Tools that depend on tax rules are reviewed by a qualified professional.' },
   { Icon: CalendarIcon, title: 'Re-checked on a schedule', body: 'Rates are checked again on a fixed calendar and whenever the rules change.' },
@@ -99,8 +99,8 @@ export default function Home() {
           ) : null}
           <h1 className="type-display mt-5 max-w-[14ch] text-ink">Know your numbers before you decide.</h1>
           <p className="mt-5 max-w-[46ch] text-[19px] leading-[30px] text-ink-muted">
-            Clear, honest calculators for freelancers and anyone managing money. Every formula explained, every rate checked
-            against official sources.
+            Clear, honest calculators for freelancers and anyone managing money. Every formula explained, every result
+            worked out from the numbers you enter.
           </p>
 
           {toolCount > 0 ? (

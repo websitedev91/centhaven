@@ -13,7 +13,8 @@ export type AnalyticsEvent =
   | 'scenario_compare'
   | 'download_csv'
   | 'download_pdf'
-  | 'new_document';
+  | 'new_document'
+  | 'lead_click';
 
 type Params = Record<string, string | number | boolean | undefined>;
 
