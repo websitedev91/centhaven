@@ -1,0 +1,15 @@
+{
+  "id": "upwork-fees",
+  "effectiveFrom": "2026-11-18",
+  "verifiedOn": "2026-11-18",
+  "source": {
+    "url": "https://support.upwork.com/hc/en-us/articles/211062538-Learn-about-the-Freelancer-Service-Fee",
+    "quote": "The fee ranges from 0% to 15% per contract"
+  },
+  "data": {
+    "minPercent": 0,
+    "maxPercent": 15,
+    "examplePercent": 10,
+    "exampleNote": "Example only, not a published rate. Upwork sets the fee per contract; the user enters the % shown on their proposal or offer."
+  }
+}

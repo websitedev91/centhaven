@@ -1,0 +1,19 @@
+{
+  "id": "stripe-au",
+  "effectiveFrom": "2026-11-18",
+  "verifiedOn": "2026-11-18",
+  "source": {
+    "url": "https://stripe.com/au/pricing",
+    "quote": "1.65% + A$0.30 for domestic cards"
+  },
+  "data": {
+    "country": "AU",
+    "currency": "AUD",
+    "cards": [
+      { "id": "domestic", "label": "Domestic cards", "percent": 1.65, "fixed": 0.3, "quote": "1.65% + A$0.30 for domestic cards" },
+      { "id": "international", "label": "International cards", "percent": 3.5, "fixed": 0.3, "quote": "3.5% + A$0.30 for international cards" }
+    ],
+    "conversionPercent": 2,
+    "conversionQuote": "+ 2% if currency conversion is required"
+  }
+}

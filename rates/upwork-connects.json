@@ -1,0 +1,13 @@
+{
+  "id": "upwork-connects",
+  "effectiveFrom": "2026-11-18",
+  "verifiedOn": "2026-11-18",
+  "source": {
+    "url": "https://support.upwork.com/hc/en-us/articles/211062898-About-Connects-costs-uses-balances-and-expiration",
+    "quote": "Connects cost $0.15 USD each."
+  },
+  "data": {
+    "currency": "USD",
+    "pricePerConnect": 0.15
+  }
+}
