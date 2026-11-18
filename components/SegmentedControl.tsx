@@ -21,7 +21,7 @@ export function SegmentedControl<T extends string>(props: {
         {options.map((o) => (
           <label
             key={o.value}
-            className="relative flex h-10 cursor-pointer items-center justify-center rounded-[4px] px-4 text-[15px] font-[550] text-ink-muted has-[:checked]:bg-surface has-[:checked]:text-ink has-[:checked]:shadow-[0_0_0_1px_var(--color-line)] has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-haven"
+            className="relative flex min-h-10 cursor-pointer items-center justify-center rounded-[4px] px-3 py-1.5 text-center text-[15px] leading-5 font-[550] text-ink-muted has-[:checked]:bg-surface has-[:checked]:text-ink has-[:checked]:shadow-[0_0_0_1px_var(--color-line)] has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-haven"
           >
             <input
               type="radio"

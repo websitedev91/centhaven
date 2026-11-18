@@ -1,0 +1,73 @@
+This payment processing fee calculator shows what a card or online payment costs you in fees, and what actually reaches you. Enter your provider's percentage and any fixed fee per payment. It also works backwards: tell it what you want to receive, and it shows the price to charge so the fees are covered. It works for PayPal, Stripe, Square or any provider, using the fees from your own account.
+
+## How to use the calculator
+
+1. **Choose a mode.** Pick **Customer pays** if you know the payment amount, or **I want to receive** if you know what you need to end up with.
+2. **Choose your currency** and enter the amount.
+3. **Enter your percentage fee** and **fixed fee per payment** from your provider's pricing page or your statements. The starting values (3% + 0.30, or ₹10 in rupees) are examples only.
+4. **Add an extra %** if your provider charges one on some payments, for example for international cards or currency conversion. Leave it at 0 otherwise.
+
+The result shows what you receive, or the price to charge, with the fee split into its percentage and fixed parts and the effective rate.
+
+## How the transaction fee calculator works
+
+A typical processing fee has two parts: a percentage of the payment and a fixed amount per payment.
+
+```text
+total fee      = payment × (percentage + extra %) + fixed fee
+you receive    = payment − total fee
+effective rate = total fee ÷ payment
+
+price to charge = (amount you want + fixed fee) ÷ (1 − percentage − extra %)
+```
+
+The reverse formula adds the fixed fee first, because it's charged whatever the price, then divides by what's left after the percentage.
+
+## Credit card processing fee calculator: why the fixed fee matters
+
+The fixed fee is easy to ignore, but on small payments it can cost more than the percentage. With a 3% + $0.30 fee:
+
+- **$5.00 payment:** total fee $0.45, an effective rate of **9%**
+- **$100.00 payment:** total fee $3.30, an effective rate of **3.3%**
+
+If most of your payments are small, compare providers on the effective rate at your typical payment size, not just the headline percentage.
+
+## How much to charge to cover fees: worked examples
+
+These examples use made-up fee figures. Use your own provider's numbers.
+
+### 1. An online shop's $100 sale
+
+Maya sells prints online. Her provider charges 3% plus $0.30.
+
+- Total fee: **$3.30**
+- Maya receives: **$96.70**
+
+**What this means for Maya:** to receive the full $100, she would charge **$103.40**, and the fee on that is **$3.40**.
+
+### 2. A small $5 sale
+
+Maya also sells $5 postcards with the same fee.
+
+- Total fee: **$0.45**
+- Maya receives: **$4.55**
+
+**What this means for Maya:** the fee takes 9% of each postcard. Selling them in packs of five would cut the fixed fees by four-fifths.
+
+### 3. A freelancer invoicing in rupees
+
+Arjun, a freelancer in India, invoices ₹10,000. His provider charges 2% plus ₹10.
+
+- Total fee: **₹210.00**
+- Arjun receives: **₹9,790.00**
+
+**What this means for Arjun:** to receive the full ₹10,000, he would invoice **₹10,214.29**.
+
+## Merchant fee calculator tips
+
+- **Use your real numbers.** Fees differ by provider, country, card type and account, so take them from your own pricing page or statement.
+- **Check your statements now and then.** Providers change their pricing, and extra charges can apply to some payments.
+- **Compare on effective rate.** Use **Compare two providers** with a typical payment size.
+- **Build fees into your prices** rather than absorbing them. The <ToolLink slug="hourly-rate-calculator">freelance hourly rate calculator</ToolLink> helps you start from a rate that covers your costs.
+- **Show fees clearly on invoices** if you pass them on. The <ToolLink slug="freelance-invoice-generator">free invoice generator</ToolLink> makes a clean PDF invoice.
+- **Selling on a marketplace?** The <ToolLink slug="upwork-fee-calculator">Upwork fee calculator</ToolLink> uses the same reverse maths for a platform service fee.
