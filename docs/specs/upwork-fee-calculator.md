@@ -1,6 +1,6 @@
 # Tool spec: Upwork Fee Calculator
 
-> **Draft — waiting for Puru's approval.**
+> **Approved by Puru, 2026-11-18** (with change 1: USD only).
 
 | Field | Value |
 |---|---|
@@ -19,16 +19,10 @@ Upwork's freelancer service fee on a contract and what you take home. Or, in rev
 | Field | Type | Default | Min / Max | Notes |
 |---|---|---|---|---|
 | Mode | segmented | "I'm charging" | "I'm charging" / "I want to take home" | URL key `mode` |
-| Currency | select | USD | standard list | Currency defaults below |
-| Amount | currency | 1,000 | 0 – 10,000,000 | Label follows the mode: "Contract amount" / "Amount you want to take home" |
+| Amount (USD) | currency, USD only | 1,000 | 0 – 10,000,000 | Label follows the mode: "Contract amount" / "Amount you want to take home" |
 | Your service fee % | % input | 10 | 0 – 15 (min/max from `upwork-fees.json`) | Label: "Your service fee % (shown on your proposal/offer)". Help: "Example only. Upwork sets the fee per contract (0–15%). Use the % shown on your proposal." |
 
-### Currency defaults
-| Currency | Amount |
-|---|---|
-| USD / CAD / AUD | 1,000 |
-| GBP / EUR | 800 |
-| INR | 80,000 |
+USD only: no currency selector. The page says "Upwork and Fiverr prices are in USD."
 
 ## Outputs
 | Output | How it's shown |
@@ -57,9 +51,8 @@ p ≤ 0.15, so there's never a divide by zero.
 | 2 | charging · 1,000 · 10% | **take-home 900.00** · fee 100.00 | Manual |
 | 3 | charging · 2,000 · 15% | **take-home 1,700.00** · fee 300.00 | Manual |
 | 4 | charging · 500 · 0% | **take-home 500.00** · fee 0.00 | Manual |
-| 5 | take-home · ₹85,000 · 15% | **charge ₹1,00,000.00** · fee ₹15,000.00 | Manual |
+| 5 | take-home · $850 · 15% | **charge 1,000.00** · fee 150.00 | Manual |
 | 6 | fee 16% or −1% | Inline error "Upwork's fee is between 0% and 15%", no crash | — |
-| 7 | currency USD → INR, amount untouched | amount becomes 80,000; a typed amount is kept | — |
 
 ## Extras
 - Chart: none (the split bar is enough).
@@ -67,6 +60,6 @@ p ≤ 0.15, so there's never a divide by zero.
 - Share / Print / Embed: yes.
 
 ## Content notes
-- Examples: US developer, $1,000 fixed-price job at 10%; Indian designer who wants ₹85,000 at 15%; Upwork's own $20 → $22.22.
+- Examples: US developer, $1,000 fixed-price job at 10%; Indian designer who wants $850 at 15%; Upwork's own $20 → $22.22.
 - FAQ: the 5 keyword-map questions + "Why is my Upwork fee different from someone else's?" + "Does the client pay this fee or do I?" Answers say the fee is set per contract (0–15%) and point to the user's proposal. The only other Upwork cost given as a number is the Connect price (from `upwork-connects.json`). Withdrawal fees: "check Upwork's payment methods page" (no number, because there's no source).
 - Tips: build the fee into your price from the start, use reverse mode to set an hourly rate, link to the Connects and hourly-rate tools.

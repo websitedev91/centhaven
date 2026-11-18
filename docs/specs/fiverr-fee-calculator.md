@@ -1,6 +1,6 @@
 # Tool spec: Fiverr Fee Calculator
 
-> **Draft — waiting for Puru's approval. Not publishable until the official Fiverr line is in (Puru, 2026-11-18).**
+> **Approved by Puru, 2026-11-18** (changes 1 and 3: USD only, fee 0–50%). **Not publishable until the official Fiverr line is in** (Puru, 2026-11-18).
 
 | Field | Value |
 |---|---|
@@ -19,16 +19,10 @@ Fiverr's seller fee on a gig price and what you earn. Or, in reverse, the gig pr
 | Field | Type | Default | Min / Max | Notes |
 |---|---|---|---|---|
 | Mode | segmented | "My gig price" | "My gig price" / "I want to earn" | |
-| Currency | select | USD | standard list | |
-| Amount | currency | 100 | 0 – 10,000,000 | |
-| Fiverr's fee % | % input | **empty** | 0 – 99 | Help: "Check your fee in Fiverr's official terms." Until it's filled, the result says "Enter your fee % to see your earnings" |
+| Amount (USD) | currency, USD only | 100 | 0 – 10,000,000 | |
+| Fiverr's fee % | % input | **empty** | 0 – 50 (error above 50) | Help: "Check your fee in Fiverr's official terms." Until it's filled, the result says "Enter your fee % to see your earnings" |
 
-### Currency defaults
-| Currency | Amount |
-|---|---|
-| USD / CAD / AUD | 100 |
-| GBP / EUR | 80 |
-| INR | 8,000 |
+USD only: no currency selector. The page says "Upwork and Fiverr prices are in USD."
 
 ## Formula
 ```
@@ -45,10 +39,9 @@ None yet. When Puru supplies the official line: add `rates/fiverr-fees.json`, us
 |---|---|---|
 | 1 | gig 100 · 20% | **earn 80.00** · fee 20.00 |
 | 2 | want to earn 80 · 20% | **gig price 100.00** · fee 20.00 |
-| 3 | gig ₹8,000 · 15% | **earn ₹6,800.00** · fee ₹1,200.00 |
+| 3 | gig $250 · 15% | **earn 212.50** · fee 37.50 |
 | 4 | fee empty | no result, prompt shown, no crash |
-| 5 | fee above 99% | inline error, no divide by zero |
-| 6 | currency switch | an untouched amount follows the currency; a typed amount is kept |
+| 5 | fee 100% | validation error "Maximum is 50%", no result, no divide by zero |
 
 ## Content notes
 - No Fiverr percentages or withdrawal fees in the content until they're sourced. FAQ answers explain where to find your fee and how the maths works.

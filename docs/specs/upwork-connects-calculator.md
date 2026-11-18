@@ -1,6 +1,6 @@
 # Tool spec: Upwork Connects Calculator
 
-> **Draft — waiting for Puru's approval.**
+> **Approved by Puru, 2026-11-18** (with change 2: win rate 1–100%).
 
 | Field | Value |
 |---|---|
@@ -20,7 +20,7 @@ What Upwork Connects really cost per proposal, per month and per job won, and th
 |---|---|---|---|---|
 | Connects per proposal | number | 12 | 1 – 100 | Help: "The job post shows how many Connects it needs." |
 | Proposals per month | number | 20 | 1 – 1,000 | |
-| Win rate | % slider | 10% | 0 – 100% | Help: "Jobs won ÷ proposals sent." |
+| Win rate | % slider | 10% | 1 – 100% (error below 1) | Help: "Jobs won ÷ proposals sent." |
 | Average job value (USD) | currency (USD only) | 500 | 0 – 1,000,000 | |
 | Price per Connect | read-only | $0.15 | — | From `upwork-connects.json`, shown as "Upwork's price" |
 
@@ -36,7 +36,7 @@ costPerProposal  = connectsPerProposal × price
 connectsPerMonth = connectsPerProposal × proposals
 monthlyCost      = costPerProposal × proposals
 jobsWon          = proposals × winRate
-costPerJobWon    = costPerProposal ÷ winRate      (only if winRate > 0)
+costPerJobWon    = costPerProposal ÷ winRate      (winRate ≥ 1%)
 shareOfJob       = costPerJobWon ÷ jobValue       (only if jobValue > 0)
 ```
 
@@ -51,7 +51,7 @@ shareOfJob       = costPerJobWon ÷ jobValue       (only if jobValue > 0)
 | 1 | 12 Connects · 20 proposals · 10% · $500 | **cost per job won 18.00** · per proposal 1.80 · 240 Connects · monthly 36.00 · 2 jobs · 3.6% | Manual |
 | 2 | 6 · 30 · 5% · $200 | **18.00** · per proposal 0.90 · 180 Connects · monthly 27.00 · 1.5 jobs · 9.0% | Manual |
 | 3 | 16 · 10 · 25% · $1,000 | **9.60** · per proposal 2.40 · 160 Connects · monthly 24.00 · 2.5 jobs · 0.96% | Manual |
-| 4 | win rate 0% | Monthly cost shown; cost per job won hidden with "You haven't won a job at this rate yet", no crash | — |
+| 4 | win rate 0% | validation error "Minimum is 1%", no result, no crash | — |
 | 5 | job value 0 | % of job value hidden, no crash | — |
 
 ## Extras

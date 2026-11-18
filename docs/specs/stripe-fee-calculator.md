@@ -1,6 +1,6 @@
 # Tool spec: Stripe Fee Calculator
 
-> **Draft — waiting for Puru's approval.**
+> **Approved by Puru, 2026-11-18.** Change 4 (GST note) is waiting on Puru: stripe.com/in/pricing has no GST line (see below).
 
 | Field | Value |
 |---|---|
