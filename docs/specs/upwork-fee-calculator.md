@@ -5,7 +5,7 @@
 | Field | Value |
 |---|---|
 | Slug | `upwork-fee-calculator` |
-| Category | `fees` |
+| Category | `freelance` (moved from `fees`, Puru 2026-11-18) |
 | Risk | 🟢 green: pure maths, the fee % comes from the user |
 | Main keyword | `upwork fee calculator` (100–1K/month) |
 | Long-tail keywords | `upwork service fee calculator`, `how much does upwork take`, `upwork fees for freelancers` |

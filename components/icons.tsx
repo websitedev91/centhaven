@@ -116,13 +116,6 @@ export const WalletIcon = (p: IconProps) => (
   </Icon>
 );
 
-export const CardIcon = (p: IconProps) => (
-  <Icon {...p}>
-    <rect x="2.5" y="4.5" width="15" height="11" rx="2" />
-    <path d="M2.5 8.5h15M5.5 12.5h3" />
-  </Icon>
-);
-
 export const BarChartIcon = (p: IconProps) => (
   <Icon {...p}>
     <path d="M3 16.5h14M5.5 13.5v-3M10 13.5V6M14.5 13.5v-6" />

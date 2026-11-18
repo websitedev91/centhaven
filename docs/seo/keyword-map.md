@@ -16,19 +16,14 @@
 | /freelance/website-design-cost-calculator | website design cost calculator | 100–1K |
 | /freelance/freelance-invoice-generator | free invoice generator for freelancers | 10–100 |
 | /freelance/freelance-quote-generator | freelance quote generator | 10–100 |
-| /fees/paypal-fee-calculator-uk | paypal fee calculator uk | 1K–10K |
-| /fees/paypal-fee-calculator-india | paypal fee calculator india | 100–1K |
-| /fees/paypal-fee-calculator-australia | paypal fee calculator australia | 100–1K |
-| /fees/paypal-fee-calculator-canada | paypal fee calculator canada | 100–1K |
-| /fees/wise-fee-calculator | wise fee calculator | 1K–10K |
-| /fees/upwork-fee-calculator | upwork fee calculator | 100–1K |
-| /fees/payoneer-vs-wise-fees | payoneer vs wise fees | 10–100 |
+| /freelance/upwork-fee-calculator | upwork fee calculator | 100–1K |
 | /salary/hourly-to-salary-calculator | hourly to salary calculator | 10K–100K |
 | /salary/job-offer-comparison-calculator | job offer comparison calculator | 10–100 |
 | /salary/1099-vs-w2-calculator | 1099 vs w2 calculator | 100–1K |
 | /business/utilization-rate-calculator | utilization rate calculator | 100–1K |
 | /business/break-even-calculator | break even calculator | 1K–10K |
 | /business/straight-line-depreciation-calculator | straight line depreciation calculator | 100–1K |
+| /business/payment-processing-fee-calculator | payment processing fee calculator | not checked |
 | /personal-finance/emergency-fund-calculator | emergency fund calculator | 10K–100K |
 
 ## /freelance/hourly-rate-calculator
@@ -151,82 +146,7 @@
   - How do I price a freelance project?
 - **Internal links to:** /freelance/freelance-invoice-generator, /freelance/website-design-cost-calculator, /freelance/hourly-rate-calculator
 
-## /fees/paypal-fee-calculator-uk
-
-- **Primary keyword:** paypal fee calculator uk (1K–10K/month)
-- **Secondary keywords:** paypal fees uk, paypal business fees calculator uk, paypal international fees uk
-- **Title** (49 chars): PayPal Fee Calculator UK – See PayPal Fees in GBP
-- **Meta description** (141 chars): Calculate PayPal fees in the UK for business payments, including international and currency conversion fees. See what you receive after fees.
-- **H1:** PayPal Fee Calculator (UK)
-- **FAQ questions (People Also Ask style):**
-  - How much does PayPal charge in the UK?
-  - What are PayPal's international fees?
-  - How do I avoid PayPal fees?
-  - Does PayPal charge for currency conversion?
-  - Is Wise cheaper than PayPal?
-- **Internal links to:** /fees/wise-fee-calculator, /fees/payoneer-vs-wise-fees, /fees/stripe-fee-calculator
-
-## /fees/paypal-fee-calculator-india
-
-- **Primary keyword:** paypal fee calculator india (100–1K/month)
-- **Secondary keywords:** paypal charges for receiving money from abroad, paypal international fees india, paypal fees for freelancers india
-- **Title** (54 chars): PayPal Fee Calculator India – Fees on Foreign Payments
-- **Meta description** (139 chars): See PayPal fees on payments received in India from abroad, including conversion charges. Know exactly how much reaches your bank in rupees.
-- **H1:** PayPal Fee Calculator (India)
-- **FAQ questions (People Also Ask style):**
-  - How much does PayPal charge in India?
-  - What fees apply to international payments received in India?
-  - How does PayPal convert USD to INR?
-  - Is PayPal good for Indian freelancers?
-  - PayPal vs Wise vs Payoneer for India?
-- **Internal links to:** /fees/payoneer-vs-wise-fees, /fees/upwork-fee-calculator, /freelance/freelance-invoice-generator
-
-## /fees/paypal-fee-calculator-australia
-
-- **Primary keyword:** paypal fee calculator australia (100–1K/month)
-- **Secondary keywords:** paypal fees australia, paypal international fees australia
-- **Title** (52 chars): PayPal Fee Calculator Australia – PayPal Fees in AUD
-- **Meta description** (137 chars): Calculate PayPal fees in Australia for domestic and international payments. See the fee, the conversion cost and what you receive in AUD.
-- **H1:** PayPal Fee Calculator (Australia)
-- **FAQ questions (People Also Ask style):**
-  - How much does PayPal charge in Australia?
-  - What are PayPal's international fees in Australia?
-  - Does PayPal charge to receive money?
-  - How do I reduce PayPal fees?
-  - Is Wise cheaper than PayPal in Australia?
-- **Internal links to:** /fees/wise-fee-calculator, /fees/stripe-fee-calculator, /fees/paypal-fee-calculator-uk
-
-## /fees/paypal-fee-calculator-canada
-
-- **Primary keyword:** paypal fee calculator canada (100–1K/month)
-- **Secondary keywords:** paypal fees canada, paypal international fees canada
-- **Title** (49 chars): PayPal Fee Calculator Canada – PayPal Fees in CAD
-- **Meta description** (144 chars): Work out PayPal fees in Canada for domestic and cross-border payments. See the fee, the currency conversion cost and the amount you keep in CAD.
-- **H1:** PayPal Fee Calculator (Canada)
-- **FAQ questions (People Also Ask style):**
-  - How much does PayPal charge in Canada?
-  - What are PayPal's cross-border fees?
-  - Does PayPal charge to receive money in Canada?
-  - How do I avoid PayPal conversion fees?
-  - Is Wise cheaper than PayPal in Canada?
-- **Internal links to:** /fees/wise-fee-calculator, /fees/stripe-fee-calculator, /fees/paypal-fee-calculator-uk
-
-## /fees/wise-fee-calculator
-
-- **Primary keyword:** wise fee calculator (1K–10K/month)
-- **Secondary keywords:** wise transfer fee calculator, wise vs bank fees, wise international transfer cost
-- **Title** (49 chars): Wise Fee Calculator – Transfer Fees and Real Cost
-- **Meta description** (146 chars): See what a Wise transfer really costs, including the fee and exchange rate, and compare it with a typical bank. Know what arrives before you send.
-- **H1:** Wise Fee Calculator
-- **FAQ questions (People Also Ask style):**
-  - How much does Wise charge?
-  - Does Wise use the real exchange rate?
-  - Is Wise cheaper than a bank transfer?
-  - Wise vs PayPal for freelancers?
-  - How long does a Wise transfer take?
-- **Internal links to:** /fees/payoneer-vs-wise-fees, /fees/paypal-fee-calculator-uk, /fees/paypal-fee-calculator-india
-
-## /fees/upwork-fee-calculator
+## /freelance/upwork-fee-calculator
 
 - **Primary keyword:** upwork fee calculator (100–1K/month)
 - **Secondary keywords:** upwork service fee calculator, how much does upwork take, upwork fees for freelancers
@@ -241,20 +161,6 @@
   - Upwork vs Fiverr fees?
 - **Internal links to:** /freelance/hourly-rate-calculator, /freelance/rate-increase-calculator, /freelance/freelance-invoice-generator
 
-## /fees/payoneer-vs-wise-fees
-
-- **Primary keyword:** payoneer vs wise fees (10–100/month)
-- **Secondary keywords:** payoneer fee calculator, wise vs paypal fees, best way to receive international payments freelancer
-- **Title** (53 chars): Payoneer vs Wise Fees – Compare Costs for Freelancers
-- **Meta description** (144 chars): Compare Payoneer, Wise and PayPal fees side by side for the same payment. See which one leaves you the most money after fees and exchange rates.
-- **H1:** Payoneer vs Wise vs PayPal Fees
-- **FAQ questions (People Also Ask style):**
-  - Is Payoneer or Wise cheaper?
-  - Which is best for receiving client payments?
-  - Payoneer vs Wise exchange rates?
-  - Can I use Wise with Upwork?
-  - Which is best for freelancers in India?
-- **Internal links to:** /fees/wise-fee-calculator, /fees/paypal-fee-calculator-india, /freelance/freelance-invoice-generator
 
 ## /salary/hourly-to-salary-calculator
 
@@ -346,6 +252,22 @@
   - Straight-line vs declining balance?
 - **Internal links to:** /business/break-even-calculator, /business/utilization-rate-calculator, /freelance/freelance-invoice-generator
 
+## /business/payment-processing-fee-calculator
+
+- **Primary keyword:** payment processing fee calculator
+- **Secondary keywords:** credit card processing fee calculator, transaction fee calculator, merchant fee calculator, how much to charge to cover fees
+- **Title** (54 chars): Payment Processing Fee Calculator – Card & Online Fees
+- **Meta description** (144 chars): Work out what card and online payment fees cost you. Enter your rate and fixed fee to see what you receive, or how much to charge to cover fees.
+- **H1:** Payment Processing Fee Calculator
+- **FAQ questions (People Also Ask style):**
+  - How are payment processing fees calculated?
+  - How do I pass card fees on to customers?
+  - Why do small payments cost more in fees?
+  - What is an effective processing rate?
+  - Should I charge clients for card fees?
+- **Internal links to:** /freelance/upwork-fee-calculator, /freelance/freelance-invoice-generator, /freelance/hourly-rate-calculator
+- **Content note (Puru, 2026-11-18):** may say "works for PayPal, Stripe, Square or any provider", but must never state any company's rates.
+
 ## /personal-finance/emergency-fund-calculator
 
 - **Primary keyword:** emergency fund calculator (10K–100K/month)
@@ -384,15 +306,6 @@ Hub pages target a broad keyword; tools target the long tail. Hubs go live toget
 - **Meta description** (144 chars): Free calculators for freelancers: set your hourly or day rate, plan a rate increase, price projects and retainers, and see what you really earn.
 - **H1:** Freelance Calculators
 - **Display name:** Freelance
-
-## /fees/ (hub: Fees & Payments)
-
-- **Primary keyword:** payment fee calculators
-- **Secondary keywords:** paypal fee calculator, stripe fee calculator, upwork fee calculator
-- **Title** (54 chars): Payment Fee Calculators – PayPal, Stripe, Wise, Upwork
-- **Meta description** (151 chars): See what PayPal, Stripe, Wise, Payoneer, Upwork and Fiverr take from your payments, using each company's official fees, and keep more of what you earn.
-- **H1:** Payment and Platform Fee Calculators
-- **Display name:** Fees & Payments
 
 ## /salary/ (hub: Salary & Pay)
 

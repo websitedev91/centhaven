@@ -1,7 +1,7 @@
 import type { ToolMeta } from '@/lib/tool-types';
 
 /**
- * SEO fields copied exactly from docs/seo/keyword-map.md → /fees/upwork-fee-calculator.
+ * SEO fields copied exactly from docs/seo/keyword-map.md → /freelance/upwork-fee-calculator.
  * Change the keyword map first, then this file and content.mdx (CLAUDE.md SEO rules).
  *
  * Scope rule (Puru, 2026-11-18): pure maths only. The fee % always comes from the user, and
@@ -9,7 +9,7 @@ import type { ToolMeta } from '@/lib/tool-types';
  */
 export const meta: ToolMeta = {
   slug: 'upwork-fee-calculator',
-  category: 'fees',
+  category: 'freelance',
   primaryKeyword: 'upwork fee calculator',
   secondaryKeywords: ['upwork service fee calculator', 'how much does upwork take', 'upwork fees for freelancers'],
   title: 'Upwork Fee Calculator – What You Keep After Fees',

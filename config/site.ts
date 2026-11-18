@@ -54,11 +54,6 @@ export const categories: readonly CategoryInfo[] = [
     description: 'Rates, pricing and income tools for freelancers and remote workers.',
   },
   {
-    slug: 'fees',
-    name: 'Fees & Payments',
-    description: 'See what PayPal, Wise, Upwork and other platforms really cost you.',
-  },
-  {
     slug: 'salary',
     name: 'Salary & Pay',
     description: 'Convert hourly pay to a salary, compare job offers and see what a pay change is worth.',

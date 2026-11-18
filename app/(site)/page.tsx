@@ -6,7 +6,6 @@ import {
   BarChartIcon,
   BookIcon,
   BriefcaseIcon,
-  CardIcon,
   CalendarIcon,
   CheckCircleIcon,
   ChevronRightIcon,
@@ -41,7 +40,6 @@ const POPULAR: { slug: string; label: string }[] = [
 
 const CATEGORY_ICON: Record<string, ComponentType<{ size?: number; className?: string }>> = {
   freelance: BriefcaseIcon,
-  fees: CardIcon,
   salary: WalletIcon,
   business: BarChartIcon,
   'personal-finance': ShieldIcon,

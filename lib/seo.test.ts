@@ -131,7 +131,7 @@ describe('category hub entries', () => {
   const hubs = keywordMap.entries.filter((e) => e.hub);
 
   it('parses every hub with a display name', () => {
-    expect(hubs.map((h) => h.path)).toEqual(['/freelance/', '/fees/', '/salary/', '/business/', '/personal-finance/']);
+    expect(hubs.map((h) => h.path)).toEqual(['/freelance/', '/salary/', '/business/', '/personal-finance/']);
     for (const h of hubs) expect(h.displayName, h.path).toBe(h.hub);
   });
 
