@@ -1,0 +1,74 @@
+This commission calculator works out what you earn from your sales, at a flat rate or with tiered rates you set yourself. Add base pay to see your total earnings for the period, and the effective rate shows what you really earned on every sale.
+
+## How to use the calculator
+
+1. **Choose your plan:** **Flat rate** or **Tiered rates**.
+2. **Choose your currency** and enter your sales for the period you're paid for.
+3. **Enter your rate**, or for a tiered plan, where each tier starts and its rate. The starting values are examples only, so use the numbers in your own plan. Set a tier's start to 0 to skip it.
+4. **Add base pay** if you get it. Leave it at 0 otherwise.
+
+The result shows your commission, your total earnings and your effective rate. For tiered plans it also shows what each tier paid.
+
+## How to calculate commission
+
+```text
+flat:    commission = sales × rate
+tiered:  for each tier, sales inside the tier × that tier's rate, added together
+total earnings = base pay + commission
+effective rate = commission ÷ sales
+```
+
+## How the tiered commission calculator works
+
+Each rate applies only to the sales inside its tier, like steps. Moving into a higher tier never changes what you earned on the earlier steps. Say the tiers are:
+
+- **3%** on sales up to $20,000
+- **5%** on sales from $20,000 to $50,000
+- **8%** on sales above $50,000
+
+Sales of $60,000 earn 3% of the first $20,000, 5% of the next $30,000 and 8% of the last $10,000. Some plans work differently and pay one rate on everything once you reach a tier. This calculator doesn't use that method, so check your plan's rules.
+
+## Sales commission calculator: worked examples
+
+### 1. A flat rate
+
+Jordan sells $50,000 in a month at a 5% commission rate.
+
+- Commission: **$2,500.00**
+- Effective rate: **5%**
+
+**What this means for Jordan:** with $3,000 of base pay, total earnings for the month are **$5,500.00**.
+
+### 2. Tiered rates in a busy month
+
+Mia's plan uses the tiers above, and she sells $60,000.
+
+- Tier 1: $20,000 × 3% = **$600.00**
+- Tier 2: $30,000 × 5% = **$1,500.00**
+- Tier 3: $10,000 × 8% = **$800.00**
+- Commission: **$2,900.00**, an effective rate of **4.83%**
+
+**What this means for Mia:** every extra sale this month earns 8%, the top rate.
+
+### 3. Tiered rates in a quiet month
+
+In a slower month, Mia sells $15,000.
+
+- Commission: **$450.00**, all in tier 1
+- Effective rate: **3%**
+
+**What this means for Mia:** her quiet month pays 3% on everything, so the base pay matters more.
+
+### 4. A plan in rupees
+
+Arjun's plan pays 3% up to ₹2,00,000, 5% up to ₹5,00,000 and 8% above that. He sells ₹6,00,000.
+
+- Commission: **₹29,000.00**
+
+## Commission rate calculator tips
+
+- **Know your effective rate.** It's the fairest way to compare a tiered plan with a flat one.
+- **Test a quiet and a busy month.** Plans that reward big months can pay less in small ones.
+- **Check which sales count.** Some plans count only paid sales, or take off refunds.
+- **Look at the whole package.** The <ToolLink slug="pay-raise-calculator">pay raise calculator</ToolLink> shows what a higher base is worth, and the <ToolLink slug="hourly-to-salary-calculator">hourly to salary calculator</ToolLink> turns pay into an hourly figure.
+- **Running the business side?** The <ToolLink slug="break-even-calculator">break even calculator</ToolLink> shows how commission costs change the sales you need.

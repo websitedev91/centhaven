@@ -28,6 +28,11 @@ const calculators: Record<string, ComponentType> = {
   'freelance-invoice-generator': dynamic(() => import('@/tools/freelance-invoice-generator/Calculator')),
   'upwork-fee-calculator': dynamic(() => import('@/tools/upwork-fee-calculator/Calculator')),
   'payment-processing-fee-calculator': dynamic(() => import('@/tools/payment-processing-fee-calculator/Calculator')),
+  'pay-raise-calculator': dynamic(() => import('@/tools/pay-raise-calculator/Calculator')),
+  'commission-calculator': dynamic(() => import('@/tools/commission-calculator/Calculator')),
+  'savings-goal-calculator': dynamic(() => import('@/tools/savings-goal-calculator/Calculator')),
+  'late-fee-calculator': dynamic(() => import('@/tools/late-fee-calculator/Calculator')),
+  'runway-calculator': dynamic(() => import('@/tools/runway-calculator/Calculator')),
 };
 
 export const calculatorSlugs = Object.keys(calculators);

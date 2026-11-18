@@ -17,8 +17,14 @@ export interface StateSchema<T> {
 export interface DefaultsVariant<T extends Shape> {
   /** The field the defaults depend on (always written to the URL when not the base default). */
   key: keyof T & string;
-  /** Full defaults for a state, based on `state[key]`. */
+  /** More fields the defaults depend on (e.g. a pay period). Read before the rest, like `key`. */
+  alsoKeys?: readonly (keyof T & string)[];
+  /** Full defaults for a state, based on `state[key]` (and `alsoKeys`). */
   defaultsFor: (state: T) => T;
+}
+
+function variantKeys<T extends Shape>(variant: DefaultsVariant<T>): string[] {
+  return [variant.key, ...(variant.alsoKeys ?? [])];
 }
 
 /** Defaults to compare against for a given state. */
@@ -50,10 +56,12 @@ export function parseQuery<T extends Shape>(
   const params = new URLSearchParams(search);
   let out: T = { ...defaults };
   if (variant) {
-    out = { ...variant.defaultsFor(readField(params, variant.key, out, schema)) };
+    let keyed = out;
+    for (const k of variantKeys(variant)) keyed = readField(params, k, keyed, schema);
+    out = { ...variant.defaultsFor(keyed) };
   }
   for (const key of Object.keys(defaults)) {
-    if (variant && key === variant.key) continue;
+    if (variant && variantKeys(variant).includes(key)) continue;
     out = readField(params, key, out, schema);
   }
   return out;
@@ -64,7 +72,7 @@ export function toQuery<T extends Shape>(state: T, defaults: T, variant?: Defaul
   const ref = resolveDefaults(state, defaults, variant);
   const params = new URLSearchParams();
   for (const key of Object.keys(defaults)) {
-    const compareTo = variant && key === variant.key ? defaults[key] : ref[key];
+    const compareTo = variant && variantKeys(variant).includes(key) ? defaults[key] : ref[key];
     if (state[key] !== compareTo) params.set(key, String(state[key]));
   }
   const s = params.toString();

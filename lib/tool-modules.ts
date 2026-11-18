@@ -15,6 +15,11 @@ import FreelanceQuoteContent from '@/tools/freelance-quote-generator/content.mdx
 import FreelanceInvoiceContent from '@/tools/freelance-invoice-generator/content.mdx';
 import UpworkFeeContent from '@/tools/upwork-fee-calculator/content.mdx';
 import PaymentProcessingFeeContent from '@/tools/payment-processing-fee-calculator/content.mdx';
+import PayRaiseContent from '@/tools/pay-raise-calculator/content.mdx';
+import CommissionContent from '@/tools/commission-calculator/content.mdx';
+import SavingsGoalContent from '@/tools/savings-goal-calculator/content.mdx';
+import LateFeeContent from '@/tools/late-fee-calculator/content.mdx';
+import RunwayContent from '@/tools/runway-calculator/content.mdx';
 
 /**
  * Maps a tool slug to its long-form content (server-rendered MDX, no client JS).
@@ -38,4 +43,9 @@ export const toolContent: Record<string, ComponentType> = {
   'freelance-invoice-generator': FreelanceInvoiceContent,
   'upwork-fee-calculator': UpworkFeeContent,
   'payment-processing-fee-calculator': PaymentProcessingFeeContent,
+  'pay-raise-calculator': PayRaiseContent,
+  'commission-calculator': CommissionContent,
+  'savings-goal-calculator': SavingsGoalContent,
+  'late-fee-calculator': LateFeeContent,
+  'runway-calculator': RunwayContent,
 };

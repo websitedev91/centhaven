@@ -24,6 +24,11 @@ import { meta as freelanceQuote } from '@/tools/freelance-quote-generator/meta';
 import { meta as freelanceInvoice } from '@/tools/freelance-invoice-generator/meta';
 import { meta as upworkFee } from '@/tools/upwork-fee-calculator/meta';
 import { meta as paymentProcessingFee } from '@/tools/payment-processing-fee-calculator/meta';
+import { meta as payRaise } from '@/tools/pay-raise-calculator/meta';
+import { meta as commission } from '@/tools/commission-calculator/meta';
+import { meta as savingsGoal } from '@/tools/savings-goal-calculator/meta';
+import { meta as lateFee } from '@/tools/late-fee-calculator/meta';
+import { meta as runway } from '@/tools/runway-calculator/meta';
 
 type Publishing = Pick<ToolEntry, 'status' | 'lastUpdated' | 'publishDate' | 'reviewedBy'>;
 
@@ -48,6 +53,11 @@ export const registry: readonly RegistryRow[] = [
   row(freelanceInvoice, { status: 'live', publishDate: '2026-11-18', lastUpdated: '2026-11-18' }),
   row(upworkFee, { status: 'live', publishDate: '2026-11-18', lastUpdated: '2026-11-18' }),
   row(paymentProcessingFee, { status: 'live', publishDate: '2026-11-18', lastUpdated: '2026-11-18' }),
+  row(payRaise, { status: 'draft', lastUpdated: '2026-11-18' }),
+  row(commission, { status: 'draft', lastUpdated: '2026-11-18' }),
+  row(savingsGoal, { status: 'draft', lastUpdated: '2026-11-18' }),
+  row(lateFee, { status: 'draft', lastUpdated: '2026-11-18' }),
+  row(runway, { status: 'draft', lastUpdated: '2026-11-18' }),
 ];
 
 /** Local preview builds only (see next.config.ts `env` and scripts/postbuild.mjs). */

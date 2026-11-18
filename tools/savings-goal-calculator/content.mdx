@@ -1,0 +1,76 @@
+This savings goal calculator shows how much to save each month to reach a goal by the date you choose. Enter the goal, what you've already saved and how many months you have. You can also add the interest rate on your savings account, if it pays one.
+
+## How to use the calculator
+
+1. **Choose your currency** and enter your **savings goal**. The starting goal is an example only.
+2. **Enter what you've already saved.** Leave it at 0 if you're starting from nothing.
+3. **Enter the number of months** until you want to reach the goal.
+4. **Add an interest rate** if your savings earn interest. Use your own account's rate, or leave it at 0.
+
+The result shows the amount to save each month, what you'll put in, any interest earned, and the month you'll reach your goal. The chart shows your savings growing month by month.
+
+## How much to save per month: the formula
+
+Without interest, the maths is simple:
+
+```text
+monthly saving = (goal − already saved) ÷ months
+```
+
+With interest added monthly at your yearly rate ÷ 12 (r), your current savings grow too, and each deposit earns interest for the months after it:
+
+```text
+grown savings  = already saved × (1 + r)^months
+monthly saving = (goal − grown savings) × r ÷ ((1 + r)^months − 1)
+```
+
+The calculator assumes you save at the end of each month.
+
+## Monthly savings calculator: worked examples
+
+### 1. A goal from scratch
+
+Lena wants $10,000 in 24 months and has nothing saved yet.
+
+- Save each month: **$416.67**
+
+**What this means for Lena:** about $96 a week gets her there on time.
+
+### 2. A head start
+
+Ravi wants $10,000 in 12 months and already has $2,000.
+
+- Save each month: **$666.67**
+
+**What this means for Ravi:** his head start saves him $166.67 a month compared with starting from nothing.
+
+### 3. With interest
+
+Lena's account pays 4% a year, added monthly.
+
+- Save each month: **$400.92**
+- She puts in: **$9,621.98**
+- Interest earned: **$378.02**
+
+### 4. A bigger, longer goal
+
+Sam wants $20,000 in 36 months, has $5,000 saved and earns 5% a year.
+
+- Sam's $5,000 grows to **$5,807.36**
+- Save each month: **$366.23**
+- Interest earned: **$1,815.72**
+
+### 5. A goal in rupees
+
+Arjun wants ₹5,00,000 in 20 months and has ₹1,00,000 saved.
+
+- Save each month: **₹20,000.00**
+
+## Savings plan calculator tips
+
+- **Pick a real deadline.** A date makes the monthly amount concrete.
+- **Automate it.** Move the monthly amount to savings on payday, before you spend.
+- **Try a longer timeline** if the amount is too high. Use **Compare two timelines** to see the difference.
+- **Build a safety net first.** The <ToolLink slug="emergency-fund-calculator">emergency fund calculator</ToolLink> helps you plan for surprises, so they don't eat into your goal.
+- **Put raises to work.** The <ToolLink slug="pay-raise-calculator">pay raise calculator</ToolLink> shows what a raise adds each month, ready to save.
+- **Know your hourly pay.** The <ToolLink slug="hourly-to-salary-calculator">hourly to salary calculator</ToolLink> turns your pay into monthly figures.
