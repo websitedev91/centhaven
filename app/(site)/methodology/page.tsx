@@ -4,7 +4,7 @@ import { site } from '@/config/site';
 
 export const metadata = staticPageMetadata(
   '/methodology',
-  'How CentHaven builds and checks its calculators: clear maths on the numbers you enter, tested formulas, worked examples and quality checks before anything goes live.',
+  'How CentHaven builds and checks its calculators: clear maths on the numbers you enter, tested formulas, worked examples and checks before anything goes live.',
 );
 
 export default function MethodologyPage() {
