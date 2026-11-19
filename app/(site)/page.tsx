@@ -10,6 +10,7 @@ import {
   CheckCircleIcon,
   ChevronRightIcon,
   FlaskIcon,
+  MegaphoneIcon,
   ShieldIcon,
   UserCheckIcon,
   WalletIcon,
@@ -42,6 +43,7 @@ const CATEGORY_ICON: Record<string, ComponentType<{ size?: number; className?: s
   freelance: BriefcaseIcon,
   salary: WalletIcon,
   business: BarChartIcon,
+  marketing: MegaphoneIcon,
   'personal-finance': ShieldIcon,
 };
 

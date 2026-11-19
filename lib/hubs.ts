@@ -7,9 +7,10 @@ import type { HubMeta } from './hub-types';
 import { hub as freelance } from '@/hubs/freelance/meta';
 import { hub as salary } from '@/hubs/salary/meta';
 import { hub as business } from '@/hubs/business/meta';
+import { hub as marketing } from '@/hubs/marketing/meta';
 import { hub as personalFinance } from '@/hubs/personal-finance/meta';
 
-export const hubs: readonly HubMeta[] = [freelance, salary, business, personalFinance];
+export const hubs: readonly HubMeta[] = [freelance, salary, business, marketing, personalFinance];
 
 export function getHub(slug: string): HubMeta | undefined {
   return hubs.find((h) => h.slug === slug);

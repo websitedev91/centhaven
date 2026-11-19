@@ -18,6 +18,7 @@
 | /freelance/freelance-quote-generator | freelance quote generator | 10–100 |
 | /freelance/upwork-fee-calculator | upwork fee calculator | 100–1K |
 | /freelance/late-fee-calculator | late fee calculator | not checked |
+| /freelance/app-development-cost-calculator | app development cost calculator | not checked |
 | /salary/hourly-to-salary-calculator | hourly to salary calculator | 10K–100K |
 | /salary/job-offer-comparison-calculator | job offer comparison calculator | 10–100 |
 | /salary/pay-raise-calculator | pay raise calculator | not checked |
@@ -28,6 +29,10 @@
 | /business/straight-line-depreciation-calculator | straight line depreciation calculator | 100–1K |
 | /business/payment-processing-fee-calculator | payment processing fee calculator | not checked |
 | /business/runway-calculator | runway calculator | not checked |
+| /business/meeting-cost-calculator | meeting cost calculator | not checked |
+| /marketing/cac-calculator | cac calculator | not checked |
+| /marketing/roas-calculator | roas calculator | not checked |
+| /marketing/cost-per-lead-calculator | cost per lead calculator | not checked |
 | /personal-finance/emergency-fund-calculator | emergency fund calculator | 10K–100K |
 | /personal-finance/savings-goal-calculator | savings goal calculator | not checked |
 
@@ -183,6 +188,22 @@
 - **Internal links to:** /freelance/freelance-invoice-generator, /freelance/freelance-quote-generator, /freelance/retainer-fee-calculator
 - **Content note:** Pure maths on the user's own terms. Never mention legal or statutory late-payment rates (Puru, 2026-11-18).
 
+## /freelance/app-development-cost-calculator
+
+- **Primary keyword:** app development cost calculator
+- **Secondary keywords:** app cost calculator, how much does it cost to build an app, mobile app cost estimate, how much to charge for an app
+- **Title** (57 chars): App Development Cost Calculator – Estimate an App Project
+- **Meta description** (158 chars): Estimate what an app should cost from its platforms, screens and features, the hours each one takes and your hourly rate. Edit every example to fit your work.
+- **H1:** App Development Cost Calculator
+- **FAQ questions (People Also Ask style):**
+  - How much does it cost to build an app?
+  - How much should I charge to develop an app?
+  - What affects app development cost?
+  - Does building for iOS and Android cost twice as much?
+  - Should I charge for app maintenance?
+- **Internal links to:** /freelance/website-design-cost-calculator, /freelance/hourly-rate-calculator, /freelance/freelance-quote-generator
+- **Content note:** Hours × the user's own rate. Never state what apps cost on average.
+
 ## /salary/hourly-to-salary-calculator
 
 - **Primary keyword:** hourly to salary calculator (10K–100K/month)
@@ -334,6 +355,69 @@
   - What happens when revenue covers my costs?
 - **Internal links to:** /business/break-even-calculator, /personal-finance/emergency-fund-calculator, /business/utilization-rate-calculator
 
+## /business/meeting-cost-calculator
+
+- **Primary keyword:** meeting cost calculator
+- **Secondary keywords:** cost of a meeting calculator, how much does a meeting cost, recurring meeting cost, meeting cost per year
+- **Title** (56 chars): Meeting Cost Calculator – What Your Meetings Really Cost
+- **Meta description** (155 chars): See what a meeting costs from the number of people, their hourly cost and its length. Add per-person rates, and see the weekly and yearly cost of a repeat.
+- **H1:** Meeting Cost Calculator
+- **FAQ questions (People Also Ask style):**
+  - How do you calculate the cost of a meeting?
+  - What hourly cost should I use for each person?
+  - How much does a weekly meeting cost in a year?
+  - How can I make meetings cheaper?
+  - Should I count preparation time?
+- **Internal links to:** /business/utilization-rate-calculator, /salary/hourly-to-salary-calculator, /business/break-even-calculator
+- **Content note:** Hourly cost comes from the user; never suggest an average wage or overhead %.
+
+## /marketing/cac-calculator
+
+- **Primary keyword:** cac calculator
+- **Secondary keywords:** customer acquisition cost calculator, how to calculate customer acquisition cost, ltv to cac ratio calculator, cost to acquire a customer
+- **Title** (54 chars): CAC Calculator – Customer Acquisition Cost and LTV:CAC
+- **Meta description** (149 chars): Work out your customer acquisition cost from your sales and marketing spend and new customers. Add customer lifetime value to see your LTV:CAC ratio.
+- **H1:** CAC Calculator
+- **FAQ questions (People Also Ask style):**
+  - How do you calculate customer acquisition cost?
+  - What should be included in CAC?
+  - What is a good LTV to CAC ratio?
+  - How can I lower my CAC?
+  - What is the difference between CAC and cost per lead?
+- **Internal links to:** /marketing/cost-per-lead-calculator, /marketing/roas-calculator, /business/break-even-calculator
+- **Content note:** 3:1 is "a common rule of thumb", never a benchmark or fact; the target is user-editable. No industry CAC figures.
+
+## /marketing/roas-calculator
+
+- **Primary keyword:** roas calculator
+- **Secondary keywords:** return on ad spend calculator, break even roas calculator, how to calculate roas, target roas calculator
+- **Title** (56 chars): ROAS Calculator – Return on Ad Spend and Break-Even ROAS
+- **Meta description** (155 chars): Calculate return on ad spend as a ratio and a percentage. Add your profit margin to find your break-even ROAS, or work out the revenue a target ROAS needs.
+- **H1:** ROAS Calculator
+- **FAQ questions (People Also Ask style):**
+  - How do you calculate ROAS?
+  - What is break-even ROAS?
+  - What is a good ROAS?
+  - What is the difference between ROAS and ROI?
+  - How much revenue do I need for my target ROAS?
+- **Internal links to:** /marketing/cac-calculator, /marketing/cost-per-lead-calculator, /business/break-even-calculator
+- **Content note:** "Good ROAS" is answered with the user's own break-even ROAS, never an industry number.
+
+## /marketing/cost-per-lead-calculator
+
+- **Primary keyword:** cost per lead calculator
+- **Secondary keywords:** cpl calculator, how to calculate cost per lead, lead conversion rate calculator
+- **Title** (52 chars): Cost Per Lead Calculator – CPL and Cost Per Customer
+- **Meta description** (156 chars): Divide your campaign spend by the leads it brought in to find your cost per lead. Add your lead-to-customer rate to see what each new customer really costs.
+- **H1:** Cost Per Lead Calculator
+- **FAQ questions (People Also Ask style):**
+  - How do you calculate cost per lead?
+  - What counts as a lead?
+  - How do I turn cost per lead into cost per customer?
+  - How can I lower my cost per lead?
+  - Is a low cost per lead always better?
+- **Internal links to:** /marketing/cac-calculator, /marketing/roas-calculator, /business/break-even-calculator
+
 ## /personal-finance/emergency-fund-calculator
 
 - **Primary keyword:** emergency fund calculator (10K–100K/month)
@@ -406,6 +490,15 @@ Hub pages target a broad keyword; tools target the long tail. Hubs go live toget
 - **Meta description** (140 chars): Free calculators for small businesses and agencies: find your break-even point, track billable utilization and plan depreciation in minutes.
 - **H1:** Small Business Calculators
 - **Display name:** Small Business
+
+## /marketing/ (hub: Marketing)
+
+- **Primary keyword:** marketing calculators
+- **Secondary keywords:** marketing roi calculators, ad spend calculators
+- **Title** (51 chars): Marketing Calculators – CAC, ROAS and Cost Per Lead
+- **Meta description** (153 chars): Free marketing calculators for small businesses: work out customer acquisition cost, return on ad spend and cost per lead from your own campaign numbers.
+- **H1:** Marketing Calculators
+- **Display name:** Marketing
 
 ## /personal-finance/ (hub: Personal Finance)
 

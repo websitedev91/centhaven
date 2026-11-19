@@ -64,6 +64,11 @@ export const categories: readonly CategoryInfo[] = [
     description: 'Break-even, utilization and other numbers that keep a small business or freelance practice healthy.',
   },
   {
+    slug: 'marketing',
+    name: 'Marketing',
+    description: 'Customer acquisition cost, return on ad spend and cost per lead, from your own campaign numbers.',
+  },
+  {
     slug: 'personal-finance',
     name: 'Personal Finance',
     description: 'Plan an emergency fund and savings goals, for steady or irregular income.',

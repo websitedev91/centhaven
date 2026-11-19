@@ -122,6 +122,12 @@ export const BarChartIcon = (p: IconProps) => (
   </Icon>
 );
 
+export const MegaphoneIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M3 8v4a1 1 0 0 0 1 1h2l6 3.5v-13L6 7H4a1 1 0 0 0-1 1ZM6 13l1 4M15 7.5a3.5 3.5 0 0 1 0 5" />
+  </Icon>
+);
+
 export const ShieldIcon = (p: IconProps) => (
   <Icon {...p}>
     <path d="M10 2.5 4 5v4.5c0 3.8 2.5 6.6 6 8 3.5-1.4 6-4.2 6-8V5l-6-2.5Z" />
