@@ -10,6 +10,7 @@ import { ResultCard } from '@/components/ResultCard';
 import { ScenarioCompare } from '@/components/ScenarioCompare';
 import { track } from '@/lib/analytics';
 import { formatMoney, formatNumber, type CurrencyCode } from '@/lib/format';
+import { optionalOff } from '@/lib/field-errors';
 import { useUrlState } from '@/lib/url-state';
 import { costPerLead, formatCustomers } from './calc';
 import {
@@ -25,10 +26,12 @@ import {
 } from './schema';
 
 const SLUG = 'cost-per-lead-calculator';
+/** Optional fields: an invalid one shows its own error, and the result still shows (treated as 0). */
+const OPTIONAL = ['conv'] as const;
 const FIX_FIELDS = 'Check the highlighted fields to see your result.';
 
 export default function CostPerLeadCalculator() {
-  const { state: s, setField, setAll, reset } = useUrlState(cplSchema, cplDefaults, { variant: cplVariant });
+  const { state: s, setField, setAll, reset, touched } = useUrlState(cplSchema, cplDefaults, { variant: cplVariant });
   const { state: b, setField: setB } = useUrlState(planBSchema, planBDefaults, { prefix: 'b_' });
   const tracked = useRef(false);
 
@@ -43,7 +46,8 @@ export default function CostPerLeadCalculator() {
   const c = s.currency;
   const money = (n: number) => formatMoney(n, c);
   const errors = fieldErrors(cplSchema, s);
-  const r = Object.keys(errors).length > 0 ? null : costPerLead(toCalcInput(s));
+  const { blocking, calc } = optionalOff(s, errors, OPTIONAL);
+  const r = Object.keys(blocking).length > 0 ? null : costPerLead(toCalcInput(calc));
   const bErrors = fieldErrors(planBSchema, b);
   const rb = r && Object.keys(bErrors).length === 0 ? costPerLead(toCalcInput(b)) : null;
 
@@ -65,7 +69,7 @@ export default function CostPerLeadCalculator() {
             }
           >
             <div className="grid gap-x-6 gap-y-7 sm:grid-cols-2">
-              <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchCplCurrency(s, next))} />
+              <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchCplCurrency(s, next, touched))} />
               <InputCurrency
                 label="Campaign spend"
                 help="Example values — use your own numbers."

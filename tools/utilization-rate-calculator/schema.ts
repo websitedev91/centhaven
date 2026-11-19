@@ -42,8 +42,8 @@ const base: UtilizationState = { period: 'week', currency: 'USD', billable: 28, 
 export const utilizationDefaults = defaultsForCurrency(base, utilizationCurrencyPresets, 'USD');
 export const utilizationVariant = currencyVariant(utilizationDefaults, utilizationCurrencyPresets);
 
-export function switchUtilizationCurrency(state: UtilizationState, next: CurrencyCode): UtilizationState {
-  return switchCurrency(state, next, utilizationDefaults, utilizationCurrencyPresets);
+export function switchUtilizationCurrency(state: UtilizationState, next: CurrencyCode, touched?: ReadonlySet<string>): UtilizationState {
+  return switchCurrency(state, next, utilizationDefaults, utilizationCurrencyPresets, touched);
 }
 
 export function toCalcInput(s: UtilizationState): UtilizationInput {

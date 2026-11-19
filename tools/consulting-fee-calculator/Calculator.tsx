@@ -32,7 +32,7 @@ const SLUG = 'consulting-fee-calculator';
 const FIX_FIELDS = 'Check the highlighted fields to see your rate.';
 
 export default function ConsultingFeeCalculator() {
-  const { state: s, setField, setAll, reset } = useUrlState(consultingSchema, consultingDefaults, { variant: consultingVariant });
+  const { state: s, setField, setAll, reset, touched } = useUrlState(consultingSchema, consultingDefaults, { variant: consultingVariant });
   const { state: b, setField: setB } = useUrlState(planBSchema, planBDefaults, { prefix: 'b_' });
   const tracked = useRef(false);
 
@@ -75,7 +75,7 @@ export default function ConsultingFeeCalculator() {
           >
             <div className="grid gap-x-6 gap-y-7 sm:grid-cols-2">
               <div className="sm:col-span-2">
-                <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchConsultingCurrency(s, next))} />
+                <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchConsultingCurrency(s, next, touched))} />
               </div>
               <InputCurrency
                 label="Target take-home income (per year)"

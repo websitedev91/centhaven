@@ -38,3 +38,23 @@ describe('currency helpers', () => {
     expect(isCurrency('XYZ')).toBe(false);
   });
 });
+
+describe('formatMoney below the smallest unit (Puru, 2026-11-19)', () => {
+  it('says "less than" in the right currency instead of 0.00', () => {
+    expect(formatMoney(0.004, 'USD')).toBe('less than $0.01');
+    expect(formatMoney(0.001, 'INR')).toBe('less than ₹0.01');
+    expect(formatMoney(0.0049, 'GBP')).toBe('less than £0.01');
+    expect(formatMoney(0.3, 'EUR', 0)).toBe('less than €1');
+  });
+
+  it('negative tiny values are a loss of less than one unit', () => {
+    expect(formatMoney(-0.004, 'USD')).toBe('loss of less than $0.01');
+  });
+
+  it('exact zero, float noise and values that round up are unchanged', () => {
+    expect(formatMoney(0, 'USD')).toBe('$0.00');
+    expect(formatMoney(0.1 + 0.2 - 0.3, 'USD')).toBe('$0.00');
+    expect(formatMoney(-1e-12, 'USD')).toBe('$0.00');
+    expect(formatMoney(0.005, 'USD')).toBe('$0.01');
+  });
+});

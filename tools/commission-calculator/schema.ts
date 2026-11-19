@@ -59,8 +59,8 @@ const base: CommissionState = {
 export const commissionDefaults = defaultsForCurrency(base, commissionCurrencyPresets, 'USD');
 export const commissionVariant = currencyVariant(commissionDefaults, commissionCurrencyPresets);
 
-export function switchCommissionCurrency(state: CommissionState, next: CurrencyCode): CommissionState {
-  return switchCurrency(state, next, commissionDefaults, commissionCurrencyPresets);
+export function switchCommissionCurrency(state: CommissionState, next: CurrencyCode, touched?: ReadonlySet<string>): CommissionState {
+  return switchCurrency(state, next, commissionDefaults, commissionCurrencyPresets, touched);
 }
 
 /** Active tiers: tier 1 from 0, then every tier whose "From" is above 0. */

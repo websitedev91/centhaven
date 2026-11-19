@@ -78,8 +78,8 @@ const base: JobOfferState = {
 export const jobOfferDefaults = defaultsForCurrency(base, jobOfferCurrencyPresets, 'USD');
 export const jobOfferVariant = currencyVariant(jobOfferDefaults, jobOfferCurrencyPresets);
 
-export function switchJobOfferCurrency(state: JobOfferState, next: CurrencyCode): JobOfferState {
-  return switchCurrency(state, next, jobOfferDefaults, jobOfferCurrencyPresets);
+export function switchJobOfferCurrency(state: JobOfferState, next: CurrencyCode, touched?: ReadonlySet<string>): JobOfferState {
+  return switchCurrency(state, next, jobOfferDefaults, jobOfferCurrencyPresets, touched);
 }
 
 /** The per-offer state keys, e.g. offerKey('a', 'Salary') → 'aSalary'. */

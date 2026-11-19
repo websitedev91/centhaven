@@ -78,10 +78,15 @@ describe('edge cases', () => {
     expect(needed(0, 4).revenueNeeded).toBe(0);
   });
 
-  it('revenue 0 → 0.00x, 0%; target 0 → 0 needed', () => {
+  it('revenue 0 → 0.00x, 0%; the maths alone gives 0 needed for target 0', () => {
     expect(formatX(find(0, 1_000).roas!)).toBe('0.00x');
     expect(formatRatioPercent(find(0, 1_000).roas!)).toBe('0%');
     expect(needed(3_000, 0).revenueNeeded).toBe(0);
+  });
+
+  it('needed mode: target 0 → "Enter a target ROAS above 0" (Puru, 2026-11-19); find mode ignores the target', () => {
+    expect(errs({ mode: 'needed', target: 0 }).target).toBe('Enter a target ROAS above 0');
+    expect(errs({ mode: 'find', target: 0 })).toEqual({});
   });
 
   it('margin 100 → break-even 1.00x; above 100 or negative → error', () => {

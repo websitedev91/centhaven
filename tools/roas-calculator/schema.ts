@@ -36,8 +36,8 @@ const base: RoasState = { mode: 'find', currency: 'USD', rev: 15_000, spend: 3_0
 export const roasDefaults = defaultsForCurrency(base, roasCurrencyPresets, 'USD');
 export const roasVariant = currencyVariant(roasDefaults, roasCurrencyPresets);
 
-export function switchRoasCurrency(state: RoasState, next: CurrencyCode): RoasState {
-  return switchCurrency(state, next, roasDefaults, roasCurrencyPresets);
+export function switchRoasCurrency(state: RoasState, next: CurrencyCode, touched?: ReadonlySet<string>): RoasState {
+  return switchCurrency(state, next, roasDefaults, roasCurrencyPresets, touched);
 }
 
 /**
@@ -50,6 +50,7 @@ export function roasErrors(s: RoasState): Partial<Record<keyof RoasState, string
   const out: Partial<Record<keyof RoasState, string>> = {};
   for (const k of used) if (all[k]) out[k] = all[k];
   if (s.mode === 'find' && !out.spend && s.spend === 0) out.spend = 'Enter an ad spend above 0';
+  if (s.mode === 'needed' && !out.target && s.target === 0) out.target = 'Enter a target ROAS above 0';
   return out;
 }
 

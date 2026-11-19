@@ -12,6 +12,7 @@ import { SplitBar } from '@/components/SplitBar';
 import { track } from '@/lib/analytics';
 import { CATEGORICAL } from '@/lib/chart-palette';
 import { formatMoney, formatNumber, type CurrencyCode } from '@/lib/format';
+import { optionalOff } from '@/lib/field-errors';
 import { useUrlState } from '@/lib/url-state';
 import { cac, formatRatio } from './calc';
 import {
@@ -27,10 +28,12 @@ import {
 } from './schema';
 
 const SLUG = 'cac-calculator';
+/** Optional fields: an invalid one shows its own error, and the result still shows (treated as 0). */
+const OPTIONAL = ['sales', 'ltv', 'target'] as const;
 const FIX_FIELDS = 'Check the highlighted fields to see your result.';
 
 export default function CacCalculator() {
-  const { state: s, setField, setAll, reset } = useUrlState(cacSchema, cacDefaults, { variant: cacVariant });
+  const { state: s, setField, setAll, reset, touched } = useUrlState(cacSchema, cacDefaults, { variant: cacVariant });
   const { state: b, setField: setB } = useUrlState(planBSchema, planBDefaults, { prefix: 'b_' });
   const tracked = useRef(false);
 
@@ -45,9 +48,10 @@ export default function CacCalculator() {
   const c = s.currency;
   const money = (n: number) => formatMoney(n, c);
   const errors = fieldErrors(cacSchema, s);
-  const r = Object.keys(errors).length > 0 ? null : cac(toCalcInput(s));
+  const { blocking, calc } = optionalOff(s, errors, OPTIONAL);
+  const r = Object.keys(blocking).length > 0 ? null : cac(toCalcInput(calc));
   const bErrors = fieldErrors(planBSchema, b);
-  const rb = r && Object.keys(bErrors).length === 0 ? cac(toCalcInput({ ...s, ...b })) : null;
+  const rb = r && Object.keys(bErrors).length === 0 ? cac(toCalcInput({ ...calc, ...b })) : null;
   const ltvOn = s.ltv > 0;
 
   const ltvRows =
@@ -86,7 +90,7 @@ export default function CacCalculator() {
             }
           >
             <div className="grid gap-x-6 gap-y-7 sm:grid-cols-2">
-              <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchCacCurrency(s, next))} />
+              <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchCacCurrency(s, next, touched))} />
               <InputCurrency
                 label="Marketing spend"
                 help="Ads, tools, content, agency fees: everything spent on marketing in the period. Example values — use your own numbers."

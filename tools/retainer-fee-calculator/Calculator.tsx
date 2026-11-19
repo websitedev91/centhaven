@@ -11,6 +11,7 @@ import { ScenarioCompare } from '@/components/ScenarioCompare';
 import { Slider } from '@/components/Slider';
 import { track } from '@/lib/analytics';
 import { formatMoney, formatNumber, type CurrencyCode } from '@/lib/format';
+import { optionalOff } from '@/lib/field-errors';
 import { useUrlState } from '@/lib/url-state';
 import { retainerFee, type RetainerError, type RetainerResult } from './calc';
 import {
@@ -26,12 +27,14 @@ import {
 } from './schema';
 
 const SLUG = 'retainer-fee-calculator';
+/** Optional fields: an invalid one shows its own error, and the result still shows (treated as 0). */
+const OPTIONAL = ['overageRate', 'extraHours'] as const;
 const FIX_FIELDS = 'Check the highlighted fields to see your retainer.';
 /** −10 → "−10%", 20 → "+20%", 0 → "0%". */
 const signedPercent = (v: number) => (v > 0 ? `+${v}%` : v < 0 ? `−${Math.abs(v)}%` : '0%');
 
 export default function RetainerFeeCalculator() {
-  const { state: s, setField, setAll, reset } = useUrlState(retainerSchema, retainerDefaults, { variant: retainerVariant });
+  const { state: s, setField, setAll, reset, touched } = useUrlState(retainerSchema, retainerDefaults, { variant: retainerVariant });
   const { state: b, setField: setB } = useUrlState(planBSchema, planBDefaults, { prefix: 'b_' });
   const tracked = useRef(false);
 
@@ -46,12 +49,13 @@ export default function RetainerFeeCalculator() {
   const c = s.currency;
   const money = (n: number) => formatMoney(n, c);
   const errors = fieldErrors(retainerSchema, s);
+  const { blocking, calc } = optionalOff(s, errors, OPTIONAL);
   const result: RetainerResult | RetainerError =
-    Object.keys(errors).length > 0 ? { ok: false, error: FIX_FIELDS } : retainerFee(toCalcInput(s));
+    Object.keys(blocking).length > 0 ? { ok: false, error: FIX_FIELDS } : retainerFee(toCalcInput(calc));
 
   const bErrors = fieldErrors(planBSchema, b);
   const resultB: RetainerResult | RetainerError =
-    result.ok && Object.keys(bErrors).length === 0 ? retainerFee(toCalcInput({ ...s, ...b })) : { ok: false, error: FIX_FIELDS };
+    result.ok && Object.keys(bErrors).length === 0 ? retainerFee(toCalcInput({ ...calc, ...b })) : { ok: false, error: FIX_FIELDS };
 
   const effective = (r: RetainerResult) => (r.effectiveRate === null ? 'No hours used' : money(r.effectiveRate));
   const label = 'Monthly retainer fee';
@@ -75,7 +79,7 @@ export default function RetainerFeeCalculator() {
           >
             <div className="grid gap-x-6 gap-y-7 sm:grid-cols-2">
               <div className="sm:col-span-2">
-                <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchRetainerCurrency(s, next))} />
+                <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchRetainerCurrency(s, next, touched))} />
               </div>
               <InputCurrency
                 label="Your hourly rate"

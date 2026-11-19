@@ -9,12 +9,15 @@ import { ResetIcon } from '@/components/icons';
 import { ResultCard } from '@/components/ResultCard';
 import { SegmentedControl } from '@/components/SegmentedControl';
 import { track } from '@/lib/analytics';
-import { formatMoney, type CurrencyCode } from '@/lib/format';
+import { currencySymbol, formatMoney, type CurrencyCode } from '@/lib/format';
+import { optionalOff } from '@/lib/field-errors';
 import { useUrlState } from '@/lib/url-state';
 import { formatRatioPercent, formatX, roas, type RoasMode } from './calc';
 import { roasDefaults, roasErrors, roasSchema, roasVariant, switchRoasCurrency, toCalcInput, type RoasState } from './schema';
 
 const SLUG = 'roas-calculator';
+/** Optional fields: an invalid one shows its own error, and the result still shows (treated as 0). */
+const OPTIONAL = ['margin'] as const;
 const FIX_FIELDS = 'Check the highlighted fields to see your result.';
 
 const MODE_OPTIONS: readonly { value: RoasMode; label: string }[] = [
@@ -23,7 +26,7 @@ const MODE_OPTIONS: readonly { value: RoasMode; label: string }[] = [
 ];
 
 export default function RoasCalculator() {
-  const { state: s, setField, setAll, reset } = useUrlState(roasSchema, roasDefaults, { variant: roasVariant });
+  const { state: s, setField, setAll, reset, touched } = useUrlState(roasSchema, roasDefaults, { variant: roasVariant });
   const tracked = useRef(false);
 
   function update<K extends keyof RoasState>(key: K, value: RoasState[K]) {
@@ -37,7 +40,8 @@ export default function RoasCalculator() {
   const c = s.currency;
   const money = (n: number) => formatMoney(n, c);
   const errors = roasErrors(s);
-  const r = Object.keys(errors).length > 0 ? null : roas(toCalcInput(s));
+  const { blocking, calc } = optionalOff(s, errors, OPTIONAL);
+  const r = Object.keys(blocking).length > 0 ? null : roas(toCalcInput(calc));
   const find = s.mode === 'find';
   const label = find ? 'Return on ad spend' : 'Revenue needed';
 
@@ -80,7 +84,7 @@ export default function RoasCalculator() {
               <div className="sm:col-span-2">
                 <SegmentedControl<RoasMode> label="What do you want to know?" value={s.mode} options={MODE_OPTIONS} onChange={(v) => update('mode', v)} />
               </div>
-              <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchRoasCurrency(s, next))} />
+              <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchRoasCurrency(s, next, touched))} />
               {find ? (
                 <InputCurrency
                   label="Revenue from ads"
@@ -102,7 +106,7 @@ export default function RoasCalculator() {
               {!find ? (
                 <InputNumber
                   label="Target ROAS"
-                  help="4 means 4 in revenue for every 1 spent (400%)."
+                  help={`4 means ${currencySymbol(c)}4 in revenue for every ${currencySymbol(c)}1 spent (400%). Must be above 0.`}
                   value={s.target}
                   onChange={(v) => update('target', v)}
                   suffix="x"
@@ -132,7 +136,7 @@ export default function RoasCalculator() {
                 unit={`${formatRatioPercent(r.roas!)} return on ad spend`}
                 tone={status?.tone}
                 rows={[
-                  { label: 'Revenue for every 1 spent', value: money(r.roas!) },
+                  { label: `Revenue per ${currencySymbol(c)}1 spent`, value: money(r.roas!) },
                   ...breakEvenRow,
                   ...(r.profitAfterAds !== null
                     ? [{ label: 'Profit after ad spend', note: 'Revenue × margin − ad spend', value: money(r.profitAfterAds) }]

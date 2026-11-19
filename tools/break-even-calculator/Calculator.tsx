@@ -13,6 +13,7 @@ import { SelectField } from '@/components/SelectField';
 import { Slider } from '@/components/Slider';
 import { track } from '@/lib/analytics';
 import { formatMoney, formatNumber, formatPercent, type CurrencyCode } from '@/lib/format';
+import { optionalOff } from '@/lib/field-errors';
 import { useUrlState } from '@/lib/url-state';
 import { breakEven, breakEvenLines, ceilSales, marginOfSafety, priceSensitivity, type BreakEvenError, type BreakEvenResult } from './calc';
 import { InputNumber } from '@/components/InputNumber';
@@ -33,6 +34,8 @@ import {
 const BreakEvenChart = dynamic(() => import('./Chart'), { ssr: false, loading: () => <ChartPlaceholder /> });
 
 const SLUG = 'break-even-calculator';
+/** Optional fields: an invalid one shows its own error, and the result still shows (treated as 0). */
+const OPTIONAL = ['targetProfit', 'currentSales'] as const;
 const FIX_FIELDS = 'Check the highlighted fields to see your break-even point.';
 const NOUN: Record<Sells, { one: string; many: string }> = {
   units: { one: 'unit', many: 'units' },
@@ -41,7 +44,7 @@ const NOUN: Record<Sells, { one: string; many: string }> = {
 };
 
 export default function BreakEvenCalculator() {
-  const { state: s, setField, setAll, reset } = useUrlState(breakEvenSchema, breakEvenDefaults, { variant: breakEvenVariant });
+  const { state: s, setField, setAll, reset, touched } = useUrlState(breakEvenSchema, breakEvenDefaults, { variant: breakEvenVariant });
   const { state: b, setField: setB } = useUrlState(planBSchema, planBDefaults, { prefix: 'b_' });
   const tracked = useRef(false);
 
@@ -59,13 +62,14 @@ export default function BreakEvenCalculator() {
   const count = (n: number) => `${formatNumber(n)} ${n === 1 ? noun.one : noun.many}`;
 
   const errors = fieldErrors(breakEvenSchema, s);
+  const { blocking, calc } = optionalOff(s, errors, OPTIONAL);
   const result: BreakEvenResult | BreakEvenError =
-    Object.keys(errors).length > 0 ? { ok: false, error: FIX_FIELDS } : breakEven(toCalcInput(s));
+    Object.keys(blocking).length > 0 ? { ok: false, error: FIX_FIELDS } : breakEven(toCalcInput(calc));
 
   const bErrors = fieldErrors(planBSchema, b);
   const priceB = s.price * (1 + b.priceChange / 100);
   const resultB: BreakEvenResult | BreakEvenError =
-    result.ok && Object.keys(bErrors).length === 0 ? breakEven({ ...toCalcInput(s), price: priceB }) : { ok: false, error: FIX_FIELDS };
+    result.ok && Object.keys(bErrors).length === 0 ? breakEven({ ...toCalcInput(calc), price: priceB }) : { ok: false, error: FIX_FIELDS };
 
   const label = 'Break-even sales';
   const safety = result.ok ? marginOfSafety(s.currentSales, result.breakEvenUnits) : null;
@@ -90,7 +94,7 @@ export default function BreakEvenCalculator() {
             }
           >
             <div className="grid gap-x-6 gap-y-7 sm:grid-cols-2">
-              <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchBreakEvenCurrency(s, next))} />
+              <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchBreakEvenCurrency(s, next, touched))} />
               <SelectField<Sells>
                 label="What you sell"
                 value={s.sells}

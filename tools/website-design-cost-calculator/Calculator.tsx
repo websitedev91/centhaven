@@ -15,6 +15,7 @@ import { SplitBar } from '@/components/SplitBar';
 import { track } from '@/lib/analytics';
 import { CATEGORICAL } from '@/lib/chart-palette';
 import { formatMoney, formatNumber, type CurrencyCode } from '@/lib/format';
+import { optionalOff } from '@/lib/field-errors';
 import { useUrlState } from '@/lib/url-state';
 import { FEATURES, websiteCost, type DesignLevel, type Feature } from './calc';
 import { LeadBox } from '@/components/LeadBox';
@@ -31,6 +32,8 @@ import {
 } from './schema';
 
 const SLUG = 'website-design-cost-calculator';
+/** Optional fields: an invalid one shows its own error, and the result still shows (treated as 0). */
+const OPTIONAL = ['maint'] as const;
 const FIX_FIELDS = 'Check the highlighted fields to see your estimate.';
 
 const FEATURE_LABEL: Record<Feature, string> = {
@@ -51,7 +54,7 @@ const LEVELS: readonly { value: DesignLevel; label: string }[] = [
 const hrs = (n: number) => `${formatNumber(n, Number.isInteger(n) ? 0 : 2)} h`;
 
 export default function WebsiteDesignCostCalculator() {
-  const { state: s, setField, setAll, reset } = useUrlState(websiteCostSchema, websiteCostDefaults, { variant: websiteCostVariant });
+  const { state: s, setField, setAll, reset, touched } = useUrlState(websiteCostSchema, websiteCostDefaults, { variant: websiteCostVariant });
   const tracked = useRef(false);
 
   function update<K extends keyof WebsiteCostState>(key: K, value: WebsiteCostState[K]) {
@@ -65,8 +68,9 @@ export default function WebsiteDesignCostCalculator() {
   const c = s.currency;
   const money = (n: number) => formatMoney(n, c);
   const errors = fieldErrors(websiteCostSchema, s);
-  const valid = Object.keys(errors).length === 0;
-  const r = valid ? websiteCost(toCalcInput(s)) : null;
+  const { blocking, calc } = optionalOff(s, errors, OPTIONAL);
+  const valid = Object.keys(blocking).length === 0;
+  const r = valid ? websiteCost(toCalcInput(calc)) : null;
 
   function toggle(key: Feature | 'copy', label: string, hoursField: keyof WebsiteCostState & `${string}H`, suffix: string) {
     const on = s[key] === 1;
@@ -115,7 +119,7 @@ export default function WebsiteDesignCostCalculator() {
           >
             <div className="grid gap-x-6 gap-y-7 sm:grid-cols-2">
               <div className="sm:col-span-2">
-                <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchWebsiteCostCurrency(s, next))} />
+                <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchWebsiteCostCurrency(s, next, touched))} />
               </div>
               <div className="flex flex-col gap-2 sm:col-span-2">
                 <InputCurrency label="Your hourly rate" currency={c} value={s.rate} onChange={(v) => update('rate', v)} error={errors.rate} />

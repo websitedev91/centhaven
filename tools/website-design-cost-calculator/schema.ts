@@ -79,8 +79,8 @@ const base: WebsiteCostState = {
 export const websiteCostDefaults = defaultsForCurrency(base, websiteCostCurrencyPresets, 'USD');
 export const websiteCostVariant = currencyVariant(websiteCostDefaults, websiteCostCurrencyPresets);
 
-export function switchWebsiteCostCurrency(state: WebsiteCostState, next: CurrencyCode): WebsiteCostState {
-  return switchCurrency(state, next, websiteCostDefaults, websiteCostCurrencyPresets);
+export function switchWebsiteCostCurrency(state: WebsiteCostState, next: CurrencyCode, touched?: ReadonlySet<string>): WebsiteCostState {
+  return switchCurrency(state, next, websiteCostDefaults, websiteCostCurrencyPresets, touched);
 }
 
 /** State key holding a feature's hours, e.g. 'contact' → 'contactH'. */

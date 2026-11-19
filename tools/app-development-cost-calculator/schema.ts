@@ -94,8 +94,8 @@ const base: AppCostState = {
 export const appCostDefaults = defaultsForCurrency(base, appCostCurrencyPresets, 'USD');
 export const appCostVariant = currencyVariant(appCostDefaults, appCostCurrencyPresets);
 
-export function switchAppCostCurrency(state: AppCostState, next: CurrencyCode): AppCostState {
-  return switchCurrency(state, next, appCostDefaults, appCostCurrencyPresets);
+export function switchAppCostCurrency(state: AppCostState, next: CurrencyCode, touched?: ReadonlySet<string>): AppCostState {
+  return switchCurrency(state, next, appCostDefaults, appCostCurrencyPresets, touched);
 }
 
 /** State key holding a feature's hours, e.g. 'login' → 'loginH'. */

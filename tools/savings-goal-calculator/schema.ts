@@ -32,8 +32,8 @@ const base: SavingsGoalState = { currency: 'USD', goal: 10_000, saved: 0, months
 export const savingsGoalDefaults = defaultsForCurrency(base, savingsGoalCurrencyPresets, 'USD');
 export const savingsGoalVariant = currencyVariant(savingsGoalDefaults, savingsGoalCurrencyPresets);
 
-export function switchSavingsGoalCurrency(state: SavingsGoalState, next: CurrencyCode): SavingsGoalState {
-  return switchCurrency(state, next, savingsGoalDefaults, savingsGoalCurrencyPresets);
+export function switchSavingsGoalCurrency(state: SavingsGoalState, next: CurrencyCode, touched?: ReadonlySet<string>): SavingsGoalState {
+  return switchCurrency(state, next, savingsGoalDefaults, savingsGoalCurrencyPresets, touched);
 }
 
 export function toCalcInput(s: Pick<SavingsGoalState, 'goal' | 'saved' | 'months' | 'rate'>): SavingsGoalInput {

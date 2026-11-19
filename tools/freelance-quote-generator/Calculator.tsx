@@ -1,5 +1,6 @@
 'use client';
 
+import { optionalOff, type FieldErrors } from '@/lib/field-errors';
 import { useRef } from 'react';
 import { InputsPanel } from '@/components/CalculatorGrid';
 import { CurrencySelect } from '@/components/CurrencySelect';
@@ -56,8 +57,11 @@ export default function FreelanceQuoteGenerator() {
   const c = s.currency;
   const money = (n: number) => formatMoney(n, c);
   const errors = quoteErrors(s);
-  const valid = Object.keys(errors).length === 0;
-  const t = quoteTotals(toQuoteInput(s));
+  // Optional fields (contingency, discount, tax): an invalid one shows its own error, and the
+  // totals still show with it treated as 0 (Puru, 2026-11-19).
+  const { blocking, calc } = optionalOff(s, errors as FieldErrors<QuoteState>, ['contingency', 'discount', 'taxRate']);
+  const valid = Object.keys(blocking).length === 0;
+  const t = quoteTotals(toQuoteInput(calc));
   const validUntil = s.issueDate && !errors.validDays ? addDays(s.issueDate, s.validDays) : '';
 
   const totals: SheetTotal[] = [

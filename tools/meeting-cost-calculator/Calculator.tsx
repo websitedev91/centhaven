@@ -49,7 +49,7 @@ const REPEAT_OPTIONS = [
 const minutesText = (n: number) => `${formatNumber(n)} ${n === 1 ? 'minute' : 'minutes'}`;
 
 export default function MeetingCostCalculator() {
-  const { state: s, setField, setAll, reset } = useUrlState(meetingSchema, meetingDefaults, { variant: meetingVariant });
+  const { state: s, setField, setAll, reset, touched, markTouched } = useUrlState(meetingSchema, meetingDefaults, { variant: meetingVariant });
   const { state: b, setField: setB } = useUrlState(planBSchema, planBDefaults, { prefix: 'b_' });
   const tracked = useRef(false);
 
@@ -97,7 +97,7 @@ export default function MeetingCostCalculator() {
                 <SegmentedControl label="Hourly cost" value={s.mode} options={MODE_OPTIONS} onChange={(v) => update('mode', v)} />
               </div>
               <div className="sm:col-span-2">
-                <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchMeetingCurrency(s, next))} />
+                <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchMeetingCurrency(s, next, touched))} />
               </div>
               {each ? (
                 <fieldset className="flex flex-col gap-4 sm:col-span-2">
@@ -116,6 +116,8 @@ export default function MeetingCostCalculator() {
                             type="button"
                             onClick={() => {
                               setAll(removeRow(s, i));
+                              // Rows after the removed one moved up: keep their typed values on a currency switch.
+                              markTouched(ROW_KEYS.slice(i));
                               touch();
                             }}
                             aria-label={`Remove person ${i + 1}`}

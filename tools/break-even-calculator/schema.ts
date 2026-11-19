@@ -43,8 +43,8 @@ const base: BreakEvenState = { sells: 'units', currency: 'USD', fixedCosts: 10_0
 export const breakEvenDefaults = defaultsForCurrency(base, breakEvenCurrencyPresets, 'USD');
 export const breakEvenVariant = currencyVariant(breakEvenDefaults, breakEvenCurrencyPresets);
 
-export function switchBreakEvenCurrency(state: BreakEvenState, next: CurrencyCode): BreakEvenState {
-  return switchCurrency(state, next, breakEvenDefaults, breakEvenCurrencyPresets);
+export function switchBreakEvenCurrency(state: BreakEvenState, next: CurrencyCode, touched?: ReadonlySet<string>): BreakEvenState {
+  return switchCurrency(state, next, breakEvenDefaults, breakEvenCurrencyPresets, touched);
 }
 
 export function toCalcInput(s: BreakEvenState): BreakEvenInput {

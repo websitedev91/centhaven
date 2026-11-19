@@ -50,7 +50,7 @@ export function LineItemsEditor(props: {
                 />
                 </div>
                 <InputNumber label="Qty / hours" value={it.qty} onChange={(qty) => set(i, { qty })} error={errors[`${it.id}.qty`]} />
-                <InputCurrency label="Rate" currency={currency} value={it.rate} onChange={(rate) => set(i, { rate })} error={errors[`${it.id}.rate`]} />
+                <InputCurrency label="Rate" currency={currency} value={it.rate} onChange={(rate) => set(i, { rate, rateTyped: true })} error={errors[`${it.id}.rate`]} />
               </div>
               <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
                 <p className="type-small text-ink-muted">

@@ -10,16 +10,19 @@ import { ResultCard } from '@/components/ResultCard';
 import { SegmentedControl } from '@/components/SegmentedControl';
 import { track } from '@/lib/analytics';
 import { formatMoney, formatNumber, type CurrencyCode } from '@/lib/format';
+import { optionalOff } from '@/lib/field-errors';
 import { useUrlState } from '@/lib/url-state';
 import { lateFee, type FeeType } from './calc';
 import { fieldErrors, lateFeeDefaults, lateFeeSchema, lateFeeVariant, switchLateFeeCurrency, toCalcInput, type LateFeeState } from './schema';
 
 const SLUG = 'late-fee-calculator';
+/** Optional fields: an invalid one shows its own error, and the result still shows (treated as 0). */
+const OPTIONAL = ['grace'] as const;
 const FIX_FIELDS = 'Check the highlighted fields to see your result.';
 const daysText = (n: number) => `${formatNumber(n)} ${n === 1 ? 'day' : 'days'}`;
 
 export default function LateFeeCalculator() {
-  const { state: s, setField, setAll, reset } = useUrlState(lateFeeSchema, lateFeeDefaults, { variant: lateFeeVariant });
+  const { state: s, setField, setAll, reset, touched } = useUrlState(lateFeeSchema, lateFeeDefaults, { variant: lateFeeVariant });
   const tracked = useRef(false);
 
   function update<K extends keyof LateFeeState>(key: K, value: LateFeeState[K]) {
@@ -33,7 +36,8 @@ export default function LateFeeCalculator() {
   const c = s.currency;
   const money = (n: number) => formatMoney(n, c);
   const errors = fieldErrors(lateFeeSchema, s);
-  const r = Object.keys(errors).length > 0 ? null : lateFee(toCalcInput(s));
+  const { blocking, calc } = optionalOff(s, errors, OPTIONAL);
+  const r = Object.keys(blocking).length > 0 ? null : lateFee(toCalcInput(calc));
   const feeDesc = s.type === 'flat' ? `${money(s.flat)} flat fee` : s.type === 'oneoff' ? `${formatNumber(s.pct, 2)}% one-off` : `${formatNumber(s.pct, 2)}% per 30 days`;
 
   return (
@@ -54,7 +58,7 @@ export default function LateFeeCalculator() {
             }
           >
             <div className="grid gap-x-6 gap-y-7 sm:grid-cols-2">
-              <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchLateFeeCurrency(s, next))} />
+              <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchLateFeeCurrency(s, next, touched))} />
               <InputCurrency label="Invoice amount" currency={c} value={s.amount} onChange={(v) => update('amount', v)} error={errors.amount} />
               <InputNumber label="Days late" help="Days after the due date." value={s.days} onChange={(v) => update('days', v)} suffix="days" error={errors.days} />
               <InputNumber optional

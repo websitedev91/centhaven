@@ -45,8 +45,8 @@ const base: ConsultingState = {
 export const consultingDefaults = defaultsForCurrency(base, consultingCurrencyPresets, 'USD');
 export const consultingVariant = currencyVariant(consultingDefaults, consultingCurrencyPresets);
 
-export function switchConsultingCurrency(state: ConsultingState, next: CurrencyCode): ConsultingState {
-  return switchCurrency(state, next, consultingDefaults, consultingCurrencyPresets);
+export function switchConsultingCurrency(state: ConsultingState, next: CurrencyCode, touched?: ReadonlySet<string>): ConsultingState {
+  return switchCurrency(state, next, consultingDefaults, consultingCurrencyPresets, touched);
 }
 
 export function toCalcInput(s: Omit<ConsultingState, 'currency'>): ConsultingInput {

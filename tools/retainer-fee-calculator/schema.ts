@@ -44,8 +44,8 @@ const base: RetainerState = { currency: 'USD', rate: 100, hours: 20, adjust: -10
 export const retainerDefaults = defaultsForCurrency(base, retainerCurrencyPresets, 'USD');
 export const retainerVariant = currencyVariant(retainerDefaults, retainerCurrencyPresets);
 
-export function switchRetainerCurrency(state: RetainerState, next: CurrencyCode): RetainerState {
-  return switchCurrency(state, next, retainerDefaults, retainerCurrencyPresets);
+export function switchRetainerCurrency(state: RetainerState, next: CurrencyCode, touched?: ReadonlySet<string>): RetainerState {
+  return switchCurrency(state, next, retainerDefaults, retainerCurrencyPresets, touched);
 }
 
 /** Overage rate actually used: the user's own, or the hourly rate when 0. */

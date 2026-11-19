@@ -53,8 +53,8 @@ export const hourlyRateDefaults: HourlyRateState = defaultsForCurrency(baseDefau
 
 export const hourlyRateVariant = currencyVariant(hourlyRateDefaults, hourlyRateCurrencyPresets);
 
-export function switchHourlyRateCurrency(state: HourlyRateState, next: CurrencyCode): HourlyRateState {
-  return switchCurrency(state, next, hourlyRateDefaults, hourlyRateCurrencyPresets);
+export function switchHourlyRateCurrency(state: HourlyRateState, next: CurrencyCode, touched?: ReadonlySet<string>): HourlyRateState {
+  return switchCurrency(state, next, hourlyRateDefaults, hourlyRateCurrencyPresets, touched);
 }
 
 export function toCalcInput(s: Omit<HourlyRateState, 'currency'>): HourlyRateInput {

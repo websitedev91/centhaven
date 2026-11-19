@@ -32,7 +32,7 @@ const FIX_FIELDS = 'Check the highlighted fields to see the schedule.';
 type View = 'year' | 'month';
 
 export default function StraightLineDepreciationCalculator() {
-  const { state: s, setField, setAll, reset } = useUrlState(depreciationSchema, depreciationDefaults, { variant: depreciationVariant });
+  const { state: s, setField, setAll, reset, touched } = useUrlState(depreciationSchema, depreciationDefaults, { variant: depreciationVariant });
   const tracked = useRef(false);
 
   function update<K extends keyof DepreciationState>(key: K, value: DepreciationState[K]) {
@@ -94,7 +94,7 @@ export default function StraightLineDepreciationCalculator() {
           >
             <div className="grid gap-x-6 gap-y-7 sm:grid-cols-2">
               <div className="sm:col-span-2">
-                <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchDepreciationCurrency(s, next))} />
+                <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchDepreciationCurrency(s, next, touched))} />
               </div>
               <InputCurrency
                 label="Asset cost"

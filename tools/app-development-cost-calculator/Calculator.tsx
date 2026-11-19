@@ -15,6 +15,7 @@ import { SplitBar } from '@/components/SplitBar';
 import { track } from '@/lib/analytics';
 import { CATEGORICAL } from '@/lib/chart-palette';
 import { formatMoney, formatNumber, type CurrencyCode } from '@/lib/format';
+import { optionalOff } from '@/lib/field-errors';
 import { useUrlState } from '@/lib/url-state';
 import { APP_FEATURES, PLATFORMS, SHARED_FEATURES, appCost, type AppFeature, type Platform, type SharedFeature } from './calc';
 import { HOURLY_RATE_TOOL, LEAD_MAILTO, QUOTE_TOOL } from './links';
@@ -31,6 +32,8 @@ import {
 } from './schema';
 
 const SLUG = 'app-development-cost-calculator';
+/** Optional fields: an invalid one shows its own error, and the result still shows (treated as 0). */
+const OPTIONAL = ['maint'] as const;
 const FIX_FIELDS = 'Check the highlighted fields to see your estimate.';
 
 const PLATFORM_LABEL: Record<Platform, string> = { ios: 'iOS', android: 'Android', web: 'Web app' };
@@ -50,7 +53,7 @@ const FEATURE_LABEL: Record<AppFeature | SharedFeature, string> = {
 const hrs = (n: number) => `${formatNumber(n, Number.isInteger(n) ? 0 : 2)} h`;
 
 export default function AppDevelopmentCostCalculator() {
-  const { state: s, setField, setAll, reset } = useUrlState(appCostSchema, appCostDefaults, { variant: appCostVariant });
+  const { state: s, setField, setAll, reset, touched } = useUrlState(appCostSchema, appCostDefaults, { variant: appCostVariant });
   const tracked = useRef(false);
 
   function update<K extends keyof AppCostState>(key: K, value: AppCostState[K]) {
@@ -64,7 +67,8 @@ export default function AppDevelopmentCostCalculator() {
   const c = s.currency;
   const money = (n: number) => formatMoney(n, c);
   const errors = appCostErrors(s);
-  const r = Object.keys(errors).length === 0 ? appCost(toCalcInput(s)) : null;
+  const { blocking, calc } = optionalOff(s, errors, OPTIONAL);
+  const r = Object.keys(blocking).length === 0 ? appCost(toCalcInput(calc)) : null;
   const platforms = platformCount(s);
   const platformNames = PLATFORMS.filter((p) => s[p] === 1).map((p) => PLATFORM_LABEL[p]);
 
@@ -122,7 +126,7 @@ export default function AppDevelopmentCostCalculator() {
           >
             <div className="grid gap-x-6 gap-y-7 sm:grid-cols-2">
               <div className="sm:col-span-2">
-                <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchAppCostCurrency(s, next))} />
+                <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchAppCostCurrency(s, next, touched))} />
               </div>
               <div className="flex flex-col gap-2 sm:col-span-2">
                 <InputCurrency label="Your hourly rate" currency={c} value={s.rate} onChange={(v) => update('rate', v)} error={errors.rate} />

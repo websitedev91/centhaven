@@ -14,6 +14,7 @@ import { useThisMonth } from '@/components/useThisMonth';
 import { track } from '@/lib/analytics';
 import { lastPaymentMonth } from '@/lib/dates';
 import { formatMoney, type CurrencyCode } from '@/lib/format';
+import { optionalOff } from '@/lib/field-errors';
 import { useUrlState } from '@/lib/url-state';
 import { savingsGoal, savingsPath, type SavingsGoalError, type SavingsGoalResult } from './calc';
 import {
@@ -31,11 +32,13 @@ import {
 const BalanceChart = dynamic(() => import('@/components/BalanceChart'), { ssr: false, loading: () => <ChartPlaceholder /> });
 
 const SLUG = 'savings-goal-calculator';
+/** Optional fields: an invalid one shows its own error, and the result still shows (treated as 0). */
+const OPTIONAL = ['saved', 'rate'] as const;
 const FIX_FIELDS = 'Check the highlighted fields to see your result.';
 const monthsText = (n: number) => `${n} ${n === 1 ? 'month' : 'months'}`;
 
 export default function SavingsGoalCalculator() {
-  const { state: s, setField, setAll, reset } = useUrlState(savingsGoalSchema, savingsGoalDefaults, { variant: savingsGoalVariant });
+  const { state: s, setField, setAll, reset, touched } = useUrlState(savingsGoalSchema, savingsGoalDefaults, { variant: savingsGoalVariant });
   const { state: b, setField: setB } = useUrlState(planBSchema, planBDefaults, { prefix: 'b_' });
   const tracked = useRef(false);
   const thisMonth = useThisMonth();
@@ -52,12 +55,13 @@ export default function SavingsGoalCalculator() {
   const money = (n: number) => formatMoney(n, c);
 
   const errors = fieldErrors(savingsGoalSchema, s);
+  const { blocking, calc } = optionalOff(s, errors, OPTIONAL);
   const result: SavingsGoalResult | SavingsGoalError =
-    Object.keys(errors).length > 0 ? { ok: false, error: FIX_FIELDS } : savingsGoal(toCalcInput(s));
+    Object.keys(blocking).length > 0 ? { ok: false, error: FIX_FIELDS } : savingsGoal(toCalcInput(calc));
 
   const bErrors = fieldErrors(planBSchema, b);
   const resultB: SavingsGoalResult | SavingsGoalError =
-    result.ok && Object.keys(bErrors).length === 0 ? savingsGoal(toCalcInput({ ...s, months: b.months })) : { ok: false, error: FIX_FIELDS };
+    result.ok && Object.keys(bErrors).length === 0 ? savingsGoal(toCalcInput({ ...calc, months: b.months })) : { ok: false, error: FIX_FIELDS };
 
   const label = 'Save each month';
 
@@ -79,7 +83,7 @@ export default function SavingsGoalCalculator() {
             }
           >
             <div className="grid gap-x-6 gap-y-7 sm:grid-cols-2">
-              <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchSavingsGoalCurrency(s, next))} />
+              <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchSavingsGoalCurrency(s, next, touched))} />
               <InputCurrency label="Savings goal" help="Example value — use your own goal." currency={c} value={s.goal} onChange={(v) => update('goal', v)} error={errors.goal} />
               <InputCurrency optional label="Already saved" help="Leave at 0 if you're starting from nothing." currency={c} value={s.saved} onChange={(v) => update('saved', v)} error={errors.saved} />
               <InputNumber label="Months to reach it" value={s.months} onChange={(v) => update('months', v)} suffix="months" error={errors.months} />
@@ -109,7 +113,7 @@ export default function SavingsGoalCalculator() {
               rows={[
                 { label: 'Your goal', value: money(s.goal) },
                 ...(s.saved > 0
-                  ? [{ label: 'Already saved', note: s.rate > 0 ? `Grows to ${money(result.savedGrows)} with interest` : undefined, value: money(s.saved) }]
+                  ? [{ label: 'Already saved', note: calc.rate > 0 ? `Grows to ${money(result.savedGrows)} with interest` : undefined, value: money(calc.saved) }]
                   : []),
                 { label: 'You put in', note: `${money(result.monthly)} × ${s.months}`, value: money(result.contributions) },
                 ...(s.rate > 0 ? [{ label: 'Interest earned', note: `At ${s.rate}% a year`, value: money(result.interest) }] : []),
@@ -128,7 +132,7 @@ export default function SavingsGoalCalculator() {
       {result.ok && !result.reached ? (
         <ChartLazy
           title="Your savings growing to the goal"
-          description={`Saving ${money(result.monthly)} a month takes you from ${money(s.saved)} to ${money(s.goal)} in ${monthsText(s.months)}.`}
+          description={`Saving ${money(result.monthly)} a month takes you from ${money(calc.saved)} to ${money(s.goal)} in ${monthsText(s.months)}.`}
         >
           <BalanceChart
             points={savingsPath(toCalcInput(s), result.monthly)}

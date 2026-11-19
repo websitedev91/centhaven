@@ -71,8 +71,8 @@ const base: MeetingState = {
 export const meetingDefaults = defaultsForCurrency(base, meetingCurrencyPresets, 'USD');
 export const meetingVariant = currencyVariant(meetingDefaults, meetingCurrencyPresets);
 
-export function switchMeetingCurrency(state: MeetingState, next: CurrencyCode): MeetingState {
-  return switchCurrency(state, next, meetingDefaults, meetingCurrencyPresets);
+export function switchMeetingCurrency(state: MeetingState, next: CurrencyCode, touched?: ReadonlySet<string>): MeetingState {
+  return switchCurrency(state, next, meetingDefaults, meetingCurrencyPresets, touched);
 }
 
 /** The per-person rates in use (rows 1…rows). */

@@ -36,8 +36,8 @@ const base: RateIncreaseState = { currency: 'USD', rate: 50, hours: 100, increas
 export const rateIncreaseDefaults = defaultsForCurrency(base, rateIncreaseCurrencyPresets, 'USD');
 export const rateIncreaseVariant = currencyVariant(rateIncreaseDefaults, rateIncreaseCurrencyPresets);
 
-export function switchRateIncreaseCurrency(state: RateIncreaseState, next: CurrencyCode): RateIncreaseState {
-  return switchCurrency(state, next, rateIncreaseDefaults, rateIncreaseCurrencyPresets);
+export function switchRateIncreaseCurrency(state: RateIncreaseState, next: CurrencyCode, touched?: ReadonlySet<string>): RateIncreaseState {
+  return switchCurrency(state, next, rateIncreaseDefaults, rateIncreaseCurrencyPresets, touched);
 }
 
 export function toCalcInput(s: { rate: number; hours: number; increase: number; loss: number }): RateIncreaseInput {

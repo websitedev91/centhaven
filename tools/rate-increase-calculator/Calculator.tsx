@@ -35,7 +35,7 @@ const SLUG = 'rate-increase-calculator';
 const FIX_FIELDS = 'Check the highlighted fields to see your result.';
 
 export default function RateIncreaseCalculator() {
-  const { state: s, setField, setAll, reset } = useUrlState(rateIncreaseSchema, rateIncreaseDefaults, {
+  const { state: s, setField, setAll, reset, touched } = useUrlState(rateIncreaseSchema, rateIncreaseDefaults, {
     variant: rateIncreaseVariant,
   });
   const { state: b, setField: setB } = useUrlState(planBSchema, planBDefaults, { prefix: 'b_' });
@@ -86,7 +86,7 @@ export default function RateIncreaseCalculator() {
           >
             <div className="grid gap-x-6 gap-y-7 sm:grid-cols-2">
               <div className="sm:col-span-2">
-                <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchRateIncreaseCurrency(s, next))} />
+                <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchRateIncreaseCurrency(s, next, touched))} />
               </div>
               <InputCurrency
                 label="Current rate (per hour)"

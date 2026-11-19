@@ -13,6 +13,7 @@ import { SplitBar } from '@/components/SplitBar';
 import { track } from '@/lib/analytics';
 import { CATEGORICAL, MUTED_FILL } from '@/lib/chart-palette';
 import { formatMoney, formatNumber, formatPercent, type CurrencyCode } from '@/lib/format';
+import { optionalOff } from '@/lib/field-errors';
 import { useUrlState } from '@/lib/url-state';
 import { processingFee, type ProcessingError, type ProcessingMode, type ProcessingResult } from './calc';
 import {
@@ -28,10 +29,12 @@ import {
 } from './schema';
 
 const SLUG = 'payment-processing-fee-calculator';
+/** Optional fields: an invalid one shows its own error, and the result still shows (treated as 0). */
+const OPTIONAL = ['fixed', 'extra'] as const;
 const FIX_FIELDS = 'Check the highlighted fields to see your result.';
 
 export default function PaymentProcessingFeeCalculator() {
-  const { state: s, setField, setAll, reset } = useUrlState(processingSchema, processingDefaults, {
+  const { state: s, setField, setAll, reset, touched } = useUrlState(processingSchema, processingDefaults, {
     variant: processingVariant,
   });
   const { state: b, setField: setB } = useUrlState(planBSchema, planBDefaults, { prefix: 'b_' });
@@ -52,12 +55,13 @@ export default function PaymentProcessingFeeCalculator() {
   const feeLabel = `${s.percent}%${s.extra > 0 ? ` + ${s.extra}%` : ''} + ${money(s.fixed)}`;
 
   const errors = fieldErrors(processingSchema, s);
+  const { blocking, calc } = optionalOff(s, errors, OPTIONAL);
   const result: ProcessingResult | ProcessingError =
-    Object.keys(errors).length > 0 ? { ok: false, error: FIX_FIELDS } : processingFee(toCalcInput(s));
+    Object.keys(blocking).length > 0 ? { ok: false, error: FIX_FIELDS } : processingFee(toCalcInput(calc));
 
   const bErrors = fieldErrors(planBSchema, b);
   const resultB: ProcessingResult | ProcessingError =
-    result.ok && Object.keys(bErrors).length === 0 ? processingFee(toCalcInput({ ...s, ...b })) : { ok: false, error: FIX_FIELDS };
+    result.ok && Object.keys(bErrors).length === 0 ? processingFee(toCalcInput({ ...calc, ...b })) : { ok: false, error: FIX_FIELDS };
 
   const label = customerPays ? 'You receive' : 'Price to charge';
 
@@ -90,7 +94,7 @@ export default function PaymentProcessingFeeCalculator() {
                   ]}
                 />
               </div>
-              <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchProcessingCurrency(s, next))} />
+              <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchProcessingCurrency(s, next, touched))} />
               <InputCurrency
                 label={customerPays ? 'Payment amount' : 'Amount you want to receive'}
                 currency={c}

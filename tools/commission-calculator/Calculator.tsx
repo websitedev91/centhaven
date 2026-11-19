@@ -11,6 +11,7 @@ import { ScenarioCompare } from '@/components/ScenarioCompare';
 import { SegmentedControl } from '@/components/SegmentedControl';
 import { track } from '@/lib/analytics';
 import { formatMoney, formatNumber, formatPercent, type CurrencyCode } from '@/lib/format';
+import { optionalOff } from '@/lib/field-errors';
 import { useUrlState } from '@/lib/url-state';
 import { commission, type CommissionError, type CommissionResult, type PlanType } from './calc';
 import {
@@ -26,10 +27,12 @@ import {
 } from './schema';
 
 const SLUG = 'commission-calculator';
+/** Optional fields: an invalid one shows its own error, and the result still shows (treated as 0). */
+const OPTIONAL = ['base'] as const;
 const FIX_FIELDS = 'Check the highlighted fields to see your result.';
 
 export default function CommissionCalculator() {
-  const { state: s, setField, setAll, reset } = useUrlState(commissionSchema, commissionDefaults, { variant: commissionVariant });
+  const { state: s, setField, setAll, reset, touched } = useUrlState(commissionSchema, commissionDefaults, { variant: commissionVariant });
   const { state: b, setField: setB } = useUrlState(planBSchema, planBDefaults, { prefix: 'b_' });
   const tracked = useRef(false);
 
@@ -46,13 +49,14 @@ export default function CommissionCalculator() {
   const tiered = s.plan === 'tiered';
 
   const errors = fieldErrors(commissionSchema, s);
+  const { blocking, calc } = optionalOff(s, errors, OPTIONAL);
   const result: CommissionResult | CommissionError =
-    Object.keys(errors).length > 0 ? { ok: false, error: FIX_FIELDS } : commission(toCalcInput(s));
+    Object.keys(blocking).length > 0 ? { ok: false, error: FIX_FIELDS } : commission(toCalcInput(calc));
 
   const bErrors = fieldErrors(planBSchema, b);
   const resultB: CommissionResult | CommissionError =
     result.ok && Object.keys(bErrors).length === 0
-      ? commission({ ...toCalcInput(s), plan: 'flat', rate: b.rate / 100 })
+      ? commission({ ...toCalcInput(calc), plan: 'flat', rate: b.rate / 100 })
       : { ok: false, error: FIX_FIELDS };
 
   const effective = (r: CommissionResult) => (r.effective === null ? '—' : formatPercent(r.effective, 2));
@@ -102,7 +106,7 @@ export default function CommissionCalculator() {
                   ]}
                 />
               </div>
-              <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchCommissionCurrency(s, next))} />
+              <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchCommissionCurrency(s, next, touched))} />
               <InputCurrency label="Sales amount" help="For the period you're paid for." currency={c} value={s.sales} onChange={(v) => update('sales', v)} error={errors.sales} />
               {tiered ? (
                 <fieldset className="flex flex-col gap-5 sm:col-span-2">

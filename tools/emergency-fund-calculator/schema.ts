@@ -47,8 +47,8 @@ const base: EmergencyState = {
 export const emergencyDefaults = defaultsForCurrency(base, emergencyCurrencyPresets, 'USD');
 export const emergencyVariant = currencyVariant(emergencyDefaults, emergencyCurrencyPresets);
 
-export function switchEmergencyCurrency(state: EmergencyState, next: CurrencyCode): EmergencyState {
-  return switchCurrency(state, next, emergencyDefaults, emergencyCurrencyPresets);
+export function switchEmergencyCurrency(state: EmergencyState, next: CurrencyCode, touched?: ReadonlySet<string>): EmergencyState {
+  return switchCurrency(state, next, emergencyDefaults, emergencyCurrencyPresets, touched);
 }
 
 /** Months actually used: the user's own number, or the rule-of-thumb suggestion when 0. */

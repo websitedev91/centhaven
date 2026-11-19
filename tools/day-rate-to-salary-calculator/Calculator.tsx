@@ -35,7 +35,7 @@ const FIX_FIELDS = 'Check the highlighted fields to see your result.';
 const days = (n: number) => `${formatNumber(n, 1)} ${n === 1 ? 'day' : 'days'}`;
 
 export default function DayRateToSalaryCalculator() {
-  const { state: s, setField, setAll, reset } = useUrlState(dayRateSchema, dayRateDefaults, { variant: dayRateVariant });
+  const { state: s, setField, setAll, reset, touched } = useUrlState(dayRateSchema, dayRateDefaults, { variant: dayRateVariant });
   const { state: b, setField: setB } = useUrlState(planBSchema, planBDefaults, { prefix: 'b_' });
   const tracked = useRef(false);
 
@@ -108,7 +108,7 @@ export default function DayRateToSalaryCalculator() {
                   ]}
                 />
               </div>
-              <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchDayRateCurrency(s, next))} />
+              <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchDayRateCurrency(s, next, touched))} />
               {rateMode ? (
                 <InputCurrency
                   label="Day rate"

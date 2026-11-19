@@ -8,9 +8,11 @@ import type { DefaultsVariant } from './url-state';
  * expenses, typical tax…). `Record<CurrencyCode, …>` forces every supported currency to be
  * covered, so adding a currency later makes TypeScript flag every tool that needs presets.
  *
- * When the currency changes, a field still at the OLD currency's default is treated as
- * "not edited" and moves to the NEW currency's default. Anything the user typed is kept.
- * This needs no extra state, so it also works for values loaded from a shared link.
+ * When the currency changes, a field the user has NOT touched moves to the NEW currency's
+ * default; anything the user typed is kept, even if they retyped the exact example value
+ * (Puru, 2026-11-19). "Touched" comes from useUrlState (typed in this visit, or present in
+ * the shared link). Without a touched set (older callers, tests), a field still at the old
+ * currency's default counts as untouched.
  */
 export type CurrencyPresets<T> = Record<CurrencyCode, Partial<T>>;
 
@@ -27,6 +29,7 @@ export function switchCurrency<T extends { currency: CurrencyCode }>(
   next: CurrencyCode,
   base: T,
   presets: CurrencyPresets<T>,
+  touched?: ReadonlySet<string>,
 ): T {
   if (next === state.currency) return state;
   const from = defaultsForCurrency(base, presets, state.currency);
@@ -35,6 +38,7 @@ export function switchCurrency<T extends { currency: CurrencyCode }>(
   const out: T = { ...state, currency: next };
   for (const key of keys) {
     if (key === 'currency') continue;
+    if (touched?.has(key as string)) continue;
     if (state[key] === from[key]) out[key] = to[key];
   }
   return out;

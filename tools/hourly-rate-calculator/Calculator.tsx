@@ -15,6 +15,7 @@ import { ScenarioCompare } from '@/components/ScenarioCompare';
 import { Slider } from '@/components/Slider';
 import { track } from '@/lib/analytics';
 import { formatMoney, formatNumber, formatPercent, type CurrencyCode } from '@/lib/format';
+import { optionalOff } from '@/lib/field-errors';
 import { useUrlState } from '@/lib/url-state';
 import { calcHourlyRate, WEEKS_PER_YEAR, type HourlyRateError, type HourlyRateResult } from './calc';
 import {
@@ -34,6 +35,8 @@ import { SLICES } from './slices';
 const HourSplitChart = dynamic(() => import('./Chart'), { ssr: false, loading: () => <ChartPlaceholder shape="donut" /> });
 
 const SLUG = 'hourly-rate-calculator';
+/** Optional fields: an invalid one shows its own error, and the result still shows (treated as 0). */
+const OPTIONAL = ['buffer'] as const;
 const FIX_FIELDS = 'Check the highlighted fields to see your rate.';
 
 function money(n: number, c: CurrencyCode) {
@@ -41,7 +44,7 @@ function money(n: number, c: CurrencyCode) {
 }
 
 export default function HourlyRateCalculator() {
-  const { state: s, setField: set, setAll, reset } = useUrlState(hourlyRateSchema, hourlyRateDefaults, {
+  const { state: s, setField: set, setAll, reset, touched } = useUrlState(hourlyRateSchema, hourlyRateDefaults, {
     variant: hourlyRateVariant,
   });
   const { state: b, setField: setB } = useUrlState(planBSchema, planBDefaults, { prefix: 'b_' });
@@ -61,18 +64,19 @@ export default function HourlyRateCalculator() {
 
   /** Untouched income/expenses/tax follow the currency; typed values are kept. */
   function changeCurrency(next: CurrencyCode) {
-    setAll(switchHourlyRateCurrency(s, next));
+    setAll(switchHourlyRateCurrency(s, next, touched));
     markCalculated();
   }
 
   const errors = fieldErrors(hourlyRateSchema, s);
+  const { blocking, calc } = optionalOff(s, errors, OPTIONAL);
   const result: HourlyRateResult | HourlyRateError =
-    Object.keys(errors).length > 0 ? { ok: false, error: FIX_FIELDS } : calcHourlyRate(toCalcInput(s));
+    Object.keys(blocking).length > 0 ? { ok: false, error: FIX_FIELDS } : calcHourlyRate(toCalcInput(calc));
   const c = s.currency;
 
   const bErrors = fieldErrors(planBSchema, b);
   const resultB: HourlyRateResult | HourlyRateError =
-    Object.keys(bErrors).length > 0 ? { ok: false, error: FIX_FIELDS } : calcHourlyRate(toCalcInput({ ...s, ...b }));
+    Object.keys(bErrors).length > 0 ? { ok: false, error: FIX_FIELDS } : calcHourlyRate(toCalcInput({ ...calc, ...b }));
 
   return (
     <div className="flex flex-col gap-6">

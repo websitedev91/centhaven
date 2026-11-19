@@ -35,8 +35,8 @@ const base: LateFeeState = { currency: 'USD', amount: 2_000, days: 45, type: 'mo
 export const lateFeeDefaults = defaultsForCurrency(base, lateFeeCurrencyPresets, 'USD');
 export const lateFeeVariant = currencyVariant(lateFeeDefaults, lateFeeCurrencyPresets);
 
-export function switchLateFeeCurrency(state: LateFeeState, next: CurrencyCode): LateFeeState {
-  return switchCurrency(state, next, lateFeeDefaults, lateFeeCurrencyPresets);
+export function switchLateFeeCurrency(state: LateFeeState, next: CurrencyCode, touched?: ReadonlySet<string>): LateFeeState {
+  return switchCurrency(state, next, lateFeeDefaults, lateFeeCurrencyPresets, touched);
 }
 
 export function toCalcInput(s: LateFeeState): LateFeeInput {

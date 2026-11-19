@@ -14,6 +14,7 @@ import { useThisMonth } from '@/components/useThisMonth';
 import { track } from '@/lib/analytics';
 import { monthYearAfter } from '@/lib/dates';
 import { formatMoney, type CurrencyCode } from '@/lib/format';
+import { optionalOff } from '@/lib/field-errors';
 import { useUrlState } from '@/lib/url-state';
 import { cashPath, formatMonths, runway, type RunwayResult } from './calc';
 import {
@@ -31,6 +32,8 @@ import {
 const BalanceChart = dynamic(() => import('@/components/BalanceChart'), { ssr: false, loading: () => <ChartPlaceholder /> });
 
 const SLUG = 'runway-calculator';
+/** Optional fields: an invalid one shows its own error, and the result still shows (treated as 0). */
+const OPTIONAL = ['revenue', 'target'] as const;
 const FIX_FIELDS = 'Check the highlighted fields to see your result.';
 const NOT_BURNING = "You're not burning cash: your revenue covers your costs.";
 
@@ -42,7 +45,7 @@ const aboutText = (r: RunwayResult) => {
 };
 
 export default function RunwayCalculator() {
-  const { state: s, setField, setAll, reset } = useUrlState(runwaySchema, runwayDefaults, { variant: runwayVariant });
+  const { state: s, setField, setAll, reset, touched } = useUrlState(runwaySchema, runwayDefaults, { variant: runwayVariant });
   const { state: b, setField: setB } = useUrlState(planBSchema, planBDefaults, { prefix: 'b_' });
   const tracked = useRef(false);
   const thisMonth = useThisMonth();
@@ -58,9 +61,10 @@ export default function RunwayCalculator() {
   const c = s.currency;
   const money = (n: number) => formatMoney(n, c);
   const errors = fieldErrors(runwaySchema, s);
-  const r = Object.keys(errors).length > 0 ? null : runway(toCalcInput(s));
+  const { blocking, calc } = optionalOff(s, errors, OPTIONAL);
+  const r = Object.keys(blocking).length > 0 ? null : runway(toCalcInput(calc));
   const bErrors = fieldErrors(planBSchema, b);
-  const rb = r && Object.keys(bErrors).length === 0 ? runway(toCalcInput({ ...s, ...b })) : null;
+  const rb = r && Object.keys(bErrors).length === 0 ? runway(toCalcInput({ ...calc, ...b })) : null;
 
   const runsOut =
     r && r.runway !== null && thisMonth !== null && s.cash > 0
@@ -85,7 +89,7 @@ export default function RunwayCalculator() {
             }
           >
             <div className="grid gap-x-6 gap-y-7 sm:grid-cols-2">
-              <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchRunwayCurrency(s, next))} />
+              <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchRunwayCurrency(s, next, touched))} />
               <InputCurrency label="Cash in the bank" help="Example values — use your own numbers." currency={c} value={s.cash} onChange={(v) => update('cash', v)} error={errors.cash} />
               <InputCurrency
                 label="Monthly costs (gross burn)"

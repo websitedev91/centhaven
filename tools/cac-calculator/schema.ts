@@ -37,8 +37,8 @@ const base: CacState = { currency: 'USD', mkt: 8_000, sales: 4_000, cust: 60, lt
 export const cacDefaults = defaultsForCurrency(base, cacCurrencyPresets, 'USD');
 export const cacVariant = currencyVariant(cacDefaults, cacCurrencyPresets);
 
-export function switchCacCurrency(state: CacState, next: CurrencyCode): CacState {
-  return switchCurrency(state, next, cacDefaults, cacCurrencyPresets);
+export function switchCacCurrency(state: CacState, next: CurrencyCode, touched?: ReadonlySet<string>): CacState {
+  return switchCurrency(state, next, cacDefaults, cacCurrencyPresets, touched);
 }
 
 export function toCalcInput(s: Pick<CacState, 'mkt' | 'sales' | 'cust' | 'ltv' | 'target'>): CacInput {

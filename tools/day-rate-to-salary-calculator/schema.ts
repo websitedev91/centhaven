@@ -58,8 +58,8 @@ const base: DayRateState = {
 export const dayRateDefaults = defaultsForCurrency(base, dayRateCurrencyPresets, 'GBP');
 export const dayRateVariant = currencyVariant(dayRateDefaults, dayRateCurrencyPresets);
 
-export function switchDayRateCurrency(state: DayRateState, next: CurrencyCode): DayRateState {
-  return switchCurrency(state, next, dayRateDefaults, dayRateCurrencyPresets);
+export function switchDayRateCurrency(state: DayRateState, next: CurrencyCode, touched?: ReadonlySet<string>): DayRateState {
+  return switchCurrency(state, next, dayRateDefaults, dayRateCurrencyPresets, touched);
 }
 
 export function toDaysInput(s: Omit<DayRateState, 'mode' | 'currency' | 'dayRate' | 'salary'>): DaysInput {

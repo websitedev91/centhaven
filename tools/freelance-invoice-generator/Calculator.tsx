@@ -1,5 +1,6 @@
 'use client';
 
+import { optionalOff, type FieldErrors } from '@/lib/field-errors';
 import { useRef, useState, type ReactNode } from 'react';
 import { InputsPanel } from '@/components/CalculatorGrid';
 import { CurrencySelect } from '@/components/CurrencySelect';
@@ -88,8 +89,11 @@ export default function FreelanceInvoiceGenerator() {
   const c = s.currency;
   const money = (n: number) => formatMoney(n, c);
   const errors = invoiceErrors(s);
-  const valid = Object.keys(errors).length === 0;
-  const t = invoiceTotals(toInvoiceInput(s));
+  // Optional fields (discount, tax, amount paid): an invalid one shows its own error, and the
+  // totals still show with it treated as 0 (Puru, 2026-11-19).
+  const { blocking, calc } = optionalOff(s, errors as FieldErrors<InvoiceState>, ['discount', 'taxRate', 'paid']);
+  const valid = Object.keys(blocking).length === 0;
+  const t = invoiceTotals(toInvoiceInput(calc));
   const days = termDays(s.terms, s.customDays);
   const dueDate = s.issueDate && !errors.customDays ? addDays(s.issueDate, days) : '';
   const termsLabel = s.terms === 'receipt' ? 'Due on receipt' : `Net ${days}`;

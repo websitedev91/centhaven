@@ -25,6 +25,9 @@ import {
  */
 export function HeroCalculator({ toolHref }: { toolHref?: string }) {
   const [s, setS] = useState<HourlyRateState>(hourlyRateDefaults);
+  /** Fields the visitor typed in: a currency switch keeps them, even if they match the example. */
+  const [touched, setTouched] = useState<ReadonlySet<string>>(() => new Set());
+  const touch = (key: string) => setTouched((t) => new Set([...t, key]));
   const currencyId = useId();
 
   const incomeError =
@@ -62,7 +65,7 @@ export function HeroCalculator({ toolHref }: { toolHref?: string }) {
           <select
             id={currencyId}
             value={s.currency}
-            onChange={(e) => setS(switchHourlyRateCurrency(s, e.target.value as CurrencyCode))}
+            onChange={(e) => setS(switchHourlyRateCurrency(s, e.target.value as CurrencyCode, touched))}
             className="h-9 shrink-0 rounded-field border border-line bg-surface px-2 text-[15px] font-[550] text-ink hover:border-ink-muted/50 focus-visible:border-haven focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-haven"
           >
             {CURRENCIES.map((c) => (
@@ -77,13 +80,19 @@ export function HeroCalculator({ toolHref }: { toolHref?: string }) {
             label="Take-home goal (per year)"
             currency={s.currency}
             value={s.targetIncome}
-            onChange={(v) => setS({ ...s, targetIncome: v })}
+            onChange={(v) => {
+              setS({ ...s, targetIncome: v });
+              touch('targetIncome');
+            }}
             error={incomeError}
           />
           <InputNumber
             label="Hours a week"
             value={s.hoursPerWeek}
-            onChange={(v) => setS({ ...s, hoursPerWeek: v })}
+            onChange={(v) => {
+              setS({ ...s, hoursPerWeek: v });
+              touch('hoursPerWeek');
+            }}
             suffix="hours"
             error={hoursError}
           />

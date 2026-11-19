@@ -16,6 +16,7 @@ import { track } from '@/lib/analytics';
 import { CATEGORICAL, MUTED_FILL } from '@/lib/chart-palette';
 import { formatMoney, formatPercent, type CurrencyCode } from '@/lib/format';
 import { lastPaymentMonth } from '@/lib/dates';
+import { optionalOff } from '@/lib/field-errors';
 import { useUrlState } from '@/lib/url-state';
 import {
   emergencyFund,
@@ -40,12 +41,22 @@ import {
 } from './schema';
 
 const SLUG = 'emergency-fund-calculator';
+/** Optional fields: an invalid one shows its own error, and the result still shows (treated as 0). */
+const OPTIONAL = ['saved', 'monthlySaving'] as const;
 const FIX_FIELDS = 'Check the highlighted fields to see your target.';
 const INCOME_LABEL: Record<IncomeType, string> = {
   steady: 'Steady salary',
   variable: 'Variable or commission',
   'self-employed': 'Freelance or self-employed',
 };
+/** Same ceiling as the expenses field, so the helper never fills it with a value it rejects. */
+const ESSENTIALS_MAX = 100_000_000;
+function essentialError(v: number | undefined): string | undefined {
+  if (v === undefined || !Number.isFinite(v)) return undefined;
+  if (v < 0) return 'Can’t be negative';
+  if (v > ESSENTIALS_MAX) return 'That number is too large';
+  return undefined;
+}
 const monthsText = (n: number) => `${n} ${n === 1 ? 'month' : 'months'}`;
 
 const ESSENTIAL_LABEL: Record<Essential, string> = {
@@ -77,7 +88,7 @@ function useThisMonth(): number | null {
 }
 
 export default function EmergencyFundCalculator() {
-  const { state: s, setField, setAll, reset } = useUrlState(emergencySchema, emergencyDefaults, { variant: emergencyVariant });
+  const { state: s, setField, setAll, reset, touched } = useUrlState(emergencySchema, emergencyDefaults, { variant: emergencyVariant });
   const tracked = useRef(false);
 
   function update<K extends keyof EmergencyState>(key: K, value: EmergencyState[K]) {
@@ -91,8 +102,9 @@ export default function EmergencyFundCalculator() {
   const c = s.currency;
   const money = (n: number) => formatMoney(n, c);
   const errors = fieldErrors(emergencySchema, s);
+  const { blocking, calc } = optionalOff(s, errors, OPTIONAL);
   const result: EmergencyFundResult | EmergencyFundError =
-    Object.keys(errors).length > 0 ? { ok: false, error: FIX_FIELDS } : emergencyFund(toCalcInput(s));
+    Object.keys(blocking).length > 0 ? { ok: false, error: FIX_FIELDS } : emergencyFund(toCalcInput(calc));
 
   const suggestion = suggestedMonths(s.incomeType, s.dependants);
   const months = effectiveMonths(s);
@@ -103,17 +115,20 @@ export default function EmergencyFundCalculator() {
   const label = 'Emergency fund target';
 
   // "Help me add up my essentials": kept on this page only (not in the share link).
+  // Each box is optional: an invalid one shows its own error and counts as 0 (Puru, 2026-11-19).
   const [essentials, setEssentials] = useState<Partial<Record<Essential, number>>>({});
-  const essentialsTotal = sumEssentials(essentials);
+  const validEssentials = (all: Partial<Record<Essential, number>>) =>
+    Object.fromEntries(Object.entries(all).filter(([, v]) => essentialError(v) === undefined)) as Partial<Record<Essential, number>>;
+  const essentialsTotal = sumEssentials(validEssentials(essentials));
   function setEssential(k: Essential, v: number) {
     const next = { ...essentials, [k]: v };
     setEssentials(next);
-    const total = sumEssentials(next);
-    if (total > 0) update('expenses', total);
+    const total = sumEssentials(validEssentials(next));
+    if (total > 0 && total <= ESSENTIALS_MAX) update('expenses', total);
   }
 
   const thisMonth = useThisMonth();
-  const path = result.ok ? savingsPath(s.saved, s.monthlySaving, result.target, result.monthsToBuild) : [];
+  const path = result.ok ? savingsPath(calc.saved, calc.monthlySaving, result.target, result.monthsToBuild) : [];
 
   return (
     <div className="flex flex-col gap-6">
@@ -134,7 +149,7 @@ export default function EmergencyFundCalculator() {
           >
             <div className="grid gap-x-6 gap-y-7 sm:grid-cols-2">
               <div className="sm:col-span-2">
-                <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchEmergencyCurrency(s, next))} />
+                <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchEmergencyCurrency(s, next, touched))} />
               </div>
               <div className="flex flex-col gap-3 sm:col-span-2">
                 <InputCurrency
@@ -160,6 +175,7 @@ export default function EmergencyFundCalculator() {
                           currency={c}
                           value={essentials[k] ?? 0}
                           onChange={(v) => setEssential(k, v)}
+                          error={essentialError(essentials[k])}
                         />
                       ))}
                     </div>
@@ -254,7 +270,7 @@ export default function EmergencyFundCalculator() {
                   ? [
                       {
                         label: 'Fully funded by',
-                        note: `Saving ${money(s.monthlySaving)} a month from this month`,
+                        note: `Saving ${money(calc.monthlySaving)} a month from this month`,
                         value: lastPaymentMonth(Math.floor(thisMonth / 12), thisMonth % 12, result.monthsToBuild),
                       },
                     ]
@@ -272,14 +288,14 @@ export default function EmergencyFundCalculator() {
       {result.ok && result.target > 0 ? (
         <SplitBar
           title="How close you are"
-          description={`${money(Math.min(s.saved, result.target))} saved of ${money(result.target)}.`}
+          description={`${money(Math.min(calc.saved, result.target))} saved of ${money(result.target)}.`}
           total={result.target}
           parts={[
             {
               key: 'saved',
               label: 'Saved so far',
-              value: Math.min(s.saved, result.target),
-              display: money(s.saved),
+              value: Math.min(calc.saved, result.target),
+              display: money(calc.saved),
               color: CATEGORICAL[0],
             },
             { key: 'left', label: 'Still to save', value: result.shortfall, display: money(result.shortfall), color: MUTED_FILL },
@@ -290,7 +306,7 @@ export default function EmergencyFundCalculator() {
       {result.ok && path.length > 1 ? (
         <ChartLazy
           title="Your savings growing to the target"
-          description={`Saving ${money(s.monthlySaving)} a month takes you from ${money(s.saved)} to ${money(result.target)} in ${monthsText(result.monthsToBuild ?? 0)}.`}
+          description={`Saving ${money(calc.monthlySaving)} a month takes you from ${money(calc.saved)} to ${money(result.target)} in ${monthsText(result.monthsToBuild ?? 0)}.`}
         >
           <SavingsGrowthChart path={path} target={result.target} currency={c} />
         </ChartLazy>

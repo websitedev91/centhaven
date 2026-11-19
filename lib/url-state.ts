@@ -116,18 +116,43 @@ export function useUrlState<T extends Shape>(schema: StateSchema<T>, defaults: T
     [prefixedSearch, schema, defaults, variant],
   );
   const [edits, setEdits] = useState<Partial<T>>({});
+  /**
+   * Fields the user has touched: typed in this visit, or present in the shared link. Currency
+   * switches only move UNtouched fields to the new currency's example (lib/currency-defaults.ts).
+   * null = nothing typed yet, so the link's keys are the touched set.
+   */
+  const fromLink = useMemo(() => {
+    const p = new URLSearchParams(prefixedSearch);
+    const skip = variant ? variantKeys(variant) : [];
+    return new Set(Object.keys(defaults).filter((k) => p.has(k) && !skip.includes(k)));
+  }, [prefixedSearch, defaults, variant]);
+  const [typed, setTyped] = useState<Set<string> | null>(null);
+  const touched: ReadonlySet<string> = typed ?? fromLink;
   const state = useMemo(() => ({ ...fromUrl, ...edits }) as T, [fromUrl, edits]);
 
-  const setField = useCallback(<K extends keyof T>(key: K, value: T[K]) => {
-    setEdits((e) => ({ ...e, [key]: value }));
-  }, []);
+  const setField = useCallback(
+    <K extends keyof T>(key: K, value: T[K]) => {
+      setEdits((e) => ({ ...e, [key]: value }));
+      setTyped((t) => new Set([...(t ?? fromLink), key as string]));
+    },
+    [fromLink],
+  );
+
+  /** Mark fields as touched without changing them (e.g. rows that moved when one was removed). */
+  const markTouched = useCallback(
+    (keys: readonly (keyof T)[]) => setTyped((t) => new Set([...(t ?? fromLink), ...(keys as string[])])),
+    [fromLink],
+  );
 
   /** Replace several fields at once (e.g. a currency switch that also moves defaults). */
   const setAll = useCallback((next: T) => setEdits({ ...next }), []);
 
   /** Back to defaults, keeping the variant field (e.g. stays in INR). */
   const reset = useCallback(
-    () => setEdits({ ...resolveDefaults(state, defaults, variant) }),
+    () => {
+      setEdits({ ...resolveDefaults(state, defaults, variant) });
+      setTyped(new Set());
+    },
     [state, defaults, variant],
   );
 
@@ -152,5 +177,5 @@ export function useUrlState<T extends Shape>(schema: StateSchema<T>, defaults: T
     return () => clearTimeout(timer.current);
   }, [state, defaults, dirty, prefix, variant]);
 
-  return { state, setField, setAll, reset } as const;
+  return { state, setField, setAll, reset, touched, markTouched } as const;
 }

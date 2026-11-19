@@ -40,32 +40,31 @@ export function InputNumber(props: InputNumberProps) {
   const { label, value, onChange, help, error, prefix, suffix, grouping = false, locale = 'en-US', optional = false } = props;
   const autoId = useId();
   const id = props.id ?? autoId;
-  const [draft, setDraft] = useState<string | null>(null);
-  const [localError, setLocalError] = useState<string>();
-  const shown = draft ?? display(value, grouping, locale);
+  /**
+   * What the user is typing, with the number it stands for. When `value` changes from outside
+   * (a currency switch, reset, a removed row), the draft no longer matches and the box shows the
+   * new value instead of stale text (Puru, 2026-11-19).
+   */
+  const [draft, setDraftState] = useState<{ text: string; value: number } | null>(null);
+  const [localErrorState, setLocalError] = useState<string>();
+  const live = draft !== null && Object.is(draft.value, value);
+  const shown = live ? draft.text : display(value, grouping, locale);
+  const localError = live ? localErrorState : undefined;
   const err = localError ?? error;
 
-  function handle(text: string) {
-    setDraft(text);
-    const cleaned = text.replace(/[,\s]/g, '');
-    if (cleaned === '' && optional) {
-      setLocalError(undefined);
-      onChange(0);
-      return;
-    }
-    if (cleaned === '' || cleaned === '-' || cleaned === '.') {
-      setLocalError('Enter a number');
-      onChange(Number.NaN);
-      return;
-    }
-    const n = Number(cleaned);
-    if (!Number.isFinite(n)) {
-      setLocalError('Enter a number');
-      onChange(Number.NaN);
-      return;
-    }
-    setLocalError(undefined);
+  function report(text: string, n: number, message?: string) {
+    setDraftState({ text, value: n });
+    setLocalError(message);
     onChange(n);
+  }
+
+  function handle(text: string) {
+    const cleaned = text.replace(/[,\s]/g, '');
+    if (cleaned === '' && optional) return report(text, 0);
+    if (cleaned === '' || cleaned === '-' || cleaned === '.') return report(text, Number.NaN, 'Enter a number');
+    const n = Number(cleaned);
+    if (!Number.isFinite(n)) return report(text, Number.NaN, 'Enter a number');
+    report(text, n);
   }
 
   return (
@@ -87,9 +86,9 @@ export function InputNumber(props: InputNumberProps) {
           aria-describedby={describedBy(id, help, err)}
           data-optional={optional ? '' : undefined}
           onChange={(e) => handle(e.target.value)}
-          onFocus={() => setDraft(Number.isFinite(value) ? String(value) : '')}
+          onFocus={() => setDraftState({ text: Number.isFinite(value) ? String(value) : '', value })}
           onBlur={() => {
-            if (!localError) setDraft(null);
+            if (!localError) setDraftState(null);
           }}
         />
         {suffix ? (

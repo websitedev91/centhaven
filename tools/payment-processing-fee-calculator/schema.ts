@@ -42,8 +42,8 @@ const base: ProcessingState = { mode: 'gross', currency: 'USD', amount: 100, per
 export const processingDefaults = defaultsForCurrency(base, processingCurrencyPresets, 'USD');
 export const processingVariant = currencyVariant(processingDefaults, processingCurrencyPresets);
 
-export function switchProcessingCurrency(state: ProcessingState, next: CurrencyCode): ProcessingState {
-  return switchCurrency(state, next, processingDefaults, processingCurrencyPresets);
+export function switchProcessingCurrency(state: ProcessingState, next: CurrencyCode, touched?: ReadonlySet<string>): ProcessingState {
+  return switchCurrency(state, next, processingDefaults, processingCurrencyPresets, touched);
 }
 
 export function toCalcInput(s: Pick<ProcessingState, 'mode' | 'amount' | 'percent' | 'fixed' | 'extra'>): ProcessingInput {

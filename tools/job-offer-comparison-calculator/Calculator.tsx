@@ -10,6 +10,7 @@ import { Num } from '@/components/Num';
 import { ResultCard } from '@/components/ResultCard';
 import { track } from '@/lib/analytics';
 import { formatMoney, formatNumber, type CurrencyCode } from '@/lib/format';
+import { optionalOff } from '@/lib/field-errors';
 import { useUrlState } from '@/lib/url-state';
 import { compareOffers, type CompareError, type CompareResult, type OfferResult } from './calc';
 import {
@@ -26,11 +27,13 @@ import {
 } from './schema';
 
 const SLUG = 'job-offer-comparison-calculator';
+/** Optional fields: an invalid one shows its own error, and the result still shows (treated as 0). */
+const OPTIONAL = [offerKey('a', 'Bonus'), offerKey('b', 'Bonus'), offerKey('a', 'Office'), offerKey('b', 'Office'), 'timeValue'] as const;
 const FIX_FIELDS = 'Check the highlighted fields to compare the offers.';
 const NAME: Record<OfferKey, string> = { a: 'Offer A', b: 'Offer B' };
 
 export default function JobOfferComparisonCalculator() {
-  const { state: s, setField, setAll, reset } = useUrlState(jobOfferSchema, jobOfferDefaults, { variant: jobOfferVariant });
+  const { state: s, setField, setAll, reset, touched } = useUrlState(jobOfferSchema, jobOfferDefaults, { variant: jobOfferVariant });
   const tracked = useRef(false);
 
   function update<K extends keyof JobOfferState>(key: K, value: JobOfferState[K]) {
@@ -44,10 +47,11 @@ export default function JobOfferComparisonCalculator() {
   const c = s.currency;
   const money = (n: number) => formatMoney(n, c);
   const errors = fieldErrors(jobOfferSchema, s);
+  const { blocking, calc } = optionalOff(s, errors, OPTIONAL);
   const result: CompareResult | CompareError =
-    Object.keys(errors).length > 0
+    Object.keys(blocking).length > 0
       ? { ok: false, error: FIX_FIELDS }
-      : compareOffers(toOfferInput(s, 'a'), toOfferInput(s, 'b'), s.timeValue);
+      : compareOffers(toOfferInput(calc, 'a'), toOfferInput(calc, 'b'), calc.timeValue);
 
   function offerFields(p: OfferKey) {
     const k = <F extends OfferField>(f: F) => offerKey(p, f);
@@ -131,7 +135,7 @@ export default function JobOfferComparisonCalculator() {
             }
           >
             <div className="flex flex-col gap-8">
-              <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchJobOfferCurrency(s, next))} />
+              <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchJobOfferCurrency(s, next, touched))} />
               <div className="grid gap-x-8 gap-y-10 sm:grid-cols-2">
                 {offerFields('a')}
                 {offerFields('b')}

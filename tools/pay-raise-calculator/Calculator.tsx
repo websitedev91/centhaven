@@ -12,6 +12,7 @@ import { SegmentedControl } from '@/components/SegmentedControl';
 import { SelectField } from '@/components/SelectField';
 import { track } from '@/lib/analytics';
 import { formatMoney, formatPercent, type CurrencyCode } from '@/lib/format';
+import { optionalOff } from '@/lib/field-errors';
 import { useUrlState } from '@/lib/url-state';
 import { payRaise, type PayRaiseError, type PayRaiseResult, type Period, type RaiseMode } from './calc';
 import {
@@ -27,11 +28,13 @@ import {
 } from './schema';
 
 const SLUG = 'pay-raise-calculator';
+/** Optional fields: an invalid one shows its own error, and the result still shows (treated as 0). */
+const OPTIONAL = ['inflation'] as const;
 const FIX_FIELDS = 'Check the highlighted fields to see your result.';
 const PER: Record<Period, string> = { hour: 'an hour', week: 'a week', month: 'a month', year: 'a year' };
 
 export default function PayRaiseCalculator() {
-  const { state: s, setField, setAll, reset } = useUrlState(payRaiseSchema, payRaiseDefaults, { variant: payRaiseVariant });
+  const { state: s, setField, setAll, reset, touched } = useUrlState(payRaiseSchema, payRaiseDefaults, { variant: payRaiseVariant });
   const { state: b, setField: setB } = useUrlState(planBSchema, planBDefaults, { prefix: 'b_' });
   const tracked = useRef(false);
 
@@ -51,13 +54,14 @@ export default function PayRaiseCalculator() {
   const percentMode = s.mode === 'percent';
 
   const errors = fieldErrors(payRaiseSchema, s);
+  const { blocking, calc } = optionalOff(s, errors, OPTIONAL);
   const result: PayRaiseResult | PayRaiseError =
-    Object.keys(errors).length > 0 ? { ok: false, error: FIX_FIELDS } : payRaise(toCalcInput(s));
+    Object.keys(blocking).length > 0 ? { ok: false, error: FIX_FIELDS } : payRaise(toCalcInput(calc));
 
   const bErrors = fieldErrors(planBSchema, b);
   const resultB: PayRaiseResult | PayRaiseError =
     result.ok && Object.keys(bErrors).length === 0
-      ? payRaise(toCalcInput({ ...s, mode: 'percent', raise: b.raise }))
+      ? payRaise(toCalcInput({ ...calc, mode: 'percent', raise: b.raise }))
       : { ok: false, error: FIX_FIELDS };
 
   const label = percentMode ? 'Your new pay' : result.ok && result.raise < 0 ? 'Your pay cut' : 'Your raise';
@@ -92,11 +96,11 @@ export default function PayRaiseCalculator() {
                   ]}
                 />
               </div>
-              <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchPayContext(s, { currency: next }))} />
+              <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchPayContext(s, { currency: next }, touched))} />
               <SelectField<Period>
                 label="Pay period"
                 value={s.period}
-                onChange={(v) => setAll(switchPayContext(s, { period: v }))}
+                onChange={(v) => setAll(switchPayContext(s, { period: v }, touched))}
                 options={[
                   { value: 'hour', label: 'Per hour' },
                   { value: 'week', label: 'Per week' },

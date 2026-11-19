@@ -32,8 +32,8 @@ const base: DepreciationState = { currency: 'USD', cost: 1_500, salvage: 300, li
 export const depreciationDefaults = defaultsForCurrency(base, depreciationCurrencyPresets, 'USD');
 export const depreciationVariant = currencyVariant(depreciationDefaults, depreciationCurrencyPresets);
 
-export function switchDepreciationCurrency(state: DepreciationState, next: CurrencyCode): DepreciationState {
-  return switchCurrency(state, next, depreciationDefaults, depreciationCurrencyPresets);
+export function switchDepreciationCurrency(state: DepreciationState, next: CurrencyCode, touched?: ReadonlySet<string>): DepreciationState {
+  return switchCurrency(state, next, depreciationDefaults, depreciationCurrencyPresets, touched);
 }
 
 export function toCalcInput(s: DepreciationState): DepreciationInput {

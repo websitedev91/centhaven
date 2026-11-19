@@ -52,8 +52,22 @@ function nf(locale: string, options: Intl.NumberFormatOptions): Intl.NumberForma
   return f;
 }
 
+/**
+ * Money for display. A value that isn't 0 but would round to 0 shows as "less than $0.01"
+ * (or "loss of less than $0.01" when negative), in the right currency, never "$0.00"
+ * (Puru, 2026-11-19).
+ */
 export function formatMoney(value: number, currency: CurrencyCode, decimals = 2): string {
   if (!Number.isFinite(value)) return '—';
+  // Below 1e-9 is floating-point noise from the maths (e.g. 0.1 + 0.2 − 0.3), so it shows as 0.
+  if (Math.abs(value) >= 1e-9 && roundTo(value, decimals) === 0) {
+    const smallest = formatMoneyRaw(10 ** -decimals, currency, decimals);
+    return value > 0 ? `less than ${smallest}` : `loss of less than ${smallest}`;
+  }
+  return formatMoneyRaw(Math.abs(value) < 1e-9 ? 0 : value, currency, decimals);
+}
+
+function formatMoneyRaw(value: number, currency: CurrencyCode, decimals: number): string {
   return nf(LOCALE[currency], {
     style: 'currency',
     currency,

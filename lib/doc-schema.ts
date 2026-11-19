@@ -20,7 +20,17 @@ export const DOC_LIMITS = {
   payment: 1_000,
 } as const;
 
-export const lineItemSchema = z.object({ id: z.string(), desc: z.string(), qty: z.number(), rate: z.number() });
+/**
+ * `rateTyped`: the user edited this line's rate, so a currency switch keeps it even if it equals
+ * the example (Puru, 2026-11-19). Optional so drafts saved before it still load.
+ */
+export const lineItemSchema = z.object({
+  id: z.string(),
+  desc: z.string(),
+  qty: z.number(),
+  rate: z.number(),
+  rateTyped: z.optional(z.boolean()),
+});
 export type LineItem = z.infer<typeof lineItemSchema>;
 
 export const fromSchema = z.object({ name: z.string(), email: z.string(), phone: z.string(), address: z.string(), taxId: z.string() });
@@ -79,9 +89,11 @@ export function exampleRate(currency: CurrencyCode): number {
   return DOC_RATE_PRESETS[currency].rate ?? RATE_BASE.rate;
 }
 
-/** Moves every line still at the old currency's example rate to the new one; typed rates are kept. */
+/** Moves every line the user hasn't typed a rate into (and still at the example) to the new currency's example. */
 export function switchItemsCurrency(items: readonly LineItem[], from: CurrencyCode, to: CurrencyCode): LineItem[] {
-  return items.map((it) => ({ ...it, rate: switchCurrency({ currency: from, rate: it.rate }, to, RATE_BASE, DOC_RATE_PRESETS).rate }));
+  return items.map((it) =>
+    it.rateTyped ? it : { ...it, rate: switchCurrency({ currency: from, rate: it.rate }, to, RATE_BASE, DOC_RATE_PRESETS).rate },
+  );
 }
 
 /** The one example row a fresh quote or invoice starts with. */

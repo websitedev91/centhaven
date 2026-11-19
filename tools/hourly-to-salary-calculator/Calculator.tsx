@@ -28,7 +28,7 @@ const SLUG = 'hourly-to-salary-calculator';
 const FIX_FIELDS = 'Check the highlighted fields to see your pay.';
 
 export default function HourlyToSalaryCalculator() {
-  const { state: s, setField, setAll, reset } = useUrlState(hourlyToSalarySchema, hourlyToSalaryDefaults, {
+  const { state: s, setField, setAll, reset, touched } = useUrlState(hourlyToSalarySchema, hourlyToSalaryDefaults, {
     variant: hourlyToSalaryVariant,
   });
   const tracked = useRef(false);
@@ -107,7 +107,7 @@ export default function HourlyToSalaryCalculator() {
                   ]}
                 />
               </div>
-              <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchHourlyToSalaryCurrency(s, next))} />
+              <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchHourlyToSalaryCurrency(s, next, touched))} />
               {hourlyMode ? (
                 <InputCurrency
                   label="Hourly wage"

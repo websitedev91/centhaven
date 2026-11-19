@@ -34,8 +34,8 @@ const base: CplState = { currency: 'USD', spend: 2_000, leads: 80, conv: 10 };
 export const cplDefaults = defaultsForCurrency(base, cplCurrencyPresets, 'USD');
 export const cplVariant = currencyVariant(cplDefaults, cplCurrencyPresets);
 
-export function switchCplCurrency(state: CplState, next: CurrencyCode): CplState {
-  return switchCurrency(state, next, cplDefaults, cplCurrencyPresets);
+export function switchCplCurrency(state: CplState, next: CurrencyCode, touched?: ReadonlySet<string>): CplState {
+  return switchCurrency(state, next, cplDefaults, cplCurrencyPresets, touched);
 }
 
 export function toCalcInput(s: Pick<CplState, 'spend' | 'leads' | 'conv'>): CplInput {

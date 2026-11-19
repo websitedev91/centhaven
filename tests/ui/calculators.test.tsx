@@ -123,6 +123,46 @@ describe.each(calculators)('$slug', ({ slug, Calculator }) => {
     }
   });
 
+  it('an invalid optional box shows its own error, and the result still shows (Puru, 2026-11-19)', () => {
+    const { container } = render(<Calculator />);
+    const count = numberBoxes(container).length;
+    for (let i = 0; i < count; i++) {
+      const box = numberBoxes(container)[i]!;
+      if (!box.hasAttribute('data-optional')) continue;
+      const before = box.value;
+      const name = labelOf(box);
+      for (const text of ['-5', '999999999999']) {
+        type(box, text);
+        expect(isValid(container), `${name} = ${text}: optional, the result should still show`).toBe(true);
+        expect(container.textContent, `${name} = ${text}`).not.toMatch(BROKEN);
+      }
+      restore(box, before);
+    }
+  });
+
+  it('a retyped example value survives every currency switch, and boxes show what the maths uses', () => {
+    const { container } = render(<Calculator />);
+    const select = [...container.querySelectorAll<HTMLSelectElement>('select')].find((el) =>
+      [...el.options].some((o) => o.value === 'INR'),
+    );
+    if (!select) return;
+    const digits = (el: HTMLInputElement) => el.value.replace(/[^\d.-]/g, '');
+    const boxes = numberBoxes(container);
+    const typed = boxes.map((el) => digits(el));
+    // Retype every box with exactly what it shows (the example values).
+    // Like a person: clear the box, then type the same number again.
+    boxes.forEach((el, i) => {
+      type(el, '');
+      restore(el, typed[i]!);
+    });
+    for (const cur of CURRENCIES) {
+      if (cur === select.value) continue;
+      fireEvent.change(select, { target: { value: cur } });
+      numberBoxes(container).forEach((el, i) => expect(digits(el), `${labelOf(el)} after → ${cur}`).toBe(typed[i]));
+      expect(container.textContent).not.toMatch(BROKEN);
+    }
+  });
+
   it('every mode and select option updates the output', () => {
     const { container } = render(<Calculator />);
     const selects = [...container.querySelectorAll<HTMLSelectElement>('select')];

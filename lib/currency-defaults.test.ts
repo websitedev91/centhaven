@@ -44,3 +44,18 @@ describe('currency defaults pattern', () => {
     expect(switchCurrency(s, 'USD', base, presets)).toBe(s);
   });
 });
+
+describe('touched fields (Puru, 2026-11-19)', () => {
+  it('keeps a touched field even when it equals the example value', () => {
+    // The user retyped the exact example (100): it is touched, so it stays 100 in INR.
+    expect(switchCurrency(base, 'INR', base, presets, new Set(['amount']))).toEqual({ currency: 'INR', amount: 100, rate: 2, other: 1 });
+  });
+
+  it('still moves untouched fields', () => {
+    expect(switchCurrency(base, 'GBP', base, presets, new Set(['rate']))).toMatchObject({ amount: 80, rate: 5 });
+  });
+
+  it('an empty touched set behaves like the default rule', () => {
+    expect(switchCurrency(base, 'INR', base, presets, new Set())).toEqual(switchCurrency(base, 'INR', base, presets));
+  });
+});

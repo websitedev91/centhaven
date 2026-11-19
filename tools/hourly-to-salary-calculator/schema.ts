@@ -54,8 +54,8 @@ const base: HourlyToSalaryState = {
 export const hourlyToSalaryDefaults = defaultsForCurrency(base, hourlyToSalaryCurrencyPresets, 'USD');
 export const hourlyToSalaryVariant = currencyVariant(hourlyToSalaryDefaults, hourlyToSalaryCurrencyPresets);
 
-export function switchHourlyToSalaryCurrency(state: HourlyToSalaryState, next: CurrencyCode): HourlyToSalaryState {
-  return switchCurrency(state, next, hourlyToSalaryDefaults, hourlyToSalaryCurrencyPresets);
+export function switchHourlyToSalaryCurrency(state: HourlyToSalaryState, next: CurrencyCode, touched?: ReadonlySet<string>): HourlyToSalaryState {
+  return switchCurrency(state, next, hourlyToSalaryDefaults, hourlyToSalaryCurrencyPresets, touched);
 }
 
 export { fieldErrors } from '@/lib/field-errors';

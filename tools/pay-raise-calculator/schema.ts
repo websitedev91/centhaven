@@ -75,12 +75,17 @@ export const payRaiseVariant: DefaultsVariant<PayRaiseState> = {
  * Switch currency and/or period. Pay fields still at the old example move to the new example;
  * anything the user typed is kept (the currency-defaults pattern, with period as a second key).
  */
-export function switchPayContext(state: PayRaiseState, next: Partial<Pick<PayRaiseState, 'currency' | 'period'>>): PayRaiseState {
+export function switchPayContext(
+  state: PayRaiseState,
+  next: Partial<Pick<PayRaiseState, 'currency' | 'period'>>,
+  touched?: ReadonlySet<string>,
+): PayRaiseState {
   const target = { ...state, ...next };
   const from = defaultsFor(state);
   const to = defaultsFor(target);
   const out: PayRaiseState = { ...target };
   for (const key of ['current', 'newPay'] as const) {
+    if (touched?.has(key)) continue;
     if (state[key] === from[key]) out[key] = to[key];
   }
   return out;

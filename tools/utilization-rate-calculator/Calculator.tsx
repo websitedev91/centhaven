@@ -13,6 +13,7 @@ import { SplitBar } from '@/components/SplitBar';
 import { track } from '@/lib/analytics';
 import { CATEGORICAL, MUTED_FILL } from '@/lib/chart-palette';
 import { formatMoney, formatNumber, formatPercent, type CurrencyCode } from '@/lib/format';
+import { optionalOff } from '@/lib/field-errors';
 import { useUrlState } from '@/lib/url-state';
 import { utilizationRate, type UtilizationError, type UtilizationResult } from './calc';
 import {
@@ -27,13 +28,15 @@ import {
 } from './schema';
 
 const SLUG = 'utilization-rate-calculator';
+/** Optional fields: an invalid one shows its own error, and the result still shows (treated as 0). */
+const OPTIONAL = ['leave', 'rate'] as const;
 const FIX_FIELDS = 'Check the highlighted fields to see your utilization.';
 const PERIOD_LABEL: Record<Period, string> = { week: 'this week', month: 'this month', year: 'this year' };
 
 const hrs = (n: number) => `${formatNumber(n, 1)} ${n === 1 ? 'hour' : 'hours'}`;
 
 export default function UtilizationRateCalculator() {
-  const { state: s, setField, setAll, reset } = useUrlState(utilizationSchema, utilizationDefaults, {
+  const { state: s, setField, setAll, reset, touched } = useUrlState(utilizationSchema, utilizationDefaults, {
     variant: utilizationVariant,
   });
   const tracked = useRef(false);
@@ -48,8 +51,9 @@ export default function UtilizationRateCalculator() {
 
   const c = s.currency;
   const errors = fieldErrors(utilizationSchema, s);
+  const { blocking, calc } = optionalOff(s, errors, OPTIONAL);
   const result: UtilizationResult | UtilizationError =
-    Object.keys(errors).length > 0 ? { ok: false, error: FIX_FIELDS } : utilizationRate(toCalcInput(s));
+    Object.keys(blocking).length > 0 ? { ok: false, error: FIX_FIELDS } : utilizationRate(toCalcInput(calc));
   const period = PERIOD_LABEL[s.period];
   const label = 'Utilization rate';
 
@@ -82,7 +86,7 @@ export default function UtilizationRateCalculator() {
                 ]}
                 help="Use the same period for every number."
               />
-              <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchUtilizationCurrency(s, next))} />
+              <CurrencySelect value={c} onChange={(next: CurrencyCode) => setAll(switchUtilizationCurrency(s, next, touched))} />
               <InputNumber
                 label="Billable hours"
                 value={s.billable}

@@ -32,8 +32,8 @@ const base: RunwayState = { currency: 'USD', cash: 120_000, costs: 25_000, reven
 export const runwayDefaults = defaultsForCurrency(base, runwayCurrencyPresets, 'USD');
 export const runwayVariant = currencyVariant(runwayDefaults, runwayCurrencyPresets);
 
-export function switchRunwayCurrency(state: RunwayState, next: CurrencyCode): RunwayState {
-  return switchCurrency(state, next, runwayDefaults, runwayCurrencyPresets);
+export function switchRunwayCurrency(state: RunwayState, next: CurrencyCode, touched?: ReadonlySet<string>): RunwayState {
+  return switchCurrency(state, next, runwayDefaults, runwayCurrencyPresets, touched);
 }
 
 export function toCalcInput(s: Pick<RunwayState, 'cash' | 'costs' | 'revenue' | 'target'>): RunwayInput {

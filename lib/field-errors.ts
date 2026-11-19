@@ -13,3 +13,23 @@ export function fieldErrors<T extends Record<string, unknown>>(schema: z.ZodMini
   }
   return out;
 }
+
+/**
+ * Consistency rule (Puru, 2026-11-19): an invalid OPTIONAL field shows its own error under the
+ * box, but the main result still shows. `blocking` keeps only the errors that should stop the
+ * result; `calc` is the state for the maths, with each invalid optional field at 0 ("off").
+ */
+export function optionalOff<T extends Record<string, unknown>>(
+  state: T,
+  errors: FieldErrors<T>,
+  optional: readonly (keyof T)[],
+): { blocking: FieldErrors<T>; calc: T } {
+  const blocking: FieldErrors<T> = { ...errors };
+  const calc: T = { ...state };
+  for (const key of optional) {
+    if (errors[key] === undefined) continue;
+    delete blocking[key];
+    (calc as Record<keyof T, unknown>)[key] = 0;
+  }
+  return { blocking, calc };
+}
