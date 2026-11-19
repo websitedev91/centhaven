@@ -63,11 +63,11 @@ export const registry: readonly RegistryRow[] = [
   row(savingsGoal, { status: 'live', publishDate: '2026-11-18', lastUpdated: '2026-11-18' }),
   row(lateFee, { status: 'live', publishDate: '2026-11-18', lastUpdated: '2026-11-18' }),
   row(runway, { status: 'live', publishDate: '2026-11-18', lastUpdated: '2026-11-18' }),
-  row(cac, { status: 'draft', lastUpdated: '2026-11-19' }),
-  row(roas, { status: 'draft', lastUpdated: '2026-11-19' }),
-  row(costPerLead, { status: 'draft', lastUpdated: '2026-11-19' }),
-  row(appDevelopmentCost, { status: 'draft', lastUpdated: '2026-11-19' }),
-  row(meetingCost, { status: 'draft', lastUpdated: '2026-11-19' }),
+  row(cac, { status: 'live', publishDate: '2026-11-19', lastUpdated: '2026-11-19' }),
+  row(roas, { status: 'live', publishDate: '2026-11-19', lastUpdated: '2026-11-19' }),
+  row(costPerLead, { status: 'live', publishDate: '2026-11-19', lastUpdated: '2026-11-19' }),
+  row(appDevelopmentCost, { status: 'live', publishDate: '2026-11-19', lastUpdated: '2026-11-19' }),
+  row(meetingCost, { status: 'live', publishDate: '2026-11-19', lastUpdated: '2026-11-19' }),
 ];
 
 /** Local preview builds only (see next.config.ts `env` and scripts/postbuild.mjs). */
