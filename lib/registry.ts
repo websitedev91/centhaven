@@ -29,6 +29,11 @@ import { meta as commission } from '@/tools/commission-calculator/meta';
 import { meta as savingsGoal } from '@/tools/savings-goal-calculator/meta';
 import { meta as lateFee } from '@/tools/late-fee-calculator/meta';
 import { meta as runway } from '@/tools/runway-calculator/meta';
+import { meta as cac } from '@/tools/cac-calculator/meta';
+import { meta as roas } from '@/tools/roas-calculator/meta';
+import { meta as costPerLead } from '@/tools/cost-per-lead-calculator/meta';
+import { meta as appDevelopmentCost } from '@/tools/app-development-cost-calculator/meta';
+import { meta as meetingCost } from '@/tools/meeting-cost-calculator/meta';
 
 type Publishing = Pick<ToolEntry, 'status' | 'lastUpdated' | 'publishDate' | 'reviewedBy'>;
 
@@ -58,6 +63,11 @@ export const registry: readonly RegistryRow[] = [
   row(savingsGoal, { status: 'live', publishDate: '2026-11-18', lastUpdated: '2026-11-18' }),
   row(lateFee, { status: 'live', publishDate: '2026-11-18', lastUpdated: '2026-11-18' }),
   row(runway, { status: 'live', publishDate: '2026-11-18', lastUpdated: '2026-11-18' }),
+  row(cac, { status: 'draft', lastUpdated: '2026-11-19' }),
+  row(roas, { status: 'draft', lastUpdated: '2026-11-19' }),
+  row(costPerLead, { status: 'draft', lastUpdated: '2026-11-19' }),
+  row(appDevelopmentCost, { status: 'draft', lastUpdated: '2026-11-19' }),
+  row(meetingCost, { status: 'draft', lastUpdated: '2026-11-19' }),
 ];
 
 /** Local preview builds only (see next.config.ts `env` and scripts/postbuild.mjs). */

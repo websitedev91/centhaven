@@ -20,6 +20,11 @@ import CommissionContent from '@/tools/commission-calculator/content.mdx';
 import SavingsGoalContent from '@/tools/savings-goal-calculator/content.mdx';
 import LateFeeContent from '@/tools/late-fee-calculator/content.mdx';
 import RunwayContent from '@/tools/runway-calculator/content.mdx';
+import CacContent from '@/tools/cac-calculator/content.mdx';
+import RoasContent from '@/tools/roas-calculator/content.mdx';
+import CostPerLeadContent from '@/tools/cost-per-lead-calculator/content.mdx';
+import AppDevelopmentCostContent from '@/tools/app-development-cost-calculator/content.mdx';
+import MeetingCostContent from '@/tools/meeting-cost-calculator/content.mdx';
 
 /**
  * Maps a tool slug to its long-form content (server-rendered MDX, no client JS).
@@ -48,4 +53,9 @@ export const toolContent: Record<string, ComponentType> = {
   'savings-goal-calculator': SavingsGoalContent,
   'late-fee-calculator': LateFeeContent,
   'runway-calculator': RunwayContent,
+  'cac-calculator': CacContent,
+  'roas-calculator': RoasContent,
+  'cost-per-lead-calculator': CostPerLeadContent,
+  'app-development-cost-calculator': AppDevelopmentCostContent,
+  'meeting-cost-calculator': MeetingCostContent,
 };

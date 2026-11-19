@@ -17,8 +17,8 @@ import { CATEGORICAL } from '@/lib/chart-palette';
 import { formatMoney, formatNumber, type CurrencyCode } from '@/lib/format';
 import { useUrlState } from '@/lib/url-state';
 import { FEATURES, websiteCost, type DesignLevel, type Feature } from './calc';
-import { HOURLY_RATE_TOOL, QUOTE_TOOL } from './links';
-import { LeadBox } from './LeadBox';
+import { LeadBox } from '@/components/LeadBox';
+import { HOURLY_RATE_TOOL, LEAD_MAILTO, QUOTE_TOOL } from './links';
 import {
   fieldErrors,
   hoursKey,
@@ -213,7 +213,7 @@ export default function WebsiteDesignCostCalculator() {
         }
       />
 
-      {r ? <LeadBox /> : null}
+      {r ? <LeadBox heading="Want this website built?" mailto={LEAD_MAILTO} tool={SLUG} /> : null}
 
       {r ? (
         <>

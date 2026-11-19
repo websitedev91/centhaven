@@ -75,4 +75,14 @@ describe('hard-coded links from calculator UIs', () => {
     expect(tool, 'day rate tool must be live while the hourly rate tool links to it').toBeDefined();
     expect(toolPath(tool!)).toBe(DAY_RATE_TOOL.path);
   });
+
+  it.each(['website-design-cost-calculator', 'app-development-cost-calculator'])('%s links to live hourly rate and quote tools', async (slug) => {
+    const links = (await import(`@/tools/${slug}/links.ts`)) as Record<string, { slug: string; path: string }>;
+    const { getLiveToolBySlug, toolPath } = await import('./registry');
+    for (const key of ['HOURLY_RATE_TOOL', 'QUOTE_TOOL']) {
+      const tool = getLiveToolBySlug(links[key]!.slug);
+      expect(tool, `${links[key]!.slug} must be live`).toBeDefined();
+      expect(toolPath(tool!)).toBe(links[key]!.path);
+    }
+  });
 });

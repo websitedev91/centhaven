@@ -1,6 +1,6 @@
 # Tool spec: App Development Cost Calculator
 
-> **Draft — waiting for Puru's review.** Same pricing model as the Website Design Cost Calculator: hours × your rate, with example hours you can edit, and no market prices.
+> **Approved by Puru, 2026-11-19** (all test numbers verified). Example values approved. Same pricing model as the Website Design Cost Calculator: hours × your rate, with example hours you can edit, and no market prices.
 
 | Field | Value |
 |---|---|
@@ -91,7 +91,7 @@ maintenance    = maintHours × rate per month; × 12 per year
 | 6 | Switch USD → INR without editing | rate 75 → 1,500; hours unchanged. A typed rate (e.g. 90) is kept |
 
 ## Edge cases
-- Extra % 0 with 2+ platforms → no extra hours (valid). Unticked features keep their hours in the box (greyed) but count 0.
+- Extra % 0 with 2+ platforms → no extra hours (valid). Unticked features hide their hours box (as in the website tool) and count 0; their hours are kept for when they are ticked again.
 - Screens 0 or decimal → field error. Negative values → field error. Huge values → formatted, never `e+`/NaN.
 
 ## Quality gate 8 (UI input tests)

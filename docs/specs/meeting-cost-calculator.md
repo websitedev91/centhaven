@@ -1,6 +1,6 @@
 # Tool spec: Meeting Cost Calculator
 
-> **Draft — waiting for Puru's review.** Pure maths: every number comes from the user.
+> **Approved by Puru, 2026-11-19** (all test numbers verified). Help text approved. Pure maths: every number comes from the user.
 
 | Field | Value |
 |---|---|
@@ -24,13 +24,13 @@ The hourly cost is the user's own number. Help text: "Hourly pay, or pay plus ot
 | Currency | select | USD | standard list | both | |
 | Number of people | number | 6 | 1 – 10,000, whole | same | Required |
 | Hourly cost per person | currency | 50 | 0 – 1,000,000 | same | Required |
-| People and rates | rows (label optional + hourly cost) | 4 rows: 80 · 60 · 45 · 45 | 1 – 50 rows; rate 0 – 1,000,000 | each | Add / remove row (min 1). Each rate required |
+| People and rates | rows ("Person 1", "Person 2"… + hourly cost) | 4 rows: 80 · 60 · 45 · 45 | 1 – 20 rows; rate 0 – 1,000,000 | each | Add (copies the last rate) / remove row (min 1). Each rate required. No name boxes: names would end up in share links and analytics URLs |
 | Length | number (minutes) | 60 | 1 – 1,440, whole | both | Required |
 | Repeats | segmented | One-off | `once` / `repeats` | both | URL key `rep` |
 | Meetings per week | number | 1 | 0.25 – 50, 2 decimals | repeats | Help: "0.5 = every two weeks, 5 = every weekday." |
 | Weeks a year it runs | number | 48 | 1 – 52, whole | repeats | Example value, labelled |
 
-URL keys: `mode`, `people`, `rate`, `rates` (comma list), `min`, `rep`, `perWeek`, `weeks`.
+URL keys: `mode`, `people`, `rate`, `rows`, `r1`…`r20`, `min`, `rep`, `perWeek`, `weeks`; Plan B `b_people`, `b_min`.
 
 ### Currency presets (example values; counts and times stay the same)
 | Currency | Hourly cost | Per-person rows |
@@ -82,7 +82,7 @@ yearly      = weekly × weeksPerYear
 - Switch both rate modes, both repeat modes and every currency → result updates.
 
 ## Extras
-- Chart: no (`SplitBar` of each person's share in `each` mode). Scenario compare: yes, Plan B = shorter meeting / fewer people. Share / print / embed: yes.
+- Chart: no (`SplitBar` of each person's share in `each` mode). Scenario compare: yes, Plan B = a different number of people and length, at plan A's average hourly cost per person (works in both modes). Share / print / embed: yes.
 
 ## Content notes
 - Examples: case 2 (weekly team meeting), case 3 (daily stand-up with mixed rates), case 4 (Indian office review).

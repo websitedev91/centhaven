@@ -1,6 +1,6 @@
 # Tool spec: Cost Per Lead Calculator
 
-> **Draft — waiting for Puru's review.** Pure maths: every number comes from the user.
+> **Approved by Puru, 2026-11-19** (all test numbers verified). Change: fractional customers show as "about 7.5 customers (on average)". Pure maths: every number comes from the user.
 
 | Field | Value |
 |---|---|
@@ -35,7 +35,7 @@ URL keys: `spend`, `leads`, `conv`.
 | Output | How it's shown |
 |---|---|
 | **Cost per lead** | Main result |
-| Customers from these leads | rate > 0: "{n} customers" (up to 2 decimals when not whole, e.g. 7.5, 0.21) |
+| Customers from these leads | rate > 0: whole: "{n} customers"; fractional: "about {n} customers (on average)", up to 2 decimals (e.g. about 7.5, about 0.21) (Puru, 2026-11-19) |
 | **Cost per customer** | rate > 0: spend ÷ customers |
 | Leads per customer | rate > 0: "About {100 ÷ rate, 1 decimal} leads for each customer" |
 
@@ -52,8 +52,8 @@ leadsPerCustomer = 100 ÷ rate
 |---|---|---|
 | 1 | spend 2,000 · leads 80 · rate 10% | **CPL 25.00** · 8 customers · **cost per customer 250.00** · 10 leads per customer |
 | 2 | spend 1,500 · leads 45 · rate 20% | **CPL 33.33** · 9 customers · **166.67** |
-| 3 | INR ₹60,000 · leads 150 · rate 5% | **CPL ₹400.00** · 7.5 customers · **₹8,000.00** |
-| 4 | spend 1,000 · leads 7 · rate 3% | **CPL 142.86** · 0.21 customers · 33.3 leads per customer · **4,761.90** |
+| 3 | INR ₹60,000 · leads 150 · rate 5% | **CPL ₹400.00** · about 7.5 customers (on average) · **₹8,000.00** |
+| 4 | spend 1,000 · leads 7 · rate 3% | **CPL 142.86** · about 0.21 customers (on average) · 33.3 leads per customer · **4,761.90** |
 | 5 | spend 2,000 · leads 80 · rate 0 | CPL 25.00 · customer rows hidden |
 | 6 | spend 2,000 · leads 80 · rate 100% | 80 customers · cost per customer 25.00 (= CPL) |
 | 7 | Switch USD → INR without editing | spend 2,000 → 60,000; leads and rate unchanged; CPL 750.00. A typed spend is kept |

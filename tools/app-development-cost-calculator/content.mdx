@@ -1,0 +1,73 @@
+This app development cost calculator estimates the price of an app project from the hours it needs and your own hourly rate. Tick the platforms, set the number of screens and choose the features. Each part adds example hours you can change. The tool adds a buffer for changes and shows an optional monthly maintenance fee. It never uses market prices: the price comes from your hours and your rate.
+
+## How to use the calculator
+
+1. **Choose your currency** and enter **your hourly rate**. The starting values are examples only.
+2. **Tick the platforms**: iOS, Android, a web app, or any mix. With two or more, set the **extra work for each added platform**.
+3. **Set the number of screens** and the hours each one takes to design and build.
+4. **Enter setup hours** for planning, project setup and app store submission.
+5. **Tick the features.** App features are built for each platform. Shared features, like the backend, are built once.
+6. **Set a buffer** for feedback rounds and project management, and add **maintenance hours** if you offer a monthly plan.
+
+The result shows the project price, the price without the buffer as the low end of your quote, the total hours and a breakdown of every part.
+
+## How the app cost calculator works
+
+```text
+screen hours    = screens × hours per screen
+app-side hours  = screen hours + app features that are on
+shared hours    = setup + shared features that are on
+extra platforms = app-side hours × extra % × (platforms − 1)
+
+base hours  = app-side + shared + extra platforms
+total hours = base hours + buffer %
+price       = total hours × your rate
+```
+
+Maintenance is the monthly hours × your rate, and × 12 for a year.
+
+## Mobile app cost estimate: worked examples
+
+### 1. A two-platform booking app
+
+A US freelancer charges $75 an hour. The app runs on iOS and Android, with 8 screens at 6 hours each, logins, a backend and testing. Each added platform takes 60% of the app-side work again. The buffer is 15%.
+
+- Base hours: **182.4 h**
+- Total with buffer: **209.76 h**
+- Project price: **$15,732.00**
+- Without the buffer: **$13,680.00**
+- Maintenance at 6 hours a month: **$450.00** a month, **$5,400.00** a year
+
+**What this means for the freelancer:** a quote between about $13,700 and $15,700, with a monthly plan on top.
+
+### 2. An iOS shop app in rupees
+
+An Indian studio charges ₹1,500 an hour for an iOS-only app with 5 screens, payments, a backend, an admin dashboard and testing. The buffer is 20%.
+
+- Total hours: **208.8 h**
+- Project price: **₹3,13,200.00**
+- Without the buffer: **₹2,61,000.00**
+- Maintenance at 4 hours a month: **₹6,000.00** a month
+
+### 3. Three platforms with shared code
+
+A UK agency charges £60 an hour. The app runs on iOS, Android and the web, with 10 screens at 5 hours, logins, push notifications, chat and a backend. Shared code means each extra platform takes 50% of the app-side work. There is no buffer.
+
+- Extra platform hours: **104 h**
+- Total hours: **268 h**
+- Project price: **£16,080.00**
+
+**What this means for the agency:** two extra platforms add 104 hours, so it is worth showing the client the price for one platform too.
+
+## How much to charge for an app
+
+Price the project, not the hours. Clients compare total prices, and a clear project price with a list of what is included is easier to agree to than an hourly estimate. Keep the hours for your own planning.
+
+Agree what goes into version 1 in writing. New screens and features can then be priced as extras. Charge for app store submission and the fixes store reviews ask for. For ongoing work, offer a monthly plan; the <ToolLink slug="retainer-fee-calculator">retainer fee calculator</ToolLink> helps you price it.
+
+## Tips
+
+- **Know your rate first.** The <ToolLink slug="hourly-rate-calculator">freelance hourly rate calculator</ToolLink> works it out from your income goal.
+- **Build a website too?** The <ToolLink slug="website-design-cost-calculator">website design cost calculator</ToolLink> uses the same method.
+- **Send a proper quote.** The <ToolLink slug="freelance-quote-generator">freelance quote generator</ToolLink> turns your estimate into a document.
+- **Track your real hours.** Compare them with your estimates after each project and adjust the examples.

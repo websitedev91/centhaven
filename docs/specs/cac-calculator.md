@@ -1,6 +1,6 @@
 # Tool spec: CAC Calculator
 
-> **Draft — waiting for Puru's review.** Pure maths: every number comes from the user.
+> **Approved by Puru, 2026-11-19** (all test numbers verified). Decision: 3 : 1 stays as the editable start value with the rule-of-thumb label. Pure maths: every number comes from the user.
 
 | Field | Value |
 |---|---|
