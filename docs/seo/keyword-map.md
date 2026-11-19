@@ -23,6 +23,7 @@
 | /salary/job-offer-comparison-calculator | job offer comparison calculator | 10–100 |
 | /salary/pay-raise-calculator | pay raise calculator | not checked |
 | /salary/commission-calculator | commission calculator | not checked |
+| /salary/biweekly-pay-calculator | biweekly pay calculator | not checked |
 | /salary/1099-vs-w2-calculator | 1099 vs w2 calculator | 100–1K |
 | /business/utilization-rate-calculator | utilization rate calculator | 100–1K |
 | /business/break-even-calculator | break even calculator | 1K–10K |
@@ -30,11 +31,15 @@
 | /business/payment-processing-fee-calculator | payment processing fee calculator | not checked |
 | /business/runway-calculator | runway calculator | not checked |
 | /business/meeting-cost-calculator | meeting cost calculator | not checked |
+| /business/margin-vs-markup-calculator | margin vs markup calculator | not checked |
+| /business/payback-period-calculator | payback period calculator | not checked |
 | /marketing/cac-calculator | cac calculator | not checked |
 | /marketing/roas-calculator | roas calculator | not checked |
 | /marketing/cost-per-lead-calculator | cost per lead calculator | not checked |
+| /marketing/cpc-calculator | cpc calculator | not checked |
 | /personal-finance/emergency-fund-calculator | emergency fund calculator | 10K–100K |
 | /personal-finance/savings-goal-calculator | savings goal calculator | not checked |
+| /personal-finance/debt-snowball-calculator | debt snowball calculator | not checked |
 
 ## /freelance/hourly-rate-calculator
 
@@ -264,6 +269,22 @@
   - How can I compare two commission plans?
 - **Internal links to:** /salary/pay-raise-calculator, /salary/hourly-to-salary-calculator, /business/break-even-calculator
 
+## /salary/biweekly-pay-calculator
+
+- **Primary keyword:** biweekly pay calculator
+- **Secondary keywords:** biweekly salary calculator, hourly to biweekly pay, biweekly vs semi-monthly pay
+- **Title** (51 chars): Biweekly Pay Calculator – Gross Pay Every Two Weeks
+- **Meta description** (155 chars): Work out your gross biweekly pay from an annual salary or an hourly wage. See 26 and 27 pay-period years, monthly averages and the semi-monthly comparison.
+- **H1:** Biweekly Pay Calculator
+- **FAQ questions (People Also Ask style):**
+  - How do I calculate biweekly pay?
+  - How many biweekly pay periods are in a year?
+  - What is the difference between biweekly and semi-monthly pay?
+  - How do I convert biweekly pay to annual salary?
+  - Does this show take-home pay?
+- **Internal links to:** /salary/hourly-to-salary-calculator, /salary/pay-raise-calculator, /salary/job-offer-comparison-calculator
+- **Content note:** Gross pay only. No tax, deductions or rules about which years have 27 paydays.
+
 ## /salary/1099-vs-w2-calculator
 
 - **Primary keyword:** 1099 vs w2 calculator (100–1K/month)
@@ -371,6 +392,38 @@
 - **Internal links to:** /business/utilization-rate-calculator, /salary/hourly-to-salary-calculator, /business/break-even-calculator
 - **Content note:** Hourly cost comes from the user; never suggest an average wage or overhead %.
 
+## /business/margin-vs-markup-calculator
+
+- **Primary keyword:** margin vs markup calculator
+- **Secondary keywords:** markup to margin calculator, margin to markup calculator, markup calculator, selling price from margin
+- **Title** (54 chars): Margin vs Markup Calculator – Convert and Find a Price
+- **Meta description** (153 chars): Convert profit margin to markup and back, or enter your cost and a margin or markup to find the selling price. See the profit on every sale in one place.
+- **H1:** Margin vs Markup Calculator
+- **FAQ questions (People Also Ask style):**
+  - What is the difference between margin and markup?
+  - How do I convert markup to margin?
+  - How do I convert margin to markup?
+  - How do I set a price from a margin?
+  - Why can margin never be 100% or more?
+- **Internal links to:** /business/payment-processing-fee-calculator, /business/break-even-calculator, /marketing/roas-calculator
+- **Content note:** No typical margins by industry.
+
+## /business/payback-period-calculator
+
+- **Primary keyword:** payback period calculator
+- **Secondary keywords:** how to calculate payback period, payback period with uneven cash flows, investment payback calculator
+- **Title** (51 chars): Payback Period Calculator – Years to Recover a Cost
+- **Meta description** (155 chars): See how long an investment takes to pay for itself from its yearly cash flow, or enter up to 10 years of uneven cash flows for payback in years and months.
+- **H1:** Payback Period Calculator
+- **FAQ questions (People Also Ask style):**
+  - How do you calculate the payback period?
+  - How do I work out payback with uneven cash flows?
+  - What is a good payback period?
+  - What are the limits of the payback period?
+  - What is the difference between payback period and break-even?
+- **Internal links to:** /business/break-even-calculator, /business/straight-line-depreciation-calculator, /business/runway-calculator
+- **Content note:** Simple payback only (no discounting); no "good payback" benchmark.
+
 ## /marketing/cac-calculator
 
 - **Primary keyword:** cac calculator
@@ -418,6 +471,22 @@
   - Is a low cost per lead always better?
 - **Internal links to:** /marketing/cac-calculator, /marketing/roas-calculator, /business/break-even-calculator
 
+## /marketing/cpc-calculator
+
+- **Primary keyword:** cpc calculator
+- **Secondary keywords:** cost per click calculator, how to calculate cpc, cost per conversion calculator, ppc budget calculator
+- **Title** (56 chars): CPC Calculator – Cost Per Click and Clicks From a Budget
+- **Meta description** (148 chars): Work out your cost per click from ad spend and clicks, or see how many clicks a budget buys. Add a conversion rate to find your cost per conversion.
+- **H1:** CPC Calculator
+- **FAQ questions (People Also Ask style):**
+  - How do you calculate cost per click?
+  - How many clicks will my budget get?
+  - What is cost per conversion?
+  - How can I lower my CPC?
+  - Is a lower CPC always better?
+- **Internal links to:** /marketing/cost-per-lead-calculator, /marketing/roas-calculator, /marketing/cac-calculator
+- **Content note:** No average CPC figures.
+
 ## /personal-finance/emergency-fund-calculator
 
 - **Primary keyword:** emergency fund calculator (10K–100K/month)
@@ -450,6 +519,22 @@
   - What if I can't afford the monthly amount?
 - **Internal links to:** /personal-finance/emergency-fund-calculator, /salary/pay-raise-calculator, /salary/hourly-to-salary-calculator
 - **Content note:** Interest is optional and entered by the user; never suggest a rate.
+
+## /personal-finance/debt-snowball-calculator
+
+- **Primary keyword:** debt snowball calculator
+- **Secondary keywords:** debt avalanche calculator, snowball vs avalanche calculator, debt payoff calculator, how long to pay off debt
+- **Title** (55 chars): Debt Snowball Calculator – Snowball vs Avalanche Payoff
+- **Meta description** (153 chars): Compare the debt snowball and debt avalanche methods for up to five debts. See your debt-free date, total interest and the order each debt gets paid off.
+- **H1:** Debt Snowball Calculator
+- **FAQ questions (People Also Ask style):**
+  - How does the debt snowball method work?
+  - What is the debt avalanche method?
+  - Which saves more, snowball or avalanche?
+  - How much extra should I pay each month?
+  - What if my payment does not cover the interest?
+- **Internal links to:** /personal-finance/savings-goal-calculator, /personal-finance/emergency-fund-calculator, /salary/pay-raise-calculator
+- **Content note:** Interest rates come from the user; never suggest typical rates or call one method best.
 
 # Homepage
 
