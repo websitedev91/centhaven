@@ -1,6 +1,6 @@
 # Tool spec: 50/30/20 Budget Calculator
 
-> **Draft — waiting for Puru's review.** Pure maths: the user enters their own take-home pay. We never work out tax.
+> **Approved by Puru (2026-11-20).** Pure maths: the user enters their own take-home pay. We never work out tax.
 
 | Field | Value |
 |---|---|

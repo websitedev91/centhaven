@@ -16,6 +16,11 @@ import Cpc from '@/tools/cpc-calculator/Calculator';
 import Biweekly from '@/tools/biweekly-pay-calculator/Calculator';
 import Payback from '@/tools/payback-period-calculator/Calculator';
 import Debt from '@/tools/debt-snowball-calculator/Calculator';
+import ConversionRate from '@/tools/conversion-rate-calculator/Calculator';
+import FoodCost from '@/tools/food-cost-calculator/Calculator';
+import WeeklyPay from '@/tools/weekly-pay-calculator/Calculator';
+import Budget from '@/tools/50-30-20-budget-calculator/Calculator';
+import Compa from '@/tools/compa-ratio-calculator/Calculator';
 
 // Each test renders a whole calculator many times; under a full parallel run that can pass 5 s on a busy machine.
 vi.setConfig({ testTimeout: 20_000 });
@@ -38,6 +43,14 @@ const CASES: [string, ComponentType, string][] = [
   ['payback: different each year', Payback, '?mode=uneven'],
   ['payback: ten years', Payback, '?mode=uneven&years=10'],
   ['debt: five debts', Debt, '?rows=5&b4=1000&r4=5&m4=50&b5=500&r5=0&m5=25'],
+  ['conversion rate: conversions needed', ConversionRate, '?mode=conversions'],
+  ['conversion rate: visitors needed', ConversionRate, '?mode=visitors'],
+  ['food cost: menu price', FoodCost, '?mode=price'],
+  ['food cost: for a period', FoodCost, '?mode=period'],
+  ['weekly pay: hourly with overtime', WeeklyPay, '?mode=hourly&otH=5&otRate=37.5'],
+  ['50/30/20: with actual spending', Budget, '?aNeeds=2300&aWants=1000&aSave=700'],
+  ['compa ratio: own midpoint', Compa, '?mid=own'],
+  ['compa ratio: own midpoint, no range', Compa, '?mid=own&min=0&max=0'],
 ];
 
 const box = (root: HTMLElement) => root.querySelector<HTMLElement>('section[aria-live="polite"]')!;
@@ -157,5 +170,67 @@ describe('payback: a loss year (Puru, 2026-11-20)', () => {
     const { container } = render(<Payback />);
     expect(box(container).textContent).toContain('4 years');
     expect(box(container).textContent).not.toContain('0 months');
+  });
+});
+
+describe('batch 7 states (Puru, 2026-11-20)', () => {
+  it('conversion rate, INR defaults: 150 ÷ 5,000 at ₹2,000 → 3%, ₹3,00,000.00', () => {
+    window.history.replaceState(null, '', '/?currency=INR');
+    const { container } = render(<ConversionRate />);
+    expect(box(container).textContent).toContain('3%');
+    expect(box(container).textContent).toContain('₹3,00,000.00');
+  });
+
+  it('conversion rate: conversions above visitors → field error and "—"', () => {
+    window.history.replaceState(null, '', '/?conv=6000');
+    const { container } = render(<ConversionRate />);
+    expect(dash(container)).toBe(true);
+    expect(container.textContent).toContain('Conversions can’t be more than visitors');
+  });
+
+  it('food cost, period: closing above opening + purchases → field error and "—"', () => {
+    window.history.replaceState(null, '', '/?mode=period&close=20000');
+    const { container } = render(<FoodCost />);
+    expect(dash(container)).toBe(true);
+    expect(container.textContent).toContain('Closing inventory can’t be more than opening inventory plus purchases');
+  });
+
+  it('50/30/20: percentages that total 105 → the total message, "—", and a reset back to 50/30/20', () => {
+    window.history.replaceState(null, '', '/?save=25');
+    const { container, getByText } = render(<Budget />);
+    expect(dash(container)).toBe(true);
+    expect(container.textContent).toContain('Your percentages add up to 105%. They need to total 100%.');
+    fireEvent.click(getByText('Reset to 50/30/20'));
+    expect(valid(container)).toBe(true);
+    expect(box(container).textContent).toContain('$800.00');
+  });
+
+  it('50/30/20: actual spending shows over / under rows', () => {
+    window.history.replaceState(null, '', '/?aNeeds=2300&aWants=1000&aSave=700');
+    const { container } = render(<Budget />);
+    const t = box(container).textContent!;
+    expect(t).toContain('$300.00 over plan');
+    expect(t).toContain('$200.00 under plan');
+    expect(t).toContain('$100.00 less saved than planned');
+    expect(t).toContain('Everything is assigned');
+  });
+
+  it('compa ratio: max not above min → field error and "—"; own midpoint without a range asks for it', () => {
+    window.history.replaceState(null, '', '/?min=90000&max=60000');
+    const a = render(<Compa />);
+    expect(dash(a.container)).toBe(true);
+    expect(a.container.textContent).toContain('Maximum must be above the minimum');
+    cleanup();
+    window.history.replaceState(null, '', '/?mid=own&min=0&max=0');
+    const { container } = render(<Compa />);
+    expect(valid(container)).toBe(true);
+    expect(box(container).textContent).toContain('Add the range minimum and maximum to see range penetration');
+  });
+
+  it('weekly pay: overtime row reads per week', () => {
+    window.history.replaceState(null, '', '/?mode=hourly&otH=5&otRate=37.5');
+    const { container } = render(<WeeklyPay />);
+    expect(box(container).textContent).toContain('$1,187.50');
+    expect(box(container).textContent).toContain('$187.50');
   });
 });

@@ -43,6 +43,11 @@ const calculators: Record<string, ComponentType> = {
   'cpc-calculator': dynamic(() => import('@/tools/cpc-calculator/Calculator')),
   'biweekly-pay-calculator': dynamic(() => import('@/tools/biweekly-pay-calculator/Calculator')),
   'payback-period-calculator': dynamic(() => import('@/tools/payback-period-calculator/Calculator')),
+  'conversion-rate-calculator': dynamic(() => import('@/tools/conversion-rate-calculator/Calculator')),
+  'food-cost-calculator': dynamic(() => import('@/tools/food-cost-calculator/Calculator')),
+  'weekly-pay-calculator': dynamic(() => import('@/tools/weekly-pay-calculator/Calculator')),
+  '50-30-20-budget-calculator': dynamic(() => import('@/tools/50-30-20-budget-calculator/Calculator')),
+  'compa-ratio-calculator': dynamic(() => import('@/tools/compa-ratio-calculator/Calculator')),
 };
 
 export const calculatorSlugs = Object.keys(calculators);

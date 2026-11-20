@@ -1,6 +1,6 @@
 # Tool spec: Compa Ratio Calculator
 
-> **Draft — waiting for Puru's review.** Pure maths: every number comes from the user (their own salary and their employer's pay range).
+> **Approved by Puru (2026-11-20).** Pure maths: every number comes from the user (their own salary and their employer's pay range).
 
 | Field | Value |
 |---|---|

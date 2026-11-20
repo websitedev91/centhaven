@@ -1,6 +1,6 @@
 # Tool spec: Conversion Rate Calculator
 
-> **Draft — waiting for Puru's review.** Pure maths: every number comes from the user.
+> **Approved by Puru (2026-11-20).** Case 6 inputs clarified and case 6b (INR defaults) added after his check. Pure maths: every number comes from the user.
 
 | Field | Value |
 |---|---|
@@ -68,7 +68,8 @@ revenue per visitor     = revenue ÷ visitors
 | 3 | conversions · 5,000 visitors · 4% · value 50 | **200 conversions** · revenue **10,000.00** · per visitor 2.00 |
 | 4 | conversions · 3,317 visitors · 3% | **about 99.51 conversions (on average)** |
 | 5 | visitors · goal 200 · 3% | **6,667 visitors** (6,666.67 rounded up) |
-| 6 | INR rate · 90 ÷ 3,000 · value ₹2,000 | **3%** · revenue **₹1,80,000.00** · per visitor **₹60.00** |
+| 6 | INR rate · **90 conversions ÷ 3,000 visitors** (typed, not the defaults) · value ₹2,000 | **3%** · revenue **₹1,80,000.00** · per visitor **₹60.00** |
+| 6b | INR **defaults** (Puru, 2026-11-20): 150 ÷ 5,000 · value ₹2,000 (only the value follows the currency) | **3%** · revenue **₹3,00,000.00** · per visitor **₹60.00** |
 | 7 | rate · conversions 0 | **0%** · visitors per conversion row hidden (no ÷ 0) |
 | 8 | Switch USD → INR without editing | value 50 → 2,000; visitors, conversions, rates unchanged. A typed value is kept |
 

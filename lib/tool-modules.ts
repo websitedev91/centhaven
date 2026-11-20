@@ -30,6 +30,11 @@ import DebtSnowballContent from '@/tools/debt-snowball-calculator/content.mdx';
 import CpcContent from '@/tools/cpc-calculator/content.mdx';
 import BiweeklyPayContent from '@/tools/biweekly-pay-calculator/content.mdx';
 import PaybackPeriodContent from '@/tools/payback-period-calculator/content.mdx';
+import ConversionRateContent from '@/tools/conversion-rate-calculator/content.mdx';
+import FoodCostContent from '@/tools/food-cost-calculator/content.mdx';
+import WeeklyPayContent from '@/tools/weekly-pay-calculator/content.mdx';
+import Budget503020Content from '@/tools/50-30-20-budget-calculator/content.mdx';
+import CompaRatioContent from '@/tools/compa-ratio-calculator/content.mdx';
 
 /**
  * Maps a tool slug to its long-form content (server-rendered MDX, no client JS).
@@ -68,4 +73,9 @@ export const toolContent: Record<string, ComponentType> = {
   'cpc-calculator': CpcContent,
   'biweekly-pay-calculator': BiweeklyPayContent,
   'payback-period-calculator': PaybackPeriodContent,
+  'conversion-rate-calculator': ConversionRateContent,
+  'food-cost-calculator': FoodCostContent,
+  'weekly-pay-calculator': WeeklyPayContent,
+  '50-30-20-budget-calculator': Budget503020Content,
+  'compa-ratio-calculator': CompaRatioContent,
 };

@@ -39,6 +39,11 @@ import { meta as debtSnowball } from '@/tools/debt-snowball-calculator/meta';
 import { meta as cpc } from '@/tools/cpc-calculator/meta';
 import { meta as biweeklyPay } from '@/tools/biweekly-pay-calculator/meta';
 import { meta as paybackPeriod } from '@/tools/payback-period-calculator/meta';
+import { meta as conversionRate } from '@/tools/conversion-rate-calculator/meta';
+import { meta as foodCost } from '@/tools/food-cost-calculator/meta';
+import { meta as weeklyPay } from '@/tools/weekly-pay-calculator/meta';
+import { meta as budget503020 } from '@/tools/50-30-20-budget-calculator/meta';
+import { meta as compaRatio } from '@/tools/compa-ratio-calculator/meta';
 
 type Publishing = Pick<ToolEntry, 'status' | 'lastUpdated' | 'publishDate' | 'reviewedBy'>;
 
@@ -78,6 +83,11 @@ export const registry: readonly RegistryRow[] = [
   row(cpc, { status: 'live', publishDate: '2026-11-20', lastUpdated: '2026-11-20' }),
   row(biweeklyPay, { status: 'live', publishDate: '2026-11-20', lastUpdated: '2026-11-20' }),
   row(paybackPeriod, { status: 'live', publishDate: '2026-11-20', lastUpdated: '2026-11-20' }),
+  row(conversionRate, { status: 'live', publishDate: '2026-11-20', lastUpdated: '2026-11-20' }),
+  row(foodCost, { status: 'live', publishDate: '2026-11-20', lastUpdated: '2026-11-20' }),
+  row(weeklyPay, { status: 'live', publishDate: '2026-11-20', lastUpdated: '2026-11-20' }),
+  row(budget503020, { status: 'live', publishDate: '2026-11-20', lastUpdated: '2026-11-20' }),
+  row(compaRatio, { status: 'live', publishDate: '2026-11-20', lastUpdated: '2026-11-20' }),
 ];
 
 /** Local preview builds only (see next.config.ts `env` and scripts/postbuild.mjs). */
