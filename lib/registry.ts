@@ -34,6 +34,11 @@ import { meta as roas } from '@/tools/roas-calculator/meta';
 import { meta as costPerLead } from '@/tools/cost-per-lead-calculator/meta';
 import { meta as appDevelopmentCost } from '@/tools/app-development-cost-calculator/meta';
 import { meta as meetingCost } from '@/tools/meeting-cost-calculator/meta';
+import { meta as marginVsMarkup } from '@/tools/margin-vs-markup-calculator/meta';
+import { meta as debtSnowball } from '@/tools/debt-snowball-calculator/meta';
+import { meta as cpc } from '@/tools/cpc-calculator/meta';
+import { meta as biweeklyPay } from '@/tools/biweekly-pay-calculator/meta';
+import { meta as paybackPeriod } from '@/tools/payback-period-calculator/meta';
 
 type Publishing = Pick<ToolEntry, 'status' | 'lastUpdated' | 'publishDate' | 'reviewedBy'>;
 
@@ -68,6 +73,11 @@ export const registry: readonly RegistryRow[] = [
   row(costPerLead, { status: 'live', publishDate: '2026-11-19', lastUpdated: '2026-11-19' }),
   row(appDevelopmentCost, { status: 'live', publishDate: '2026-11-19', lastUpdated: '2026-11-19' }),
   row(meetingCost, { status: 'live', publishDate: '2026-11-19', lastUpdated: '2026-11-19' }),
+  row(marginVsMarkup, { status: 'live', publishDate: '2026-11-20', lastUpdated: '2026-11-20' }),
+  row(debtSnowball, { status: 'live', publishDate: '2026-11-20', lastUpdated: '2026-11-20' }),
+  row(cpc, { status: 'live', publishDate: '2026-11-20', lastUpdated: '2026-11-20' }),
+  row(biweeklyPay, { status: 'live', publishDate: '2026-11-20', lastUpdated: '2026-11-20' }),
+  row(paybackPeriod, { status: 'live', publishDate: '2026-11-20', lastUpdated: '2026-11-20' }),
 ];
 
 /** Local preview builds only (see next.config.ts `env` and scripts/postbuild.mjs). */

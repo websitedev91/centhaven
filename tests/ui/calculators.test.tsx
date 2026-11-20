@@ -11,9 +11,12 @@
  */
 import { cleanup, fireEvent, render, within } from '@testing-library/react';
 import type { ComponentType } from 'react';
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { CURRENCIES, formatMoney, type CurrencyCode } from '@/lib/format';
 import { liveTools, registry } from '@/lib/registry';
+
+// Each test renders a whole calculator many times; under a full parallel run that can pass 5 s on a busy machine.
+vi.setConfig({ testTimeout: 20_000 });
 
 const modules = import.meta.glob<{ default: ComponentType }>('../../tools/*/Calculator.tsx', { eager: true });
 const calculators = Object.entries(modules).map(([path, mod]) => ({

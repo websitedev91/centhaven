@@ -1,6 +1,6 @@
 # Tool spec: CPC Calculator
 
-> **Draft — waiting for Puru's review.** Pure maths: every number comes from the user.
+> **Approved by Puru (2026-11-20).** All test numbers verified. Pure maths: every number comes from the user.
 
 | Field | Value |
 |---|---|

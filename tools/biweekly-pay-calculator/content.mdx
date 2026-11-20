@@ -1,0 +1,75 @@
+This biweekly pay calculator turns an annual salary or an hourly wage into gross pay every two weeks. It also shows what a 27-payday year looks like, what you would get if you were paid twice a month instead, and your monthly and weekly averages. It shows gross pay only: the amount before tax and deductions.
+
+## How to use the calculator
+
+1. **Pick a mode.** From a salary splits a yearly amount. From an hourly wage builds it up from your rate and hours.
+2. **Choose your currency** and enter your **annual salary**, or your **hourly rate** and **hours per week**. The starting values are examples only.
+3. **Add overtime** if you have it: the extra hours across the two weeks and your own overtime rate. Leave them at 0 to skip.
+
+The result shows your biweekly gross pay, your yearly gross, the 27-payday figure, twice-a-month pay, the monthly average and weekly pay.
+
+## Biweekly salary calculator: the formula
+
+```text
+from a salary:   biweekly = salary ÷ 26
+                 27-payday split = salary ÷ 27
+
+from an hourly wage:
+                 biweekly = rate × hours per week × 2
+                            + overtime hours × overtime rate
+                 yearly   = biweekly × 26
+                 27-payday year = biweekly × 27
+
+both:            twice a month = yearly ÷ 24
+                 monthly average = yearly ÷ 12
+                 weekly = biweekly ÷ 2
+```
+
+A year has 52 weeks and 1 or 2 extra days, so paydays every two weeks fall 26 times in most years and 27 in some. Ask your employer how they handle a 27th payday: the calculator shows both results.
+
+## Worked examples
+
+### 1. A yearly salary
+
+Someone earns $52,000 a year, paid every two weeks.
+
+- Biweekly gross pay: **$2,000.00**
+- If the salary is split over 27 paydays: **$1,925.93** each
+- Paid twice a month instead: **$2,166.67**
+- Monthly average: **$4,333.33**
+
+**What this means:** in a 27-payday year, a salary split 27 ways gives a slightly smaller payment each time, but the year adds up to the same.
+
+## Hourly to biweekly pay
+
+### 2. An hourly wage
+
+Someone earns $25 an hour and works 40 hours a week.
+
+- Biweekly gross pay: **$2,000.00** (25 × 40 × 2)
+- Yearly gross: **$52,000.00**
+- In a 27-payday year: **$54,000.00**
+
+**What this means:** hourly pay follows the hours you work, so an extra payday adds a full two weeks of pay to that year.
+
+With 4 hours of overtime per pay period at an overtime rate of $37.50, overtime adds $150.00, so the pay becomes $2,150.00 every two weeks.
+
+### 3. A salary in rupees
+
+Someone earns ₹12,00,000 a year.
+
+- Biweekly gross pay: **₹46,153.85**
+- Paid twice a month instead: **₹50,000.00**
+- Monthly average: ₹1,00,000.00
+
+## Biweekly vs semi-monthly pay
+
+Biweekly means every 14 days: 26 paydays in most years, and the date moves around the month. Semi-monthly means twice a month on set dates: 24 paydays a year. For the same yearly pay, each semi-monthly payment is bigger, but there are fewer of them. Two months a year with biweekly pay have three paydays instead of two, which can help with planning.
+
+## Tips
+
+- **Use gross pay to compare.** Your payslip shows less after tax and deductions. Compare offers on gross pay, then check the take-home with your employer.
+- **Plan on two paydays a month.** Budgeting with two biweekly payments a month leaves the extra paydays as a bonus.
+- **See the whole year.** The <ToolLink slug="hourly-to-salary-calculator">hourly to salary calculator</ToolLink> shows daily, weekly and monthly pay too.
+- **Weigh up a raise.** The <ToolLink slug="pay-raise-calculator">pay raise calculator</ToolLink> shows what a raise adds to each paycheck.
+- **Compare two jobs.** The <ToolLink slug="job-offer-comparison-calculator">job offer comparison calculator</ToolLink> puts salary, bonus and benefits side by side.

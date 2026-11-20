@@ -1,6 +1,6 @@
 # Tool spec: Debt Snowball Calculator
 
-> **Draft — waiting for Puru's review.** Pure maths: every number comes from the user, including each interest rate.
+> **Approved by Puru (2026-11-20).** All test numbers verified. Pure maths: every number comes from the user, including each interest rate.
 
 | Field | Value |
 |---|---|

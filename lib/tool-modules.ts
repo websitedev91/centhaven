@@ -25,6 +25,11 @@ import RoasContent from '@/tools/roas-calculator/content.mdx';
 import CostPerLeadContent from '@/tools/cost-per-lead-calculator/content.mdx';
 import AppDevelopmentCostContent from '@/tools/app-development-cost-calculator/content.mdx';
 import MeetingCostContent from '@/tools/meeting-cost-calculator/content.mdx';
+import MarginVsMarkupContent from '@/tools/margin-vs-markup-calculator/content.mdx';
+import DebtSnowballContent from '@/tools/debt-snowball-calculator/content.mdx';
+import CpcContent from '@/tools/cpc-calculator/content.mdx';
+import BiweeklyPayContent from '@/tools/biweekly-pay-calculator/content.mdx';
+import PaybackPeriodContent from '@/tools/payback-period-calculator/content.mdx';
 
 /**
  * Maps a tool slug to its long-form content (server-rendered MDX, no client JS).
@@ -58,4 +63,9 @@ export const toolContent: Record<string, ComponentType> = {
   'cost-per-lead-calculator': CostPerLeadContent,
   'app-development-cost-calculator': AppDevelopmentCostContent,
   'meeting-cost-calculator': MeetingCostContent,
+  'margin-vs-markup-calculator': MarginVsMarkupContent,
+  'debt-snowball-calculator': DebtSnowballContent,
+  'cpc-calculator': CpcContent,
+  'biweekly-pay-calculator': BiweeklyPayContent,
+  'payback-period-calculator': PaybackPeriodContent,
 };

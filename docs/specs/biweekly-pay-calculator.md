@@ -1,6 +1,6 @@
 # Tool spec: Biweekly Pay Calculator
 
-> **Draft — waiting for Puru's review.** Pure maths: **gross pay only, no tax, no deductions.** Every number comes from the user.
+> **Approved by Puru (2026-11-20).** All test numbers verified. Pure maths: **gross pay only, no tax, no deductions.** Every number comes from the user.
 
 | Field | Value |
 |---|---|

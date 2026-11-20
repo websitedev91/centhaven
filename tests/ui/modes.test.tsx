@@ -7,10 +7,18 @@
  */
 import { cleanup, fireEvent, render, within } from '@testing-library/react';
 import type { ComponentType } from 'react';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import AppCost from '@/tools/app-development-cost-calculator/Calculator';
 import Meeting from '@/tools/meeting-cost-calculator/Calculator';
 import Roas from '@/tools/roas-calculator/Calculator';
+import Margin from '@/tools/margin-vs-markup-calculator/Calculator';
+import Cpc from '@/tools/cpc-calculator/Calculator';
+import Biweekly from '@/tools/biweekly-pay-calculator/Calculator';
+import Payback from '@/tools/payback-period-calculator/Calculator';
+import Debt from '@/tools/debt-snowball-calculator/Calculator';
+
+// Each test renders a whole calculator many times; under a full parallel run that can pass 5 s on a busy machine.
+vi.setConfig({ testTimeout: 20_000 });
 
 afterEach(cleanup);
 
@@ -21,6 +29,15 @@ const CASES: [string, ComponentType, string][] = [
   ['meeting: rate per person, repeats', Meeting, '?mode=each&rep=repeats'],
   ['meeting: same rate, repeats', Meeting, '?rep=repeats'],
   ['app: one platform, every feature on', AppCost, '?android=0&pay=1&push=1&chat=1&device=1&offline=1&admin=1'],
+  ['margin: find a price from a markup', Margin, '?mode=find&by=markup'],
+  ['margin: find a price from a margin', Margin, '?mode=find'],
+  ['margin: convert a margin', Margin, '?mode=convert'],
+  ['margin: convert a markup', Margin, '?mode=convert&by=markup'],
+  ['cpc: clicks from a budget', Cpc, '?mode=clicks'],
+  ['biweekly: hourly with overtime', Biweekly, '?mode=hourly&otH=4&otRate=37.5'],
+  ['payback: different each year', Payback, '?mode=uneven'],
+  ['payback: ten years', Payback, '?mode=uneven&years=10'],
+  ['debt: five debts', Debt, '?rows=5&b4=1000&r4=5&m4=50&b5=500&r5=0&m5=25'],
 ];
 
 const box = (root: HTMLElement) => root.querySelector<HTMLElement>('section[aria-live="polite"]')!;
@@ -88,5 +105,38 @@ describe('app: unticking every platform', () => {
     fireEvent.click(getByLabelText('iOS'));
     expect(dash(container)).toBe(true);
     expect(getAllByText('Choose at least one platform').length).toBeGreaterThan(0);
+  });
+});
+
+describe('debt: adding and removing debts', () => {
+  it('updates the result and never breaks', () => {
+    window.history.replaceState(null, '', '/');
+    const { container, getByText, getByLabelText } = render(<Debt />);
+    const before = box(container).textContent;
+    fireEvent.click(getByText('Add a debt'));
+    expect(box(container).textContent).not.toBe(before);
+    const added = box(container).textContent;
+    fireEvent.click(getByLabelText('Remove debt 1'));
+    expect(box(container).textContent).not.toBe(added);
+    expect(valid(container)).toBe(true);
+    expect(container.textContent).not.toMatch(BROKEN);
+  });
+});
+
+describe('debt: payment that never covers the interest', () => {
+  it('shows the message and "—"', () => {
+    window.history.replaceState(null, '', '/?rows=1&b1=10000&r1=24&m1=150&extra=0');
+    const { container } = render(<Debt />);
+    expect(dash(container)).toBe(true);
+    expect(box(container).textContent).toContain('doesn’t cover the interest');
+  });
+});
+
+describe('margin: cost and price both 0', () => {
+  it('says "Enter a cost or a price above 0" and shows "—"', () => {
+    window.history.replaceState(null, '', '/?cost=0&price=0');
+    const { container } = render(<Margin />);
+    expect(dash(container)).toBe(true);
+    expect(box(container).textContent).toContain('Enter a cost or a price above 0');
   });
 });

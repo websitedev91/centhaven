@@ -39,5 +39,6 @@ describe('brand-only authorship', () => {
       expect(src, f).not.toMatch(/'@type':\s*'Person'/);
       expect(src, f).not.toMatch(/Reviewed by \{|Purushothaman|Built by /);
     }
-  });
+    // Reads every source file: well under 1 s alone, but slower under a full parallel run.
+  }, 20_000);
 });

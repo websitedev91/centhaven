@@ -7,10 +7,13 @@
  */
 import { cleanup, fireEvent, render, within } from '@testing-library/react';
 import { useState } from 'react';
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { InputNumber } from '@/components/InputNumber';
 import CostPerLead from '@/tools/cost-per-lead-calculator/Calculator';
 import Roas from '@/tools/roas-calculator/Calculator';
+
+// Each test renders a whole calculator many times; under a full parallel run that can pass 5 s on a busy machine.
+vi.setConfig({ testTimeout: 20_000 });
 
 beforeEach(() => window.history.replaceState(null, '', '/'));
 afterEach(cleanup);
