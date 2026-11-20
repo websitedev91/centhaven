@@ -24,6 +24,8 @@
 | /salary/pay-raise-calculator | pay raise calculator | not checked |
 | /salary/commission-calculator | commission calculator | not checked |
 | /salary/biweekly-pay-calculator | biweekly pay calculator | not checked |
+| /salary/weekly-pay-calculator | weekly pay calculator | not checked |
+| /salary/compa-ratio-calculator | compa ratio calculator | not checked |
 | /salary/1099-vs-w2-calculator | 1099 vs w2 calculator | 100–1K |
 | /business/utilization-rate-calculator | utilization rate calculator | 100–1K |
 | /business/break-even-calculator | break even calculator | 1K–10K |
@@ -33,13 +35,16 @@
 | /business/meeting-cost-calculator | meeting cost calculator | not checked |
 | /business/margin-vs-markup-calculator | margin vs markup calculator | not checked |
 | /business/payback-period-calculator | payback period calculator | not checked |
+| /business/food-cost-calculator | food cost calculator | not checked |
 | /marketing/cac-calculator | cac calculator | not checked |
 | /marketing/roas-calculator | roas calculator | not checked |
 | /marketing/cost-per-lead-calculator | cost per lead calculator | not checked |
 | /marketing/cpc-calculator | cpc calculator | not checked |
+| /marketing/conversion-rate-calculator | conversion rate calculator | not checked |
 | /personal-finance/emergency-fund-calculator | emergency fund calculator | 10K–100K |
 | /personal-finance/savings-goal-calculator | savings goal calculator | not checked |
 | /personal-finance/debt-snowball-calculator | debt snowball calculator | not checked |
+| /personal-finance/50-30-20-budget-calculator | 50/30/20 budget calculator | not checked |
 
 ## /freelance/hourly-rate-calculator
 
@@ -285,6 +290,38 @@
 - **Internal links to:** /salary/hourly-to-salary-calculator, /salary/pay-raise-calculator, /salary/job-offer-comparison-calculator
 - **Content note:** Gross pay only. No tax, deductions or rules about which years have 27 paydays.
 
+## /salary/weekly-pay-calculator
+
+- **Primary keyword:** weekly pay calculator
+- **Secondary keywords:** weekly salary calculator, hourly to weekly pay, how much is my weekly pay
+- **Title** (44 chars): Weekly Pay Calculator – Gross Pay Every Week
+- **Meta description** (150 chars): Work out your gross weekly pay from an annual salary or an hourly wage with overtime. See your yearly, biweekly and monthly pay, and a 53-payday year.
+- **H1:** Weekly Pay Calculator
+- **FAQ questions (People Also Ask style):**
+  - How do I calculate my weekly pay?
+  - How do I work out weekly pay from a salary?
+  - How is overtime added to weekly pay?
+  - How many weekly paydays are in a year?
+  - Does this show take-home pay?
+- **Internal links to:** /salary/biweekly-pay-calculator, /salary/hourly-to-salary-calculator, /salary/pay-raise-calculator
+- **Content note:** Gross pay only. No tax, deductions, overtime multipliers or rules about which years have 53 paydays.
+
+## /salary/compa-ratio-calculator
+
+- **Primary keyword:** compa ratio calculator
+- **Secondary keywords:** salary midpoint calculator, range penetration calculator, how to calculate compa ratio, salary range position calculator
+- **Title** (59 chars): Compa Ratio Calculator – Salary Midpoint and Range Position
+- **Meta description** (152 chars): Work out a compa ratio from a salary and a pay range midpoint. See the salary midpoint, the range penetration and how far the salary is from the middle.
+- **H1:** Compa Ratio Calculator
+- **FAQ questions (People Also Ask style):**
+  - How do you calculate a compa ratio?
+  - How do I find the midpoint of a salary range?
+  - What is range penetration?
+  - What is the difference between compa ratio and range penetration?
+  - What is a good compa ratio?
+- **Internal links to:** /salary/pay-raise-calculator, /salary/job-offer-comparison-calculator, /salary/hourly-to-salary-calculator
+- **Content note:** Never say what ratio is "good" and never quote market pay data; the pay range comes from the user.
+
 ## /salary/1099-vs-w2-calculator
 
 - **Primary keyword:** 1099 vs w2 calculator (100–1K/month)
@@ -424,6 +461,22 @@
 - **Internal links to:** /business/break-even-calculator, /business/straight-line-depreciation-calculator, /business/runway-calculator
 - **Content note:** Simple payback only (no discounting); no "good payback" benchmark.
 
+## /business/food-cost-calculator
+
+- **Primary keyword:** food cost calculator
+- **Secondary keywords:** food cost percentage calculator, menu price calculator, how to calculate food cost percentage, plate cost calculator
+- **Title** (49 chars): Food Cost Calculator – Food Cost % and Menu Price
+- **Meta description** (159 chars): Work out the food cost percentage of a dish, set a menu price from your own target food cost %, or find your food cost % for a period from inventory and sales.
+- **H1:** Food Cost Calculator
+- **FAQ questions (People Also Ask style):**
+  - How do you calculate food cost percentage?
+  - How do I price a menu item from food cost?
+  - How do I calculate food cost for a week or month?
+  - What is a good food cost percentage?
+  - What is the difference between food cost and margin?
+- **Internal links to:** /business/margin-vs-markup-calculator, /business/break-even-calculator, /business/payment-processing-fee-calculator
+- **Content note:** Never state an "ideal", "typical" or "industry" food cost %. The target % is the user's own.
+
 ## /marketing/cac-calculator
 
 - **Primary keyword:** cac calculator
@@ -487,6 +540,22 @@
 - **Internal links to:** /marketing/cost-per-lead-calculator, /marketing/roas-calculator, /marketing/cac-calculator
 - **Content note:** No average CPC figures.
 
+## /marketing/conversion-rate-calculator
+
+- **Primary keyword:** conversion rate calculator
+- **Secondary keywords:** how to calculate conversion rate, conversions needed calculator, website conversion rate calculator, ecommerce conversion rate calculator
+- **Title** (55 chars): Conversion Rate Calculator – Rate, Visitors and Revenue
+- **Meta description** (155 chars): Work out your conversion rate from visitors and conversions, or see the conversions a target rate means and the visitors you need. Add a value for revenue.
+- **H1:** Conversion Rate Calculator
+- **FAQ questions (People Also Ask style):**
+  - How do you calculate conversion rate?
+  - How many visitors do I need for my conversion goal?
+  - How many conversions does my target rate mean?
+  - How do I turn a conversion rate into revenue?
+  - What is a good conversion rate?
+- **Internal links to:** /marketing/cpc-calculator, /marketing/cost-per-lead-calculator, /marketing/roas-calculator
+- **Content note:** No "average conversion rate is X%" claims or benchmarks.
+
 ## /personal-finance/emergency-fund-calculator
 
 - **Primary keyword:** emergency fund calculator (10K–100K/month)
@@ -535,6 +604,22 @@
   - What if my payment does not cover the interest?
 - **Internal links to:** /personal-finance/savings-goal-calculator, /personal-finance/emergency-fund-calculator, /salary/pay-raise-calculator
 - **Content note:** Interest rates come from the user; never suggest typical rates or call one method best.
+
+## /personal-finance/50-30-20-budget-calculator
+
+- **Primary keyword:** 50/30/20 budget calculator
+- **Secondary keywords:** 50 30 20 rule calculator, budget calculator, how to split my income, needs wants savings calculator
+- **Title** (53 chars): 50/30/20 Budget Calculator – Needs, Wants and Savings
+- **Meta description** (156 chars): Split your monthly take-home pay into needs, wants and savings with the 50/30/20 guideline. Change the percentages and compare the plan with what you spend.
+- **H1:** 50/30/20 Budget Calculator
+- **FAQ questions (People Also Ask style):**
+  - How does the 50/30/20 rule work?
+  - What counts as needs, wants and savings?
+  - Can I change the 50/30/20 percentages?
+  - What if my needs are more than 50%?
+  - Is the 50/30/20 rule right for everyone?
+- **Internal links to:** /personal-finance/savings-goal-calculator, /personal-finance/emergency-fund-calculator, /personal-finance/debt-snowball-calculator
+- **Content note:** Take-home pay comes from the user (we never work out tax). Call 50/30/20 "a popular budgeting guideline, not a rule"; never say a split is right or wrong for someone.
 
 # Homepage
 
