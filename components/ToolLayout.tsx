@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { Breadcrumbs } from './Breadcrumbs';
 import { ToolActions } from './ToolActions';
+import { ResultActionsProvider } from './ResultActions';
 import { AffiliateSlot } from './AffiliateSlot';
 import { FaqList } from './FaqList';
 import { RelatedTools } from './RelatedTools';
@@ -15,8 +16,9 @@ import type { RegistryRow } from '@/lib/tool-types';
 
 /**
  * Every tool page, same order (PRD §6 / CLAUDE.md):
- * Breadcrumbs → H1 + subtitle → calculator (result, chart, compare live inside it) →
- * share/print/embed → affiliate → content → FAQ → related → sources → how it is checked → disclaimer.
+ * Breadcrumbs → H1 + subtitle → calculator (result, then share/print/embed right under it, then
+ * chart and compare, all inside it) → affiliate → content → FAQ → related → sources →
+ * how it is checked → disclaimer. Share/print/embed moved under the result on 2026-11-20.
  */
 export function ToolLayout(props: {
   tool: RegistryRow;
@@ -60,8 +62,9 @@ export function ToolLayout(props: {
       </header>
 
       <div className="mt-8 flex flex-col gap-6">
-        {calculator}
-        {tool.meta.document ? null : <ToolActions toolSlug={tool.slug} title={tool.title} />}
+        <ResultActionsProvider actions={tool.meta.document ? null : <ToolActions toolSlug={tool.slug} title={tool.title} />}>
+          {calculator}
+        </ResultActionsProvider>
         <AffiliateSlot affiliateId={tool.meta.affiliateId} toolSlug={tool.slug} />
       </div>
 

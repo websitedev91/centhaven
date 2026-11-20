@@ -18,5 +18,10 @@ export const dangerButtonClass = `${base} border border-danger bg-surface text-d
 export const textButtonClass =
   'inline-flex items-center gap-1.5 text-[15px] font-[550] text-haven no-underline hover:text-haven-deep hover:underline';
 
-/** Share / print / embed row. */
-export const actionButtonClass = secondaryButtonClass;
+/**
+ * Share / print / embed under the result (2026-11-20). Share is the main action: solid haven,
+ * full width. Print and embed are "soft": mint fill, haven text, solid haven on hover.
+ */
+export const shareActionClass = `${primaryButtonClass} w-full`;
+export const softActionClass =
+  'inline-flex h-11 flex-1 items-center justify-center gap-2 whitespace-nowrap rounded-field border border-haven/25 bg-mint px-3 text-[14px] font-[600] text-haven-deep no-underline transition-colors hover:border-haven hover:bg-haven hover:text-white';

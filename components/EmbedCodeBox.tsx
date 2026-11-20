@@ -3,7 +3,7 @@
 import { useId, useState } from 'react';
 import { track } from '@/lib/analytics';
 import { site } from '@/config/site';
-import { actionButtonClass, primaryButtonClass } from './actionButtonClass';
+import { primaryButtonClass, softActionClass } from './actionButtonClass';
 import { CheckIcon, CodeIcon } from './icons';
 
 /** Default height fits the calculator + result at typical blog widths (checked at 700px: ~1,130px). */
@@ -20,7 +20,7 @@ export function EmbedCodeBox({ toolSlug, title }: { toolSlug: string; title: str
 
   return (
     <>
-      <button type="button" aria-expanded={open} aria-controls={id} onClick={() => setOpen(!open)} className={actionButtonClass}>
+      <button type="button" aria-expanded={open} aria-controls={id} onClick={() => setOpen(!open)} className={softActionClass}>
         <CodeIcon />
         {open ? 'Hide embed code' : 'Show embed code'}
       </button>

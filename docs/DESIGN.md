@@ -76,7 +76,7 @@ On desktop the panel is **sticky** while the inputs scroll. On mobile, a slim st
 
 **Result change motion (the only automatic motion on the site):** when inputs change, the main number does a short 200ms crossfade/slide of the changing digits. Respect `prefers-reduced-motion` (instant change).
 
-**Buttons:** Primary is solid `haven` with white text, 6px radius, 44px tall. Secondary is white with a `line` border. Text-only links are `haven` with an underline on hover. Labels say exactly what happens ("Copy share link", "Print or save as PDF", "Copy embed code").
+**Buttons:** Primary is solid `haven` with white text, 6px radius, 44px tall. Secondary is white with a `line` border. Text-only links are `haven` with an underline on hover. Labels say exactly what happens ("Copy share link", "Print or save as PDF", "Copy embed code"). Share / print / embed (2026-11-20) sit directly under the result: "Copy share link" is primary (solid `haven`, full width); "Print or save as PDF" and "Show embed code" are soft (`mint` fill, `haven-deep` text, solid `haven` on hover).
 
 **Tables (breakdowns, compare):** no zebra stripes; thin `line` row dividers; figures right-aligned, tabular.
 

@@ -22,7 +22,7 @@ No backend, no database, no login. Ask before adding any new dependency.
 Register it in `lib/registry.ts`. Use the shared components in `/components`; don't rebuild layout per tool.
 
 ## Page order (from ToolLayout)
-Breadcrumbs → H1 + subtitle → calculator → result + breakdown → chart (if useful) → scenario compare (if useful) → share / print / embed → affiliate slot → content (what it does, formula, 2–3 examples, tips, FAQ 6–10) → related tools → sources → "how it is checked" note → disclaimer.
+Breadcrumbs → H1 + subtitle → calculator → result + breakdown → share / print / embed (directly under the result, in the sticky result column; 2026-11-20) → chart (if useful) → scenario compare (if useful) → affiliate slot → content (what it does, formula, 2–3 examples, tips, FAQ 6–10) → related tools → sources → "how it is checked" note → disclaimer.
 
 ## SEO rules (read before writing any page)
 - `docs/SEO.md` = on-page rules, content template, schema. `docs/seo/keyword-map.md` = each page's primary/secondary keywords, title, meta, H1, FAQ questions, internal links.
