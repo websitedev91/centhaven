@@ -17,6 +17,15 @@ export default function RunningTotalChart(props: { rows: readonly YearRow[]; inv
   const compact = (v: number) => formatMoney(v, currency, 0);
   const data = [{ year: 0, total: 0 }, ...rows.map((r) => ({ year: r.year, total: r.total }))];
   const top = Math.max(investment, ...data.map((d) => d.total), 1);
+  // A loss year can take the running total below 0: round ticks (1, 2, 2.5 or 5 × 10ⁿ) that always include 0.
+  const low = Math.min(0, ...data.map((d) => d.total));
+  const raw = (top - low) / 4;
+  const mag = 10 ** Math.floor(Math.log10(raw));
+  const step = ([1, 2, 2.5, 5, 10].find((f) => f * mag >= raw) ?? 10) * mag;
+  const bottom = Math.floor(low / step) * step;
+  const ticks: number[] = [];
+  for (let t = bottom; t < top + step - 1e-9; t += step) ticks.push(t);
+  const ceiling = ticks.at(-1) ?? top;
 
   return (
     <ResponsiveContainer width="100%" height="100%">
@@ -42,8 +51,8 @@ export default function RunningTotalChart(props: { rows: readonly YearRow[]; inv
           axisLine={false}
           tickLine={false}
           width={88}
-          domain={[0, top]}
-          ticks={[0, top / 4, top / 2, (top * 3) / 4, top]}
+          domain={[bottom, ceiling]}
+          ticks={ticks}
         />
         <Tooltip
           formatter={(v) => [formatMoney(Number(v), currency), 'Recovered']}
@@ -56,6 +65,7 @@ export default function RunningTotalChart(props: { rows: readonly YearRow[]; inv
           strokeDasharray="4 4"
           label={{ value: `Investment ${compact(investment)}`, position: 'insideTopLeft', fill: INK_MUTED, fontSize: 13, dy: -18 }}
         />
+        {bottom < 0 ? <ReferenceLine y={0} stroke={LINE} /> : null}
         <Line type="linear" dataKey="total" stroke={CATEGORICAL[0]} strokeWidth={2} dot={{ r: 3 }} activeDot={{ r: 5, stroke: '#FFFFFF', strokeWidth: 2 }} isAnimationActive={false} />
       </LineChart>
     </ResponsiveContainer>

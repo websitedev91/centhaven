@@ -72,7 +72,19 @@ export const meetingDefaults = defaultsForCurrency(base, meetingCurrencyPresets,
 export const meetingVariant = currencyVariant(meetingDefaults, meetingCurrencyPresets);
 
 export function switchMeetingCurrency(state: MeetingState, next: CurrencyCode, touched?: ReadonlySet<string>): MeetingState {
-  return switchCurrency(state, next, meetingDefaults, meetingCurrencyPresets, touched);
+  return resetHiddenRows(switchCurrency(state, next, meetingDefaults, meetingCurrencyPresets, touched));
+}
+
+/**
+ * Rows past `rows` go back to the current currency's defaults, so a removed person leaves nothing
+ * in the share URL (only non-default values are written). Same rule as the debt tool (2026-11-20).
+ */
+export function resetHiddenRows(s: MeetingState): MeetingState {
+  const n = Number.isInteger(s.rows) ? Math.min(MAX_ROWS, Math.max(1, s.rows)) : MAX_ROWS;
+  const d = defaultsForCurrency(meetingDefaults, meetingCurrencyPresets, s.currency);
+  const next = { ...s };
+  for (const k of ROW_KEYS.slice(n)) next[k] = d[k];
+  return next;
 }
 
 /** The per-person rates in use (rows 1…rows). */
@@ -121,10 +133,8 @@ export function removeRow(s: MeetingState, index: number): MeetingState {
   if (s.rows <= 1) return s;
   const next: MeetingState = { ...s, rows: s.rows - 1 };
   for (let i = index; i < MAX_ROWS - 1; i++) next[ROW_KEYS[i]!] = s[ROW_KEYS[i + 1]!];
-  next[ROW_KEYS[MAX_ROWS - 1]!] = 0;
-  // Rows past the new end are hidden; keep them valid so a stale empty box never blocks the result.
-  for (let i = next.rows; i < MAX_ROWS; i++) if (!Number.isFinite(next[ROW_KEYS[i]!])) next[ROW_KEYS[i]!] = 0;
-  return next;
+  // Rows past the new end are hidden: back to their defaults (valid, and never in the share URL).
+  return resetHiddenRows(next);
 }
 
 /**

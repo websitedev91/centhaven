@@ -115,9 +115,10 @@ export default function MeetingCostCalculator() {
                           <button
                             type="button"
                             onClick={() => {
-                              setAll(removeRow(s, i));
+                              const next = removeRow(s, i);
+                              setAll(next);
                               // Rows after the removed one moved up: keep their typed values on a currency switch.
-                              markTouched(ROW_KEYS.slice(i));
+                              markTouched(ROW_KEYS.slice(i, next.rows));
                               touch();
                             }}
                             aria-label={`Remove person ${i + 1}`}

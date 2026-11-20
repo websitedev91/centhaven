@@ -2,17 +2,18 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { formatMoney, formatPercent } from '@/lib/format';
-import { evenPayback, formatYears, payback, splitYears, yearsMonthsText } from './calc';
+import { yearsToDuration as yearsMonthsText } from '@/lib/duration';
+import { evenPayback, formatYears, payback } from './calc';
 import { paybackDefaults, paybackErrors, switchPaybackCurrency, toCalcInput, type PaybackState } from './schema';
 
 const m = (n: number, c: 'USD' | 'INR' = 'USD') => formatMoney(n, c);
 const uneven = (investment: number, flows: number[]) => payback({ investment, flows });
 
 describe('spec test cases', () => {
-  it('#1 even 50,000 ÷ 12,500 → 4.00 years, 4 years and 0 months', () => {
+  it('#1 even 50,000 ÷ 12,500 → 4.00 years, "4 years" (no "and 0 months")', () => {
     const y = evenPayback(50_000, 12_500)!;
     expect(formatYears(y)).toBe('4.00 years');
-    expect(yearsMonthsText(y)).toBe('4 years and 0 months');
+    expect(yearsMonthsText(y)).toBe('4 years');
   });
 
   it('#2 even 20,000 ÷ 7,000 → 2.86 years, 2 years and 10 months', () => {
@@ -25,7 +26,7 @@ describe('spec test cases', () => {
     const r = uneven(30_000, [8_000, 10_000, 12_000, 15_000]);
     expect(r.rows.map((x) => x.total).slice(0, 3)).toEqual([8_000, 18_000, 30_000]);
     expect(r.paidBack && formatYears(r.years)).toBe('3.00 years');
-    expect(r.paidBack && yearsMonthsText(r.years)).toBe('3 years and 0 months');
+    expect(r.paidBack && yearsMonthsText(r.years)).toBe('3 years');
   });
 
   it('#4 uneven 40,000 → 3.17 years, 3 years and 2 months, recovered 55,000 (15,000 more)', () => {
@@ -77,13 +78,15 @@ describe('edge cases', () => {
   });
 
   it('11.96 months rounds into the next year', () => {
-    expect(splitYears(3.997)).toEqual({ years: 4, months: 0 });
-    expect(yearsMonthsText(3.997)).toBe('4 years and 0 months');
+    expect(yearsMonthsText(3.997)).toBe('4 years');
   });
 
   it('negatives → field error; hidden year boxes never block', () => {
     expect(errs({ inv: -1 }).inv).toBe('Can’t be negative');
-    expect(errs({ mode: 'uneven', y2: -1 }).y2).toBe('Can’t be negative');
+    // A loss year is allowed in "Different each year" (Puru, 2026-11-20); the investment can't be negative.
+    expect(errs({ mode: 'uneven', y2: -1 })).toEqual({});
+    expect(errs({ mode: 'uneven', y2: -20_000_000_000 }).y2).toBe('Minimum is −10,000,000,000');
+    expect(errs({ mode: 'even', flow: -1 }).flow).toBe('Can’t be negative');
     expect(errs({ mode: 'uneven', y9: Number.NaN })).toEqual({});
     expect(errs({ mode: 'even', y1: Number.NaN })).toEqual({});
     expect(errs({ mode: 'uneven', years: 11 }).years).toBe('Maximum is 10 years');
@@ -98,6 +101,27 @@ describe('edge cases', () => {
   it('huge values stay finite', () => {
     const y = evenPayback(10_000_000_000, 1)!;
     expect(formatYears(y)).not.toMatch(/e\+|NaN|Infinity/);
+  });
+});
+
+describe('negative yearly cash flows (Puru, 2026-11-20)', () => {
+  it('50,000 with −5,000 / 20,000 × 4 → cumulative −5k, 15k, 35k, 55k → 3.75 years, 3 years and 9 months', () => {
+    const r = uneven(50_000, [-5_000, 20_000, 20_000, 20_000, 20_000]);
+    expect(r.rows.map((x) => x.total).slice(0, 4)).toEqual([-5_000, 15_000, 35_000, 55_000]);
+    expect(r.rows[0]!.left).toBe(55_000);
+    expect(r.paidBack && formatYears(r.years)).toBe('3.75 years');
+    expect(r.paidBack && yearsMonthsText(r.years)).toBe('3 years and 9 months');
+  });
+
+  it('the same case through the schema (uneven mode)', () => {
+    const r = payback(toCalcInput({ ...paybackDefaults, mode: 'uneven', inv: 50_000, y1: -5_000, y2: 20_000, y3: 20_000, y4: 20_000, y5: 20_000 }));
+    expect(r.paidBack && r.years).toBe(3.75);
+  });
+
+  it('losses only → not paid back, with a negative share and no NaN', () => {
+    const r = uneven(10_000, [-1_000, -1_000]);
+    expect(r.paidBack).toBe(false);
+    expect(!r.paidBack && formatPercent(r.share)).toBe('-20%');
   });
 });
 

@@ -55,10 +55,9 @@ export function marginErrors(s: MarginState): Partial<Record<keyof MarginState, 
   const all = fieldErrors(marginSchema, s);
   const out: Partial<Record<keyof MarginState, string>> = {};
   for (const k of usedFields(s)) if (all[k]) out[k] = all[k];
+  // Cost and price: margin is profit ÷ price, so the price must be above 0 (Puru, 2026-11-20).
+  if (s.mode === 'price' && !out.price && s.price === 0) out.price = 'Enter a price above 0';
   return out;
 }
-
-/** Cost and price mode with both at 0: nothing to work out. */
-export const BOTH_ZERO = 'Enter a cost or a price above 0';
 
 export { fieldErrors };

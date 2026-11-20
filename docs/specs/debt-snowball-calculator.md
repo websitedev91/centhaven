@@ -86,7 +86,8 @@ No rounding during the calculation; money is rounded at display only. Content sa
 - A row with balance 0 is ignored. Rate 0 → no interest. Minimum 0 is allowed (paid by rollover once it is the target).
 - Never paid off → error text "Your monthly payment ({x}) doesn't cover the interest ({y}). Add to the extra payment to see a payoff date." + "—".
 - Over 600 months → "This would take more than 50 years" + "—". Negative → field error. Rate > 100 → field error. Huge values → no NaN/Infinity.
-- Removing a row moves later rows up (same as the meeting tool).
+- Removing a row moves later rows up (same as the meeting tool). Rows past the count go back to the currency's defaults, so the share URL keeps no `b3=0&r3=0&m3=0` leftovers (Puru, 2026-11-20).
+- Durations use the shared wording (lib/duration.ts): "2 years and 7 months", "2 years", "1 month".
 
 ## Quality gate 8 (UI input tests)
 - Clear each required box (every balance, rate and minimum shown) → "Enter a number" and "—". Clear extra (optional) → valid.

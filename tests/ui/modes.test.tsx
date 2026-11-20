@@ -132,11 +132,30 @@ describe('debt: payment that never covers the interest', () => {
   });
 });
 
-describe('margin: cost and price both 0', () => {
-  it('says "Enter a cost or a price above 0" and shows "—"', () => {
-    window.history.replaceState(null, '', '/?cost=0&price=0');
+describe('margin: price 0 in "Cost and price" (Puru, 2026-11-20)', () => {
+  it.each(['/?price=0', '/?cost=0&price=0'])('%s → field error "Enter a price above 0" and a plain "—"', (q) => {
+    window.history.replaceState(null, '', q);
     const { container } = render(<Margin />);
     expect(dash(container)).toBe(true);
-    expect(box(container).textContent).toContain('Enter a cost or a price above 0');
+    expect(container.textContent).toContain('Enter a price above 0');
+    expect(box(container).textContent).not.toContain('— margin');
+    expect(container.querySelector('[aria-invalid="true"]')).not.toBeNull();
+  });
+});
+
+describe('payback: a loss year (Puru, 2026-11-20)', () => {
+  it('50,000 with −5,000 then 20,000 a year → 3.75 years, 3 years and 9 months', () => {
+    window.history.replaceState(null, '', '/?mode=uneven&years=5&y1=-5000&y2=20000&y3=20000&y4=20000&y5=20000');
+    const { container } = render(<Payback />);
+    expect(valid(container)).toBe(true);
+    expect(box(container).textContent).toContain('3.75 years');
+    expect(box(container).textContent).toContain('3 years and 9 months');
+  });
+
+  it('whole years read "4 years", not "4 years and 0 months"', () => {
+    window.history.replaceState(null, '', '/');
+    const { container } = render(<Payback />);
+    expect(box(container).textContent).toContain('4 years');
+    expect(box(container).textContent).not.toContain('0 months');
   });
 });

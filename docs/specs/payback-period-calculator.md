@@ -70,7 +70,8 @@ months   = round((payback − whole years) × 12); 12 months → add a year
 - Investment 0 → "Paid back straight away" (0 years, valid).
 - Even mode, flow 0 → "Never paid back at this cash flow" + "—" (no Infinity).
 - 11.96 months rounding to 12 → shown as the next whole year (e.g. "3 years and 0 months" becomes "4 years and 0 months").
-- Negative → field error (cash flows that lose money are out of scope for v1; content says so). Huge values → no NaN/Infinity.
+- Different each year: a yearly cash flow can be negative (a loss year), down to −10,000,000,000 (Puru, 2026-11-20). Payback is the first year the running total reaches the investment. Test: 50,000 with −5,000 / 20,000 / 20,000 / 20,000 / 20,000 → running −5k, 15k, 35k, 55k → **3.75 years** (3 years and 9 months). The investment and the even-mode yearly flow can't be negative. Huge values → no NaN/Infinity.
+- Durations use the shared wording (lib/duration.ts): "4 years" (not "4 years and 0 months"), "1 year", "1 month".
 
 ## Quality gate 8 (UI input tests)
 - Clear each required box (investment, flow; years and every shown year box) → "Enter a number" and "—". No optional fields.

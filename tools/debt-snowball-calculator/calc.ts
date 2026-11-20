@@ -137,21 +137,6 @@ export function debtPayoff(input: DebtInput): DebtResult {
   return { ok: true, kind: 'plan', payment, minimums, snowball, avalanche, minBelowInterest };
 }
 
-/** "31 months", "1 month". */
-export function monthsText(n: number): string {
-  return `${n.toLocaleString('en-US')} ${n === 1 ? 'month' : 'months'}`;
-}
-
-/** "about 2 years and 7 months" (whole years only when the months are 0). */
-export function yearsAndMonths(n: number): string {
-  const y = Math.floor(n / 12);
-  const m = n % 12;
-  const years = `${y} ${y === 1 ? 'year' : 'years'}`;
-  const months = `${m} ${m === 1 ? 'month' : 'months'}`;
-  if (y === 0) return months;
-  return m === 0 ? years : `${years} and ${months}`;
-}
-
 /** "Debt 1 (month 10) → Debt 2 (month 26)"; debts cleared in the same month are joined with "and". */
 export function formatOrder(order: readonly Payoff[]): string {
   const groups: Payoff[][] = [];

@@ -62,7 +62,7 @@ export const debtDefaults = defaultsForCurrency(base, debtCurrencyPresets, 'USD'
 export const debtVariant = currencyVariant(debtDefaults, debtCurrencyPresets);
 
 export function switchDebtCurrency(state: DebtState, next: CurrencyCode, touched?: ReadonlySet<string>): DebtState {
-  return switchCurrency(state, next, debtDefaults, debtCurrencyPresets, touched);
+  return resetHiddenRows(switchCurrency(state, next, debtDefaults, debtCurrencyPresets, touched));
 }
 
 /** Rows shown (1…rows); an invalid row count shows 1 so the page never breaks. */
@@ -99,6 +99,17 @@ export function addRow(s: DebtState): DebtState {
   return { ...s, rows: n + 1, [to.b]: keep(s[from.b]), [to.r]: keep(s[from.r]), [to.m]: keep(s[from.m]) };
 }
 
+/**
+ * Rows past `rows` go back to the current currency's defaults, so a removed debt leaves nothing
+ * in the share URL (only non-default values are written: lib/url-state.ts toQuery). Puru, 2026-11-20.
+ */
+export function resetHiddenRows(s: DebtState): DebtState {
+  const d = defaultsForCurrency(debtDefaults, debtCurrencyPresets, s.currency);
+  const next = { ...s };
+  for (const k of ROWS.slice(shownRows(s))) for (const key of [k.b, k.r, k.m]) next[key] = d[key];
+  return next;
+}
+
 /** Remove debt `index` (0-based); later debts move up. The last debt can't be removed. */
 export function removeRow(s: DebtState, index: number): DebtState {
   const n = shownRows(s);
@@ -111,18 +122,13 @@ export function removeRow(s: DebtState, index: number): DebtState {
     next[to.r] = s[from.r];
     next[to.m] = s[from.m];
   }
-  const last = ROWS[MAX_DEBTS - 1]!;
-  next[last.b] = 0;
-  next[last.r] = 0;
-  next[last.m] = 0;
-  // Hidden rows stay valid, so a stale empty box never blocks the result.
-  for (const k of ROWS.slice(next.rows)) for (const key of [k.b, k.r, k.m]) if (!Number.isFinite(next[key])) next[key] = 0;
-  return next;
+  // Hidden rows go back to their defaults: valid, and never in the share URL.
+  return resetHiddenRows(next);
 }
 
-/** Keys of every row from `index` on (they moved up when a row was removed). */
-export function keysFrom(index: number): (keyof DebtState)[] {
-  return ROWS.slice(index).flatMap((k) => [k.b, k.r, k.m]);
+/** Keys of the shown rows from `index` to `end` (they moved up when a row was removed). Hidden rows are not touched. */
+export function keysFrom(index: number, end: number = MAX_DEBTS): (keyof DebtState)[] {
+  return ROWS.slice(index, end).flatMap((k) => [k.b, k.r, k.m]);
 }
 
 export { fieldErrors };

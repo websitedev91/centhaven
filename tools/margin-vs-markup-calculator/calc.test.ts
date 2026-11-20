@@ -65,7 +65,14 @@ describe('spec test cases', () => {
 describe('edge cases', () => {
   const errs = (patch: Partial<MarginState>) => marginErrors({ ...marginDefaults, ...patch });
 
-  it('price 0 → no margin; markup still shown', () => {
+  it('cost and price mode: price 0 → "Enter a price above 0" (Puru, 2026-11-20); cost 0 is fine', () => {
+    expect(errs({ mode: 'price', price: 0 }).price).toBe('Enter a price above 0');
+    expect(errs({ mode: 'price', cost: 0, price: 0 }).price).toBe('Enter a price above 0');
+    expect(errs({ mode: 'price', cost: 0 })).toEqual({});
+    expect(errs({ mode: 'find', price: 0 })).toEqual({});
+  });
+
+  it('calc: price 0 has no margin (the schema stops it before the page)', () => {
     const r = fromCostAndPrice(60, 0);
     expect(r.margin).toBeNull();
     expect(formatPct(r.markup!)).toBe('-100%');

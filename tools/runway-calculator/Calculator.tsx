@@ -15,6 +15,7 @@ import { track } from '@/lib/analytics';
 import { monthYearAfter } from '@/lib/dates';
 import { formatMoney, type CurrencyCode } from '@/lib/format';
 import { optionalOff } from '@/lib/field-errors';
+import { monthsToDuration, plural } from '@/lib/duration';
 import { useUrlState } from '@/lib/url-state';
 import { cashPath, formatMonths, runway, type RunwayResult } from './calc';
 import {
@@ -40,8 +41,8 @@ const NOT_BURNING = "You're not burning cash: your revenue covers your costs.";
 const monthsFmt = (n: number | null) => (n === null ? '—' : formatMonths(n));
 const aboutText = (r: RunwayResult) => {
   if (r.wholeMonths === null || r.extraDays === null) return '';
-  const m = `${r.wholeMonths} ${r.wholeMonths === 1 ? 'month' : 'months'}`;
-  return r.extraDays > 0 ? `about ${m} and ${r.extraDays} ${r.extraDays === 1 ? 'day' : 'days'}` : `${m}`;
+  // Shared wording (lib/duration.ts): "about 2 years, 6 months and 3 days", "8 months", "1 month".
+  return r.extraDays > 0 ? `about ${monthsToDuration(r.wholeMonths, r.extraDays)}` : monthsToDuration(r.wholeMonths);
 };
 
 export default function RunwayCalculator() {
@@ -136,7 +137,7 @@ export default function RunwayCalculator() {
                 ...(runsOut ? [{ label: 'Cash runs out around', note: 'From this month, at this burn', value: runsOut }] : []),
                 ...(r.maxBurn !== null && !r.notBurning
                   ? [
-                      { label: `Highest burn for ${s.target} months`, value: money(r.maxBurn) },
+                      { label: `Highest burn for ${plural(s.target, 'month')}`, value: money(r.maxBurn) },
                       { label: 'Cut needed', note: 'Per month, to reach your target', value: r.cutNeeded! > 0 ? money(r.cutNeeded!) : 'None' },
                     ]
                   : []),

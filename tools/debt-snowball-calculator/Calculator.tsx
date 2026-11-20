@@ -17,7 +17,10 @@ import { lastPaymentMonth } from '@/lib/dates';
 import { optionalOff } from '@/lib/field-errors';
 import { formatMoney, type CurrencyCode } from '@/lib/format';
 import { useUrlState } from '@/lib/url-state';
-import { chartPoints, debtPayoff, formatOrder, monthsText, yearsAndMonths, type MethodResult } from './calc';
+import { monthsToDuration as yearsAndMonths, plural } from '@/lib/duration';
+import { chartPoints, debtPayoff, formatOrder, type MethodResult } from './calc';
+
+const monthsText = (n: number) => plural(n, 'month');
 import {
   MAX_DEBTS,
   OPTIONAL,
@@ -142,9 +145,10 @@ export default function DebtSnowballCalculator() {
                     <button
                       type="button"
                       onClick={() => {
-                        setAll(removeRow(s, i));
+                        const next = removeRow(s, i);
+                        setAll(next);
                         // Debts after the removed one moved up: keep their typed values on a currency switch.
-                        markTouched(keysFrom(i));
+                        markTouched(keysFrom(i, next.rows));
                         touch();
                       }}
                       aria-label={`Remove debt ${i + 1}`}

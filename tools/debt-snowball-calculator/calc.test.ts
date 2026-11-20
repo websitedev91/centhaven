@@ -2,8 +2,10 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { formatMoney, type CurrencyCode } from '@/lib/format';
-import { chartPoints, debtPayoff, formatOrder, MAX_MONTHS, yearsAndMonths, type DebtResult } from './calc';
-import { addRow, debtDefaults, debtErrors, removeRow, shownDifference, switchDebtCurrency, toCalcInput, type DebtState } from './schema';
+import { monthsToDuration as yearsAndMonths } from '@/lib/duration';
+import { chartPoints, debtPayoff, formatOrder, MAX_MONTHS, type DebtResult } from './calc';
+import { toQuery } from '@/lib/url-state';
+import { addRow, debtDefaults, debtErrors, debtVariant, removeRow, shownDifference, switchDebtCurrency, toCalcInput, type DebtState } from './schema';
 
 const m = (n: number, c: CurrencyCode = 'USD') => formatMoney(n, c);
 const run = (debts: [number, number, number][], extra: number) =>
@@ -181,6 +183,31 @@ describe('edge cases', () => {
     expect(pts[0]!.month).toBe(0);
     expect(pts.at(-1)!.month).toBe(51);
     expect(pts.at(-1)!.snowball).toBe(0);
+  });
+});
+
+describe('share URL after removing a debt (Puru, 2026-11-20)', () => {
+  const q = (s: DebtState) => toQuery(s, debtDefaults, debtVariant);
+
+  it('removing debt 3 leaves only rows=2 (no b3=0&r3=0&m3=0)', () => {
+    expect(q(removeRow(debtDefaults, 2))).toBe('?rows=2');
+  });
+
+  it('removing debt 1 keeps the moved debts and drops the vacated row', () => {
+    const query = q(removeRow(debtDefaults, 0));
+    expect(query).not.toMatch(/b3=|r3=|m3=/);
+    expect(query).toContain('b1=6000');
+  });
+
+  it('add then remove leaves a clean URL; in INR too', () => {
+    expect(q(removeRow(addRow(debtDefaults), 3))).toBe('');
+    const inr = switchDebtCurrency(debtDefaults, 'INR');
+    expect(q(removeRow(inr, 2))).toBe('?currency=INR&rows=2');
+  });
+
+  it('a hidden row typed earlier never comes back on a currency switch', () => {
+    const removed = removeRow({ ...debtDefaults, b3: 4_321 }, 2);
+    expect(q(switchDebtCurrency(removed, 'GBP', new Set(['b3'])))).toBe('?currency=GBP&rows=2');
   });
 });
 

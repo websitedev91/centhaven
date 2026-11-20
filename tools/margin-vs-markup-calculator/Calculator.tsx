@@ -14,7 +14,7 @@ import { CATEGORICAL } from '@/lib/chart-palette';
 import { formatMoney, type CurrencyCode } from '@/lib/format';
 import { useUrlState } from '@/lib/url-state';
 import { findPrice, formatPct, fromCostAndPrice, marginFromMarkup, markupFromMargin, type MarginMode, type PriceFrom } from './calc';
-import { BOTH_ZERO, marginDefaults, marginErrors, marginSchema, marginVariant, switchMarginCurrency, type MarginState } from './schema';
+import { marginDefaults, marginErrors, marginSchema, marginVariant, switchMarginCurrency, type MarginState } from './schema';
 
 const SLUG = 'margin-vs-markup-calculator';
 const FIX_FIELDS = 'Check the highlighted fields to see your result.';
@@ -51,22 +51,21 @@ export default function MarginVsMarkupCalculator() {
   let result;
   if (s.mode === 'price') {
     const label = 'Margin and markup';
-    if (!ok || (s.cost === 0 && s.price === 0)) {
-      result = <ResultCard label={label} value="" unit="" rows={[]} error={ok ? BOTH_ZERO : FIX_FIELDS} />;
+    if (!ok) {
+      result = <ResultCard label={label} value="" unit="" rows={[]} error={FIX_FIELDS} />;
     } else {
       const r = fromCostAndPrice(s.cost, s.price);
       const loss = r.profit < 0;
       result = (
         <ResultCard
           label={label}
-          value={r.margin === null ? '—' : formatPct(r.margin)}
+          value={formatPct(r.margin!)}
           unit={`margin · on a price of ${money(s.price)}`}
           tone={loss ? 'negative' : undefined}
           rows={[
             r.markup === null
               ? { label: 'Markup', note: 'No cost, so markup can’t be worked out', value: '—' }
               : { label: 'Markup', note: `Profit as a share of the cost (${money(s.cost)})`, value: formatPct(r.markup) },
-            ...(r.margin === null ? [{ label: 'Margin', note: 'No price, so there’s no margin', value: '—' }] : []),
             { label: 'Profit per sale', note: 'Price − cost', value: money(r.profit) },
           ]}
           footnote={
@@ -173,7 +172,7 @@ export default function MarginVsMarkupCalculator() {
               {s.mode === 'price' ? (
                 <InputCurrency
                   label="Selling price"
-                  help="What the customer pays. Example value."
+                  help="What the customer pays. Must be above 0. Example value."
                   currency={c}
                   value={s.price}
                   onChange={(v) => update('price', v)}

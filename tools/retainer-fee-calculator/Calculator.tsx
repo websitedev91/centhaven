@@ -12,6 +12,7 @@ import { Slider } from '@/components/Slider';
 import { track } from '@/lib/analytics';
 import { formatMoney, formatNumber, type CurrencyCode } from '@/lib/format';
 import { optionalOff } from '@/lib/field-errors';
+import { plural } from '@/lib/duration';
 import { useUrlState } from '@/lib/url-state';
 import { retainerFee, type RetainerError, type RetainerResult } from './calc';
 import {
@@ -162,7 +163,7 @@ export default function RetainerFeeCalculator() {
                   note: 'Per month',
                   value: money(Math.abs(result.adjustmentAmount)),
                 },
-                { label: 'Agreement value', note: `${formatNumber(s.months)} ${s.months === 1 ? 'month' : 'months'}`, value: money(result.contractValue) },
+                { label: 'Agreement value', note: plural(s.months, 'month'), value: money(result.contractValue) },
                 {
                   label: 'Effective hourly rate',
                   note:
@@ -181,7 +182,7 @@ export default function RetainerFeeCalculator() {
                       { label: 'Monthly total with extra hours', value: money(result.monthlyTotal) },
                       {
                         label: 'Agreement total with extra hours',
-                        note: `${formatNumber(s.months)} ${s.months === 1 ? 'month' : 'months'}`,
+                        note: plural(s.months, 'month'),
                         value: money(result.contractTotal),
                       },
                     ]

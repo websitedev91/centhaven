@@ -15,7 +15,8 @@ import { SegmentedControl } from '@/components/SegmentedControl';
 import { track } from '@/lib/analytics';
 import { formatMoney, formatPercent, type CurrencyCode } from '@/lib/format';
 import { useUrlState } from '@/lib/url-state';
-import { evenPayback, formatYears, payback, yearsMonthsText, type PaybackMode, type PaybackResult } from './calc';
+import { yearsToDuration } from '@/lib/duration';
+import { evenPayback, formatYears, payback, type PaybackMode, type PaybackResult } from './calc';
 import {
   MAX_YEARS,
   YEAR_KEYS,
@@ -84,7 +85,7 @@ export default function PaybackPeriodCalculator() {
       <ResultCard
         label={label}
         value={formatYears(years)}
-        unit={`${yearsMonthsText(years)} · on ${money(s.inv)}`}
+        unit={`${yearsToDuration(years)} · on ${money(s.inv)}`}
         rows={[
           { label: 'Investment', value: money(s.inv) },
           ...(even ? [{ label: 'Yearly cash flow', value: money(s.flow) }] : []),
@@ -163,7 +164,9 @@ export default function PaybackPeriodCalculator() {
                   />
                   <fieldset className="flex flex-col gap-4 sm:col-span-2">
                     <legend className="type-small float-left mb-1 w-full font-[550] text-ink">Cash flow each year</legend>
-                    <p className="type-small text-ink-muted">Extra money it brings in, or saves, in each year. Example values.</p>
+                    <p className="type-small text-ink-muted">
+                      Extra money it brings in, or saves, in each year. Use a minus sign for a year that loses money. Example values.
+                    </p>
                     <div className="grid gap-x-6 gap-y-5 sm:grid-cols-2">
                       {YEAR_KEYS.slice(0, n).map((k, i) => (
                         <InputCurrency key={k} label={`Year ${i + 1}`} currency={c} value={s[k]} onChange={(v) => update(k, v)} error={errors[k]} />

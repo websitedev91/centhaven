@@ -7,13 +7,16 @@ import type { PaybackInput, PaybackMode } from './calc';
 
 const num = () => z.number({ error: 'Enter a number' });
 const money = () => num().check(z.minimum(0, 'Can’t be negative'), z.maximum(10_000_000_000, 'Maximum is 10,000,000,000'));
+/** A yearly cash flow in "Different each year" can be negative: a year that loses money (Puru, 2026-11-20). */
+const signedMoney = () =>
+  num().check(z.minimum(-10_000_000_000, 'Minimum is −10,000,000,000'), z.maximum(10_000_000_000, 'Maximum is 10,000,000,000'));
 
 export const MODES = ['even', 'uneven'] as const satisfies readonly PaybackMode[];
 export const MAX_YEARS = 10;
 export type YearKey = `y${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10}`;
 export const YEAR_KEYS = Array.from({ length: MAX_YEARS }, (_, i) => `y${i + 1}` as YearKey);
 
-const yearShape = Object.fromEntries(YEAR_KEYS.map((k) => [k, money()])) as Record<YearKey, ReturnType<typeof money>>;
+const yearShape = Object.fromEntries(YEAR_KEYS.map((k) => [k, signedMoney()])) as Record<YearKey, ReturnType<typeof signedMoney>>;
 
 export const paybackSchema = z.object({
   mode: z.enum(MODES),

@@ -17,6 +17,7 @@ import { CATEGORICAL, MUTED_FILL } from '@/lib/chart-palette';
 import { formatMoney, formatPercent, type CurrencyCode } from '@/lib/format';
 import { lastPaymentMonth } from '@/lib/dates';
 import { optionalOff } from '@/lib/field-errors';
+import { plural } from '@/lib/duration';
 import { useUrlState } from '@/lib/url-state';
 import {
   emergencyFund,
@@ -57,7 +58,7 @@ function essentialError(v: number | undefined): string | undefined {
   if (v > ESSENTIALS_MAX) return 'That number is too large';
   return undefined;
 }
-const monthsText = (n: number) => `${n} ${n === 1 ? 'month' : 'months'}`;
+const monthsText = (n: number) => plural(n, 'month');
 
 const ESSENTIAL_LABEL: Record<Essential, string> = {
   housing: 'Rent or mortgage',

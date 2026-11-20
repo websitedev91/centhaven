@@ -3,9 +3,11 @@ import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { formatMoney, type CurrencyCode } from '@/lib/format';
 import { meetingCost } from './calc';
+import { toQuery } from '@/lib/url-state';
 import {
   addRow,
   meetingDefaults,
+  meetingVariant,
   meetingErrors,
   planBInput,
   removeRow,
@@ -121,5 +123,20 @@ describe('content.mdx worked examples match the calculator', () => {
     [m(d.meetingCost, 'INR'), m(d.weekly!, 'INR'), m(d.yearly!, 'INR')].forEach(has);
     const e = same(4, 40, 60, 0.5, 52);
     [m(e.meetingCost), m(e.yearly!)].forEach(has);
+  });
+});
+
+describe('share URL after removing a person (same rule as the debt tool, 2026-11-20)', () => {
+  const q = (s: MeetingState) => toQuery(s, meetingDefaults, meetingVariant);
+  const each: MeetingState = { ...meetingDefaults, mode: 'each' };
+
+  it('removing person 4 leaves no r4 in the URL', () => {
+    expect(q(removeRow(each, 3))).toBe('?mode=each&rows=3');
+  });
+
+  it('removing person 1 drops the vacated row; INR too', () => {
+    expect(q(removeRow(each, 0))).not.toMatch(/r4=/);
+    const inr = switchMeetingCurrency(each, 'INR');
+    expect(q(removeRow(inr, 3))).toBe('?mode=each&currency=INR&rows=3');
   });
 });

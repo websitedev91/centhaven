@@ -15,6 +15,7 @@ import { track } from '@/lib/analytics';
 import { lastPaymentMonth } from '@/lib/dates';
 import { formatMoney, type CurrencyCode } from '@/lib/format';
 import { optionalOff } from '@/lib/field-errors';
+import { monthsToDuration } from '@/lib/duration';
 import { useUrlState } from '@/lib/url-state';
 import { savingsGoal, savingsPath, type SavingsGoalError, type SavingsGoalResult } from './calc';
 import {
@@ -35,7 +36,8 @@ const SLUG = 'savings-goal-calculator';
 /** Optional fields: an invalid one shows its own error, and the result still shows (treated as 0). */
 const OPTIONAL = ['saved', 'rate'] as const;
 const FIX_FIELDS = 'Check the highlighted fields to see your result.';
-const monthsText = (n: number) => `${n} ${n === 1 ? 'month' : 'months'}`;
+/** Shared wording (lib/duration.ts): 24 → "2 years", 18 → "1 year and 6 months". */
+const monthsText = (n: number) => monthsToDuration(n);
 
 export default function SavingsGoalCalculator() {
   const { state: s, setField, setAll, reset, touched } = useUrlState(savingsGoalSchema, savingsGoalDefaults, { variant: savingsGoalVariant });

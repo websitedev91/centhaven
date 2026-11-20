@@ -74,8 +74,7 @@ margin from markup = markup ÷ (1 + markup)
 | 8 | Switch USD → INR without editing | cost 60 → 800, price 100 → 1,000; margin 20%, markup 25%. A typed cost is kept |
 
 ## Edge cases
-- Price 0 (price mode) → margin row "—" with "No price, so there's no margin", markup still shown if cost > 0. Cost 0 → markup "—" with "No cost, so markup can't be worked out"; margin 100%.
-- Both 0 → message "Enter a cost or a price above 0" + "—".
+- Price 0 (Cost and price mode) → field error "Enter a price above 0" + "—" (Puru, 2026-11-20; this replaces the earlier "No price" row and the both-0 message). Cost 0 → markup "—" with "No cost, so markup can't be worked out"; margin 100%.
 - Margin ≥ 100% → field error (a margin of 100% would need an infinite price). Negative inputs → field error.
 - Huge values → formatted, never `e+`/NaN/Infinity.
 

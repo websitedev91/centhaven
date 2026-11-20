@@ -1,6 +1,7 @@
 /**
  * Payback Period Calculator: pure maths (spec: docs/specs/payback-period-calculator.md).
  * Simple payback only (no discounting). Every number comes from the user.
+ * Durations in words come from lib/duration.ts (yearsToDuration).
  * No React, no dates, no fetch. Round at display time only.
  */
 
@@ -8,7 +9,7 @@ export type PaybackMode = 'even' | 'uneven';
 
 export interface PaybackInput {
   investment: number;
-  /** Cash flow for each year (even mode: the same value repeated). */
+  /** Cash flow for each year (even mode: the same value repeated). A negative year is a loss. */
   flows: readonly number[];
 }
 
@@ -43,23 +44,6 @@ export function payback(input: PaybackInput): PaybackResult {
 export function evenPayback(investment: number, flow: number): number | null {
   if (investment <= 0) return 0;
   return flow > 0 ? investment / flow : null;
-}
-
-/** Years and whole months, rounding the months; 12 months roll into the next year. */
-export function splitYears(years: number): { years: number; months: number } {
-  let y = Math.floor(years);
-  let m = Math.round(Number(((years - y) * 12).toPrecision(12)));
-  if (m === 12) {
-    y += 1;
-    m = 0;
-  }
-  return { years: y, months: m };
-}
-
-/** "4 years and 0 months" (spec wording keeps the 0). */
-export function yearsMonthsText(years: number): string {
-  const s = splitYears(years);
-  return `${s.years.toLocaleString('en-US')} ${s.years === 1 ? 'year' : 'years'} and ${s.months} ${s.months === 1 ? 'month' : 'months'}`;
 }
 
 /** "4.00 years". */
