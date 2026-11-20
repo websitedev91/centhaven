@@ -10,7 +10,7 @@ import { searchTools, type SearchItem } from '@/lib/nav-search';
  * Homepage search (user-friendly entry point): results appear as you type, arrow keys move,
  * Enter opens the highlighted calculator. Data comes from the server (live tools only).
  */
-export function HomeSearch({ items }: { items: SearchItem[] }) {
+export function HomeSearch({ items, onDark = false }: { items: SearchItem[]; /** On the dark hero: white focus ring (haven fails contrast on ink). */ onDark?: boolean }) {
   const router = useRouter();
   const id = useId();
   const [query, setQuery] = useState('');
@@ -31,7 +31,11 @@ export function HomeSearch({ items }: { items: SearchItem[] }) {
       <label htmlFor={`${id}-input`} className="sr-only">
         Search calculators
       </label>
-      <div className="flex h-14 items-center gap-3 rounded-panel border border-line bg-surface pl-4 pr-2 focus-within:border-haven focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-haven">
+      <div
+        className={`flex h-14 items-center gap-3 rounded-panel border bg-surface pl-4 pr-2 focus-within:outline-2 focus-within:outline-offset-2 ${
+          onDark ? 'border-transparent focus-within:outline-white' : 'border-line focus-within:border-haven focus-within:outline-haven'
+        }`}
+      >
         <SearchIcon className="shrink-0 text-ink-muted" />
         <input
           id={`${id}-input`}

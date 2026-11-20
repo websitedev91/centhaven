@@ -125,44 +125,16 @@ On desktop the panel is **sticky** while the inputs scroll. On mobile, a slim st
 
 ## 8. Homepage
 
-The hero opens with the most characteristic thing on the site: **a live calculation.**
+Redesigned 2026-11-20. Top to bottom:
 
-```
-┌──────────────────────────────────────────────────────────────────────┐
-│ HEADER                                                               │
-├──────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│  Know your numbers                 ┌──────────────────────────────┐  │
-│  before you decide.                │ What should you charge        │  │
-│                                    │ per hour?                     │  │
-│  Free calculators for freelancers  │ Take-home goal [ $60,000   ]  │  │
-│  and anyone managing money.        │ Hours a week   [ 40 ]         │  │
-│  Every rate checked against        │ ───────────────────────────── │  │
-│  official sources.                 │  $62.32 per hour              │  │
-│                                    │  ═══════ (brass underline)    │  │
-│  [ Browse calculators ]            │  Open full calculator         │  │
-│                                    └──────────────────────────────┘  │
-├──────────────────────────────────────────────────────────────────────┤
-│  Calculators by category  (an index list, not identical cards)       │
-│  Freelance ........ Set your rates, price projects ........ 12 tools │
-│  Fees & payments .. See what PayPal, Wise and Upwork take ..  8 tools│
-│  (one row per live category, whole row clickable)                    │
-├──────────────────────────────────────────────────────────────────────┤
-│  Most used calculators: 6 tool links in a 3×2 grid of simple rows    │
-├──────────────────────────────────────────────────────────────────────┤
-│  How we check every number (a real sequence, so numbering is OK)     │
-│  1 Official sources  2 Tested against official calculators           │
-│  3 Expert review for tax tools  4 Updated on a published calendar    │
-│  [ Read our methodology ]                                            │
-├──────────────────────────────────────────────────────────────────────┤
-│ FOOTER                                                               │
-└──────────────────────────────────────────────────────────────────────┘
-```
-- The hero mini-calculator reuses the hourly-rate `calc.ts` (2 inputs; other values use the defaults) and links to the full tool. Currency follows a simple selector (default USD).
-- **No** stock images, no illustrations of people, no "trusted by" logos, no invented user counts. Add real numbers only once they exist.
-- Category rows and "most used" come from the registry (live tools only). Before launch they show whatever is live.
+1. **Hero on `footer-bg` (ink), full width.** Left: "N free money calculators" pill, the `display` headline (64/68 on desktop) with a **brass underline under "numbers"** (the same signature as the result number), muted intro, search (white field, white focus ring on ink), "Popular" chips (white outline, fill white on hover) and three trust ticks. Right: the live hero mini-calculator on a white card. No texture, no gradient.
+2. **Real figures panel** overlapping the hero's bottom edge: live tool count, live categories, currencies, "0 sign-ups or paywalls". All four come from the code. Never invent a figure.
+3. **Most used calculators:** 6 cards (category pill, title, the full subtitle, "Open calculator" + chevron circle that fills `haven` on hover). Grid of 3 on desktop, 2 on tablet; on phones a swipeable scroll-snap row with the next card peeking in (CSS only, no JS).
+4. **Every calculator, by goal:** an index, not cards. One column per category (2px `ink` top rule, icon chip, name linking to the hub, tool count), tool names only, never cut off with "…".
+5. **Numbers you can check:** the Methodology steps as a numbered sequence (`01`–`04` in `haven`), plus "Read our methodology".
+6. **Closing band on `footer-bg`:** "Every calculator is free" and a white button.
 
----
+Rules: tool lists come from the registry (live tools only); no stock images, people, logos or invented counts.
 
 ## 9. Other page types
 
