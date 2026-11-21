@@ -52,7 +52,7 @@ Removing a person moves later rows up. Rows past the count go back to the defaul
 | Output | How it's shown |
 |---|---|
 | **Per person** (one card per row) | Rent share · bills share (if bills > 0) · **total per month** · % of rent (up to 2 decimals) |
-| Income % | income mode: each person's income ÷ total income |
+| Income % | income mode: each person's income ÷ total income, worded "40% of combined income" (Puru, 2026-11-21: it is the share of everyone's total, not of their own income) |
 | Totals | rent + bills = total to pay each month |
 | Shared space / By room size | room mode, shared > 0: the shared part (split equally) and the rest (split by size) |
 | Rounding note | Always: "Each share is rounded down to the cent, then any leftover cents go to Person 1, Person 2 and so on, so the shares add up to the total exactly." |

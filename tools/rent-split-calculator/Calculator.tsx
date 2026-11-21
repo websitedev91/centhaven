@@ -213,7 +213,7 @@ export default function RentSplitCalculator() {
                     `Rent ${money(p.rent)}`,
                     hasBills ? `bills ${money(p.bills)}` : null,
                     `${formatPct(p.fraction)} of rent`,
-                    p.incomeShare !== null ? `${formatPct(p.incomeShare)} of income` : null,
+                    p.incomeShare !== null ? `${formatPct(p.incomeShare)} of combined income` : null,
                   ]
                     .filter(Boolean)
                     .join(' · '),

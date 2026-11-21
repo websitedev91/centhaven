@@ -264,6 +264,15 @@ describe('batch 7 states (Puru, 2026-11-20)', () => {
     expect(t).toContain('leftover cents go to Person 1, Person 2');
   });
 
+  it('rent split, by income: each row says "of combined income" (Puru, 2026-11-21)', () => {
+    window.history.replaceState(null, '', '/?mode=income');
+    const { container } = render(<RentSplit />);
+    const t = box(container).textContent!;
+    expect(t).toContain('40% of combined income');
+    expect(t.split('30% of combined income').length - 1).toBe(2);
+    expect(t).not.toMatch(/% of income/);
+  });
+
   it('rent split: removing Person 2 of 4 moves the others up and leaves no leftover keys in the URL', async () => {
     window.history.replaceState(null, '', '/?mode=income&rows=4&i2=1000&i4=7000');
     const { getByLabelText } = render(<RentSplit />);
