@@ -195,6 +195,13 @@ describe('batch 7 states (Puru, 2026-11-20)', () => {
     expect(container.textContent).toContain('Closing inventory can’t be more than opening inventory plus purchases');
   });
 
+  it('food cost, menu price: target 100% → "Enter a target below 100%" and "—"', () => {
+    window.history.replaceState(null, '', '/?mode=price&target=100');
+    const { container } = render(<FoodCost />);
+    expect(dash(container)).toBe(true);
+    expect(container.textContent).toContain('Enter a target below 100%');
+  });
+
   it('50/30/20: percentages that total 105 → the total message, "—", and a reset back to 50/30/20', () => {
     window.history.replaceState(null, '', '/?save=25');
     const { container, getByText } = render(<Budget />);

@@ -27,7 +27,7 @@ Never states an "ideal", "typical" or "industry" food cost %. The target % is th
 | Currency | select | USD | standard list | all | |
 | Ingredient cost per dish | currency | 3.50 | 0 – 1,000,000 | percent, price | Required. Help: "What the ingredients in one portion cost you." |
 | Menu price | currency | 12.00 | 0.01 – 1,000,000 | percent | Required. 0 → "Enter a menu price above 0" |
-| Target food cost % | % | 32 | 0.01 – 100 | price | Required. 0 → "Enter a target above 0". Help: "Your own target. Example value only." |
+| Target food cost % | % | 32 | 0.01 – 99.99 | price | Required. 0 → "Enter a target above 0". 100 or more → "Enter a target below 100%" (Puru, 2026-11-21). Help: "Your own target. Example value only." |
 | Opening inventory | currency | 4,000 | 0 – 1,000,000,000 | period | Required |
 | Purchases | currency | 12,000 | 0 – 1,000,000,000 | period | Required |
 | Closing inventory | currency | 3,500 | 0 – 1,000,000,000 | period | Required. More than opening + purchases → "Closing inventory can't be more than opening inventory plus purchases" |
@@ -76,7 +76,7 @@ period:   cost of food used = opening inventory + purchases − closing inventor
 
 ## Edge cases
 - Ingredient cost 0 → 0% (valid). Menu price 0, target 0, food sales 0 → field errors (no ÷ 0).
-- Target 100% → price = cost, gross profit 0 (valid). Target > 100 → field error.
+- Target 100% or more → field error "Enter a target below 100%" (Puru, 2026-11-21: at 100% the price equals the cost, so there is no profit).
 - Negative → field error. Huge values → formatted, never `e+`/NaN/Infinity.
 
 ## Quality gate 8 (UI input tests)

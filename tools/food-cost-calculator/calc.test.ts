@@ -75,10 +75,12 @@ describe('edge cases', () => {
     expect(errs({ mode: 'period', sales: 0 }).sales).toBe('Enter food sales above 0');
   });
 
-  it('target 100% → price = cost, profit 0 (valid); over 100 → field error', () => {
-    expect(errs({ mode: 'price', target: 100 })).toEqual({});
-    expect(menuPrice(4, 1).profit).toBe(0);
-    expect(errs({ mode: 'price', target: 101 }).target).toBe('Maximum is 100%');
+  it('target must be below 100% (Puru, 2026-11-21): 100 and over → "Enter a target below 100%"; 99.99 is valid', () => {
+    expect(errs({ mode: 'price', target: 100 }).target).toBe('Enter a target below 100%');
+    expect(errs({ mode: 'price', target: 101 }).target).toBe('Enter a target below 100%');
+    expect(errs({ mode: 'price', target: 99.99 })).toEqual({});
+    // Other modes don't use the target, so it never blocks them.
+    expect(errs({ mode: 'percent', target: 100 })).toEqual({});
   });
 
   it('negatives → field errors; hidden boxes never block', () => {

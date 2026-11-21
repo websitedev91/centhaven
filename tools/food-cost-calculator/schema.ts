@@ -54,6 +54,8 @@ export function foodCostErrors(s: FoodCostState): Partial<Record<keyof FoodCostS
   for (const k of used) if (all[k]) out[k] = all[k];
   if (s.mode === 'percent' && !out.price && s.price === 0) out.price = 'Enter a menu price above 0';
   if (s.mode === 'price' && !out.target && s.target === 0) out.target = 'Enter a target above 0';
+  // Puru, 2026-11-21: a 100% target means price = cost (no profit), so the target must be below 100%.
+  if (s.mode === 'price' && s.target >= 100) out.target = 'Enter a target below 100%';
   if (s.mode === 'period') {
     if (!out.sales && s.sales === 0) out.sales = 'Enter food sales above 0';
     if (!out.open && !out.buy && !out.close && s.close > s.open + s.buy)
