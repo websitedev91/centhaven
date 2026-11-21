@@ -1,6 +1,6 @@
 # Tool spec: Back Pay Calculator
 
-> **Draft for Puru's review (2026-11-21).** Pure maths: **gross pay only.** Every number comes from the user. The page never mentions legal rights, deadlines, interest, penalties or how to claim back pay.
+> **Approved by Puru (2026-11-21).** Pure maths: **gross pay only.** Every number comes from the user. The page never mentions legal rights, deadlines, interest, penalties or how to claim back pay.
 
 | Field | Value |
 |---|---|
@@ -13,8 +13,9 @@
 | Related tools | from the keyword map: `pay-raise-calculator`, `weekly-pay-calculator`, `hourly-to-salary-calculator` |
 
 ## What it calculates
-Two modes (`SegmentedControl`, URL key `mode`):
-- **Raise paid late** (`rate`): (new hourly rate − old hourly rate) × hours per week × weeks owed.
+Three modes (`SegmentedControl`, URL key `mode`):
+- **Hourly raise paid late** (`rate`): (new hourly rate − old hourly rate) × hours per week × weeks owed.
+- **Salary raise paid late** (`salary`, added by Puru 2026-11-21): (new yearly salary − old yearly salary) ÷ 52 × weeks owed.
 - **Missed pay** (`missed`): amount per pay period × pay periods missed.
 
 Under the result: "Gross amount before tax and deductions." Nothing about entitlement, time limits, interest or claims.
@@ -27,12 +28,14 @@ Under the result: "Gross amount before tax and deductions." Nothing about entitl
 | Old hourly rate | currency | 20 | 0 – 1,000,000 | rate | Required |
 | New hourly rate | currency | 22 | 0 – 1,000,000 | rate | Required. Below the old rate → "New rate must be at least the old rate" |
 | Hours per week | number | 40 | 0 – 168 | rate | Required |
-| Weeks owed | number | 12 | 0 – 520 | rate | Required. Decimals allowed (e.g. 12.5). Help: "Weeks between when the new rate should have started and when it did. Example value." |
+| Old yearly salary | currency | 50,000 | 0 – 1,000,000,000 | salary | Required |
+| New yearly salary | currency | 55,000 | 0 – 1,000,000,000 | salary | Required. Below the old salary → "New salary must be at least the old salary" |
+| Weeks owed | number | 12 | 0 – 520 | rate, salary | Required. Decimals allowed (e.g. 12.5). Help: "Weeks between when the new rate should have started and when it did. Example value." |
 | Pay period | select | Every 2 weeks | week / 2 weeks / half month / month | missed | A label only ("per 2-week pay period"); no maths changes |
 | Pay per period | currency | 1,500 | 0 – 1,000,000,000 | missed | Required. Help: "Gross pay for one period. Example value." |
 | Pay periods missed | number | 3 | 0 – 1,000 | missed | Required. Decimals allowed ("use 0.5 for half a period") |
 
-URL keys: `mode`, `currency`, `oldRate`, `newRate`, `hours`, `weeks`, `period`, `amount`, `periods`.
+URL keys: `mode`, `currency`, `oldRate`, `newRate`, `hours`, `weeks`, `oldSalary`, `newSalary`, `period`, `amount`, `periods`.
 
 ### Currency presets (example values; hours, weeks and periods stay the same)
 | Currency | Old rate | New rate | Pay per period |
@@ -68,6 +71,8 @@ missed:  back pay = pay per period × periods missed
 | 6 | INR missed · ₹25,000 × 3 | **₹75,000.00** |
 | 7 | GBP rate · £15 → £16.50 · 40 h · 12 weeks | **£720.00** |
 | 8 | rate · new = old (20 → 20) | **0.00** (valid) |
+| 8b | salary · 50,000 → 55,000 · 10 weeks (Puru, 2026-11-21) | **961.54** · 5,000.00 a year · 96.15 a week |
+| 8c | INR salary · ₹6,00,000 → ₹6,60,000 · 12 weeks | **₹13,846.15** |
 | 9 | Switch USD → INR without editing | rates 20 / 22 → 300 / 330; amount 1,500 → 25,000; hours, weeks, periods unchanged. A typed rate is kept |
 
 ## Edge cases

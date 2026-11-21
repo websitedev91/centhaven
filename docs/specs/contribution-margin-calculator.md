@@ -1,6 +1,6 @@
 # Tool spec: Contribution Margin Calculator
 
-> **Draft for Puru's review (2026-11-21).** Pure maths: price, variable cost, units and fixed costs all come from the user. Never says what margin or ratio is "good" and never quotes an industry figure.
+> **Approved by Puru (2026-11-21).** Pure maths: price, variable cost, units and fixed costs all come from the user. Never says what margin or ratio is "good" and never quotes an industry figure.
 
 | Field | Value |
 |---|---|

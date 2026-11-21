@@ -1,6 +1,6 @@
 # Tool spec: Savings Rate Calculator
 
-> **Draft for Puru's review (2026-11-21).** Pure maths: every number comes from the user. No tax maths (take-home and gross are both typed in by the user). The page never says what percentage anyone "should" save, and never quotes a national or average savings rate.
+> **Approved by Puru (2026-11-21).** Pure maths: every number comes from the user. No tax maths (take-home and gross are both typed in by the user). The page never says what percentage anyone "should" save, and never quotes a national or average savings rate.
 
 | Field | Value |
 |---|---|

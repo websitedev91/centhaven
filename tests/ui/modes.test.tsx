@@ -26,6 +26,11 @@ import PartTime from '@/tools/part-time-salary-calculator/Calculator';
 import RuleOf72 from '@/tools/rule-of-72-calculator/Calculator';
 import RentSplit from '@/tools/rent-split-calculator/Calculator';
 import CurrentRatio from '@/tools/current-ratio-calculator/Calculator';
+import BackPay from '@/tools/back-pay-calculator/Calculator';
+import SavingsRate from '@/tools/savings-rate-calculator/Calculator';
+import UnitPrice from '@/tools/unit-price-calculator/Calculator';
+import Wedding from '@/tools/wedding-budget-calculator/Calculator';
+import Margin2 from '@/tools/contribution-margin-calculator/Calculator';
 
 // Each test renders a whole calculator many times; under a full parallel run that can pass 5 s on a busy machine.
 vi.setConfig({ testTimeout: 20_000 });
@@ -62,6 +67,12 @@ const CASES: [string, ComponentType, string][] = [
   ['rule of 72: rate needed', RuleOf72, '?mode=rate'],
   ['rent split: by room size with shared space and bills like rent', RentSplit, '?mode=room&shared=25&billSplit=rent'],
   ['rent split: by income, 6 people', RentSplit, '?mode=income&rows=6'],
+  ['back pay: salary raise paid late', BackPay, '?mode=salary'],
+  ['back pay: missed pay, monthly', BackPay, '?mode=missed&period=month'],
+  ['savings rate: gross income with a target', SavingsRate, '?basis=gross&target=20'],
+  ['unit price: 4 items in volume', UnitPrice, '?rows=4&u1=l&u2=ml&u3=flozUS&u4=flozUK&per=perL'],
+  ['unit price: counts', UnitPrice, '?u1=count&u2=count&per=perItem'],
+  ['contribution margin: negative margin', Margin2, '?vc=55'],
 ];
 
 const box = (root: HTMLElement) => root.querySelector<HTMLElement>('section[aria-live="polite"]')!;
@@ -300,6 +311,66 @@ describe('batch 7 states (Puru, 2026-11-20)', () => {
     expect(container.textContent).toContain('Inventory and prepaid expenses can’t be more than current assets');
     expect(box(container).textContent).toContain('2.00');
     expect(box(container).textContent).toContain('Fix inventory and prepaid expenses to see the quick ratio');
+  });
+
+  it('unit price: 1 l vs 33.814 fl oz (US) at the same price → a tie (Puru, 2026-11-21)', () => {
+    window.history.replaceState(null, '', '/?p1=2&q1=1&u1=l&p2=2&q2=33.814&u2=flozUS&per=perL');
+    const { container } = render(<UnitPrice />);
+    const t = box(container).textContent!;
+    expect(t).toContain('Items 1 and 2');
+    expect(t).toContain('cost the same per unit');
+    expect(container.textContent).toContain('fl oz (US)');
+    expect(container.textContent).toContain('fl oz (UK)');
+  });
+
+  it('unit price: a weight next to a volume → error on that item and "—"', () => {
+    window.history.replaceState(null, '', '/?u1=g&u2=ml');
+    const { container } = render(<UnitPrice />);
+    expect(dash(container)).toBe(true);
+    expect(container.textContent).toContain('Item 1 is a weight: use g, kg, oz or lb');
+  });
+
+  it('wedding budget: percentages that total 105 → the total message, "—", and a reset to the example split', () => {
+    window.history.replaceState(null, '', '/?venue=50');
+    const { container, getByText } = render(<Wedding />);
+    expect(dash(container)).toBe(true);
+    expect(container.textContent).toContain('Your percentages add up to 105%. They need to total 100%.');
+    fireEvent.click(getByText('Reset to the example split'));
+    expect(valid(container)).toBe(true);
+    expect(box(container).textContent).toContain('$11,250.00');
+  });
+
+  it('wedding budget: decimal percentages add up exactly (exact-cent rule)', () => {
+    window.history.replaceState(null, '', '/?budget=1234.56&venue=45.5&photo=11.5');
+    const { container } = render(<Wedding />);
+    const t = box(container).textContent!;
+    for (const v of ['$561.73', '$141.98', '$61.72', '$123.45']) expect(t).toContain(v);
+    expect(t).toContain('leftover cents go to the first categories');
+  });
+
+  it('back pay: salary raise 50,000 → 55,000 over 10 weeks → $961.54 (Puru, 2026-11-21)', () => {
+    window.history.replaceState(null, '', '/?mode=salary&weeks=10');
+    const { container } = render(<BackPay />);
+    expect(box(container).textContent).toContain('$961.54');
+    expect(container.textContent).not.toMatch(/interest|deadline|tribunal|entitle|claim/i);
+  });
+
+  it('savings rate: no target by default, and the gap reads in words with one', () => {
+    const a = render(<SavingsRate />);
+    expect(box(a.container).textContent).not.toMatch(/target/i);
+    cleanup();
+    window.history.replaceState(null, '', '/?target=20');
+    const { container } = render(<SavingsRate />);
+    expect(box(container).textContent).toContain('$200.00 more a month to reach 20%');
+  });
+
+  it('contribution margin: negative margin → no break-even message', () => {
+    window.history.replaceState(null, '', '/?vc=55');
+    const { container } = render(<Margin2 />);
+    const t = box(container).textContent!;
+    expect(t).toContain('−$5.00');
+    expect(t).toContain('there is no break-even point');
+    expect(t).toContain('Loss of $17,000.00');
   });
 
   it('weekly pay: overtime row reads per week', () => {

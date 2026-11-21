@@ -1,6 +1,6 @@
 # Tool spec: Wedding Budget Calculator
 
-> **Draft for Puru's review (2026-11-21).** Pure maths: the total budget, guest count and every category % come from the user. The starting split is labelled "Example split: change it to yours", never "average" or "typical". The page never states what a wedding, or any part of one, costs on average.
+> **Approved by Puru (2026-11-21).** Pure maths: the total budget, guest count and every category % come from the user. The starting split is labelled "Example split: change it to yours", never "average" or "typical". The page never states what a wedding, or any part of one, costs on average.
 
 | Field | Value |
 |---|---|
@@ -44,7 +44,7 @@ URL keys: `currency`, `budget`, `guests`, `venue`, `photo`, `attire`, `flowers`,
 | Venue & catering per guest | guests > 0: venue & catering ÷ guests |
 | Running total | under the % boxes: "Total: 100%" (or the off-by message) |
 
-Category amounts are rounded at display only (rule 3). With whole-number percentages and a whole budget they always add up; with decimal percentages a row can be a cent off the total (noted in Content as "rounded to the cent"). **Question for Puru:** use Rent Split's exact-cent rule here too?
+**Exact-cent rule (Puru, 2026-11-21; CLAUDE.md rule 3 exception, shared `lib/split-cents.ts`):** each category is rounded down to the cent, then the leftover cents go to the first categories in order (skipping any at 0%), so the categories add up to the budget exactly. A note under the result says so.
 
 ## Formula
 ```
@@ -63,6 +63,8 @@ venue per guest     = venue & catering amount ÷ guests
 | 5 | guests 0 / empty | per-guest rows hidden (valid) |
 | 6 | 12,345 · venue 45% | venue **5,555.25** |
 | 7 | rings 0%, other 15% | rings 0.00 (valid), other 3,750.00 |
+| 7b | decimal %: 1,234.56 at 45.5 / 11.5 / 8 / 10 / 7 / 5 / 3 / 10 | 561.73 / 141.98 / 98.77 / 123.46 / 86.42 / 61.72 / 37.03 / 123.45 = exactly 1,234.56 (5 leftover cents to the first 5 categories) |
+| 7c | 999.99 with the example split | 450.00 / 120.00 / 80.00 / 100.00 / 70.00 / 50.00 / 30.00 / 99.99 |
 | 8 | Switch USD → INR without editing | budget 25,000 → 15,00,000; guests and percentages unchanged. A typed budget is kept |
 
 ## Edge cases

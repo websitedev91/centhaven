@@ -49,6 +49,11 @@ import { meta as bonus } from '@/tools/bonus-calculator/meta';
 import { meta as partTimeSalary } from '@/tools/part-time-salary-calculator/meta';
 import { meta as ruleOf72 } from '@/tools/rule-of-72-calculator/meta';
 import { meta as rentSplit } from '@/tools/rent-split-calculator/meta';
+import { meta as backPay } from '@/tools/back-pay-calculator/meta';
+import { meta as savingsRate } from '@/tools/savings-rate-calculator/meta';
+import { meta as unitPrice } from '@/tools/unit-price-calculator/meta';
+import { meta as weddingBudget } from '@/tools/wedding-budget-calculator/meta';
+import { meta as contributionMargin } from '@/tools/contribution-margin-calculator/meta';
 
 type Publishing = Pick<ToolEntry, 'status' | 'lastUpdated' | 'publishDate' | 'reviewedBy'>;
 
@@ -98,6 +103,11 @@ export const registry: readonly RegistryRow[] = [
   row(partTimeSalary, { status: 'live', publishDate: '2026-11-21', lastUpdated: '2026-11-21' }),
   row(ruleOf72, { status: 'live', publishDate: '2026-11-21', lastUpdated: '2026-11-21' }),
   row(rentSplit, { status: 'live', publishDate: '2026-11-21', lastUpdated: '2026-11-21' }),
+  row(backPay, { status: 'live', publishDate: '2026-11-21', lastUpdated: '2026-11-21' }),
+  row(savingsRate, { status: 'live', publishDate: '2026-11-21', lastUpdated: '2026-11-21' }),
+  row(unitPrice, { status: 'live', publishDate: '2026-11-21', lastUpdated: '2026-11-21' }),
+  row(weddingBudget, { status: 'live', publishDate: '2026-11-21', lastUpdated: '2026-11-21' }),
+  row(contributionMargin, { status: 'live', publishDate: '2026-11-21', lastUpdated: '2026-11-21' }),
 ];
 
 /** Local preview builds only (see next.config.ts `env` and scripts/postbuild.mjs). */

@@ -7,6 +7,8 @@
  * in order (skipping anyone whose share is 0): 1,000 ÷ 3 → 333.34 / 333.33 / 333.33.
  */
 
+import { splitCents, toCents } from '@/lib/split-cents';
+
 export type SplitMode = 'equal' | 'room' | 'income';
 export type BillSplit = 'equal' | 'rent';
 
@@ -41,25 +43,7 @@ export interface SplitResult {
   total: number;
 }
 
-const toCents = (amount: number) => Math.round(Number((amount * 100).toPrecision(15)));
-
-/**
- * Split `totalCents` by `fractions` (they sum to 1): round each share down to the cent, then hand
- * the leftover cents one by one to people 1, 2, … in order, skipping anyone whose fraction is 0.
- */
-export function splitCents(totalCents: number, fractions: readonly number[]): { cents: number[]; leftover: number } {
-  const cents = fractions.map((f) => Math.floor(Number((totalCents * f).toPrecision(12))));
-  const leftover = totalCents - cents.reduce((a, b) => a + b, 0);
-  const takers = fractions.map((f, i) => (f > 0 ? i : -1)).filter((i) => i >= 0);
-  const add = (person: number, delta: number) => {
-    cents[person] = (cents[person] ?? 0) + delta;
-  };
-  let left = leftover;
-  for (let k = 0; left > 0 && takers.length > 0; k++, left--) add(takers[k % takers.length] ?? 0, 1);
-  // Floating-point safety: never hand out more than the total.
-  for (let k = takers.length - 1; left < 0 && k >= 0; k--, left++) add(takers[k] ?? 0, -1);
-  return { cents, leftover: Math.max(0, leftover) };
-}
+export { splitCents };
 
 export function rentFractions(i: Pick<SplitInput, 'mode' | 'sharedPct' | 'weights'>): number[] {
   const n = i.weights.length;

@@ -40,6 +40,11 @@ import BonusContent from '@/tools/bonus-calculator/content.mdx';
 import PartTimeSalaryContent from '@/tools/part-time-salary-calculator/content.mdx';
 import RuleOf72Content from '@/tools/rule-of-72-calculator/content.mdx';
 import RentSplitContent from '@/tools/rent-split-calculator/content.mdx';
+import BackPayContent from '@/tools/back-pay-calculator/content.mdx';
+import SavingsRateContent from '@/tools/savings-rate-calculator/content.mdx';
+import UnitPriceContent from '@/tools/unit-price-calculator/content.mdx';
+import WeddingBudgetContent from '@/tools/wedding-budget-calculator/content.mdx';
+import ContributionMarginContent from '@/tools/contribution-margin-calculator/content.mdx';
 
 /**
  * Maps a tool slug to its long-form content (server-rendered MDX, no client JS).
@@ -88,4 +93,9 @@ export const toolContent: Record<string, ComponentType> = {
   'part-time-salary-calculator': PartTimeSalaryContent,
   'rule-of-72-calculator': RuleOf72Content,
   'rent-split-calculator': RentSplitContent,
+  'back-pay-calculator': BackPayContent,
+  'savings-rate-calculator': SavingsRateContent,
+  'unit-price-calculator': UnitPriceContent,
+  'wedding-budget-calculator': WeddingBudgetContent,
+  'contribution-margin-calculator': ContributionMarginContent,
 };

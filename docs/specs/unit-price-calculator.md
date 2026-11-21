@@ -1,6 +1,6 @@
 # Tool spec: Unit Price Calculator
 
-> **Draft for Puru's review (2026-11-21).** Pure maths: every price and size comes from the user. The only fixed numbers are unit definitions (1 kg = 1,000 g, 1 lb = 453.59237 g, 1 oz = 28.349523125 g, 1 l = 1,000 ml, 1 US fl oz = 29.5735295625 ml): measurement definitions, not finance figures. No store names, no "typical" prices.
+> **Approved by Puru (2026-11-21).** Pure maths: every price and size comes from the user. The only fixed numbers are unit definitions (1 kg = 1,000 g, 1 lb = 453.59237 g, 1 oz = 28.349523125 g, 1 l = 1,000 ml, 1 US fl oz = 29.5735295625 ml): measurement definitions, not finance figures. No store names, no "typical" prices.
 
 | Field | Value |
 |---|---|
@@ -18,9 +18,9 @@ Compare **2 to 4 items** (rows "Item 1"…"Item 4", add / remove, min 2; no name
 - **Cheapest per unit**, and for every other item **how much more it costs per unit**, in %: (item − cheapest) ÷ cheapest × 100.
 - Ties: "Items 1 and 3 cost the same per unit."
 
-Units: weight `g`, `kg`, `oz`, `lb`; volume `ml`, `l`, `fl oz` (US); count `items`. All items must be the same kind: a weight can't be compared with a volume (field error on the unit, below).
+Units: weight `g`, `kg`, `oz`, `lb`; volume `ml`, `l`, `fl oz (US)` (29.5735295625 ml), `fl oz (UK)` (28.4130625 ml; added by Puru 2026-11-21); count `items`. All items must be the same kind: a weight can't be compared with a volume (field error on the unit, below).
 
-**Show price per** (select, URL key `per`): weight → per 100 g / per kg / per oz / per lb; volume → per 100 ml / per l / per fl oz; count → per item. The options follow the kind of Item 1's unit; if the chosen one no longer fits, it falls back to the first option.
+**Show price per** (select, URL key `per`): weight → per 100 g / per kg / per oz / per lb; volume → per 100 ml / per l / per fl oz (US) / per fl oz (UK); count → per item. The options follow the kind of Item 1's unit; if the chosen one no longer fits, it falls back to the first option.
 
 ## Inputs
 | Field | Type | Default (example) | Min / Max | Notes |
@@ -76,6 +76,7 @@ saving   = (1 − cheapest ÷ item) × 100
 | 6 | 2.00 / 500 g vs 4.00 / 1 kg | tie: "Items 1 and 2 cost the same per unit" |
 | 7 | 2.99 / 64 fl oz vs 1.89 / 1 l · per l | Item 1 **1.58** per l · cheapest Item 1 · Item 2 **19.64% more** |
 | 8 | INR defaults · ₹120 / 500 g vs ₹210 / 1 kg · per 100 g | **₹24.00** vs **₹21.00** · cheapest Item 2 · Item 1 **14.29% more** |
+| 8b | 1 l vs 33.814 fl oz (US) at the same price (Puru, 2026-11-21) | ≈ equal: same shown price, counted as a tie |
 | 9 | Item 1 in g, Item 2 in ml | field error on Item 2's unit · "—" |
 | 10 | 4 items, remove Item 2 | items 3–4 move up; `rows=3`; no `p4`/`q4`/`u4` in the URL |
 | 11 | Switch USD → GBP without editing | prices, quantities and units take the GBP presets; per → per 100 g. A typed price is kept |
