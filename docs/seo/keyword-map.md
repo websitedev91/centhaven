@@ -28,6 +28,7 @@
 | /salary/compa-ratio-calculator | compa ratio calculator | not checked |
 | /salary/bonus-calculator | bonus calculator | not checked |
 | /salary/part-time-salary-calculator | part time salary calculator | not checked |
+| /salary/back-pay-calculator | back pay calculator | not checked |
 | /salary/1099-vs-w2-calculator | 1099 vs w2 calculator | 100–1K |
 | /business/utilization-rate-calculator | utilization rate calculator | 100–1K |
 | /business/break-even-calculator | break even calculator | 1K–10K |
@@ -39,6 +40,7 @@
 | /business/payback-period-calculator | payback period calculator | not checked |
 | /business/food-cost-calculator | food cost calculator | not checked |
 | /business/current-ratio-calculator | current ratio calculator | not checked |
+| /business/contribution-margin-calculator | contribution margin calculator | not checked |
 | /marketing/cac-calculator | cac calculator | not checked |
 | /marketing/roas-calculator | roas calculator | not checked |
 | /marketing/cost-per-lead-calculator | cost per lead calculator | not checked |
@@ -50,6 +52,9 @@
 | /personal-finance/50-30-20-budget-calculator | 50/30/20 budget calculator | not checked |
 | /personal-finance/rule-of-72-calculator | rule of 72 calculator | not checked |
 | /personal-finance/rent-split-calculator | rent split calculator | not checked |
+| /personal-finance/savings-rate-calculator | savings rate calculator | not checked |
+| /personal-finance/unit-price-calculator | unit price calculator | not checked |
+| /personal-finance/wedding-budget-calculator | wedding budget calculator | not checked |
 
 ## /freelance/hourly-rate-calculator
 
@@ -359,6 +364,22 @@
 - **Internal links to:** /salary/hourly-to-salary-calculator, /salary/weekly-pay-calculator, /salary/pay-raise-calculator
 - **Content note:** Gross pay only. Full-time hours come from the user (40 is an example); never state legal full-time or part-time hour thresholds. "hourly to salary calculator" stays with Hourly to Salary.
 
+## /salary/back-pay-calculator
+
+- **Primary keyword:** back pay calculator
+- **Secondary keywords:** retro pay calculator, how to calculate back pay, back pay for a pay raise, missed pay calculator
+- **Title** (58 chars): Back Pay Calculator – Retro Pay From a Raise or Missed Pay
+- **Meta description** (155 chars): Work out gross back pay from a pay rise that started late, or from pay periods you missed. Enter your own rates, hours, weeks and amounts to see the total.
+- **H1:** Back Pay Calculator
+- **FAQ questions (People Also Ask style):**
+  - How do I calculate back pay?
+  - How do I calculate back pay for a pay raise?
+  - How do I work out pay for missed pay periods?
+  - What is the difference between back pay and retro pay?
+  - Does this show back pay after tax?
+- **Internal links to:** /salary/pay-raise-calculator, /salary/weekly-pay-calculator, /salary/hourly-to-salary-calculator
+- **Content note:** Gross amounts only. Never mention legal rights, deadlines, interest, penalties or how to claim back pay.
+
 ## /salary/1099-vs-w2-calculator
 
 - **Primary keyword:** 1099 vs w2 calculator (100–1K/month)
@@ -530,6 +551,22 @@
   - What is a good current ratio?
 - **Internal links to:** /business/break-even-calculator, /business/runway-calculator, /business/margin-vs-markup-calculator
 - **Content note:** Never say what ratio is "good", "healthy" or "safe", and never quote an industry or lender benchmark. "What is a good current ratio?" (added by Puru, 2026-11-21) is answered like Compa Ratio: no single good number, it depends on the business, the calculator shows and does not judge. All figures come from the user's own balance sheet.
+
+## /business/contribution-margin-calculator
+
+- **Primary keyword:** contribution margin calculator
+- **Secondary keywords:** contribution margin ratio calculator, how to calculate contribution margin, contribution margin per unit, unit contribution margin calculator
+- **Title** (58 chars): Contribution Margin Calculator – Per Unit, Ratio and Total
+- **Meta description** (160 chars): Work out contribution margin per unit, the contribution margin ratio and the total from your price, variable cost and units sold. Add fixed costs to break even.
+- **H1:** Contribution Margin Calculator
+- **FAQ questions (People Also Ask style):**
+  - How do you calculate contribution margin?
+  - What is the contribution margin ratio?
+  - What is the difference between contribution margin and gross margin?
+  - How does contribution margin help find break-even?
+  - Can contribution margin be negative?
+- **Internal links to:** /business/break-even-calculator, /business/margin-vs-markup-calculator, /business/food-cost-calculator
+- **Content note:** Never say what margin or ratio is "good" or quote industry margins. "What is contribution margin?" stays with Break-Even; break-even units round up with the same float-safe rule.
 
 ## /marketing/cac-calculator
 
@@ -706,6 +743,54 @@
   - What if the rent shares don't add up exactly?
 - **Internal links to:** /personal-finance/50-30-20-budget-calculator, /personal-finance/savings-goal-calculator, /personal-finance/emergency-fund-calculator
 - **Content note:** Rows are "Person 1"–"Person 6", no names (privacy: names would end up in share URLs). Never call one method fairer; no tenancy or legal rules.
+
+## /personal-finance/savings-rate-calculator
+
+- **Primary keyword:** savings rate calculator
+- **Secondary keywords:** savings percentage calculator, personal savings rate calculator, how much of my income do i save, percent of income saved
+- **Title** (55 chars): Savings Rate Calculator – What Share of Income You Save
+- **Meta description** (156 chars): Work out your savings rate: the share of your take-home or gross income you save each month. Add your own target percent to see the monthly amount it means.
+- **H1:** Savings Rate Calculator
+- **FAQ questions (People Also Ask style):**
+  - How do I calculate my savings rate?
+  - Should I use take-home or gross income?
+  - How much of my income am I saving?
+  - How much do I need to save to reach my target rate?
+  - What is a good savings rate?
+- **Internal links to:** /personal-finance/50-30-20-budget-calculator, /personal-finance/savings-goal-calculator, /personal-finance/emergency-fund-calculator
+- **Content note:** No tax maths: take-home and gross are both typed by the user. Never say what % anyone should save or quote an average rate; "What is a good savings rate?" is answered like Compa Ratio (no single number). "monthly savings calculator" stays with Savings Goal.
+
+## /personal-finance/unit-price-calculator
+
+- **Primary keyword:** unit price calculator
+- **Secondary keywords:** price per unit calculator, price per ounce calculator, price per kg calculator, which is cheaper calculator
+- **Title** (53 chars): Unit Price Calculator – Compare Price per Ounce or Kg
+- **Meta description** (156 chars): Compare up to 4 items by price per unit, in g, kg, oz, lb, ml, l, fl oz or count. See which is cheapest per unit and how much more each of the others costs.
+- **H1:** Unit Price Calculator
+- **FAQ questions (People Also Ask style):**
+  - How do you calculate unit price?
+  - How do I compare prices with different units?
+  - Is the bigger pack always cheaper?
+  - How do I work out price per ounce?
+  - How do I work out price per kg?
+- **Internal links to:** /personal-finance/50-30-20-budget-calculator, /personal-finance/savings-rate-calculator, /personal-finance/savings-goal-calculator
+- **Content note:** Rows are "Item 1"–"Item 4", no names. The only fixed numbers are unit definitions. Never name stores or brands or quote typical prices.
+
+## /personal-finance/wedding-budget-calculator
+
+- **Primary keyword:** wedding budget calculator
+- **Secondary keywords:** wedding budget breakdown, wedding cost per guest calculator, how to split a wedding budget, wedding budget planner
+- **Title** (57 chars): Wedding Budget Calculator – Split Your Budget by Category
+- **Meta description** (159 chars): Split your wedding budget across venue, catering, photos, attire and more with an example split you can change, and see the cost per guest for your guest list.
+- **H1:** Wedding Budget Calculator
+- **FAQ questions (People Also Ask style):**
+  - How do I split a wedding budget?
+  - How do I work out wedding cost per guest?
+  - Can I change the example split?
+  - What if my percentages don't add up to 100?
+  - How do I set a wedding budget?
+- **Internal links to:** /personal-finance/savings-goal-calculator, /personal-finance/50-30-20-budget-calculator, /personal-finance/emergency-fund-calculator
+- **Content note:** The starting split is labelled "Example split: change it to yours". Never state an average or typical wedding cost or what most couples spend.
 
 # Homepage
 
