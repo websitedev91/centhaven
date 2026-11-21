@@ -1,6 +1,6 @@
 # Tool spec: Current Ratio Calculator
 
-> **Draft for Puru's review (2026-11-21).** Pure maths: every number comes from the user's own balance sheet. The page never says what ratio is "good", "healthy", "safe" or "risky", and never quotes an industry benchmark.
+> **Approved by Puru (2026-11-21).** Pure maths: every number comes from the user's own balance sheet. The page never says what ratio is "good", "healthy", "safe" or "risky", and never quotes an industry benchmark.
 
 | Field | Value |
 |---|---|
@@ -20,7 +20,7 @@ One form, three results (no modes):
 
 Under the ratios is one factual line per ratio: "{ratio} of current assets for every 1 of current liabilities" (quick ratio: "of quick assets"). There are no colour bands and no words like "good" or "weak". Below 1, the working-capital row says "Current liabilities are {amount} more than current assets." That describes the maths, not a judgment.
 
-Some books use another quick-ratio formula: (cash + short-term investments + receivables) ÷ current liabilities. The content section mentions it in one sentence. The tool uses the subtraction formula Puru specified, and the FAQ explains that both give the same answer when current assets hold nothing else.
+Some books use another quick-ratio formula: (cash + short-term investments + receivables) ÷ current liabilities. The content section mentions it in one sentence. The tool uses the subtraction formula Puru specified; the one sentence about the other formula stays (Puru, 2026-11-21), and the FAQ explains that both give the same answer when current assets hold nothing else.
 
 ## Inputs
 | Field | Type | Default (example) | Min / Max | Notes |
@@ -84,5 +84,5 @@ working capital = current assets − current liabilities
 
 ## Content notes
 - Examples: cases 1, 2, 5.
-- FAQ: the 5 keyword-map questions + "Which numbers go into current assets?" + "Why take inventory out for the quick ratio?". "What does a current ratio below 1 mean?" is answered with maths only: liabilities due within a year are bigger than the assets expected to turn into cash in that time. No "this is bad".
+- FAQ: the 6 keyword-map questions + "Which numbers go into current assets?" + "Why take inventory out for the quick ratio?". "What is a good current ratio?" (Puru, 2026-11-21) is answered like Compa Ratio: no single good number, it depends on the business, the calculator shows and does not judge. "What does a current ratio below 1 mean?" is answered with maths only: liabilities due within a year are bigger than the assets expected to turn into cash in that time. No "this is bad".
 - Never state a "good" or "typical" ratio, a lender's rule of thumb or an industry average. Tip: compare your own ratio over several periods (Plan B).

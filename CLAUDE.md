@@ -11,7 +11,8 @@ No backend, no database, no login. Ask before adding any new dependency.
 1. **Never guess a finance number.** Tools never state a company fee, tax rate, limit or threshold. Every number comes from the user; starting values are labelled "example only". If a tool would need an outside number, STOP and ask.
 2. **No rates files.** The `/rates` loader, `sources.md` and the rates check were removed (Puru, 2026-11-18) because no tool uses external rates.
 3. **Formulas are pure functions** in `tools/<slug>/calc.ts`: no React, no dates, no fetch. Round money only at display time via `lib/format.ts`.
-   **Exception (Puru, 2026-11-18):** the quote and invoice generators (`lib/doc-calc.ts`) round each line, then contingency, discount and tax, to 2 decimals with the float-safe `roundTo` before summing, so a printed document adds up. No other tool does this.
+   **Exception (Puru, 2026-11-18):** the quote and invoice generators (`lib/doc-calc.ts`) round each line, then contingency, discount and tax, to 2 decimals with the float-safe `roundTo` before summing, so a printed document adds up.
+   **Exception (Puru, 2026-11-21):** Rent Split (`tools/rent-split-calculator/calc.ts`) rounds each share down to the cent and gives the leftover cents to Person 1, 2… in order, so the shares add up to the rent exactly. No other tool does this.
 4. **Every tool has tests** in `calc.test.ts`, including every test case from its spec. Tests must pass.
 5. **Scope:** only tools that help people earn, save, spend or manage money. Flag anything else.
    Scope rule (Puru, 2026-11-18): CentHaven builds ONLY pure-maths tools where every number comes from the user. No tool may depend on company fees, tax rates, government limits or legal rules.

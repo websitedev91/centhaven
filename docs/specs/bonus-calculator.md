@@ -1,6 +1,6 @@
 # Tool spec: Bonus Calculator
 
-> **Draft for Puru's review (2026-11-21).** Pure maths: **gross bonus only, no tax, no deductions, no withholding rules.** Every number comes from the user.
+> **Approved by Puru (2026-11-21).** Pure maths: **gross bonus only, no tax, no deductions, no withholding rules.** Every number comes from the user.
 
 | Field | Value |
 |---|---|
@@ -34,7 +34,7 @@ Under the result: "Gross bonus before tax and deductions. The amount paid to you
 | Bonus amount | currency | 5,000 | 0 – 1,000,000,000 | fixed | Required |
 | Target bonus % | % | 10 | 0 – 1,000 | target | Required. Help: "The target % in your plan. Example value only." |
 | Achievement (payout) % | % | 120 | 0 – 1,000 | target | Required. Help: "The % of target your plan pays out. Some plans pay a different % than you achieved, so use the payout % if it differs." |
-| Spread over paychecks (optional) | number, whole | empty (lump sum) | 1 – 365 | all | `optional`; empty or 0 = paid as one lump sum, and the per-paycheck rows are hidden. Help: "Only if your bonus is split across paychecks." |
+| Spread over paychecks (optional) | number, whole | 0 (lump sum; Puru, 2026-11-21) | 1 – 365 | all | `optional`; empty or 0 = paid as one lump sum, and the per-paycheck rows are hidden. Help: "Only if your bonus is split across paychecks." |
 
 URL keys: `mode`, `currency`, `salary`, `pct`, `amount`, `target`, `ach`, `checks`.
 

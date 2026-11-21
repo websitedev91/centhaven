@@ -1,6 +1,6 @@
 # Tool spec: Part Time Salary Calculator
 
-> **Draft for Puru's review (2026-11-21).** Pure maths: **gross pay only, no tax.** The full-time hours come from the user (40 is an example). The page never says how many hours "full time" legally means.
+> **Approved by Puru (2026-11-21).** Pure maths: **gross pay only, no tax.** The full-time hours come from the user (40 is an example). The page never says how many hours "full time" legally means.
 
 | Field | Value |
 |---|---|

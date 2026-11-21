@@ -5,7 +5,7 @@
  * checks: clear → required "Enter a number" + "—" / optional still valid; 0, negative and huge
  * values never show NaN or Infinity.
  */
-import { cleanup, fireEvent, render, within } from '@testing-library/react';
+import { cleanup, fireEvent, render, waitFor, within } from '@testing-library/react';
 import type { ComponentType } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import AppCost from '@/tools/app-development-cost-calculator/Calculator';
@@ -21,6 +21,11 @@ import FoodCost from '@/tools/food-cost-calculator/Calculator';
 import WeeklyPay from '@/tools/weekly-pay-calculator/Calculator';
 import Budget from '@/tools/50-30-20-budget-calculator/Calculator';
 import Compa from '@/tools/compa-ratio-calculator/Calculator';
+import Bonus from '@/tools/bonus-calculator/Calculator';
+import PartTime from '@/tools/part-time-salary-calculator/Calculator';
+import RuleOf72 from '@/tools/rule-of-72-calculator/Calculator';
+import RentSplit from '@/tools/rent-split-calculator/Calculator';
+import CurrentRatio from '@/tools/current-ratio-calculator/Calculator';
 
 // Each test renders a whole calculator many times; under a full parallel run that can pass 5 s on a busy machine.
 vi.setConfig({ testTimeout: 20_000 });
@@ -51,6 +56,12 @@ const CASES: [string, ComponentType, string][] = [
   ['50/30/20: with actual spending', Budget, '?aNeeds=2300&aWants=1000&aSave=700'],
   ['compa ratio: own midpoint', Compa, '?mid=own'],
   ['compa ratio: own midpoint, no range', Compa, '?mid=own&min=0&max=0'],
+  ['bonus: fixed amount', Bonus, '?mode=fixed'],
+  ['bonus: target × achievement, spread over 12', Bonus, '?mode=target&checks=12'],
+  ['part-time salary: hourly', PartTime, '?mode=hourly'],
+  ['rule of 72: rate needed', RuleOf72, '?mode=rate'],
+  ['rent split: by room size with shared space and bills like rent', RentSplit, '?mode=room&shared=25&billSplit=rent'],
+  ['rent split: by income, 6 people', RentSplit, '?mode=income&rows=6'],
 ];
 
 const box = (root: HTMLElement) => root.querySelector<HTMLElement>('section[aria-live="polite"]')!;
@@ -232,6 +243,54 @@ describe('batch 7 states (Puru, 2026-11-20)', () => {
     const { container } = render(<Compa />);
     expect(valid(container)).toBe(true);
     expect(box(container).textContent).toContain('Add the range minimum and maximum to see range penetration');
+  });
+
+  it('rent split: 25% shared space → 950 / 800 / 650 (Puru, 2026-11-21)', () => {
+    window.history.replaceState(null, '', '/?mode=room&shared=25&bills=0');
+    const { container } = render(<RentSplit />);
+    const t = box(container).textContent!;
+    for (const v of ['$950.00', '$800.00', '$650.00', '$600.00', '$1,800.00']) expect(t).toContain(v);
+  });
+
+  it('rent split: 1,000 ÷ 3 → 333.34 / 333.33 / 333.33 with the rounding note', () => {
+    window.history.replaceState(null, '', '/?rent=1000&bills=0');
+    const { container } = render(<RentSplit />);
+    const t = box(container).textContent!;
+    expect(t).toContain('$333.34');
+    // Each person's row shows the rent in its note and the total as its value (no bills, so the same figure).
+    expect(t.split('$333.34').length - 1).toBe(2);
+    expect(t.split('$333.33').length - 1).toBe(4);
+    expect(t).toContain('$1,000.00');
+    expect(t).toContain('leftover cents go to Person 1, Person 2');
+  });
+
+  it('rent split: removing Person 2 of 4 moves the others up and leaves no leftover keys in the URL', async () => {
+    window.history.replaceState(null, '', '/?mode=income&rows=4&i2=1000&i4=7000');
+    const { getByLabelText } = render(<RentSplit />);
+    fireEvent.click(getByLabelText('Remove person 2'));
+    // URL writes are debounced (lib/url-state.ts). 3 people is the default, so "rows" drops out of the link.
+    await waitFor(() => expect(window.location.search).toContain('i3=7000'));
+    expect(window.location.search).not.toContain('rows=');
+    expect(window.location.search).not.toMatch(/[si]4=/);
+  });
+
+  it('current ratio: below 1 says how much larger the liabilities are, with no judgment words', () => {
+    window.history.replaceState(null, '', '/?assets=90000&liab=120000&inv=30000&prepaid=0');
+    const { container } = render(<CurrentRatio />);
+    const t = box(container).textContent!;
+    expect(t).toContain('0.75');
+    expect(t).toContain('0.50');
+    expect(t).toContain('Current liabilities are $30,000.00 more than current assets.');
+    expect(t).not.toMatch(/good|healthy|safe|risky|weak|strong/i);
+  });
+
+  it('current ratio: inventory + prepaid above assets → field error, quick ratio "—", current ratio still shown', () => {
+    window.history.replaceState(null, '', '/?inv=300000');
+    const { container } = render(<CurrentRatio />);
+    expect(valid(container)).toBe(true);
+    expect(container.textContent).toContain('Inventory and prepaid expenses can’t be more than current assets');
+    expect(box(container).textContent).toContain('2.00');
+    expect(box(container).textContent).toContain('Fix inventory and prepaid expenses to see the quick ratio');
   });
 
   it('weekly pay: overtime row reads per week', () => {

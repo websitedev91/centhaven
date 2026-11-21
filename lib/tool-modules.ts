@@ -35,6 +35,11 @@ import FoodCostContent from '@/tools/food-cost-calculator/content.mdx';
 import WeeklyPayContent from '@/tools/weekly-pay-calculator/content.mdx';
 import Budget503020Content from '@/tools/50-30-20-budget-calculator/content.mdx';
 import CompaRatioContent from '@/tools/compa-ratio-calculator/content.mdx';
+import CurrentRatioContent from '@/tools/current-ratio-calculator/content.mdx';
+import BonusContent from '@/tools/bonus-calculator/content.mdx';
+import PartTimeSalaryContent from '@/tools/part-time-salary-calculator/content.mdx';
+import RuleOf72Content from '@/tools/rule-of-72-calculator/content.mdx';
+import RentSplitContent from '@/tools/rent-split-calculator/content.mdx';
 
 /**
  * Maps a tool slug to its long-form content (server-rendered MDX, no client JS).
@@ -78,4 +83,9 @@ export const toolContent: Record<string, ComponentType> = {
   'weekly-pay-calculator': WeeklyPayContent,
   '50-30-20-budget-calculator': Budget503020Content,
   'compa-ratio-calculator': CompaRatioContent,
+  'current-ratio-calculator': CurrentRatioContent,
+  'bonus-calculator': BonusContent,
+  'part-time-salary-calculator': PartTimeSalaryContent,
+  'rule-of-72-calculator': RuleOf72Content,
+  'rent-split-calculator': RentSplitContent,
 };

@@ -44,6 +44,11 @@ import { meta as foodCost } from '@/tools/food-cost-calculator/meta';
 import { meta as weeklyPay } from '@/tools/weekly-pay-calculator/meta';
 import { meta as budget503020 } from '@/tools/50-30-20-budget-calculator/meta';
 import { meta as compaRatio } from '@/tools/compa-ratio-calculator/meta';
+import { meta as currentRatio } from '@/tools/current-ratio-calculator/meta';
+import { meta as bonus } from '@/tools/bonus-calculator/meta';
+import { meta as partTimeSalary } from '@/tools/part-time-salary-calculator/meta';
+import { meta as ruleOf72 } from '@/tools/rule-of-72-calculator/meta';
+import { meta as rentSplit } from '@/tools/rent-split-calculator/meta';
 
 type Publishing = Pick<ToolEntry, 'status' | 'lastUpdated' | 'publishDate' | 'reviewedBy'>;
 
@@ -88,6 +93,11 @@ export const registry: readonly RegistryRow[] = [
   row(weeklyPay, { status: 'live', publishDate: '2026-11-20', lastUpdated: '2026-11-20' }),
   row(budget503020, { status: 'live', publishDate: '2026-11-20', lastUpdated: '2026-11-20' }),
   row(compaRatio, { status: 'live', publishDate: '2026-11-20', lastUpdated: '2026-11-20' }),
+  row(currentRatio, { status: 'live', publishDate: '2026-11-21', lastUpdated: '2026-11-21' }),
+  row(bonus, { status: 'live', publishDate: '2026-11-21', lastUpdated: '2026-11-21' }),
+  row(partTimeSalary, { status: 'live', publishDate: '2026-11-21', lastUpdated: '2026-11-21' }),
+  row(ruleOf72, { status: 'live', publishDate: '2026-11-21', lastUpdated: '2026-11-21' }),
+  row(rentSplit, { status: 'live', publishDate: '2026-11-21', lastUpdated: '2026-11-21' }),
 ];
 
 /** Local preview builds only (see next.config.ts `env` and scripts/postbuild.mjs). */

@@ -527,8 +527,9 @@
   - What is the difference between the current ratio and the quick ratio?
   - What does a current ratio below 1 mean?
   - How do you calculate working capital?
+  - What is a good current ratio?
 - **Internal links to:** /business/break-even-calculator, /business/runway-calculator, /business/margin-vs-markup-calculator
-- **Content note:** Never say what ratio is "good", "healthy" or "safe", and never quote an industry or lender benchmark. All figures come from the user's own balance sheet.
+- **Content note:** Never say what ratio is "good", "healthy" or "safe", and never quote an industry or lender benchmark. "What is a good current ratio?" (added by Puru, 2026-11-21) is answered like Compa Ratio: no single good number, it depends on the business, the calculator shows and does not judge. All figures come from the user's own balance sheet.
 
 ## /marketing/cac-calculator
 

@@ -1,6 +1,6 @@
 # Tool spec: Rule of 72 Calculator
 
-> **Draft for Puru's review (2026-11-21).** Pure maths: the rate is always the user's own. The page never suggests, ranks or quotes a "typical" return, savings, inflation or interest rate.
+> **Approved by Puru (2026-11-21).** Pure maths: the rate is always the user's own. The page never suggests, ranks or quotes a "typical" return, savings, inflation or interest rate.
 
 | Field | Value |
 |---|---|
@@ -25,7 +25,7 @@ There's no money input and no currency selector. The answer is the same for any 
 | Field | Type | Default (example) | Min / Max | Mode | Notes |
 |---|---|---|---|---|---|
 | Mode | segmented | Years to double | `years` / `rate` | – | |
-| Yearly rate | % | 8 | 0.01 – 1,000 | years | Required. 0 → "Enter a rate above 0" (money never doubles at 0%). Help: "Your own rate. Example value only, not a suggestion." |
+| Yearly rate | % | 8 | 0.01 – 1,000 | years | Required. 0 → "Enter a rate above 0" (money never doubles at 0%). Help: "Your own rate. Example only, not a suggestion." (8% kept, Puru, 2026-11-21) |
 | Years | number | 9 | 0.01 – 1,000 | rate | Required. 0 → "Enter years above 0". Help: "Example value only." |
 
 URL keys: `mode`, `rate`, `years`.
