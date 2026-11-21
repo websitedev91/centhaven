@@ -26,6 +26,8 @@
 | /salary/biweekly-pay-calculator | biweekly pay calculator | not checked |
 | /salary/weekly-pay-calculator | weekly pay calculator | not checked |
 | /salary/compa-ratio-calculator | compa ratio calculator | not checked |
+| /salary/bonus-calculator | bonus calculator | not checked |
+| /salary/part-time-salary-calculator | part time salary calculator | not checked |
 | /salary/1099-vs-w2-calculator | 1099 vs w2 calculator | 100–1K |
 | /business/utilization-rate-calculator | utilization rate calculator | 100–1K |
 | /business/break-even-calculator | break even calculator | 1K–10K |
@@ -36,6 +38,7 @@
 | /business/margin-vs-markup-calculator | margin vs markup calculator | not checked |
 | /business/payback-period-calculator | payback period calculator | not checked |
 | /business/food-cost-calculator | food cost calculator | not checked |
+| /business/current-ratio-calculator | current ratio calculator | not checked |
 | /marketing/cac-calculator | cac calculator | not checked |
 | /marketing/roas-calculator | roas calculator | not checked |
 | /marketing/cost-per-lead-calculator | cost per lead calculator | not checked |
@@ -45,6 +48,8 @@
 | /personal-finance/savings-goal-calculator | savings goal calculator | not checked |
 | /personal-finance/debt-snowball-calculator | debt snowball calculator | not checked |
 | /personal-finance/50-30-20-budget-calculator | 50/30/20 budget calculator | not checked |
+| /personal-finance/rule-of-72-calculator | rule of 72 calculator | not checked |
+| /personal-finance/rent-split-calculator | rent split calculator | not checked |
 
 ## /freelance/hourly-rate-calculator
 
@@ -322,6 +327,38 @@
 - **Internal links to:** /salary/pay-raise-calculator, /salary/job-offer-comparison-calculator, /salary/hourly-to-salary-calculator
 - **Content note:** Never say what ratio is "good" and never quote market pay data; the pay range comes from the user.
 
+## /salary/bonus-calculator
+
+- **Primary keyword:** bonus calculator
+- **Secondary keywords:** bonus percentage calculator, target bonus calculator, how to calculate bonus percentage of salary, annual bonus calculator
+- **Title** (49 chars): Bonus Calculator – Percent, Fixed or Target Bonus
+- **Meta description** (159 chars): Work out a bonus as a percent of salary, a fixed amount or a target percent times your achievement. See the gross bonus, the per-paycheck amount and total pay.
+- **H1:** Bonus Calculator
+- **FAQ questions (People Also Ask style):**
+  - How do I calculate a bonus as a percentage of salary?
+  - How does a target bonus work?
+  - How do I calculate a bonus at 120% achievement?
+  - How much is my bonus per paycheck?
+  - Does this show my bonus after tax?
+- **Internal links to:** /salary/commission-calculator, /salary/pay-raise-calculator, /salary/job-offer-comparison-calculator
+- **Content note:** Gross bonus only. No tax, withholding rules or "typical" bonus percentages; the bonus %, target and payout % come from the user.
+
+## /salary/part-time-salary-calculator
+
+- **Primary keyword:** part time salary calculator
+- **Secondary keywords:** pro rata salary calculator, part time pay calculator, fte salary calculator, how to calculate part time salary
+- **Title** (53 chars): Part Time Salary Calculator – Pro Rata Pay From Hours
+- **Meta description** (160 chars): Work out a part-time salary from a full-time salary and your hours, or from an hourly wage. See your yearly, monthly and weekly pay and your share of full time.
+- **H1:** Part Time Salary Calculator
+- **FAQ questions (People Also Ask style):**
+  - How do I calculate a part-time salary?
+  - What is a pro rata salary?
+  - How do I work out my part-time hourly rate?
+  - What does 0.6 FTE mean?
+  - Does this show take-home pay?
+- **Internal links to:** /salary/hourly-to-salary-calculator, /salary/weekly-pay-calculator, /salary/pay-raise-calculator
+- **Content note:** Gross pay only. Full-time hours come from the user (40 is an example); never state legal full-time or part-time hour thresholds. "hourly to salary calculator" stays with Hourly to Salary.
+
 ## /salary/1099-vs-w2-calculator
 
 - **Primary keyword:** 1099 vs w2 calculator (100–1K/month)
@@ -477,6 +514,22 @@
 - **Internal links to:** /business/margin-vs-markup-calculator, /business/break-even-calculator, /business/payment-processing-fee-calculator
 - **Content note:** Never state an "ideal", "typical" or "industry" food cost %. The target % is the user's own.
 
+## /business/current-ratio-calculator
+
+- **Primary keyword:** current ratio calculator
+- **Secondary keywords:** quick ratio calculator, acid test ratio calculator, how to calculate current ratio, working capital calculator
+- **Title** (58 chars): Current Ratio Calculator – Quick Ratio and Working Capital
+- **Meta description** (155 chars): Work out your current ratio, quick ratio and working capital from your own balance sheet: current assets, current liabilities, inventory and prepaid costs.
+- **H1:** Current Ratio Calculator
+- **FAQ questions (People Also Ask style):**
+  - How do you calculate the current ratio?
+  - How do you calculate the quick ratio?
+  - What is the difference between the current ratio and the quick ratio?
+  - What does a current ratio below 1 mean?
+  - How do you calculate working capital?
+- **Internal links to:** /business/break-even-calculator, /business/runway-calculator, /business/margin-vs-markup-calculator
+- **Content note:** Never say what ratio is "good", "healthy" or "safe", and never quote an industry or lender benchmark. All figures come from the user's own balance sheet.
+
 ## /marketing/cac-calculator
 
 - **Primary keyword:** cac calculator
@@ -620,6 +673,38 @@
   - Is the 50/30/20 rule right for everyone?
 - **Internal links to:** /personal-finance/savings-goal-calculator, /personal-finance/emergency-fund-calculator, /personal-finance/debt-snowball-calculator
 - **Content note:** Take-home pay comes from the user (we never work out tax). Call 50/30/20 "a popular budgeting guideline, not a rule"; never say a split is right or wrong for someone.
+
+## /personal-finance/rule-of-72-calculator
+
+- **Primary keyword:** rule of 72 calculator
+- **Secondary keywords:** doubling time calculator, how long to double my money, rule of 72 formula, years to double calculator
+- **Title** (50 chars): Rule of 72 Calculator – Years to Double Your Money
+- **Meta description** (153 chars): Use the rule of 72 to see how many years it takes to double money at your own rate, or the rate needed to double it in a set time, with the exact answer.
+- **H1:** Rule of 72 Calculator
+- **FAQ questions (People Also Ask style):**
+  - What is the rule of 72?
+  - How do you use the rule of 72?
+  - How accurate is the rule of 72?
+  - How do I find the rate needed to double my money?
+  - Does the rule of 72 work for debt and inflation?
+- **Internal links to:** /personal-finance/savings-goal-calculator, /personal-finance/debt-snowball-calculator, /personal-finance/emergency-fund-calculator
+- **Content note:** The rate is always the user's own. Never suggest, rank or quote a typical return, savings, inflation or card rate; examples say "if your rate is 8%".
+
+## /personal-finance/rent-split-calculator
+
+- **Primary keyword:** rent split calculator
+- **Secondary keywords:** roommate rent calculator, split rent by income, split rent by room size, rent share calculator
+- **Title** (57 chars): Rent Split Calculator – Split Rent by Room Size or Income
+- **Meta description** (157 chars): Split rent and shared bills between up to 6 people: equally, by room size or by income. See each person's monthly share of the rent, the bills and the total.
+- **H1:** Rent Split Calculator
+- **FAQ questions (People Also Ask style):**
+  - How do you split rent fairly?
+  - How do you split rent by room size?
+  - How do you split rent by income?
+  - How should roommates split utility bills?
+  - What if the rent shares don't add up exactly?
+- **Internal links to:** /personal-finance/50-30-20-budget-calculator, /personal-finance/savings-goal-calculator, /personal-finance/emergency-fund-calculator
+- **Content note:** Rows are "Person 1"–"Person 6", no names (privacy: names would end up in share URLs). Never call one method fairer; no tenancy or legal rules.
 
 # Homepage
 
